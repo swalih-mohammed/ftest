@@ -9,6 +9,8 @@ import { AddToFavoritePlacesURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Search from "./search";
 import { placeListURL } from "../../../constants";
@@ -148,10 +150,11 @@ class LocalityList extends React.PureComponent {
                           to={`${process.env.PUBLIC_URL}/places/${locality.id}`}
                         >
                           <img
+                            src={locality.image}
                             // src={`${process.env.PUBLIC_URL}/assets/images/fashion/banner/8.jpg`}
-                            src={
-                              "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-                            }
+                            // src={
+                            //   "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
+                            // }
                             alt=""
                             className="img-fluid blur-up lazyload bg-img"
                           />
@@ -169,12 +172,19 @@ class LocalityList extends React.PureComponent {
                             > */}
                           <span>
                             <a onClick={() => this.addToWishList(locality.id)}>
-                              <i
+                              {/* <i
                                 className="fa fa-heart fa-2x"
                                 style={{ color: "#81ba00" }}
                                 aria-hidden="true"
                                 // onClick={() => this.addToWishList(locality.id)}
-                              ></i>
+                              ></i> */}
+                              <i>
+                                <FontAwesomeIcon
+                                  icon={faHeart}
+                                  size={"2x"}
+                                  color={"#ff4c3b"}
+                                />
+                              </i>
                             </a>
                           </span>
                           {/* </a> */}

@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import "../../common/index.scss";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AddToFavoriteShopsURL } from "../../../constants";
+import { authAxios } from "../../../authAxios";
+import { ToastContainer, toast } from "react-toastify";
 
 // Import custom components
 import { Slider3 } from "../../../services/script";
@@ -12,6 +17,27 @@ class Shops extends Component {
   componentDidMount() {
     document.getElementById("color").setAttribute("href", `#`);
   }
+
+  addToWishList = shop => {
+    this.setState({ loading: true });
+    authAxios
+      .post(AddToFavoriteShopsURL, { shop })
+      .then(res => {
+        this.setState({ loading: false });
+        toast.success("This shop added to your favorites");
+      })
+      .catch(err => {
+        if (err.response.status === 401) {
+          toast.error("Please login to add to favorites");
+          this.setState({ loading: false });
+        } else if (err.response.status === 400) {
+          toast.error("This locality already exists in your favorites");
+          this.setState({ loading: false });
+        } else {
+          toast.error("An error occured");
+        }
+      });
+  };
   render() {
     const { shops } = this.props;
     // console.log(123);
@@ -39,16 +65,13 @@ class Shops extends Component {
                   <div className="product-box">
                     <div className="img-wrapper">
                       <div className="lable-block">
-                        {/* <a href={"/places/" + locality.id}> */}
                         <div className="classic-effect">
                           <div className="front">
                             <Link
                               to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}
                             >
                               <img
-                                src={
-                                  "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-                                }
+                                src={shop.image}
                                 className="img-fluid lazyload bg-img"
                                 alt=""
                               />
@@ -61,11 +84,13 @@ class Shops extends Component {
                               title="Add to Wishlist"
                               onClick={() => this.addToWishList(shop.id)}
                             >
-                              <i
-                                className="fa fa-heart fa-2x"
-                                style={{ color: "#81ba00" }}
-                                aria-hidden="true"
-                              ></i>
+                              <i>
+                                <FontAwesomeIcon
+                                  icon={faHeart}
+                                  size={"2x"}
+                                  color={"#ff4c3b"}
+                                />
+                              </i>
                             </a>
                           </div>
 

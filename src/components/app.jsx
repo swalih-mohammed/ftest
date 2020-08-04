@@ -14,8 +14,11 @@ import { fetchUser } from "../actions/user";
 class App extends Component {
   componentDidMount() {
     this.props.onTryAutoSignup();
-    this.props.fetchUser();
-    this.props.fetchCart();
+    // if (this.props.userType === null) {
+    //   this.props.fetchUser();
+    // }
+    // this.props.fetchCart();
+    // this.props.fetchUser();
     // console.log("app");
   }
 
@@ -41,8 +44,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onTryAutoSignup: () => dispatch(authCheckState()),
-    logout: () => dispatch(logout()),
-    fetchCart: () => dispatch(fetchCart()),
+    // logout: () => dispatch(logout()),
+    // fetchCart: () => dispatch(fetchCart()),
     fetchUser: () => dispatch(fetchUser())
   };
 };

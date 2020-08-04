@@ -1,9 +1,10 @@
 from django_countries.serializer_fields import CountryField
 from rest_framework import serializers
-from core.models import ( ModeOfPayment, Candidate, Compliant, Taxi, Cooli,OrderStatus,
-    UserProfile, Address, ServiceArea, Area, Place, Village, Cluster, District, State, Shop, Item, Order, OrderItem, Coupon, Variation, ItemVariation, Area,FavoritePlaces, FavoriteShops
+from core.models import (AppInfo, ModeOfPayment, Candidate, Compliant, Taxi, Cooli, OrderStatus,
+                         UserProfile, Address, ServiceArea, Area, Place, Village, Cluster, District, State, Shop, Item, Order, OrderItem, Coupon, Variation, ItemVariation, Area, FavoritePlaces, FavoriteShops
 
-)
+                         )
+
 
 class StringSerializer(serializers.StringRelatedField):
     def to_internal_value(self, value):
@@ -18,6 +19,13 @@ class StringSerializer(serializers.StringRelatedField):
 #             'code',
 #             'amount'
         # )
+
+
+class AppInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppInfo
+        fields = '__all__'
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,37 +52,47 @@ class ItemSerializer(serializers.ModelSerializer):
         #     'is_available'
         # )
 
+
 class AreaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Area
         fields = '__all__'
 
+
 class PlaceSerializer(serializers.ModelSerializer):
     village_name = serializers.ReadOnlyField(source='village.name')
     # district_name = serializers.ReadOnlyField(source='district.name')
     # state_name = serializers.ReadOnlyField(source='state.name')
+
     class Meta:
         model = Place
         fields = '__all__'
+
 
 class VillageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Village
         fields = '__all__'
+
+
 class ClusterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cluster
         fields = '__all__'
+
+
 class DistrictSerializer(serializers.ModelSerializer):
     class Meta:
         model = District
         fields = '__all__'
 
+
 class StateSerializer(serializers.ModelSerializer):
     class Meta:
         model = State
         fields = '__all__'
+
 
 class ServiceAreaSerializer(serializers.ModelSerializer):
     areas = StringSerializer(many=True)
@@ -83,10 +101,11 @@ class ServiceAreaSerializer(serializers.ModelSerializer):
     clusters = StringSerializer(many=True)
     districts = StringSerializer(many=True)
     states = StringSerializer(many=True)
+
     class Meta:
         model = ServiceArea
         fields = '__all__'
-      
+
 
 class ShopSerializer(serializers.ModelSerializer):
     place = serializers.ReadOnlyField(source='place.name')
@@ -153,6 +172,7 @@ class OrderStatusSerializer(serializers.ModelSerializer):
         model = OrderStatus
         fields = '__all__'
 
+
 class OrderItemSerializer(serializers.ModelSerializer):
     item_variations = serializers.SerializerMethodField()
     item = serializers.SerializerMethodField()
@@ -199,7 +219,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     # order_status = serializers.PrimaryKeyRelatedField(queryset=OrderStatus.objects.all())
     # shop_name = serializers.ReadOnlyField(source='shop.name')
-    
+
     class Meta:
         model = Order
         # fields = '__all__'
@@ -307,11 +327,13 @@ class AddressSerializer(serializers.ModelSerializer):
         model = Address
         fields = '__all__'
 
+
 class OrderStatusUpdateserializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
         fields = '__all__'
+
 
 class CandidateSerializer(serializers.ModelSerializer):
     # country = CountryField()
@@ -320,6 +342,7 @@ class CandidateSerializer(serializers.ModelSerializer):
         model = Candidate
         fields = '__all__'
 
+
 class ComplaintSerializer(serializers.ModelSerializer):
     # country = CountryField()
 
@@ -327,12 +350,14 @@ class ComplaintSerializer(serializers.ModelSerializer):
         model = Compliant
         fields = '__all__'
 
+
 class TaxiSerializer(serializers.ModelSerializer):
     # country = CountryField()
 
     class Meta:
         model = Taxi
         fields = '__all__'
+
 
 class CooliSerializer(serializers.ModelSerializer):
     # country = CountryField()
@@ -349,20 +374,24 @@ class ModeOfPaymentSerializer(serializers.ModelSerializer):
         model = ModeOfPayment
         fields = '__all__'
 
+
 class FavoritePlacesSerializer(serializers.ModelSerializer):
     place_name = serializers.ReadOnlyField(source='place.name')
     # place_village_name = serializers.ReadOnlyField(source='place.village')
     # place_district_name = serializers.ReadOnlyField(source='place.district')
     # place_state_name = serializers.ReadOnlyField(source='place.state')
+
     class Meta:
         model = FavoritePlaces
         fields = '__all__'
+
 
 class FavoriteShopsSerializer(serializers.ModelSerializer):
     shop_name = serializers.ReadOnlyField(source='shop.name')
     shop_place_name = serializers.ReadOnlyField(source='shop.place.name')
     # shop_village_name = serializers.ReadOnlyField(source='shop.place.village')
     # shop_category_name = serializers.ReadOnlyField(source='shop.category')
+
     class Meta:
         model = FavoriteShops
         fields = '__all__'

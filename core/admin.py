@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from .models import ( ModeOfPayment, Compliant, Taxi, Cooli, Candidate, ServiceArea, Role, ShopCategory, ProductCategory,
-    Area, Place, Village, Cluster, District, State, Shop, Item, OrderItem, Order, OrderStatus,Coupon, Refund,
-    Address, UserProfile, Variation, ItemVariation, Area, FavoritePlaces, FavoriteShops
-)
+from .models import (AppInfo, ModeOfPayment, Compliant, Taxi, Cooli, Candidate, ServiceArea, Role, ShopCategory, ProductCategory,
+                     Area, Place, Village, Cluster, District, State, Shop, Item, OrderItem, Order, OrderStatus, Coupon, Refund,
+                     Address, UserProfile, Variation, ItemVariation, Area, FavoritePlaces, FavoriteShops
+                     )
 
 
 def make_refund_accepted(modeladmin, request, queryset):
@@ -14,7 +14,7 @@ make_refund_accepted.short_description = 'Update orders to refund granted'
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id','user',
+    list_display = ['id', 'user',
                     'shop',
                     'order_status',
                     'place',
@@ -30,7 +30,7 @@ class OrderAdmin(admin.ModelAdmin):
         'id',
         'address',
 
-        
+
     ]
     list_filter = ['shop__name',
                    ]
@@ -49,8 +49,9 @@ class ShopAdmin(admin.ModelAdmin):
         'place',
         'place'
     ]
-    list_filter = ['name', 'place',]
-    search_fields = ['name', 'place',]
+    list_filter = ['name', 'place', ]
+    search_fields = ['name', 'place', ]
+
 
 class ShopCategoryAdmin(admin.ModelAdmin):
     list_display = [
@@ -59,10 +60,11 @@ class ShopCategoryAdmin(admin.ModelAdmin):
     list_filter = ['name']
     search_fields = ['name']
 
+
 class AddressAdmin(admin.ModelAdmin):
     list_display = [
         'user'
-       
+
     ]
 
     search_fields = ['user', 'place']
@@ -88,7 +90,8 @@ class VariationAdmin(admin.ModelAdmin):
     search_fields = ['name']
     inlines = [ItemVariationInLineAdmin]
 
-# locations 
+# locations
+
 
 class StateAdmin(admin.ModelAdmin):
     list_display = [
@@ -96,11 +99,13 @@ class StateAdmin(admin.ModelAdmin):
     ]
     list_filter = ['name']
 
+
 class DistrictAdmin(admin.ModelAdmin):
     list_display = [
         'name'
     ]
     list_filter = ['name']
+
 
 class ClusterAdmin(admin.ModelAdmin):
     list_display = [
@@ -114,6 +119,7 @@ class VillageAdmin(admin.ModelAdmin):
         'name'
     ]
     list_filter = ['name']
+
 
 class PlaceAdmin(admin.ModelAdmin):
     list_display = [
@@ -133,7 +139,6 @@ class AreaAdmin(admin.ModelAdmin):
 # location admin end
 
 
-
 class ProductCategoryAdmin(admin.ModelAdmin):
     list_display = [
         'name'
@@ -141,11 +146,13 @@ class ProductCategoryAdmin(admin.ModelAdmin):
     list_filter = ['name']
     search_fields = ['name']
 
+
 class serviceAreaAdmin(admin.ModelAdmin):
     list_display = [
         'user'
     ]
- 
+
+
 class RoleAdmin(admin.ModelAdmin):
     list_display = [
         'name'
@@ -158,35 +165,42 @@ class OrderStatusAdmin(admin.ModelAdmin):
     ]
     list_filter = ['name']
 
+
 class CandidateAdmin(admin.ModelAdmin):
     list_display = [
         'name'
     ]
     list_filter = ['name']
-    
+
+
 class TaxiAdmin(admin.ModelAdmin):
     list_display = [
         'name'
     ]
     list_filter = ['name']
 
+
 class CooliAdmin(admin.ModelAdmin):
     list_display = [
         'name'
     ]
     list_filter = ['name']
-    
+
+
 class CompliantAdmin(admin.ModelAdmin):
     list_display = [
         'name'
     ]
-    list_filter = ['name'] 
+    list_filter = ['name']
+
 
 class ModeOfPaymentAdmin(admin.ModelAdmin):
     list_display = [
         'name'
     ]
-    list_filter = ['name'] 
+    list_filter = ['name']
+
+# AppInfo
 
 
 admin.site.register(ItemVariation, ItemVariationAdmin)
@@ -208,6 +222,7 @@ admin.site.register(Taxi)
 admin.site.register(Cooli)
 admin.site.register(Compliant)
 admin.site.register(ModeOfPayment)
+admin.site.register(AppInfo)
 
 
 # locations
@@ -226,5 +241,3 @@ admin.site.register(ProductCategory)
 # admin.site.register(DeliveryStaff)
 admin.site.register(FavoritePlaces)
 admin.site.register(FavoriteShops)
-
-

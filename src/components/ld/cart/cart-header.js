@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // const CartHeader = ({ item }) => (
 class CartHeader extends Component {
@@ -30,7 +32,10 @@ class CartHeader extends Component {
         {/* <span>{this.state.cart}</span> */}
         <div className="close-circle">
           <a href={null}>
-            <i className="fa fa-times" aria-hidden="true"></i>
+            {/* <i className="fa fa-times" aria-hidden="true"></i> */}
+            <i>
+              <FontAwesomeIcon icon={faTimes} color={"#ff4c3b"} />
+            </i>
           </a>
         </div>
       </li>

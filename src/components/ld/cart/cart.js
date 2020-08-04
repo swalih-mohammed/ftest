@@ -26,7 +26,7 @@ class cartComponent extends Component {
         </Helmet>
         {/*SEO Support End */}
 
-        <Breadcrumb title={"Cart Page"} />
+        {/* <Breadcrumb title={"Cart Page"} /> */}
 
         {cartItems.length > 0 ? (
           <section className="cart-section section-b-space">

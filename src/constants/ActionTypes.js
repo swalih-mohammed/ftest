@@ -43,8 +43,10 @@ export const CART_START = "CART_START";
 export const CART_SUCCESS = "CART_SUCCESS";
 export const CART_FAIL = "CART_FAIL";
 export const CART_CLEAR = "CART_CLEAR";
+export const USER_NOT_SIGNED = "USER_NOT_SIGNED";
 
 //user
 export const USER_START = "USER_START";
 export const USER_SUCCESS = "USER_SUCCESS";
 export const USER_FAIL = "USER_FAIL";
+export const CLEAR_USER = "USER_FAIL";

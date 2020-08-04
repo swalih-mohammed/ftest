@@ -6,7 +6,7 @@ function LogoImage(props) {
     <Link to={`${process.env.PUBLIC_URL}/`}>
       <img
         // src={`${process.env.PUBLIC_URL}/assets/images/icon/${props.logo}`}
-        src={`${process.env.PUBLIC_URL}/assets/images/icon/logo/ld.png`}
+        src={`${process.env.PUBLIC_URL}/media/logo/ld3.jpg`}
         alt=""
         className="img-fluid"
       />

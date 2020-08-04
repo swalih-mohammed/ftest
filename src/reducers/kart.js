@@ -38,6 +38,7 @@ const cartFail = (state, action) => {
 };
 
 const cartClear = (state, action) => {
+  console.log("reducer");
   return updateObject(state, {
     shoppingCart: null,
     loading: false
@@ -53,6 +54,7 @@ const reducer = (state = initialState, action) => {
     case CART_FAIL:
       return cartFail(state, action);
     case CART_CLEAR:
+      console.log("clear");
       return cartClear(state, action);
     default:
       return state;

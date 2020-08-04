@@ -3,26 +3,42 @@ import axios from "axios";
 import { Helmet } from "react-helmet";
 import "../../common/index.scss";
 import Slider from "react-slick";
+import Image from "react-bootstrap/Image";
 import FeautredLocality from "./featuredLocality";
 import Search from "../localityList/search";
 import Localities from "../localityList/main";
 import FeautredShops from "./featuredShops";
 
-import { newPlacesURL, feautredShopsURL } from "../../../constants";
+import { newPlacesURL, feautredShopsURL, appInfoURL } from "../../../constants";
 
 class Homepage extends Component {
   state = {
     loading: false,
     error: null,
     Newlocalities: [],
-    featuredShops: []
+    featuredShops: [],
+    appInfo: "",
+    bannerImage1: ""
   };
 
   componentDidMount() {
     document.getElementById("color").setAttribute("href", `#`);
+    this.fetchAppInfo();
     this.fetchNewPlaces();
     this.fetchFeautredShops();
   }
+
+  fetchAppInfo = async () => {
+    this.setState({ loading: true });
+    axios
+      .get(appInfoURL)
+      .then(res => {
+        this.setState({ appInfo: res.data[0], loading: false });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
+  };
 
   fetchFeautredShops = async () => {
     this.setState({ loading: true });
@@ -48,68 +64,25 @@ class Homepage extends Component {
   };
 
   render() {
-    const { Newlocalities } = this.state;
+    const { Newlocalities, appInfo } = this.state;
     const { featuredShops } = this.state;
-    // console.log(Newlocalities);
+    // console.log(appInfo);
+    // console.log(appInfo.coverPhoto1);
 
     return (
       <div>
         <Helmet>
           <title>Local Dukans</title>
         </Helmet>
-        {/* <Header logoName={"logo.png"} /> */}
-        {/* <HeaderTwo /> */}
+
         <section className="p-0">
-          <Slider className="slide-2 home-slider">
-            <div>
-              <div className="home home34 text-center">
-                <div className="container">
-                  <div className="row">
-                    <div className="col">
-                      <div
-                        className="slider-contain"
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center"
-                        }}
-                      >
-                        <div>
-                          <h1
-                            style={{
-                              color: "#FFFFFF"
-                            }}
-                          >
-                            Buy Local Grow Global
-                          </h1>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className="home home37 text-center">
-                <div className="container">
-                  <div className="row">
-                    <div className="col">
-                      <div className="slider-contain">
-                        <div>
-                          <h1>Shops in your locality come online !</h1>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Slider>
+          <Image src={appInfo.coverPhoto1} fluid />
         </section>
         {Newlocalities && <FeautredLocality Newlocalities={Newlocalities} />}
         <FeautredShops featuredShops={featuredShops} />
 
         <Localities />
+        <div></div>
       </div>
     );
   }

@@ -6,6 +6,8 @@ import { logout } from "../../../actions/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Redirect } from "react-router-dom";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class TopBar extends Component {
   // handleLogout = () => {};
@@ -23,7 +25,6 @@ class TopBar extends Component {
     if (this.state.success) {
       return <Redirect to="/addresses" />;
     }
-    // const { translate } = this.props;
 
     return (
       <div className="top-header">
@@ -39,84 +40,48 @@ class TopBar extends Component {
                   <li>
                     <i className="fa fa-phone" aria-hidden="true"></i>
                     {/* {translate("call_us")}: 123 - 456 - 7890 */}
-                    call us: 720772 4191
+                    call us: 720 772 4191
                   </li>
                 </ul>
               </div>
             </div>
             <div className="col-lg-6 text-right">
               <ul className="header-dropdown">
-                <li className="mobile-wishlist compare-mobile">
-                  {/* <Link to={`${process.env.PUBLIC_URL}/compare`}>
-                    <i className="fa fa-random" aria-hidden="true"></i>
-                    {translate("compare")}
-                  </Link> */}
-                </li>
                 <li className="mobile-wishlist">
-                  {this.props.userType == "is_staff_user" ? (
+                  {/* {this.props.userType == "is_staff_user" ? (
                     <Link
                       to={`${process.env.PUBLIC_URL}/manage-order-delivery`}
                     >
-                      <i className="fa fa-heart" aria-hidden="true"></i>
-                      {/* {translate("wishlist")} */}
+                      <li>
+                        <FontAwesomeIcon icon={faHeart} size={"2x"} />
+                      </li>
                       wishlist
                     </Link>
                   ) : null}
                   {this.props.userType == "ShopOwner" ? (
                     <Link to={`${process.env.PUBLIC_URL}/shop-order-table`}>
-                      <i className="fa fa-heart" aria-hidden="true"></i>
-                      {/* {translate("wishlist")} */}
+                      <i>
+                        <FontAwesomeIcon icon={faHeart} />
+                      </i>
                       wishlist
                     </Link>
                   ) : null}
                   {this.props.userType == "Customer" ? (
                     <Link to={`${process.env.PUBLIC_URL}/Wishlist`}>
-                      <i className="fa fa-heart" aria-hidden="true"></i>
-                      {/* {translate("wishlist")} */}
+                      <i>
+                        <FontAwesomeIcon icon={faHeart} />
+                      </i>
                       wishlist
                     </Link>
                   ) : null}
-                </li>
-                <li className="onhover-dropdown mobile-account">
-                  <i className="fa fa-user" aria-hidden="true"></i>{" "}
-                  {/* {translate("my_account")} */}
-                  My account
-                  <ul className="onhover-show-div">
-                    <li>
-                      <Link
-                        to={`${process.env.PUBLIC_URL}/login`}
-                        data-lng="en"
-                      >
-                        Login
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={`${process.env.PUBLIC_URL}/register`}
-                        data-lng="en"
-                      >
-                        Register
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        onClick={this.handleLogout}
-                        to={`${process.env.PUBLIC_URL}/`}
-                        data-lng="en"
-                      >
-                        Logout
-                      </Link>
-                    </li>
-                    {/* <li>
-                      <Link
-                        onClick={this.handleLogout}
-                        to={`${process.env.PUBLIC_URL}/forgetpassword`}
-                        data-lng="en"
-                      >
-                        Password Reset
-                      </Link>
-                    </li> */}
-                  </ul>
+                  {this.props.userType == undefined ? (
+                    <Link to={`${process.env.PUBLIC_URL}/Wishlist`}>
+                      <i>
+                        <FontAwesomeIcon icon={faHeart} />
+                      </i>
+                      wishlist
+                    </Link>
+                  ) : null} */}
                 </li>
               </ul>
             </div>
@@ -127,31 +92,17 @@ class TopBar extends Component {
   }
 }
 
-// export default withTranslate(
-//   connect(
-//     null,
-//     mapDispatchToProps(TopBar)
-//   )
-// );
-
-// export default connect(
-//   null,
-//   mapDispatchToProps(TopBar)
-// );
-// export default TopBar;
-
 const mapStateToProps = state => {
   return {
     userType: state.user.user.UserType,
-    userName: state.user.user.userName
-    // token: state.auth.token
+    userName: state.user.user.userName,
+    token: state.auth.token
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     logout: () => dispatch(logout())
-    // fetchCart: () => dispatch(fetchCart())
   };
 };
 
@@ -159,5 +110,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(TopBar);
-
-// export default TopBar;

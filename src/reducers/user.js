@@ -1,8 +1,14 @@
-import { USER_START, USER_SUCCESS, USER_FAIL } from "../constants/ActionTypes";
+import {
+  USER_START,
+  USER_SUCCESS,
+  USER_FAIL,
+  USER_NOT_SIGNED,
+  CLEAR_USER
+} from "../constants/ActionTypes";
 import { updateObject } from "../store/utility";
 
 const initialState = {
-  user: null,
+  user: "Customer",
   error: null,
   loading: false
 };
@@ -11,6 +17,13 @@ const userStart = (state, action) => {
   return updateObject(state, {
     error: null,
     loading: true
+  });
+};
+
+const userNotSigned = (state, action) => {
+  return updateObject(state, {
+    user: "Customer",
+    loading: false
   });
 };
 
@@ -24,7 +37,16 @@ const userSuccess = (state, action) => {
 
 const userFail = (state, action) => {
   return updateObject(state, {
-    error: action.error,
+    user: action.error,
+    loading: false
+  });
+};
+
+const userClear = (state, action) => {
+  // console.log("cleairng use");
+  return updateObject(state, {
+    user: null,
+    error: null,
     loading: false
   });
 };
@@ -37,6 +59,10 @@ const reducer = (state = initialState, action) => {
       return userSuccess(state, action);
     case USER_FAIL:
       return userFail(state, action);
+    case USER_NOT_SIGNED:
+      return userNotSigned(state, action);
+    case CLEAR_USER:
+      return userClear(state, action);
     default:
       return state;
   }

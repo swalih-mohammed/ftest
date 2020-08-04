@@ -4,7 +4,7 @@ import Modal from "react-responsive-modal";
 import { authAxios } from "../../../authAxios";
 import { addToCartURL } from "../../../constants";
 import { connect } from "react-redux";
-import { fetchCart } from "../../../actions/cart";
+import { fetchCart, clearKart } from "../../../actions/cart";
 import { Redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,7 +24,7 @@ class ProductListItem extends Component {
   }
 
   componentDidMount() {
-    this.props.refreshCart();
+    // this.props.refreshCart();
   }
 
   minusQty = () => {
@@ -89,7 +89,7 @@ class ProductListItem extends Component {
   };
 
   handleAddToCart2 = (id, shop) => {
-    console.log(this.props.token);
+    // console.log(this.props.token);
     if (this.props.token !== null) {
       this.setState({ loading: true });
       this.setState({ openQuantity: true });
@@ -97,6 +97,7 @@ class ProductListItem extends Component {
         .post(addToCartURL, { id, shop })
         .then(res => {
           this.props.refreshCart();
+          this.props.clearKart();
           this.setState({ loading: false });
         })
         .catch(err => {
@@ -115,7 +116,7 @@ class ProductListItem extends Component {
 
   render() {
     const { product, token } = this.props;
-    console.log(token);
+    // console.log(token);
 
     let RatingStars = [];
     for (var i = 0; i < product.rating; i++) {
@@ -152,9 +153,7 @@ class ProductListItem extends Component {
               to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}
             > */}
             <img
-              src={
-                "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-              }
+              src={product.image}
               className="img-fluid lazyload bg-img"
               alt=""
             />
@@ -252,7 +251,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    refreshCart: () => dispatch(fetchCart())
+    refreshCart: () => dispatch(fetchCart()),
+    clearKart: () => dispatch(clearKart)
   };
 };
 

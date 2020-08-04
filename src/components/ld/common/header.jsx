@@ -9,13 +9,20 @@ import { authCheckState, logout } from "../../../actions/auth";
 import { fetchCart } from "../../../actions/cart";
 // import { fetchUser } from "../../../actions/user";
 // import NavBar from "./navbar";
-import SideBar from "./sidebar";
+import SideBar from "./sidebar2";
 // import CartContainer from "./../../../containers/CartContainer";
 import CartContainer from "../cart/cart-container";
 import TopBar from "./topbar";
 import LogoImage from "./logo";
 // import { changeCurrency } from "../../../actions";
 import { connect } from "react-redux";
+import {
+  faBars,
+  faHome,
+  faCog,
+  faHeart
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Header extends Component {
   constructor(props) {
@@ -34,7 +41,7 @@ class Header extends Component {
       document.querySelector(".loader-wrapper").style = "display: none";
     }, 2000);
     // this.props.onTryAutoSignup();
-    this.props.fetchCart();
+    // this.props.fetchCart();
 
     // this.props.fetchUser();
     // console.log(cart.props.cart);
@@ -108,18 +115,23 @@ class Header extends Component {
                       <a href="javascript:void(0)" onClick={this.openNav}>
                         <div className="bar-style">
                           {" "}
-                          <i
+                          {/* <i
                             className="fa fa-bars sidebar-bar"
                             aria-hidden="true"
-                          ></i>
+                          ></i> */}
+                          <FontAwesomeIcon
+                            icon={faBars}
+                            size={"2x"}
+                            color={"black"}
+                          />
                         </div>
                       </a>
                       {/*SideBar Navigation Component*/}
                       <SideBar />
                     </div>
                   </div>
-                  <div className="brand-logo layout2-logo">
-                    <LogoImage logo={this.props.logoName} />
+                  <div className="brand-logo layout4-logo">
+                    <LogoImage logo={"Local Dukans"} />
                   </div>
                   <div className="menu-right pull-right">
                     <div>
@@ -127,59 +139,64 @@ class Header extends Component {
                         <ul>
                           <li className="onhover-div mobile-search">
                             <div>
-                              <img
-                                src={`${process.env.PUBLIC_URL}/assets/images/icon/search.png`}
-                                onClick={this.openSearch}
-                                className="img-fluid"
-                                alt=""
-                              />
-                              {/* <link to={`${process.env.PUBLIC_URL}/`}>
-                                <i
-                                  className="fa fa-home"
-                                  // onClick={this.openSearch}
-                                ></i>
-                              </link> */}
                               <Link to="/">
-                                <i
-                                  className="fa fa-home"
-                                  // onClick={this.openSearch}
-                                ></i>
+                                <i>
+                                  <FontAwesomeIcon icon={faHome} />
+                                </i>
                                 <span className="sub-arrow"></span>
                               </Link>
                             </div>
                           </li>
                           <li className="onhover-div mobile-setting">
                             <div>
-                              <img
-                                src={`${process.env.PUBLIC_URL}/assets/images/icon/setting.png`}
-                                className="img-fluid"
-                                alt=""
-                              />
-                              <i className="fa fa-cog"></i>
+                              {/* <i>
+                                <FontAwesomeIcon icon={faCog} size={"lg"} />
+                              </i> */}
+                              {/* <i>
+                                <FontAwesomeIcon icon={faHeart} size={"lg"} />
+                              </i> */}
+                              {this.props.userType === "is_staff_user" ? (
+                                <Link
+                                  to={`${process.env.PUBLIC_URL}/manage-order-delivery`}
+                                >
+                                  <i>
+                                    <FontAwesomeIcon
+                                      icon={faHeart}
+                                      size={"lg"}
+                                    />
+                                  </i>
+                                  wishlist
+                                </Link>
+                              ) : null}
+                              {this.props.userType == "ShopOwner" ? (
+                                <Link
+                                  to={`${process.env.PUBLIC_URL}/shop-order-table`}
+                                >
+                                  <i>
+                                    <FontAwesomeIcon icon={faHeart} />
+                                  </i>
+                                  wishlist
+                                </Link>
+                              ) : null}
+                              {this.props.userType == "Customer" ? (
+                                <Link to={`${process.env.PUBLIC_URL}/Wishlist`}>
+                                  <i>
+                                    <FontAwesomeIcon icon={faHeart} />
+                                  </i>
+                                  wishlist
+                                </Link>
+                              ) : null}
+                              {this.props.userType == undefined ? (
+                                <Link to={`${process.env.PUBLIC_URL}/Wishlist`}>
+                                  <i>
+                                    <FontAwesomeIcon icon={faHeart} />
+                                  </i>
+                                  wishlist
+                                </Link>
+                              ) : null}
                             </div>
-                            {/* <div className="show-div setting">
-                              <h6>language</h6>
-                              <ul>
-                                <li>
-                                  <a
-                                    href={null}
-                                    onClick={() => this.changeLanguage("en")}
-                                  >
-                                    English
-                                  </a>{" "}
-                                </li>
-                                <li>
-                                  <a
-                                    href={null}
-                                    onClick={() => this.changeLanguage("fn")}
-                                  >
-                                    Malayalam
-                                  </a>{" "}
-                                </li>
-                              </ul>
-                            </div> */}
                           </li>
-                          {/*Header Cart Component */}
+                          {/* Header Cart Component */}
                           <CartContainer />
                         </ul>
                       </div>
@@ -244,28 +261,18 @@ class Header extends Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token !== null,
-    cart: state.cart.shoppingCart
-    // loading: state.cart.loading
+    cart: state.cart.shoppingCart,
+    userType: state.user.user.UserType
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onTryAutoSignup: () => dispatch(authCheckState()),
-    logout: () => dispatch(logout()),
-    fetchCart: () => dispatch(fetchCart())
-    // fetchUser: () => dispatch(fetchUser())
+    logout: () => dispatch(logout())
   };
 };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps,
-//   { changeCurrency }
-// )(Header);
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Header);
-// export default Header;

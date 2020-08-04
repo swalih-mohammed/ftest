@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import "../../common/index.scss";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AddToFavoriteShopsURL } from "../../../constants";
+import { authAxios } from "../../../authAxios";
+import { ToastContainer, toast } from "react-toastify";
 
 // Import custom components
 import { Slider3 } from "../../../services/script";
@@ -12,12 +17,34 @@ class FeautredShops extends Component {
   componentDidMount() {
     document.getElementById("color").setAttribute("href", `#`);
   }
+
+  addToWishList = shop => {
+    this.setState({ loading: true });
+    authAxios
+      .post(AddToFavoriteShopsURL, { shop })
+      .then(res => {
+        this.setState({ loading: false });
+        toast.success("This shop added to your favorites");
+      })
+      .catch(err => {
+        if (err.response.status === 401) {
+          toast.error("Please login to add to favorites");
+          this.setState({ loading: false });
+        } else if (err.response.status === 400) {
+          toast.error("This locality already exists in your favorites");
+          this.setState({ loading: false });
+        } else {
+          toast.error("An error occured");
+        }
+      });
+  };
   render() {
     const { featuredShops } = this.props;
     // console.log(123);
     return (
       <div>
         {/*Blog Section*/}
+        <ToastContainer />
         <div className="container">
           <div className="row">
             <div className="col">
@@ -38,33 +65,55 @@ class FeautredShops extends Component {
                 <Slider {...Slider3} className="slide-3 no-arrow">
                   {/* <div> */}
                   {featuredShops.map(shop => (
-                    <div key={shop.id} className="col-md-12">
-                      <a href="#">
-                        <div className="classic-effect">
-                          <div>
-                            <img
-                              // src={`${process.env.PUBLIC_URL}/assets/images/vegetables/blog/1.jpg`}
-                              src={
-                                "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-                              }
-                              className="img-fluid blur-up lazyload bg-img"
-                              alt=""
-                            />
+                    // <div key={locality.id} className="col-md-12">
+                    <div key={shop.id} className="product-box">
+                      <div className="img-wrapper">
+                        <div className="lable-block">
+                          {/* <a href={"/places/" + locality.id}> */}
+                          <div className="classic-effect">
+                            <div className="front">
+                              <Link
+                                to={`${process.env.PUBLIC_URL}/places/${shop.id}`}
+                              >
+                                <img
+                                  src={shop.image}
+                                  className="img-fluid lazyload bg-img"
+                                  alt=""
+                                />
+                              </Link>
+                            </div>
+
+                            <div className="cart-info cart-wrap">
+                              <a
+                                href="javascript:void(0)"
+                                title="Add to Wishlist"
+                                onClick={() => this.addToWishList(shop.id)}
+                              >
+                                <i>
+                                  <FontAwesomeIcon
+                                    icon={faHeart}
+                                    size={"2x"}
+                                    color={"#ff4c3b"}
+                                  />
+                                </i>
+                              </a>
+                            </div>
+
+                            <span></span>
                           </div>
-                          <span></span>
+
+                          <div className="blog-details">
+                            <a href="#">
+                              <p>{shop.name}</p>
+                            </a>
+                            <hr className="style1" />
+                            <h6> {shop.category}</h6>
+                            <h6>{shop.phone_number}</h6>
+                          </div>
                         </div>
-                      </a>
-                      <div className="blog-details">
-                        <a href="#">
-                          <p>{shop.name}</p>
-                        </a>
-                        <hr className="style1" />
-                        <h6>{shop.category}</h6>
-                        {/* <h6>Dist: {shop.district}</h6> */}
                       </div>
                     </div>
                   ))}
-                  {/* </div> */}
                 </Slider>
               </div>
             </div>

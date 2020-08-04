@@ -25,17 +25,26 @@ from rest_framework.decorators import api_view
 # from rest_framework import viewsets
 
 
-from core.models import Item, OrderItem, Order
+from core.models import Item, OrderItem, Order, AppInfo
 
-from .serializers import (ModeOfPayment, OrderStatusUpdateserializer,
+from .serializers import (ModeOfPayment, OrderStatusUpdateserializer, AppInfoSerializer,
     ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
     ShopProductSerializer, UserProfileSerializer, PlaceSerializer, ServiceAreaSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
 )
 from core.models import UserProfile, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, Refund, UserProfile, Variation, ItemVariation, FavoriteShops, FavoritePlaces, ServiceArea
 
 
+class AppInfoView(ListAPIView):
+    permission_classes = (AllowAny, )
+    serializer_class = AppInfoSerializer
 
-# stripe.api_key = settings.STRIPE_SECRET_KEY
+    def get_queryset(self):
+        appInfo= AppInfo.objects.all()
+        return appInfo
+
+# class StateListView(ListAPIView):
+#     permission_classes = (IsAuthenticated, )
+#     serializer_class = StateSerializer
 
 class UserTypeView(APIView):
     def get(self, request, *args, **kwargs):

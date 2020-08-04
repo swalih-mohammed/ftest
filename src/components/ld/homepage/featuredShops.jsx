@@ -8,6 +8,8 @@ import { Slider3 } from "../../../services/script";
 import { AddToFavoriteShopsURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import "react-toastify/dist/ReactToastify.css";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class FeautredShops extends Component {
   componentDidMount() {
@@ -24,7 +26,15 @@ class FeautredShops extends Component {
         // console.log("added");
       })
       .catch(err => {
-        this.setState({ error: err, loading: false });
+        if (err.response.status === 401) {
+          toast.error("Please login to add to favorites");
+          this.setState({ loading: false });
+        } else if (err.response.status === 400) {
+          toast.error("This locality already exists in your favorites");
+          this.setState({ loading: false });
+        } else {
+          toast.error("An error occured");
+        }
       });
   };
 
@@ -67,9 +77,7 @@ class FeautredShops extends Component {
                                   to={`${process.env.PUBLIC_URL}/places/${shop.id}`}
                                 >
                                   <img
-                                    src={
-                                      "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-                                    }
+                                    src={shop.image}
                                     className="img-fluid lazyload bg-img"
                                     alt=""
                                   />
@@ -82,17 +90,19 @@ class FeautredShops extends Component {
                                   title="Add to Wishlist"
                                   onClick={() => this.addToWishList(shop.id)}
                                 >
-                                  <i
-                                    className="fa fa-heart fa-2x"
-                                    style={{ color: "#81ba00" }}
-                                    aria-hidden="true"
-                                  ></i>
+                                  <i>
+                                    <FontAwesomeIcon
+                                      icon={faHeart}
+                                      size={"2x"}
+                                      color={"#ff4c3b"}
+                                    />
+                                  </i>
                                 </a>
                               </div>
 
                               <span></span>
                             </div>
-                            {/* </a> */}
+
                             <div className="blog-details">
                               <a href="#">
                                 <p>{shop.name}</p>

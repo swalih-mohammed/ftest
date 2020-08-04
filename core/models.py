@@ -37,6 +37,14 @@ ORDER_STATUS_CHOICES = (
 )
 
 
+class AppInfo(models.Model):
+    coverPhoto1 = models.ImageField(upload_to='app_info',blank=True, null=True)
+    coverPhoto2 = models.ImageField(upload_to='app_info',blank=True, null=True)
+    shippingMessage  = models.TextField(max_length=250, blank=True, null=True)
+    offerMessage  = models.TextField(max_length=250, blank=True, null=True)
+    maintanance = models.BooleanField(default=False)
+    phone1 = models.CharField(max_length=11, blank=True, null=True)
+    phone2 = models.CharField(max_length=11, blank=True, null=True)
 
 class Area(models.Model):
     name = models.CharField(max_length=100)
@@ -50,7 +58,7 @@ class Place(models.Model):
     name = models.CharField(max_length=100)
     areas = models.ManyToManyField('Area', related_name = 'areas', blank=True, null=True)
     village = models.ForeignKey('Village', related_name = 'village', blank=True, null=True,max_length=100, on_delete=models.CASCADE)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(upload_to='place',blank=True, null=True)
     is_shipping = models.BooleanField(default=False)
     shipping_message = models.TextField(blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -103,14 +111,14 @@ class State(models.Model):
 
 class ProductCategory(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(upload_to='product-category',blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     def __str__(self):
         return self.name
 
 class ShopCategory(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(upload_to='shop-category',blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     def __str__(self):
         return self.name
@@ -138,8 +146,8 @@ class Shop(models.Model):
     shopCategory = models.ForeignKey(ShopCategory,null=True, blank=True, on_delete=models.DO_NOTHING )
     slug = models.SlugField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    image = models.ImageField(blank=True, null=True)
-    image_1 = models.ImageField(blank=True, null=True)
+    image = models.ImageField(upload_to='shop',blank=True, null=True)
+    image_1 = models.ImageField(upload_to='shop',blank=True, null=True)
     shipping_message = models.TextField(blank=True, null=True)
     offer_message = models.TextField(blank=True, null=True)
 
@@ -276,9 +284,9 @@ class Item(models.Model):
                                  on_delete=models.CASCADE, blank=True, null=True)
     slug = models.SlugField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    image = models.ImageField(blank=True, null=True)
-    image_1 = models.ImageField(blank=True, null=True)
-    image_2 = models.ImageField(blank=True, null=True)
+    image = models.ImageField(upload_to='product',blank=True, null=True)
+    image_1 = models.ImageField(upload_to='product',blank=True, null=True)
+    image_2 = models.ImageField(upload_to='product',blank=True, null=True)
     is_available = models.BooleanField(default=False, null=True)
     is_featured = models.BooleanField(default=False,  blank=True, null=True)
     is_on_sale = models.BooleanField(default=False,  blank=True, null=True)

@@ -12,7 +12,7 @@ import {
   ShopModeOfPaymentURL
 } from "../../../constants";
 import { authAxios } from "../../../authAxios";
-import { fetchCart } from "../../../actions/cart";
+import { fetchCart, clearKart } from "../../../actions/cart";
 import Header from "../common/header";
 import Footer from "../common/footer";
 
@@ -105,12 +105,14 @@ class checkOut extends Component {
         })
         .then(res => {
           this.setState({ loading: false, success: true });
-          toast.success("This shop added to your favorites");
+          toast.success("Order placed succesfully");
           this.redirectToOrders();
+          this.props.refreshCart();
         })
         .catch(err => {
           this.setState({ loading: false, error: err }, () => {
-            this.redirectToOrders();
+            // this.redirectToOrders();
+            toast.success("There was an error");
           });
         });
     } else {
@@ -119,8 +121,8 @@ class checkOut extends Component {
   };
 
   redirectToOrders() {
-    this.props.refreshCart();
-    console.log("refreshcard");
+    this.props.clearKart();
+    // console.log("refreshcard");
     setTimeout(this.props.history.push("/orders"), 10000);
   }
 
@@ -345,7 +347,8 @@ class checkOut extends Component {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    refreshCart: () => dispatch(fetchCart())
+    refreshCart: () => dispatch(fetchCart()),
+    clearKart: () => dispatch(clearKart)
   };
 };
 

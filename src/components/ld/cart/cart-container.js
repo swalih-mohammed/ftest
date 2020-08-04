@@ -9,15 +9,18 @@ import { authAxios } from "../../../authAxios";
 // import { orderSummaryURL } from "../constants";
 import { orderSummaryURL } from "../../../constants";
 
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 class CartContainer extends Component {
   state = {
     // cart: null
   };
 
   componentDidMount() {
-    this.props.fetchCart();
+    // this.props.fetchCart();
     // console.log(this.props.cart);
-    this.handleFetchOrder();
+    // this.handleFetchOrder();
   }
 
   handleFetchOrder = () => {
@@ -47,13 +50,16 @@ class CartContainer extends Component {
               {cart.order_items ? cart.order_items.length : 0}
             </div>
 
-            <Link to={`${process.env.PUBLIC_URL}/cart`}>
+            <Link to={`${process.env.PUBLIC_URL}/checkout`}>
               <img
                 src={`${process.env.PUBLIC_URL}/assets/images/icon/cart.png`}
                 className="img-fluid"
                 alt=""
               />
-              <i className="fa fa-shopping-cart"></i>
+              {/* <i className="fa fa-shopping-cart"></i> */}
+              <i>
+                <FontAwesomeIcon icon={faShoppingCart} />
+              </i>
             </Link>
             <ul className="show-div shopping-cart">
               <div>
@@ -99,7 +105,10 @@ class CartContainer extends Component {
           <li className="onhover-div mobile-cart">
             <div className="cart-qty-cls">{0}</div>
 
-            <i className="fa fa-shopping-cart"></i>
+            {/* <i className="fa fa-shopping-cart"></i> */}
+            <i>
+              <FontAwesomeIcon icon={faShoppingCart} />
+            </i>
 
             <ul className="show-div shopping-cart">
               <li>

@@ -40,18 +40,23 @@ from .views import (
     OrderItemDetailView,
     ServiceAreaView,
     ProductListForShopView,
-    ProductUpdateForShopView
+    ProductUpdateForShopView,
+    AppInfoView
 
-   
+
 
 )
 
-from .orderView import (OrderListView,OrderStatusListView, OrderFilterView, OrderSearchView)
-from .shopView import (ShopsModOfPaymentView,ShopsDetailView, ShopAddView, ShopFilterView, AddCandidateView, AddComplaintView, PlaceTaxiListView, PlaceCooliListView)
-from .locationView import (PlaceListView,AreaFilterView,PlaceFilterView,VillageFilterView,ClusterFilterView,DistrictFilterView,StateListView, PlaceFilterView, PlaceDetailView)
+from .orderView import (OrderListView, OrderStatusListView,
+                        OrderFilterView, OrderSearchView)
+from .shopView import (ShopsModOfPaymentView, ShopsDetailView, ShopAddView, ShopFilterView,
+                       AddCandidateView, AddComplaintView, PlaceTaxiListView, PlaceCooliListView)
+from .locationView import (PlaceListView, AreaFilterView, PlaceFilterView, VillageFilterView,
+                           ClusterFilterView, DistrictFilterView, StateListView, PlaceFilterView, PlaceDetailView)
 # from .productView import (ProductofShopListView)
 
 urlpatterns = [
+    path('app-info/', AppInfoView.as_view(), name='app-info'),
     path('user-id/', UserIDView.as_view(), name='user-id'),
     path('user-type/', UserTypeView.as_view(), name='UserType'),
     path('service-area/', ServiceAreaView.as_view(), name='service-area'),
@@ -67,8 +72,10 @@ urlpatterns = [
          orderAddressView.as_view(), name='order-address'),
 
     path('products/', ItemListView.as_view(), name='product-list'),
-    path('producstsofashop/', ProductListForShopView.as_view(), name='shop-product-list'),
-    path('producstsofashop/<pk>/update/', ProductUpdateForShopView.as_view(), name='shop-product-edit'),
+    path('producstsofashop/', ProductListForShopView.as_view(),
+         name='shop-product-list'),
+    path('producstsofashop/<pk>/update/',
+         ProductUpdateForShopView.as_view(), name='shop-product-edit'),
     path('products/<pk>/', ItemDetailView.as_view(), name='product-detail'),
 
     path('places/<int:place_id>/shops/', PlaceShopListView.as_view(),
@@ -77,12 +84,12 @@ urlpatterns = [
          name='place-taxi-list'),
     path('places/<int:cooli_id>/coolies/', PlaceCooliListView.as_view(),
          name='place-cooli-list'),
-   
-   
+
+
     path('shops-filter/', ShopFilterView.as_view(), name='shop-filter'),
     path('shops/', ShopListView.as_view(), name='shop-list'),
     path('shop-add/', ShopAddView.as_view(), name='shop-add'),
-    
+
     # path('all-shops/', AllShopView.as_view(), name='all-shops'),
     path('shops/<int:shop_id>/products', ShopProductListView.as_view(),
          name='shop-product-list'),
@@ -103,12 +110,12 @@ urlpatterns = [
     path('order-filter/', OrderFilterView.as_view(), name='order-filter'),
     path('order-search/', OrderSearchView.as_view(), name='order-search'),
     path('order-status/', OrderStatusListView.as_view(), name='order-status'),
-   
-    
+
+
     path('orders/<pk>/delete/',
          OrderDeleteView.as_view(), name='order-delete'),
 
-# look here e
+    # look here e
 
     path('orders/<pk>/status-update/',
          OrderStatusUpdateView, name='order-status-update'),
@@ -116,52 +123,56 @@ urlpatterns = [
     path('orders/<pk>/detail/',
          OrderItemDetailView.as_view(), name='order-detail'),
     # new order-items
-     path('new-places/',
+    path('new-places/',
          NewPlaces.as_view(), name='new-places'),
-     path('featured-shops/',
+    path('featured-shops/',
          FeaturedShops.as_view(), name='featured-shops'),
-    
-     path('places/<int:place_id>/fshops/', FeaturedShopsInPlace.as_view(),
+
+    path('places/<int:place_id>/fshops/', FeaturedShopsInPlace.as_view(),
          name='place-fshop-list'),
 
-      path('places/<pk>/detail/', PlaceDetailView.as_view(),
+    path('places/<pk>/detail/', PlaceDetailView.as_view(),
          name='place-detail'),
-      path('shops/<pk>/detail/', ShopsDetailView.as_view(),
+    path('shops/<pk>/detail/', ShopsDetailView.as_view(),
          name='place-detail'),
-       # path('shops/<pk>/mode-of-payment/', ShopsModOfPaymentView.as_view(),
-       #   name='mode-of-payment'),
+    # path('shops/<pk>/mode-of-payment/', ShopsModOfPaymentView.as_view(),
+    #   name='mode-of-payment'),
 
-       path('mode-of-payment/', ShopsModOfPaymentView.as_view(), name='mode-of-payment'),
+    path('mode-of-payment/', ShopsModOfPaymentView.as_view(),
+         name='mode-of-payment'),
 
 
-     # favrite
-     path('add-to-favorite-places/', AddToFavoritePlacesView.as_view(), name='add-to-favorite-places'),
-     path('add-to-favorite-shops/', AddToFavoriteShopsView.as_view(), name='add-to-favorite-shops'),
+    # favrite
+    path('add-to-favorite-places/', AddToFavoritePlacesView.as_view(),
+         name='add-to-favorite-places'),
+    path('add-to-favorite-shops/', AddToFavoriteShopsView.as_view(),
+         name='add-to-favorite-shops'),
 
-     path('favorite-places/', FavoritePlacesView.as_view(),
+    path('favorite-places/', FavoritePlacesView.as_view(),
          name='favorite-places'),
-     path('favorite-shops/', FavoriteShopsView.as_view(),
+    path('favorite-shops/', FavoriteShopsView.as_view(),
          name='favorite-shops'),
-     
-     # path('removefromfavoriteshops/', RemoveFromFavoriteShopsView.as_view(), name='remove-from-favorite-shops'),
-      path('remove-from-favorite-shops/<pk>/',
+
+    # path('removefromfavoriteshops/', RemoveFromFavoriteShopsView.as_view(), name='remove-from-favorite-shops'),
+    path('remove-from-favorite-shops/<pk>/',
          RemoveFromFavoriteShopsView.as_view(), name='remove-from-favorite-shops'),
-      path('remove-from-favorite-places/<pk>/',
+    path('remove-from-favorite-places/<pk>/',
          RemoveFromFavoritePlacesView.as_view(), name='remove-from-favorite-places'),
-      path('candidate-add/',
+    path('candidate-add/',
          AddCandidateView.as_view(), name='candidate-add'),
-      path('complaint-add/',
+    path('complaint-add/',
          AddComplaintView.as_view(), name='complaint-add'),
 
-      # //location urls 
-      path('places-list/', PlaceListView.as_view(), name='area-list'),
-      path('areas-filter/', AreaFilterView.as_view(), name='area-filter'),
-      path('places-filter/', PlaceFilterView.as_view(), name='place-filter'),
-      path('placess-filter/', PlaceFilterView.as_view(), name='places-filter'),
-      path('villages-filter/', VillageFilterView.as_view(), name='village-filter'),
-      path('clusters-filter/', ClusterFilterView.as_view(), name='cluster-filter'),
-      path('districts-filter/', DistrictFilterView.as_view(), name='district-filter'),
-      path('states/', StateListView.as_view(), name='state-list'),
+    # //location urls
+    path('places-list/', PlaceListView.as_view(), name='area-list'),
+    path('areas-filter/', AreaFilterView.as_view(), name='area-filter'),
+    path('places-filter/', PlaceFilterView.as_view(), name='place-filter'),
+    path('placess-filter/', PlaceFilterView.as_view(), name='places-filter'),
+    path('villages-filter/', VillageFilterView.as_view(), name='village-filter'),
+    path('clusters-filter/', ClusterFilterView.as_view(), name='cluster-filter'),
+    path('districts-filter/', DistrictFilterView.as_view(),
+         name='district-filter'),
+    path('states/', StateListView.as_view(), name='state-list'),
 
 
 

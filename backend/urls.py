@@ -30,13 +30,21 @@ from .views import index
 # ]
 
 urlpatterns = [
-    path('', index, name='index'),
+    # path('', index, name='index'),
+    path('', include('frontend.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('rest-auth/password/reset', include('rest_auth.registration.urls')),
-    path('rest-auth/password/reset/confirm/', include('rest_auth.registration.urls')),
+    path('rest-auth/password/reset/confirm/',
+         include('rest_auth.registration.urls')),
     path('admin/', admin.site.urls),
     path('api/', include('core.api.urls')),
-    re_path('.*', TemplateView.as_view(template_name='index.html'))
-]
+    # re_path('.*', TemplateView.as_view(template_name='index.html'))
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# urlpatterns = [
+#     # ... the rest of your URLconf goes here ...
+# ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

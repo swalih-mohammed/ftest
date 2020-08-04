@@ -4,10 +4,12 @@ import { fetchUser } from "../../../actions/user";
 import { connect } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Sidebar extends Component {
   componentWillMount() {
-    this.props.fetchUserType();
+    // this.props.fetchUserType();
   }
 
   closeNav() {
@@ -88,32 +90,121 @@ class Sidebar extends Component {
         <nav>
           <a onClick={this.closeNav}>
             <div className="sidebar-back text-left">
-              <i className="fa fa-angle-left pr-2" aria-hidden="true"></i> Back
+              {/* <i className="fa fa-angle-left pr-2" aria-hidden="true"></i> Back */}
+              <i>
+                <FontAwesomeIcon icon={faAngleLeft} /> Back
+              </i>
             </div>
           </a>
           <ul id="sub-menu" className="sidebar-menu">
-            {this.props.userType == "Customer" ? (
+            {this.props.UserType ? (
               <div>
-                <li>
-                  <Link to="/orders" onClick={this.closeNav}>
-                    Hello ! {this.props.userName}
+                {this.props.userType == "Customer" ? (
+                  <div>
+                    <li>
+                      <Link to="/orders" onClick={this.closeNav}>
+                        Hello ! {this.props.userName}
+                        <span className="sub-arrow"></span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/orders" onClick={this.closeNav}>
+                        My orders
+                        <span className="sub-arrow"></span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/addresses" onClick={this.closeNav}>
+                        <span>
+                          <i className="sub-arrow" aria-hidden="true"></i>
+                        </span>
+                        Address
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/add-shop" onClick={this.closeNav}>
+                        Add your shop
+                        <span className="sub-arrow"></span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/add-complaint" onClick={this.closeNav}>
+                        Contact Us
+                        <span className="sub-arrow"></span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/logout">Logout</Link>
+                    </li>
+                  </div>
+                ) : null}
+                {this.props.userType == "ShopOwner" ? (
+                  <div>
+                    <li>
+                      <Link to="/orders" onClick={this.closeNav}>
+                        Hello ! {this.props.userName}
+                        <span className="sub-arrow"></span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/shop-product-list" onClick={this.closeNav}>
+                        Shop Products
+                        <span className="sub-arrow"></span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/shop-order-table" onClick={this.closeNav}>
+                        Shop Orders
+                        <span className="sub-arrow"></span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/logout">Logout</Link>
+                    </li>
+                  </div>
+                ) : null}
+
+                {this.props.userType == "is_staff_user" ? (
+                  <div>
+                    <li>
+                      <Link to="/orders" onClick={this.closeNav}>
+                        Hello ! {this.props.userName}
+                        <span className="sub-arrow"></span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/manage-order-delivery" onClick={this.closeNav}>
+                        Manage Delivery
+                        <span className="sub-arrow"></span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/logout">Logout</Link>
+                    </li>
+                    {/* <li>
+                  <Link to="/manage-order-search">
+                    Search Order
                     <span className="sub-arrow"></span>
                   </Link>
-                </li>
-                <li>
-                  <Link to="/orders" onClick={this.closeNav}>
-                    My orders
+                </li> */}
+                    {/* <li>
+                  <Link to="/shop-filter">
+                    Filter shop
                     <span className="sub-arrow"></span>
                   </Link>
-                </li>
-                <li>
-                  <Link to="/addresses" onClick={this.closeNav}>
-                    <span>
-                      <i className="sub-arrow" aria-hidden="true"></i>
-                    </span>
-                    Address
+                </li> */}
+
+                    {/* <li>
+                  <Link to="/shop-search">
+                    Search shop
+                    <span className="sub-arrow"></span>
                   </Link>
-                </li>
+                </li> */}
+                  </div>
+                ) : null}
+              </div>
+            ) : (
+              <div>
                 <li>
                   <Link to="/add-shop" onClick={this.closeNav}>
                     Add your shop
@@ -126,66 +217,28 @@ class Sidebar extends Component {
                     <span className="sub-arrow"></span>
                   </Link>
                 </li>
+                {this.props.token ? (
+                  <li>
+                    <Link to="/logout" onClick={this.closeNav}>
+                      Logout
+                    </Link>
+                  </li>
+                ) : (
+                  <div>
+                    <li>
+                      <Link to="/login" onClick={this.closeNav}>
+                        Login
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/register" onClick={this.closeNav}>
+                        Register
+                      </Link>
+                    </li>
+                  </div>
+                )}
               </div>
-            ) : null}
-            {this.props.userType == "ShopOwner" ? (
-              <div>
-                <li>
-                  <Link to="/orders" onClick={this.closeNav}>
-                    Hello ! {this.props.userName}
-                    <span className="sub-arrow"></span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/shop-product-list" onClick={this.closeNav}>
-                    Shop Products
-                    <span className="sub-arrow"></span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/shop-order-table" onClick={this.closeNav}>
-                    Shop Orders
-                    <span className="sub-arrow"></span>
-                  </Link>
-                </li>
-              </div>
-            ) : null}
-
-            {this.props.userType == "is_staff_user" ? (
-              <div>
-                <li>
-                  <Link to="/orders" onClick={this.closeNav}>
-                    Hello ! {this.props.userName}
-                    <span className="sub-arrow"></span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/manage-order-delivery" onClick={this.closeNav}>
-                    Manage Delivery
-                    <span className="sub-arrow"></span>
-                  </Link>
-                </li>
-                {/* <li>
-                  <Link to="/manage-order-search">
-                    Search Order
-                    <span className="sub-arrow"></span>
-                  </Link>
-                </li> */}
-                {/* <li>
-                  <Link to="/shop-filter">
-                    Filter shop
-                    <span className="sub-arrow"></span>
-                  </Link>
-                </li> */}
-
-                {/* <li>
-                  <Link to="/shop-search">
-                    Search shop
-                    <span className="sub-arrow"></span>
-                  </Link>
-                </li> */}
-              </div>
-            ) : null}
+            )}
           </ul>
         </nav>
       </div>
@@ -196,8 +249,8 @@ class Sidebar extends Component {
 const mapStateToProps = state => {
   return {
     userType: state.user.user.UserType,
-    userName: state.user.user.userName
-    // token: state.auth.token
+    userName: state.user.user.userName,
+    token: state.auth.token
   };
 };
 

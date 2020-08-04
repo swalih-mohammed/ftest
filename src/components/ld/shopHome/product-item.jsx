@@ -125,23 +125,13 @@ class ProductItem extends Component {
               to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}
             >
               <img
-                src={
-                  "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-                }
+                src={product.image}
                 className="img-fluid lazyload bg-img"
                 alt=""
               />
             </Link>
           </div>
-          {/* <div className="cart-info cart-wrap">
-            <a
-              href="javascript:void(0)"
-              title="Add to Wishlist"
-              onClick={onAddToWishlistClicked}
-            >
-              <i className="fa fa-heart" aria-hidden="true"></i>
-            </a>
-          </div> */}
+
           <div className="addtocart_btn">
             <button
               className="add-button add_cart"

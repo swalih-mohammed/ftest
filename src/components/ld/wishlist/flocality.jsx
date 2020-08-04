@@ -3,6 +3,8 @@ import { RemoveFromFavoritePlacesURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Locality extends Component {
   removeFromFavList = id => {
@@ -67,11 +69,18 @@ class Locality extends Component {
                           title="Add to Wishlist"
                           onClick={() => this.removeFromFavList(locality.id)}
                         >
-                          <i
+                          {/* <i
                             className="fa fa-times fa-2x"
                             style={{ color: "#81ba00" }}
                             aria-hidden="true"
-                          ></i>
+                          ></i> */}
+                          <i>
+                            <FontAwesomeIcon
+                              icon={faTimes}
+                              size={"2x"}
+                              color={"#ff4c3b"}
+                            />
+                          </i>
                         </a>
                       </div>
                     </div>

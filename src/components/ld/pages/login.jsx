@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { authLogin } from "../../../actions/auth";
 import { Redirect, Link } from "react-router-dom";
+import createHistory from "history/createBrowserHistory";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,16 +23,24 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { username, password } = this.state;
-    this.props.login(username, password);
-    this.setState({ success: true });
-    toast.success("You have logged in successfully ");
+    if (username && password) {
+      this.props.login(username, password);
+      // const history = createHistory();
+      // history.go(0);
+      toast.success("You have logged in successfully ");
+    } else {
+      toast.error("please provide username and password");
+    }
   };
   render() {
     // console.log("login");
     const { error, loading, token } = this.props;
     const { username, password } = this.state;
-    // console.log("login page ");
-    if (this.state.success) {
+    // console.log(token);
+    if (token) {
+      // const history = createHistory();
+      // history.go(0);
+      // window.location.reload();
       return <Redirect to="/" />;
     }
     return (
@@ -124,8 +133,8 @@ class Login extends Component {
 const mapStateToProps = state => {
   return {
     loading: state.auth.loading,
-    error: state.auth.error
-    // token: state.auth.token
+    error: state.auth.error,
+    token: state.auth.token
   };
 };
 

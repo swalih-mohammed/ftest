@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as actionTypes from "../constants/ActionTypes";
+import { fetchUser } from "./user";
 // import { login, signUp } from "../../constants";
 
 export const authStart = () => {
@@ -39,6 +40,7 @@ export const checkAuthTimeout = expirationTime => {
 };
 
 export const authLogin = (username, password) => {
+  // console.log(store.auth.token);
   return dispatch => {
     dispatch(authStart());
     axios
@@ -52,6 +54,7 @@ export const authLogin = (username, password) => {
         localStorage.setItem("token", token);
         localStorage.setItem("expirationDate", expirationDate);
         dispatch(authSuccess(token));
+        dispatch(fetchUser);
         dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
@@ -97,7 +100,7 @@ export const authCheckState = () => {
         dispatch(authSuccess(token));
         dispatch(
           checkAuthTimeout(
-            (expirationDate.getTime() - new Date().getTime()) / 1000
+            (expirationDate.getTime() - new Date().getTime()) / 10000
           )
         );
       }

@@ -40,8 +40,8 @@ class Footer extends Component {
                     <LogoImage logo={this.props.logoName} />
                   </div>
                   <p>
-                    Local Dukans makes you able to sell your production to your
-                    own pleople,
+                    Local Dukans makes you able to sell your product to your own
+                    pleople.
                   </p>
                   <h4>call us: 720 772 41 91</h4>
 

@@ -26,9 +26,7 @@ SECRET_KEY = '-n2bsfxg3(1x&w++g2w()0os%bfy^0b58jg^7hl8^t(6kx3_g&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ["http://localdukans.herokuapp.com", "http://127.0.0.1:8000"]
-
-ALLOWED_HOSTS = ["http://www.localdukans.com", ]
+ALLOWED_HOSTS = ['www.localdukans.com']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -117,23 +115,13 @@ SITE_ID = 1
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ecom_five',
-        'USER': 'postgres',
-        'PASSWORD': 'Keralam@1',
-        'HOST': 'localhost'
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sibiyan$default',
+        'USER': 'sibiyan',
+        'PASSWORD': 'Pandaram@1',
+        'HOST': 'sibiyan.mysql.pythonanywhere-services.com',
     }
 }
 
@@ -180,7 +168,7 @@ USE_TZ = False
 
 
 # Configure app for Heroku deployment
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
@@ -196,19 +184,3 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SITE_ID = 1
-
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-
-# export AWS_ACCESS_KEY_ID="AKIA3LLZBSXQIKGMDI4D"
-# export AWS_SECRET_ACCESS_KEY="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"
-# export AWS_STORAGE_BUCKET_NAME="localdukans-files"
-
-
-# AWS_S3_FILE_OVERWRITE = False
-# AWS_DEFAULT_ACL = None
-
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

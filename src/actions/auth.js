@@ -44,7 +44,7 @@ export const authLogin = (username, password) => {
   return dispatch => {
     dispatch(authStart());
     axios
-      .post("http://127.0.0.1:8000/rest-auth/login/", {
+      .post("http://www.localdukans.com/rest-auth/login/", {
         username: username,
         password: password
       })
@@ -67,7 +67,7 @@ export const authSignup = (username, email, password1, password2) => {
   return dispatch => {
     dispatch(authStart());
     axios
-      .post("http://127.0.0.1:8000/rest-auth/registration/", {
+      .post("http://www.localdukans.com/rest-auth/registration/", {
         username: username,
         email: email,
         password1: password1,
@@ -113,7 +113,7 @@ export const resetPassword = email => {
     // dispatch(authStart());
     console.log("resetting");
     axios
-      .post("http://127.0.0.1:8000/rest-auth/reset/", {
+      .post("http://www.localdukans.com/rest-auth/reset/", {
         email: email
       })
       .then(res => {

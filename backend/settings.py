@@ -26,7 +26,9 @@ SECRET_KEY = '-n2bsfxg3(1x&w++g2w()0os%bfy^0b58jg^7hl8^t(6kx3_g&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["http://localdukans.herokuapp.com", "http://127.0.0.1:8000"]
+# ALLOWED_HOSTS = ["http://localdukans.herokuapp.com", "http://127.0.0.1:8000"]
+
+ALLOWED_HOSTS = ["http://www.localdukans.com", ]
 
 CORS_ORIGIN_ALLOW_ALL = True
 

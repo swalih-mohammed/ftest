@@ -6,7 +6,7 @@ import { logout } from "../../../actions/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Redirect } from "react-router-dom";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class TopBar extends Component {
@@ -38,7 +38,9 @@ class TopBar extends Component {
                     Local Dukans
                   </li>
                   <li>
-                    <i className="fa fa-phone" aria-hidden="true"></i>
+                    faPhone
+                    <FontAwesomeIcon icon={faPhone} size={"lg"} />
+                    {/* <i className="fa fa-phone" aria-hidden="true"></i> */}
                     {/* {translate("call_us")}: 123 - 456 - 7890 */}
                     call us: 720 772 4191
                   </li>

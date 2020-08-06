@@ -38,7 +38,6 @@ class TopBar extends Component {
                     Local Dukans
                   </li>
                   <li>
-                    faPhone
                     <FontAwesomeIcon icon={faPhone} size={"lg"} />
                     {/* <i className="fa fa-phone" aria-hidden="true"></i> */}
                     {/* {translate("call_us")}: 123 - 456 - 7890 */}

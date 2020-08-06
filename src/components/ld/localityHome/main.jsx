@@ -90,7 +90,7 @@ class Locality extends Component {
 
   render() {
     const { featuredShops, placeDetail, shops } = this.state;
-    // console.log(this.state.placeDetail);
+    console.log(this.state.placeDetail);
     return (
       <div>
         <Helmet>
@@ -98,44 +98,7 @@ class Locality extends Component {
         </Helmet>
         {/* <HeaderTwo logoName={"logo.png"} /> */}
         <section className="p-0">
-          <Slider className="slide-1 home-slider">
-            <div>
-              <div className="home home39 text-center">
-                <div className="container">
-                  <div className="row">
-                    <div className="col">
-                      <div className="slider-contain">
-                        <div>
-                          {placeDetail ? (
-                            <h1>{this.state.placeDetail.name}</h1>
-                          ) : null}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className="home home38 text-center">
-                <div className="container">
-                  <div className="row">
-                    <div className="col">
-                      <div className="slider-contain">
-                        <div>
-                          <div>
-                            {placeDetail ? (
-                              <h1>{this.state.placeDetail.name}</h1>
-                            ) : null}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Slider>
+          {/* {placeDetail && <Image src={placeDetail.image} fluid />} */}
         </section>
         {placeDetail && (
           <div>

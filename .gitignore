@@ -1,6 +1,5 @@
 node_modules
 env
-public
 db.sqlite
 package-lock.json
 package.json
@@ -9,6 +8,6 @@ README.md
 config
 media
 db.sqlite3
-backend/settings.py
 .vscode
 scripts
+backend/settings.py

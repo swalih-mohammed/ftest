@@ -10,3 +10,5 @@ README.md
 sripts
 config
 media
+db.sqlite3
+backend/settings.py

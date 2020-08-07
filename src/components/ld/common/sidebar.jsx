@@ -168,7 +168,7 @@ class Sidebar extends Component {
                   <div>
                     <li>
                       <Link to="/orders" onClick={this.closeNav}>
-                        Hello ! {this.props.userName}
+                        Hello !{/* {this.props.userName} */}
                         <span className="sub-arrow"></span>
                       </Link>
                     </li>

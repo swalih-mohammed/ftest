@@ -162,7 +162,7 @@ class LocalityList extends React.PureComponent {
                       </div>
                       <div className="absolute-contain">
                         <h3>{locality.name}</h3>
-                        <h4>Village: {locality.village_name}</h4>
+                        <h4>{locality.village_name} Village</h4>
 
                         <br></br>
                         <div>

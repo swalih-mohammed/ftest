@@ -377,13 +377,20 @@ class ModeOfPaymentSerializer(serializers.ModelSerializer):
 
 class FavoritePlacesSerializer(serializers.ModelSerializer):
     place_name = serializers.ReadOnlyField(source='place.name')
+    place_image = serializers.ReadOnlyField(source='place.image')
     # place_village_name = serializers.ReadOnlyField(source='place.village')
     # place_district_name = serializers.ReadOnlyField(source='place.district')
     # place_state_name = serializers.ReadOnlyField(source='place.state')
 
     class Meta:
         model = FavoritePlaces
-        fields = '__all__'
+        # fields = '__all__'
+        fields = (
+            'id',
+            'place',
+            'place_name',
+            'place_image'
+        )
 
 
 class FavoriteShopsSerializer(serializers.ModelSerializer):

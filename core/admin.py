@@ -12,6 +12,8 @@ def make_refund_accepted(modeladmin, request, queryset):
 
 make_refund_accepted.short_description = 'Update orders to refund granted'
 
+admin.site.site_header = 'Local Dukans - Administration'
+
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'user',

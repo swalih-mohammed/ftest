@@ -55,12 +55,10 @@ class Shop extends Component {
                           <div className="classic-effect">
                             <div className="front">
                               <Link
-                                to={`${process.env.PUBLIC_URL}/places/${shop.id}`}
+                                to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}
                               >
                                 <img
-                                  src={
-                                    "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-                                  }
+                                  src={shop.image}
                                   className="img-fluid lazyload bg-img"
                                   alt=""
                                 />

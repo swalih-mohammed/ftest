@@ -197,14 +197,7 @@ class UserProfile(models.Model):
     is_staff_user = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True, null=True)
     user_role = models.ForeignKey(Role,null=True, on_delete=models.DO_NOTHING )
-    # serviceArea = models.ForeignKey(ServiceArea,null=True, blank=True, on_delete=models.DO_NOTHING )
-    # to assign for staff user 
-    # areas = models.ManyToManyField(Area)
-    # places = models.ManyToManyField(Place)
-    # villages = models.ManyToManyField(Village)
-    # clusters = models.ManyToManyField(Cluster)
-    # districts = models.ManyToManyField(District)
-    # states = models.ManyToManyField(State)
+    
 
     def __str__(self):
         return self.user.username

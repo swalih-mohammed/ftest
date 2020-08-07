@@ -26,6 +26,7 @@ class Locality extends Component {
   };
   render() {
     const { localities } = this.props;
+    console.log(localities);
 
     return (
       <div>
@@ -51,17 +52,14 @@ class Locality extends Component {
                   <div className="collection-banner p-left text-left">
                     <a href={`places/${locality.place}`}></a>
                     <img
-                      src={
-                        "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-                      }
+                      src={locality.place_image}
                       alt=""
                       className="img-fluid blur-up lazyload bg-img"
                     />
-
                     <div className="absolute-contain">
                       <h3>{locality.place_name}</h3>
                       <h4>{locality.place_village_name}</h4>
-                      <h4>{locality.place_district_name}</h4>
+                      {/* <h4>{locality.place_district_name}</h4> */}
                       <br></br>
                       <div>
                         <a
@@ -69,11 +67,6 @@ class Locality extends Component {
                           title="Add to Wishlist"
                           onClick={() => this.removeFromFavList(locality.id)}
                         >
-                          {/* <i
-                            className="fa fa-times fa-2x"
-                            style={{ color: "#81ba00" }}
-                            aria-hidden="true"
-                          ></i> */}
                           <i>
                             <FontAwesomeIcon
                               icon={faTimes}

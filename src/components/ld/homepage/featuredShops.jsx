@@ -74,7 +74,7 @@ class FeautredShops extends Component {
                             <div className="classic-effect">
                               <div className="front">
                                 <Link
-                                  to={`${process.env.PUBLIC_URL}/places/${shop.id}`}
+                                  to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}
                                 >
                                   <img
                                     src={shop.image}
@@ -107,11 +107,14 @@ class FeautredShops extends Component {
                               <a href="#">
                                 <p>{shop.name}</p>
                               </a>
+                              <br></br>
+
+                              <h6>
+                                {shop.place}
+                                {", "} {shop.village} Village
+                              </h6>
+
                               <hr className="style1" />
-                              <h6> {shop.category}</h6>
-                              <h6>{shop.place}</h6>
-                              <h6>{shop.village}</h6>
-                              <h6>{shop.phone_number}</h6>
                             </div>
                           </div>
                         </div>

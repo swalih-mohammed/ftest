@@ -85,9 +85,6 @@ class FeautredLocality extends Component {
                                 >
                                   <img
                                     src={locality.image}
-                                    // src={
-                                    //   "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-                                    // }
                                     className="img-fluid lazyload bg-img"
                                     alt=""
                                   />
@@ -102,11 +99,6 @@ class FeautredLocality extends Component {
                                     this.addToWishList(locality.id)
                                   }
                                 >
-                                  {/* <i
-                                    className="fa fa-heart fa-2x"
-                                    style={{ color: "#81ba00" }}
-                                    aria-hidden="true"
-                                  ></i> */}
                                   <i>
                                     <FontAwesomeIcon
                                       icon={faHeart}
@@ -122,9 +114,9 @@ class FeautredLocality extends Component {
                             <div className="blog-details">
                               <a href="#">
                                 <p>{locality.name}</p>
+                                <p>{locality.village_name} Village</p>
                               </a>
                               <hr className="style1" />
-                              Village: <h6>{locality.village_name}</h6>
                             </div>
                           </div>
                         </div>

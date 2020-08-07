@@ -43,6 +43,7 @@ class Footer extends Component {
                     Local Dukans makes you able to sell your product to your own
                     pleople.
                   </p>
+                  <br></br>
                   <h4>call us: 720 772 41 91</h4>
 
                   <div className="footer-social">

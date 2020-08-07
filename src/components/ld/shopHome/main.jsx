@@ -7,6 +7,7 @@ import Jumbotron from "react-bootstrap/Jumbotron";
 // import { Link } from "react-router-dom";
 import axios from "axios";
 import { fetchCart } from "../../../actions/cart";
+import Image from "react-bootstrap/Image";
 
 // import { Slider3 } from "../../../services/script";
 // import Category from "./category";
@@ -86,7 +87,7 @@ class Shop extends Component {
 
   render() {
     const { products, featuredProducts, ShopDetail } = this.state;
-    // console.log(ShopDetail);
+    console.log(ShopDetail);
 
     return (
       <div>
@@ -96,40 +97,7 @@ class Shop extends Component {
         {/* <Header /> */}
 
         <section className="p-0">
-          <Slider className="slide-1 home-slider">
-            <div>
-              <div className="home home39 text-center">
-                <div className="container">
-                  <div className="row">
-                    <div className="col">
-                      <div className="slider-contain">
-                        <div>
-                          {ShopDetail ? <h1>{ShopDetail.name}</h1> : null}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className="home home38 text-center">
-                <div className="container">
-                  <div className="row">
-                    <div className="col">
-                      <div className="slider-contain">
-                        <div>
-                          <div>
-                            {ShopDetail ? <h1>{ShopDetail.name}</h1> : null}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Slider>
+          {ShopDetail ? <Image src={ShopDetail.image} fluid /> : null}
         </section>
 
         {ShopDetail && (

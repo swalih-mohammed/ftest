@@ -384,13 +384,13 @@ class FavoritePlacesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FavoritePlaces
-        # fields = '__all__'
-        fields = (
-            'id',
-            'place',
-            'place_name',
-            'place_image'
-        )
+        fields = '__all__'
+        # fields = (
+        #     'id',
+        #     'place',
+        #     'place_name',
+        #     'place_image'
+        # )
 
 
 class FavoriteShopsSerializer(serializers.ModelSerializer):

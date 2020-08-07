@@ -12,3 +12,5 @@ config
 media
 db.sqlite3
 backend/settings.py
+.vscode
+scripts

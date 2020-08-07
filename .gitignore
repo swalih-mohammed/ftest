@@ -1,13 +1,11 @@
 node_modules
 env
 public
-src
 db.sqlite
 package-lock.json
 package.json
 README
 README.md
-sripts
 config
 media
 db.sqlite3

@@ -117,26 +117,26 @@ SITE_ID = 1
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sibiyan$default',
-        'USER': 'sibiyan',
-        'PASSWORD': 'Pandaram@1',
-        'HOST': 'sibiyan.mysql.pythonanywhere-services.com',
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'ecom_five',
-#         'USER': 'postgres',
-#         'PASSWORD': 'Keralam@1',
-#         'HOST': 'localhost'
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sibiyan$default',
+#         'USER': 'sibiyan',
+#         'PASSWORD': 'Pandaram@1',
+#         'HOST': 'sibiyan.mysql.pythonanywhere-services.com',
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ecom_five',
+        'USER': 'postgres',
+        'PASSWORD': 'Keralam@1',
+        'HOST': 'localhost'
+    }
+}
 
 
 # Password validation

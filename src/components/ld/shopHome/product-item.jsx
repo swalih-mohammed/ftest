@@ -121,15 +121,16 @@ class ProductItem extends Component {
             )}
           </div>
           <div className="front">
-            <Link
+            {/* <Link
               to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}
-            >
-              <img
-                src={product.image}
-                className="img-fluid lazyload bg-img"
-                alt=""
-              />
-            </Link>
+            > */}
+            <img
+              // src={product.product_image}
+              src={`${process.env.PUBLIC_URL}/${product.product_image}`}
+              className="img-fluid lazyload bg-img"
+              alt=""
+            />
+            {/* </Link> */}
           </div>
 
           <div className="addtocart_btn">

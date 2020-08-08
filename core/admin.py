@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import (AppInfo, ModeOfPayment, Compliant, Taxi, Cooli, Candidate, ServiceArea, Role, ShopCategory, ProductCategory,
+from .models import (ProductImage, AppInfo, ModeOfPayment, Compliant, Taxi, Cooli, Candidate, ServiceArea, Role, ShopCategory, ProductCategory,
                      Area, Place, Village, Cluster, District, State, Shop, Item, OrderItem, Order, OrderStatus, Coupon, Refund,
                      Address, UserProfile, Variation, ItemVariation, Area, FavoritePlaces, FavoriteShops
                      )
@@ -205,6 +205,13 @@ class ModeOfPaymentAdmin(admin.ModelAdmin):
 # AppInfo
 
 
+class ProductImageAdmin(admin.ModelAdmin):
+    list_display = [
+        'name'
+    ]
+    list_filter = ['name']
+
+
 admin.site.register(ItemVariation, ItemVariationAdmin)
 admin.site.register(Variation, VariationAdmin)
 admin.site.register(Item)
@@ -225,6 +232,7 @@ admin.site.register(Cooli)
 admin.site.register(Compliant)
 admin.site.register(ModeOfPayment)
 admin.site.register(AppInfo)
+admin.site.register(ProductImage)
 
 
 # locations

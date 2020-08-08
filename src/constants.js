@@ -1,6 +1,6 @@
-// const localhost = "http://127.0.0.1:8000";
+export const localhost = "http://127.0.0.1:8000";
 
-const localhost = "http://www.localdukans.com";
+// const localhost = "http://www.localdukans.com";
 
 const apiURL = "/api";
 

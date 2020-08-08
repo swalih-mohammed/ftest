@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-responsive-modal";
 import { authAxios } from "../../../authAxios";
-import { addToCartURL } from "../../../constants";
+import { addToCartURL, localhost } from "../../../constants";
 import { connect } from "react-redux";
 import { fetchCart, clearKart } from "../../../actions/cart";
 import { Redirect } from "react-router-dom";
@@ -116,21 +116,14 @@ class ProductListItem extends Component {
 
   render() {
     const { product, token } = this.props;
-    // console.log(token);
+    // const rootURL = "www.localdukans.com"
+    console.log(localhost);
 
     let RatingStars = [];
     for (var i = 0; i < product.rating; i++) {
       RatingStars.push(<i className="fa fa-star" key={i}></i>);
     }
 
-    // if (this.state.notLoggedIn) {
-    //   return (
-    //     <div>
-    //       <ToastContainer />
-    //       <Redirect to="/login" />;
-    //     </div>
-    //   );
-    // }
     return (
       // <div className="col-lg-3 col-md-6">
       <div className="product-box">
@@ -153,7 +146,8 @@ class ProductListItem extends Component {
               to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}
             > */}
             <img
-              src={product.image}
+              // src={product.product_image}
+              src={`${localhost}${product.product_image}`}
               className="img-fluid lazyload bg-img"
               alt=""
             />

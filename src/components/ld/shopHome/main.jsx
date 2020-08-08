@@ -87,7 +87,7 @@ class Shop extends Component {
 
   render() {
     const { products, featuredProducts, ShopDetail } = this.state;
-    console.log(ShopDetail);
+    console.log(products);
 
     return (
       <div>

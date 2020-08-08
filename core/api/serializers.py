@@ -120,6 +120,8 @@ class ShopSerializer(serializers.ModelSerializer):
 class ShopProductSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source='category.name')
     shop_name = serializers.ReadOnlyField(source='shop.name')
+    product_image = serializers.ReadOnlyField(
+        source='product_image.image1.url')
 
     class Meta:
         model = Item
@@ -136,6 +138,9 @@ class ShopProductSerializer(serializers.ModelSerializer):
         #     'image',
         #     'is_available'
         # )
+
+    # def get_image_url(self, obj):
+    #     return obj.product_image.image1.url
 
 
 class VariationDetailSerializer(serializers.ModelSerializer):

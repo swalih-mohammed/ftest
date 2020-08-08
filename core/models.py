@@ -264,10 +264,19 @@ class Compliant(models.Model):
     def __str__(self):
         return self.name
 
+class ProductImage(models.Model):
+    name = models.CharField(max_length=100,blank=True, null=True)
+    image1 = models.ImageField(upload_to='product',blank=True, null=True)
+    image2 = models.ImageField(upload_to='product',blank=True, null=True)
+    image3 = models.ImageField(upload_to='product',blank=True, null=True)
+    def __str__(self):
+        return self.name
 
 
 class Item(models.Model):
     shop = models.ForeignKey(Shop,
+                             on_delete=models.CASCADE)
+    product_image = models.ForeignKey(ProductImage, blank=True, null=True,
                              on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     quantity = models.CharField(max_length=100, blank=True, null=True)

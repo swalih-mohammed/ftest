@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { authLogin } from "../../../actions/auth";
+import { fetchUser } from "../../../actions/user";
 import { Redirect, Link } from "react-router-dom";
-import createHistory from "history/createBrowserHistory";
-
+// import createHistory from "history/createBrowserHistory";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -25,8 +25,8 @@ class Login extends Component {
     const { username, password } = this.state;
     if (username && password) {
       this.props.login(username, password);
-      // const history = createHistory();
-      // history.go(0);
+      // this.props.fetchUser();
+
       toast.success("You have logged in successfully ");
     } else {
       toast.error("please provide username and password");
@@ -140,7 +140,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: (username, password) => dispatch(authLogin(username, password))
+    login: (username, password) => dispatch(authLogin(username, password)),
+    fetchUser: () => dispatch(fetchUser())
   };
 };
 

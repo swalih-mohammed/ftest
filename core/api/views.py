@@ -161,6 +161,7 @@ class ItemDetailView(RetrieveAPIView):
 
 class OrderQuantityUpdateView(APIView):
     def post(self, request, *args, **kwargs):
+        # print(request.data)
         id = request.data.get('id', None)
         if id is None:
             return Response({"message": "Invalid data"}, status=HTTP_400_BAD_REQUEST)
@@ -191,6 +192,7 @@ class OrderQuantityUpdateView(APIView):
 
 
 class OrderItemDeleteView(DestroyAPIView):
+    # print(request.data)
     permission_classes = (IsAuthenticated, )
     queryset = OrderItem.objects.all()
 
@@ -202,7 +204,7 @@ class AddToCartView(APIView):
         id = request.data.get('id', None)
         # variations = request.data.get('variations', [])
         item = get_object_or_404(Item, id=id)
-        print(item)
+        # print(item)
         shop = get_object_or_404(Shop, id=shop)
         place_id = shop.place_id
         place = Place.objects.get(id=place_id)
@@ -262,6 +264,8 @@ class AddToCartView(APIView):
             order1 = myorder[0]
             cart_item_shop_id = order1.item.shop_id
             cart_item_shop = Shop.objects.get(id=cart_item_shop_id)
+            print(cart_item_shop)
+            print(shop)
 
             if shop != cart_item_shop:
                 # print(cart_item_shop)
@@ -295,7 +299,7 @@ class OrderDetailView(RetrieveAPIView):
 
     def get_object(self):
         try:
-            order = Order.objects.get(user=self.request.user, ordered=False)
+            order = Order.objects.filter(user=self.request.user, ordered=False).last()
             return order
         except ObjectDoesNotExist:
             raise Http404("You do not have an active order")

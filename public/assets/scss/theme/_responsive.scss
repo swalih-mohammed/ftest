@@ -5388,7 +5388,7 @@
           .product-info {
             text-align: left;
             h6 {
-              padding-top: 5px;
+              padding-top: 10px;
             }
             .color-variant {
               padding-top: 2px;
@@ -5400,7 +5400,11 @@
             }
           }
           .product-detail {
-            padding-left: 0;
+            // padding-left: 0;
+            padding-right: 3px;
+            padding-left: 3px;
+            padding-bottom: 3px;
+            padding-top: 3px;
             h4 {
               font-size: 20px;
             }

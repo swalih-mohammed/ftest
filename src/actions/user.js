@@ -53,11 +53,11 @@ export const fetchUser = () => {
         dispatch(userSuccess(res.data));
       })
       .catch(err => {
-        if (err.response.status === 401) {
-          dispatch(notSigned);
-        } else {
-          dispatch(userFail(err));
-        }
+        // if (err.response.status === 401) {
+        //   dispatch(notSigned);
+        // } else {
+        dispatch(userFail(err));
+        // }
       });
   };
 };

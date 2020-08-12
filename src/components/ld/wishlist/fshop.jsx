@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { RemoveFromFavoriteShopsURL } from "../../../constants";
+import { RemoveFromFavoriteShopsURL, localhost } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -58,7 +58,8 @@ class Shop extends Component {
                                 to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}
                               >
                                 <img
-                                  src={shop.image}
+                                  // src={shop.image}
+                                  src={`${localhost}${shop.shop_image}`}
                                   className="img-fluid lazyload bg-img"
                                   alt=""
                                 />

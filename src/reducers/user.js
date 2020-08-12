@@ -8,7 +8,7 @@ import {
 import { updateObject } from "../store/utility";
 
 const initialState = {
-  user: "Customer",
+  user: {},
   error: null,
   loading: false
 };
@@ -22,7 +22,7 @@ const userStart = (state, action) => {
 
 const userNotSigned = (state, action) => {
   return updateObject(state, {
-    user: "Customer",
+    user: {},
     loading: false
   });
 };
@@ -45,7 +45,7 @@ const userFail = (state, action) => {
 const userClear = (state, action) => {
   // console.log("cleairng use");
   return updateObject(state, {
-    user: null,
+    user: {},
     error: null,
     loading: false
   });

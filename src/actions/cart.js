@@ -34,6 +34,27 @@ export const clearCart = () => {
   };
 };
 
+// export const fetchCart = () => {
+//   return dispatch => {
+//     dispatch(cartStart());
+//     authAxios
+//       .get(orderSummaryURL)
+//       .then(res => {
+//         dispatch(cartSuccess(res.data));
+//       })
+//       .catch(err => {
+//         // if (err.response.status === 404) {
+//         //   dispatch(clearCart);
+//         // } else {
+//         //   // this.setState({ error: err, loading: false });
+//         //   dispatch(cartFail(err));
+//         // }
+//         dispatch(cartFail(err));
+//         // dispatch(cartSuccess(res.data));
+//       });
+//   };
+// };
+
 export const fetchCart = () => {
   return dispatch => {
     dispatch(cartStart());
@@ -43,14 +64,7 @@ export const fetchCart = () => {
         dispatch(cartSuccess(res.data));
       })
       .catch(err => {
-        // if (err.response.status === 404) {
-        //   dispatch(clearCart);
-        // } else {
-        //   // this.setState({ error: err, loading: false });
-        //   dispatch(cartFail(err));
-        // }
         dispatch(cartFail(err));
-        // dispatch(cartSuccess(res.data));
       });
   };
 };

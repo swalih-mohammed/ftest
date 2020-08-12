@@ -7,6 +7,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ScrollContext } from "react-router-scroll-4";
 import { IntlReducer as Intl, IntlProvider } from "react-redux-multilingual";
 import "./index.scss";
+// import serviceWorker from "./serviceWorker";
+import * as serviceWorker from "./serviceWorker";
 
 // Import custom components
 import store from "./store";
@@ -41,7 +43,8 @@ import CreateAddress from "./components/ld/address/add2";
 import EditAddress from "./components/ld/address/edit";
 import Wishlist from "./components/ld/wishlist/main";
 import Checkout from "./components/ld/checkout/main";
-import OrderSummary from "./components/ld/checkout/orderSummary";
+// import OrderSummary from "./components/ld/checkout/orderSummary";
+import OrderSummary from "./components/ld/checkout/or";
 
 //products
 import ShopProducts from "./components/ld/products/productList";
@@ -69,19 +72,19 @@ class Root extends React.Component {
             <ScrollContext>
               <Switch>
                 <Route
-                  path={`${process.env.PUBLIC_URL}/login`}
-                  component={Login}
-                />
-
-                <Route
-                  path={`${process.env.PUBLIC_URL}/register`}
-                  component={Register}
-                />
-                <Route
                   path={`${process.env.PUBLIC_URL}/reset-password`}
                   component={PassworReset}
                 />
                 <Layout>
+                  <Route
+                    path={`${process.env.PUBLIC_URL}/login`}
+                    component={Login}
+                  />
+
+                  <Route
+                    path={`${process.env.PUBLIC_URL}/register`}
+                    component={Register}
+                  />
                   <Route
                     exact
                     path={`${process.env.PUBLIC_URL}/`}
@@ -148,6 +151,10 @@ class Root extends React.Component {
                     component={Checkout}
                   />
                   <Route
+                    path={`${process.env.PUBLIC_URL}/order-summary`}
+                    component={OrderSummary}
+                  />
+                  <Route
                     path={`${process.env.PUBLIC_URL}/ordersummary`}
                     component={OrderSummary}
                   />
@@ -198,3 +205,4 @@ class Root extends React.Component {
 }
 
 ReactDOM.render(<Root />, document.getElementById("root"));
+serviceWorker.register();

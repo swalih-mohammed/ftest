@@ -5,6 +5,9 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Shipping from "./shipping";
+import Service from "./service";
+import Offer from "./offer";
+import Image from "react-bootstrap/Image";
 
 // Import custom components
 import { Slider3 } from "../../../services/script";
@@ -90,7 +93,7 @@ class Locality extends Component {
 
   render() {
     const { featuredShops, placeDetail, shops } = this.state;
-    console.log(this.state.placeDetail);
+    // console.log(this.state.placeDetail);
     return (
       <div>
         <Helmet>
@@ -98,10 +101,16 @@ class Locality extends Component {
         </Helmet>
         {/* <HeaderTwo logoName={"logo.png"} /> */}
         <section className="p-0">
-          {/* {placeDetail && <Image src={placeDetail.image} fluid />} */}
+          {placeDetail && <Image src={placeDetail.image} fluid />}
         </section>
         {placeDetail && (
           <div>
+            {placeDetail.exicutive_phone_number !== "" ? (
+              <Service message={placeDetail.exicutive_phone_number} />
+            ) : null}
+            {placeDetail.offer_message !== "" ? (
+              <Offer message={placeDetail.offer_message} />
+            ) : null}
             {placeDetail.shipping_message !== "" ? (
               <Shipping message={placeDetail.shipping_message} />
             ) : null}

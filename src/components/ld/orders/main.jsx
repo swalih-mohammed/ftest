@@ -127,7 +127,7 @@ class Orders extends Component {
                                 <div className="col-sm-6">
                                   <div className="box">
                                     <div className="box-title">
-                                      <h4>Order No: {order.id}</h4>
+                                      <h4>Order ID: {order.id}</h4>
                                       {/* {(userType === "DeliveryStaff") |
                                         (userType === "ShopOwner") && (
                                         <div>

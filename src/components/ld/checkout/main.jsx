@@ -50,7 +50,7 @@ class checkOut extends Component {
   };
 
   fetchModeOfPayment = () => {
-    console.log("fetching mode");
+    // console.log("fetching mode");
     const shopID = this.state.shop_id;
     if (shopID !== undefined) {
       // console.log(shopID);
@@ -89,7 +89,7 @@ class checkOut extends Component {
 
   handleModeOfPayment = event => {
     this.setState({ selectedModeofPayment: event.target.value });
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
   submit = ev => {
     ev.preventDefault();
@@ -136,7 +136,7 @@ class checkOut extends Component {
       shop_id
     } = this.state;
 
-    // console.log(ShopModeOfPayment);
+    // console.log(cart);
     // console.log(shop_id);
 
     if (!isAuthenticated) {
@@ -151,6 +151,31 @@ class checkOut extends Component {
           <div className="container padding-cls">
             <div className="checkout-page">
               <div className="checkout-form">
+                <section className="section-b-space">
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-lg-9">
+                        <div className="dashboard-right">
+                          <div className="dashboard">
+                            <div className="box-account box-info">
+                              <div className="row">
+                                <div className="col-sm-6">
+                                  <div className="box">
+                                    <h3>{cart.shop_name}</h3>
+                                    <h6>{cart.place_name}</h6>
+                                  </div>
+                                  <br></br>
+                                  <h4>{cart.shipping_message}</h4>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                {/* end of shop detail  */}
                 <div className="col-lg-6 col-sm-12 col-xs-12">
                   <div className="checkout-details">
                     <div className="order-box">
@@ -180,13 +205,10 @@ class checkOut extends Component {
                             {cart.total}
                           </span>
                         </li>
-                        <li>
+                        {/* <li>
                           Shipping{" "}
-                          <span className="count">
-                            {/* {symbol} */}
-                            {this.state.shipping}
-                          </span>
-                        </li>
+                          <span className="count">{this.state.shipping}</span>
+                        </li> */}
                       </ul>
 
                       <ul className="total">
@@ -194,11 +216,17 @@ class checkOut extends Component {
                           Total{" "}
                           <span className="count">
                             {/* {symbol} */}
-                            {this.state.shipping + cart.total}
+                            {cart.total}
                           </span>
                         </li>
                       </ul>
                     </div>
+
+                    <Link style={{ color: "#FFF" }} to={`/order-summary`}>
+                      <button type="button" className="btn btn-secondary">
+                        Edit Order
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -255,7 +283,7 @@ class checkOut extends Component {
                   </div>
                 </section>
               ) : null}
-              {addressList ? (
+              {addressList.length > 0 ? (
                 <section className="section-b-space">
                   <div className="container">
                     <div className="account-sidebar">

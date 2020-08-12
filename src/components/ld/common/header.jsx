@@ -6,7 +6,7 @@ import Pace from "react-pace-progress";
 // Import custom components
 import store from "../../../store";
 import { authCheckState, logout } from "../../../actions/auth";
-import { fetchCart } from "../../../actions/cart";
+import { fetchCart, clearKart } from "../../../actions/cart";
 // import { fetchUser } from "../../../actions/user";
 // import NavBar from "./navbar";
 import SideBar from "./sidebar2";
@@ -37,6 +37,7 @@ class Header extends Component {
          Pre loader
          ==========================*/
   componentDidMount() {
+    // this.props.clearKart();
     setTimeout(function() {
       document.querySelector(".loader-wrapper").style = "display: none";
     }, 2000);
@@ -134,6 +135,7 @@ class Header extends Component {
                     <LogoImage logo={"Local Dukans"} />
                   </div>
                   <div className="menu-right pull-right">
+                    {/* <div> */}
                     <div>
                       <div className="icon-nav">
                         <ul>
@@ -206,53 +208,14 @@ class Header extends Component {
               </div>
             </div>
           </div>
-          <div className="container">
+          {/* <div className="container">
             <div className="row">
               <div className="col-lg-12">
-                <div className="main-nav-center">
-                  {/* ////
-                  <NavBar />
-
-
-                  /// */}
-                </div>
+                <div className="main-nav-center"></div>
               </div>
             </div>
-          </div>
+          </div> */}
         </header>
-
-        <div id="search-overlay" className="search-overlay">
-          <div>
-            <span
-              className="closebtn"
-              onClick={this.closeSearch}
-              title="Close Overlay"
-            >
-              ×
-            </span>
-            <div className="overlay-content">
-              <div className="container">
-                <div className="row">
-                  <div className="col-xl-12">
-                    <form>
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="exampleInputPassword1"
-                          placeholder="Search for a locality"
-                        />
-                      </div>
-                      <button type="submit" className="btn btn-primary">
-                        <i className="fa fa-search"></i>
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
@@ -261,14 +224,15 @@ class Header extends Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token !== null,
-    cart: state.cart.shoppingCart,
-    userType: state.user.user.UserType
+    cart: state.cart.shoppingCart
+    // userType: state.user.user.UserType
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    logout: () => dispatch(logout())
+    logout: () => dispatch(logout()),
+    clearKart: () => dispatch(clearKart)
   };
 };
 

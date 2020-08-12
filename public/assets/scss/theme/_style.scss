@@ -268,8 +268,8 @@ del {
     box-shadow: 0px 0px 8px #ddd;
     animation: smoothScroll 1s forwards;
     .brand-logo{
-      padding-top: 15px;
-      padding-bottom: 15px;
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
     .onhover-div {
       .show-div {
@@ -3043,9 +3043,9 @@ header {
     }
   }
   .product-box {
-    .product-detail {
-      text-align: center;
-    }
+    // .product-detail {
+    //   text-align: center;
+    // }
     .cart-info {
       bottom: 40px;
       right: 10px;
@@ -8139,11 +8139,15 @@ footer{
     }
   }
   tbody {
+    // margin-left: 0;
+    // padding: 0 0.89rem 0.75rem 0.75rem;
     h2 {
       margin-bottom: 0;
+    
     }
     tr {
       td {
+       
         min-width: 210px;
         vertical-align: middle;
         color: $grey;
@@ -8158,6 +8162,10 @@ footer{
           margin-bottom: 0;
           img {
             height: 90px;
+          }
+          h6 {
+            height: 90px;
+            color:"#ff4c3b"
           }
         }
         .td-color{
@@ -8174,18 +8182,23 @@ footer{
           margin-top: 10px;
           .qty-box {
             border-right: 1px solid $round-border;
-            border-radius: 5px;
+            border-radius: 2px;
             .input-group {
               .form-control {
                 width: 48px;
-                padding: 6px;
+                padding: px;
               }
             }
           }
           .col-xs-3 {
             align-self: center;
-            margin-left: 10px;
-            margin-right: 10px;
+            margin-left: 5px;
+            margin-right: 5px;
+          }
+          .col-xs-4 {
+            align-self: center;
+            margin-left: 2px;
+            margin-right: 2px;
           }
           h2 {
             font-size: 20px;

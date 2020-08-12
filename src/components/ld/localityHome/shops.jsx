@@ -98,13 +98,20 @@ class Shops extends Component {
                         </div>
                         {/* </a> */}
                         <div className="blog-details">
-                          <a href="#">
+                          <Link
+                            to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}
+                          >
                             <p>{shop.name}</p>
-                          </a>
-                          <hr className="style1" />
-                          <h6> {shop.category}</h6>
-                          <h6>{shop.place}</h6>
+                          </Link>
                           <br></br>
+                          {/* <h6>{shop.place}</h6>
+                            <br></br> */}
+                          {/* <h6>{shop.phone_number}</h6> */}
+                          <a href={"tel:" + shop.phone_number}>
+                            {shop.phone_number}
+                          </a>
+
+                          <hr className="style1" />
                         </div>
                       </div>
                     </div>

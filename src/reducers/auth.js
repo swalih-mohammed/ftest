@@ -30,7 +30,7 @@ const authFail = (state, action) => {
 };
 
 const authLogout = (state, action) => {
-  console.log("logging out rducer");
+  // console.log("logging out rducer");
   return updateObject(state, {
     token: null
   });

@@ -35,6 +35,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 class ItemSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source='category.name')
+    # image = serializers.ReadOnlyField(source='product_image.image')
+    product_image = serializers.ReadOnlyField(
+        source='product_image.image1.url')
 
     class Meta:
         model = Item
@@ -184,6 +187,9 @@ class OrderItemSerializer(serializers.ModelSerializer):
     final_price = serializers.SerializerMethodField()
     shop_name = serializers.ReadOnlyField(source='shop.name')
 
+    # item_image = serializers.ReadOnlyField(
+    #     source='get_item.product_image.image.url')
+
     class Meta:
         model = OrderItem
         fields = '__all__'
@@ -215,6 +221,8 @@ class OrderSerializer(serializers.ModelSerializer):
     # order_status = serializers.DateField(format="%Y-%m-%d %H:%M:%S")
     start_date = serializers.DateTimeField(format="%d-%m-%Y")
     shop_name = serializers.ReadOnlyField(source='shop.name')
+    shipping_message = serializers.ReadOnlyField(
+        source='shop.shipping_message')
     place_name = serializers.ReadOnlyField(source='place.name')
     area_name = serializers.ReadOnlyField(source='address.area.name')
     mobile_number = serializers.ReadOnlyField(source='address.phone_number')
@@ -236,6 +244,7 @@ class OrderSerializer(serializers.ModelSerializer):
             # 'coupon',
             'shop_name',
             'shop_id',
+            'shipping_message',
             'order_status',
             'address',
             'start_date',
@@ -382,7 +391,7 @@ class ModeOfPaymentSerializer(serializers.ModelSerializer):
 
 class FavoritePlacesSerializer(serializers.ModelSerializer):
     place_name = serializers.ReadOnlyField(source='place.name')
-    place_image = serializers.ReadOnlyField(source='place.image')
+    place_image = serializers.ReadOnlyField(source='place.image.url')
     # place_village_name = serializers.ReadOnlyField(source='place.village')
     # place_district_name = serializers.ReadOnlyField(source='place.district')
     # place_state_name = serializers.ReadOnlyField(source='place.state')
@@ -401,18 +410,10 @@ class FavoritePlacesSerializer(serializers.ModelSerializer):
 class FavoriteShopsSerializer(serializers.ModelSerializer):
     shop_name = serializers.ReadOnlyField(source='shop.name')
     shop_place_name = serializers.ReadOnlyField(source='shop.place.name')
+    shop_image = serializers.ReadOnlyField(source='shop.image.url')
     # shop_village_name = serializers.ReadOnlyField(source='shop.place.village')
     # shop_category_name = serializers.ReadOnlyField(source='shop.category')
 
     class Meta:
         model = FavoriteShops
         fields = '__all__'
-
-# class PaymentSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Payment
-#         fields = (
-#             'id',
-#             'amount',
-#             'timestamp'
-#         )

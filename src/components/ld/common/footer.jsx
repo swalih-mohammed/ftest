@@ -44,21 +44,15 @@ class Footer extends Component {
                     pleople.
                   </p>
                   <br></br>
-                  <h4>call us: 720 772 41 91</h4>
+                  <h4>
+                    <a href="tel: 720 772 41 91">Call us: 720 772 41 91</a>
+                  </h4>
 
                   <div className="footer-social">
                     <ul>
-                      <li>
-                        {/* <Link to={"https://www.facebook.com/"}>
-                          <i className="fa fa-facebook" aria-hidden="true"></i>
-                        </Link> */}
-                      </li>
+                      <li></li>
 
-                      <li>
-                        {/* <Link to={"https://instagram.com"}>
-                          <i className="fa fa-instagram" aria-hidden="true"></i>
-                        </Link> */}
-                      </li>
+                      <li></li>
                     </ul>
                   </div>
                 </div>

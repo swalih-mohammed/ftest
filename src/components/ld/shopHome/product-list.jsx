@@ -11,8 +11,14 @@ import ProductListItem from "./product-list-item";
 // import { ShopProductListURL } from "../../../constants";
 
 class ProductList extends Component {
+  componentDidMount() {
+    // this.handleFetchOrder();
+    // this.props.refreshCart();
+  }
   render() {
     const { products } = this.props;
+    const { cartItems } = this.props;
+
     return (
       <div>
         <section className="collection section-b-spacee addtocart_count">
@@ -26,7 +32,7 @@ class ProductList extends Component {
             <div className="row">
               {products.map((product, index) => (
                 <div key={index} className="col-lg-4 col-md-6">
-                  <ProductListItem product={product} key={index} />
+                  <ProductListItem product={product} />
                 </div>
               ))}
             </div>
@@ -37,6 +43,12 @@ class ProductList extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    cartItems: state.cart.shoppingCart
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     refreshCart: () => dispatch(fetchCart())
@@ -44,6 +56,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ProductList);

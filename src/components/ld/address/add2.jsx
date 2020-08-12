@@ -207,9 +207,7 @@ class AddAddress extends Component {
         state: selectedState
       })
       .then(res => {
-        toast.success(
-          "Thank you for contacting us! You may receive a call from us soon :)"
-        );
+        toast.success("Address added succesfully");
         this.setState({ success: true });
       })
       .catch(err => {

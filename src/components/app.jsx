@@ -15,10 +15,12 @@ class App extends Component {
   componentDidMount() {
     this.props.onTryAutoSignup();
     // if (this.props.userType === null) {
-    //   this.props.fetchUser();
     // }
     // this.props.fetchCart();
-    // this.props.fetchUser();
+    if (this.props.isAuthenticated) {
+      this.props.fetchUser();
+    }
+
     // console.log("app");
   }
 

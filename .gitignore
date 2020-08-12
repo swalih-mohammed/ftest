@@ -1,13 +1,13 @@
 node_modules
 env
 db.sqlite
-package-lock.json
-package.json
+# package-lock.json
+# package.json
 README
 README.md
-config
+# config
 media
 db.sqlite3
 .vscode
-scripts
-backend/settings.py
+# scripts
+

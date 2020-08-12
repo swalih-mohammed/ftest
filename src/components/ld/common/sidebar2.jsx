@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { fetchUser } from "../../../actions/user";
+import { Link, Redirect } from "react-router-dom";
+import { fetchUser, clearUser } from "../../../actions/user";
 import { connect } from "react-redux";
 import { logout } from "../../../actions/auth";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,6 +9,14 @@ import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Sidebar extends Component {
+  state = {
+    logoutSuccess: false
+  };
+
+  componentDidMount() {
+    // this.props.fetchUserType();
+  }
+
   closeNav() {
     var closemyslide = document.getElementById("mySidenav");
     if (closemyslide) closemyslide.classList.remove("open-side");
@@ -17,7 +25,9 @@ class Sidebar extends Component {
   logOut = () => {
     this.closeNav();
     this.props.logout();
-    console.log("loggin out");
+    toast.error("You have logged out");
+    this.props.clearUser();
+    window.location.reload();
   };
 
   // handleSubmenu = event => {
@@ -82,11 +92,14 @@ class Sidebar extends Component {
   // };
 
   render() {
-    // console.log(this.props.userType);
-    console.log(this.props);
-
+    // console.log(this.props.fetchUserType);
+    // console.log("prinin side bar");
+    // if (this.state.logoutSuccess) {
+    //   return <Redirect to="/" />;
+    // }
     return (
       <div id="mySidenav" className="sidenav">
+        <ToastContainer />
         <a
           href="javascript:void(0)"
           className="sidebar-overlay"
@@ -190,10 +203,8 @@ class Sidebar extends Component {
                 </Link>
               </li>
               {this.props.token ? (
-                <li onClick={() => this.props.logout()}>
-                  <Link to="/" onClick={this.closeNav}>
-                    Logout
-                  </Link>
+                <li onClick={this.logOut}>
+                  <Link to="/">Logout</Link>
                 </li>
               ) : (
                 <div>
@@ -228,7 +239,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchUserType: () => dispatch(fetchUser()),
-    logout: () => dispatch(logout)
+    logout: () => dispatch(logout),
+    clearUser: () => dispatch(clearUser)
   };
 };
 
@@ -236,5 +248,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Sidebar);
-
-// export default Sidebar;

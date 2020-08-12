@@ -13,7 +13,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Search from "./search";
-import { placeListURL } from "../../../constants";
+import { placeListURL, localhost } from "../../../constants";
 
 class LocalityList extends React.PureComponent {
   constructor(props) {
@@ -46,13 +46,13 @@ class LocalityList extends React.PureComponent {
     };
   }
 
-  componentWillMount() {
-    this.fetchlaces();
-  }
+  // componentWillMount() {
+  //   this.fetchlaces();
+  // }
 
   componentDidMount() {
     document.getElementById("color").setAttribute("href", `#`);
-    // this.fetchlaces();
+    this.fetchlaces();
   }
 
   fetchlaces = () => {
@@ -112,7 +112,7 @@ class LocalityList extends React.PureComponent {
 
   render() {
     const { localities, query, hasMore } = this.state;
-    // console.log(localities, query, hasMore);
+    // console.log(localities);
 
     return (
       <div>
@@ -150,8 +150,8 @@ class LocalityList extends React.PureComponent {
                           to={`${process.env.PUBLIC_URL}/places/${locality.id}`}
                         >
                           <img
-                            src={locality.image}
-                            // src={`${process.env.PUBLIC_URL}/assets/images/fashion/banner/8.jpg`}
+                            src={`${localhost}${locality.image}`}
+                            // src={locality.image}
                             // src={
                             //   "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
                             // }

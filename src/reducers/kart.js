@@ -9,7 +9,7 @@ import {
 import { updateObject } from "../store/utility";
 
 const initialState = {
-  shoppingCart: null,
+  shoppingCart: [],
   error: null,
   loading: false
 };

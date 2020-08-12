@@ -23,7 +23,7 @@ class TopBar extends Component {
   };
   render() {
     if (this.state.success) {
-      return <Redirect to="/addresses" />;
+      return <Redirect to="/" />;
     }
 
     return (
@@ -35,13 +35,16 @@ class TopBar extends Component {
                 <ul>
                   <li>
                     {/* {translate("topbar_title", { theme_name: " Multikart" })} */}
-                    Local Dukans
+                    {/* CallLocal Dukans */}
                   </li>
                   <li>
-                    <FontAwesomeIcon icon={faPhone} size={"lg"} />
+                    {/* <FontAwesomeIcon icon={faPhone} size={"lg"} /> */}
                     {/* <i className="fa fa-phone" aria-hidden="true"></i> */}
                     {/* {translate("call_us")}: 123 - 456 - 7890 */}
-                    call us: 720 772 4191
+                    {/* call us: 720 772 4191 */}
+                    <h4>
+                      <a href="tel: 720 772 41 91">Call us: 720 772 41 91</a>
+                    </h4>
                   </li>
                 </ul>
               </div>
@@ -93,13 +96,13 @@ class TopBar extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    userType: state.user.user.UserType,
-    userName: state.user.user.userName,
-    token: state.auth.token
-  };
-};
+// const mapStateToProps = state => {
+//   return {
+//     // userType: state.user.user.UserType,
+//     // userName: state.user.user.userName,
+//     // token: state.auth.token
+//   };
+// };
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -108,6 +111,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(TopBar);

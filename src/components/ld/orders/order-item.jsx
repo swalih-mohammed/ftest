@@ -9,6 +9,7 @@ import Select from "react-select";
 import { Redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Button from "react-bootstrap/Button";
 
 import {
   orderDetailURL,
@@ -21,7 +22,8 @@ class OrderItem extends Component {
   state = {
     order: [],
     loading: false,
-    success: false,
+    ShopSuccess: false,
+    CustomerSuccess: false,
     error: null,
     addressID: null,
     orderAddress: [],
@@ -61,17 +63,17 @@ class OrderItem extends Component {
     } = this.props;
 
     this.setState({ loading: true });
-    const { shippingCharges } = this.state;
+    // const { shippingCharges } = this.state;
     authAxios
       .get(orderDetailURL(params.orderID))
       .then(res => {
         this.setState({
           order: res.data,
           loading: false,
-          addressID: res.data.shipping_address,
+          addressID: res.data.address,
           orderID: res.data.id,
           orderItems: res.data.order_items,
-          orderTotal: res.data.total + shippingCharges
+          orderTotal: res.data.total
         });
         this.handleCallback();
       })
@@ -97,8 +99,26 @@ class OrderItem extends Component {
       });
   };
 
+  orderCancelCustoemr = e => {
+    // console.log("hi");
+    e.preventDefault();
+    const { orderID } = this.state;
+    const selectedOrderStatus = 3;
+    console.log(selectedOrderStatus);
+    authAxios
+      .put(orderStatusUpdateURL(orderID), {
+        order_status: selectedOrderStatus
+      })
+      .then(res => {
+        toast.error("Order  cancelled");
+        this.setState({ CustomerSuccess: true });
+      })
+      .catch(err => {
+        this.setState({ error: err });
+      });
+  };
+
   handleChangeOrderStatus = status => {
-    // console.log(status);
     this.setState({
       selectedOrderStatus: status.id
     });
@@ -108,7 +128,7 @@ class OrderItem extends Component {
     const { orderID } = this.state;
 
     const { selectedOrderStatus } = this.state;
-    console.log(selectedOrderStatus);
+    // console.log(selectedOrderStatus);
 
     authAxios
       .put(orderStatusUpdateURL(orderID), {
@@ -116,7 +136,7 @@ class OrderItem extends Component {
       })
       .then(res => {
         toast.success("Order status updated");
-        this.setState({ success: true });
+        this.setState({ ShopSuccess: true });
       })
       .catch(err => {
         this.setState({ error: err });
@@ -128,11 +148,21 @@ class OrderItem extends Component {
   };
 
   render() {
-    const { order, orderAddress, orderItems, success } = this.state;
+    const {
+      order,
+      orderAddress,
+      orderItems,
+      ShopSuccess,
+      CustomerSuccess
+    } = this.state;
     const { userType } = this.props;
+    // console.log(orderAddress);
 
-    if (success) {
+    if (ShopSuccess) {
       return <Redirect to="/shop-order-table" />;
+    }
+    if (CustomerSuccess) {
+      return <Redirect to="/orders" />;
     }
 
     return (
@@ -213,7 +243,21 @@ class OrderItem extends Component {
                             <h6>Date: {order.start_date}</h6>
                             <h6>Status: {order.orderStatus}</h6>
                           </div>
-                          <br></br>
+
+                          {userType && (
+                            <React.Fragment>
+                              {userType === "Customer" ? (
+                                <Button
+                                  type="submit"
+                                  variant="info"
+                                  // onClick={() => this.orderCancelCustoemr}
+                                  onClick={this.orderCancelCustoemr}
+                                >
+                                  Cancel order
+                                </Button>
+                              ) : null}
+                            </React.Fragment>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -227,23 +271,29 @@ class OrderItem extends Component {
                 <div className="stripe-section">
                   <h5>Address</h5>
                   <div>
-                    <h5 className="checkout_class">{orderAddress.place}</h5>
-                    <h6 className="checkout_class">{orderAddress.area}</h6>
+                    <h5 className="checkout_class">{orderAddress.PlaceName}</h5>
+                    <h6 className="checkout_class">{orderAddress.areaName}</h6>
                     <table>
                       <tbody>
                         <tr>
-                          <td>{orderAddress.house_name}</td>
+                          <td>{orderAddress.full_address}</td>
                         </tr>
                         <tr>
-                          <td>{orderAddress.road_name}</td>
-                          <td>{orderAddress.village}</td>
+                          <td>{orderAddress.districtName}</td>
+                          <td>{orderAddress.vilalgeName}</td>
                         </tr>
-                        <tr>
+                        {/* <tr>
                           <td>{orderAddress.district}</td>
                           <td>{orderAddress.state}</td>
-                        </tr>
+                        </tr> */}
+
                         <tr>
-                          <td>{orderAddress.phone_number}</td>
+                          <td>
+                            {" "}
+                            <a href={"tel:" + orderAddress.phone_number}>
+                              {orderAddress.phone_number}
+                            </a>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -274,29 +324,26 @@ class OrderItem extends Component {
                               );
                             })}
                           </ul>
-                          <ul className="sub-total">
-                            <li>
+                          {/* <ul className="sub-total"> */}
+                          {/* <li>
                               Subtotal{" "}
                               <span className="count">
-                                {/* {symbol} */}
+                              
                                 {order.total}
                               </span>
-                            </li>
-                            <li>
+                            </li> */}
+                          {/* <li>
                               Shipping{" "}
                               <span className="count">
-                                {/* {symbol} */}
+                          
                                 {this.state.shippingCharges}
                               </span>
-                            </li>
-                          </ul>
+                            </li> */}
+                          {/* </ul> */}
 
                           <ul className="total">
                             <li>
-                              Total{" "}
-                              <span className="count">
-                                {this.state.orderTotal}
-                              </span>
+                              Total <span className="count">{order.total}</span>
                             </li>
                           </ul>
                         </div>

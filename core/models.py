@@ -60,7 +60,9 @@ class Place(models.Model):
     village = models.ForeignKey('Village', related_name = 'village', blank=True, null=True,max_length=100, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='place',blank=True, null=True)
     is_shipping = models.BooleanField(default=False)
-    shipping_message = models.TextField(blank=True, null=True)
+    shipping_message = models.TextField(max_length=200, blank=True, null=True)
+    offer_message = models.TextField(max_length=200, blank=True, null=True)
+    exicutive_phone_number = models.CharField(max_length=12 ,blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
@@ -157,6 +159,7 @@ class Shop(models.Model):
     is_featured = models.BooleanField(default=False,  blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     is_active = models.BooleanField(default=True, null=True)
+    shipping_contract = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -197,6 +200,7 @@ class UserProfile(models.Model):
     is_staff_user = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True, null=True)
     user_role = models.ForeignKey(Role,null=True, on_delete=models.DO_NOTHING )
+    create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     
 
     def __str__(self):
@@ -266,6 +270,8 @@ class Compliant(models.Model):
 
 class ProductImage(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)
+    productCategory = models.ForeignKey(ProductCategory, blank=True, null=True,
+                             on_delete=models.CASCADE)
     image1 = models.ImageField(upload_to='product',blank=True, null=True)
     image2 = models.ImageField(upload_to='product',blank=True, null=True)
     image3 = models.ImageField(upload_to='product',blank=True, null=True)

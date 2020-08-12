@@ -34,7 +34,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 
     ]
-    list_filter = ['shop__name',
+    list_filter = ['shop__name', 'place', 'shop__village', 'start_date', 'order_status'
                    ]
     search_fields = [
         'user__username',
@@ -45,14 +45,40 @@ class OrderAdmin(admin.ModelAdmin):
     actions = [make_refund_accepted]
 
 
+class inlineItem(admin.StackedInline):
+    model = Item
+    extra = 1
+
+# inlines = [inlineItem]
+
+
 class ShopAdmin(admin.ModelAdmin):
+    inlines = [inlineItem]
     list_display = [
         'name',
         'place',
-        'place'
+        'village',
+        'district',
+        'state'
+
     ]
-    list_filter = ['name', 'place', ]
+    list_display_links = [
+
+        'place',
+        'village'
+
+    ]
+    list_filter = ['place', 'village', 'district', 'state',  'create_date']
     search_fields = ['name', 'place', ]
+
+
+class ItemAdmin(admin.ModelAdmin):
+    list_display = [
+        'title',
+        'shop',
+        'price'
+    ]
+    list_filter = ['title', 'shop', 'is_available', 'productategory']
 
 
 class ShopCategoryAdmin(admin.ModelAdmin):
@@ -65,11 +91,18 @@ class ShopCategoryAdmin(admin.ModelAdmin):
 
 class AddressAdmin(admin.ModelAdmin):
     list_display = [
-        'user'
+        'user',
+        'place',
+        'village',
+        'district',
+        'state'
+
 
     ]
 
-    search_fields = ['user', 'place']
+    search_fields = ['user', 'place', 'phone_number']
+    list_filter = ['area', 'place', 'village',
+                   'district', 'state', 'create_date']
 
 
 class ItemVariationAdmin(admin.ModelAdmin):
@@ -95,48 +128,95 @@ class VariationAdmin(admin.ModelAdmin):
 # locations
 
 
+class inlineDistrict(admin.StackedInline):
+    model = District
+    extra = 1
+
+# inlines = [inlineItem]
+
+
 class StateAdmin(admin.ModelAdmin):
+    inlines = [inlineDistrict]
     list_display = [
         'name'
     ]
     list_filter = ['name']
+
+
+class inlineVillage(admin.StackedInline):
+    model = Village
+    extra = 1
+
+# inlines = [inlineVillage]
 
 
 class DistrictAdmin(admin.ModelAdmin):
+    inlines = [inlineVillage]
     list_display = [
-        'name'
+        'name',
+        'state'
+
     ]
     list_filter = ['name']
+
+
+class inlineCluster(admin.StackedInline):
+    model = Cluster
+    extra = 1
+
+# inlines = [inlineCluster]
 
 
 class ClusterAdmin(admin.ModelAdmin):
+    # inlines = [inlineCluster]
     list_display = [
-        'name'
+        'name',
+        'district'
     ]
-    list_filter = ['name']
+    list_filter = ['name', 'district']
+
+
+class inlinePlace(admin.StackedInline):
+    model = Place
+    extra = 1
+
+# inlines = [inlinePlace]
 
 
 class VillageAdmin(admin.ModelAdmin):
+    inlines = [inlinePlace]
     list_display = [
-        'name'
+        'name',
+        'villageDistrict'
     ]
-    list_filter = ['name']
+    list_filter = ['name', 'villageDistrict']
+
+
+class inlineArea(admin.StackedInline):
+    model = Area
+    extra = 1
+
+# inlines = [inlineArea]
 
 
 class PlaceAdmin(admin.ModelAdmin):
+    inlines = [inlineArea]
     list_display = [
-        'name'
+        'name',
+        'village'
     ]
-    list_filter = ['name']
+    list_filter = ['name', 'village', ]
     search_fields = ['name']
 
 
 class AreaAdmin(admin.ModelAdmin):
     list_display = [
-        'name'
+        'name',
+        'place'
+
     ]
-    list_filter = ['name']
-    search_fields = ['place']
+    list_filter = ['place']
+    search_fields = ['name', 'place']
 
 # location admin end
 
@@ -207,14 +287,25 @@ class ModeOfPaymentAdmin(admin.ModelAdmin):
 
 class ProductImageAdmin(admin.ModelAdmin):
     list_display = [
-        'name'
+        'name',
+        'image1',
     ]
-    list_filter = ['name']
+    list_filter = ['productCategory']
+    list_editable = ['image1']
+    search_fields = ['name']
+
+
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = [
+        'user',
+        'create_date'
+    ]
+    list_filter = ['is_customer', 'is_shop_owner', 'create_date']
 
 
 admin.site.register(ItemVariation, ItemVariationAdmin)
 admin.site.register(Variation, VariationAdmin)
-admin.site.register(Item)
+admin.site.register(Item, ItemAdmin)
 admin.site.register(OrderItem)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderStatus)
@@ -224,7 +315,7 @@ admin.site.register(Coupon)
 admin.site.register(Refund)
 admin.site.register(Address, AddressAdmin)
 
-admin.site.register(UserProfile)
+admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Role)
 admin.site.register(Candidate)
 admin.site.register(Taxi)
@@ -232,19 +323,19 @@ admin.site.register(Cooli)
 admin.site.register(Compliant)
 admin.site.register(ModeOfPayment)
 admin.site.register(AppInfo)
-admin.site.register(ProductImage)
+admin.site.register(ProductImage, ProductImageAdmin)
 
 
 # locations
-admin.site.register(Area)
-admin.site.register(Place)
-admin.site.register(Village)
-admin.site.register(Cluster)
-admin.site.register(District)
-admin.site.register(State)
+admin.site.register(Area, AreaAdmin)
+admin.site.register(Place, PlaceAdmin)
+admin.site.register(Village, VillageAdmin)
+admin.site.register(Cluster, ClusterAdmin)
+admin.site.register(District, DistrictAdmin)
+admin.site.register(State, StateAdmin)
 admin.site.register(ServiceArea)
 
-admin.site.register(Shop)
+admin.site.register(Shop, ShopAdmin)
 admin.site.register(ShopCategory)
 admin.site.register(ProductCategory)
 # admin.site.register(Category)

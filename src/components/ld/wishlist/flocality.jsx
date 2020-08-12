@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { RemoveFromFavoritePlacesURL } from "../../../constants";
+import { RemoveFromFavoritePlacesURL, localhost } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,7 +26,7 @@ class Locality extends Component {
   };
   render() {
     const { localities } = this.props;
-    console.log(localities);
+    // console.log(localities);
 
     return (
       <div>
@@ -50,12 +50,14 @@ class Locality extends Component {
               {localities.map(locality => (
                 <div key={locality.id} className="col-md-4">
                   <div className="collection-banner p-left text-left">
-                    <a href={`places/${locality.place}`}></a>
-                    <img
-                      src={locality.place_image}
-                      alt=""
-                      className="img-fluid blur-up lazyload bg-img"
-                    />
+                    <a href={`places/${locality.place}`}>
+                      <img
+                        // src={locality.place_image}
+                        src={`${localhost}${locality.place_image}`}
+                        alt=""
+                        className="img-fluid blur-up lazyload bg-img"
+                      />
+                    </a>
                     <div className="absolute-contain">
                       <h3>{locality.place_name}</h3>
                       <h4>{locality.place_village_name}</h4>

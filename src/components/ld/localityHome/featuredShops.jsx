@@ -103,12 +103,17 @@ class FeautredShops extends Component {
                           </div>
 
                           <div className="blog-details">
-                            <a href="#">
-                              <p>{shop.name}</p>
+                            <p>{shop.name}</p>
+                            <br></br>
+                            {/* <h6>{shop.place}</h6> */}
+
+                            <a href={"tel:" + shop.phone_number}>
+                              {shop.phone_number}
                             </a>
+
                             <hr className="style1" />
-                            <h6> {shop.category}</h6>
-                            <h6>{shop.phone_number}</h6>
+
+                            {/* <h6>{shop.phone_number}</h6> */}
                           </div>
                         </div>
                       </div>

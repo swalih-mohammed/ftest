@@ -26,8 +26,8 @@ SECRET_KEY = '-n2bsfxg3(1x&w++g2w()0os%bfy^0b58jg^7hl8^t(6kx3_g&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.localdukans.com', ]
-# ALLOWED_HOSTS = ['*', ]
+# ALLOWED_HOSTS = ['www.localdukans.com', ]
+ALLOWED_HOSTS = ['*', ]
 
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -117,26 +117,26 @@ SITE_ID = 1
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sibiyan$default',
-        'USER': 'sibiyan',
-        'PASSWORD': 'Pandaram@1',
-        'HOST': 'sibiyan.mysql.pythonanywhere-services.com',
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'ecom_five',
-#         'USER': 'postgres',
-#         'PASSWORD': 'Keralam@1',
-#         'HOST': 'localhost'
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sibiyan$default',
+#         'USER': 'sibiyan',
+#         'PASSWORD': 'Pandaram@1',
+#         'HOST': 'sibiyan.mysql.pythonanywhere-services.com',
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ecom_five',
+        'USER': 'postgres',
+        'PASSWORD': 'Keralam@1',
+        'HOST': 'localhost'
+    }
+}
 
 
 # Password validation

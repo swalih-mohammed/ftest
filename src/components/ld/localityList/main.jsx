@@ -149,7 +149,7 @@ class LocalityList extends React.PureComponent {
                         <Link
                           to={`${process.env.PUBLIC_URL}/places/${locality.id}`}
                         >
-                          <img
+                          {/* <img
                             src={`${localhost}${locality.image}`}
                             // src={locality.image}
                             // src={
@@ -157,7 +157,8 @@ class LocalityList extends React.PureComponent {
                             // }
                             alt=""
                             className="img-fluid blur-up lazyload bg-img"
-                          />
+                          /> */}
+                          <img src={`/media/place/${locality.image.url}`} />
                         </Link>
                       </div>
                       <div className="absolute-contain">

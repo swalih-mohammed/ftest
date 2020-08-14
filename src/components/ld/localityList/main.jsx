@@ -158,7 +158,7 @@ class LocalityList extends React.PureComponent {
                             alt=""
                             className="img-fluid blur-up lazyload bg-img"
                           /> */}
-                          <img src={`/media/place/${locality.image.url}`} />
+                          <img src={`/media/place/${locality.image}`} />
                         </Link>
                       </div>
                       <div className="absolute-contain">

@@ -77,7 +77,7 @@ class FeautredShops extends Component {
                                   to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}
                                 >
                                   <img
-                                    src={shop.image.url}
+                                    src={shop.image}
                                     className="img-fluid lazyload bg-img"
                                     alt=""
                                   />

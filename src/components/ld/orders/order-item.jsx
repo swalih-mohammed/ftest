@@ -103,7 +103,7 @@ class OrderItem extends Component {
     // console.log("hi");
     e.preventDefault();
     const { orderID } = this.state;
-    const selectedOrderStatus = 3;
+    const selectedOrderStatus = 4;
     console.log(selectedOrderStatus);
     authAxios
       .put(orderStatusUpdateURL(orderID), {

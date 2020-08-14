@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import Suggestions from "./searchSuggestions";
 import style from "./searchStyle.css";
 import { placeListURL } from "../../../constants";
@@ -70,7 +72,10 @@ class Search extends Component {
                       />
                       <div className="input-group-append">
                         <button className="btn btn-solid">
-                          <i className="fa fa-search"></i>Search
+                          {/* <i className="fa fa-search"></i>Search */}
+                          <i>
+                            <FontAwesomeIcon icon={faSearch} />
+                          </i>
                         </button>
                       </div>
                     </div>

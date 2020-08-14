@@ -160,7 +160,7 @@ class AddAddress extends Component {
       return <Redirect to="/addresses" />;
     }
 
-    console.log(places);
+    console.log("test");
     return (
       <div>
         <Breadcrumb title={"Add Address"} />

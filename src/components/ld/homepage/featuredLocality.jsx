@@ -47,7 +47,7 @@ class FeautredLocality extends Component {
 
   render() {
     const { Newlocalities } = this.props;
-    // console.log(Newlocalities);
+    console.log(Newlocalities);
     return (
       <div>
         {/*Blog Section*/}

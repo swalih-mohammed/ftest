@@ -134,7 +134,7 @@ class AddAddress extends Component {
   loadVillages = async () => {
     this.setState({ loading: true });
     const districtID = this.state.selectedDistrict;
-    console.log(districtID);
+
     authAxios
       .get(villagesFilterURL, {
         params: {
@@ -186,6 +186,7 @@ class AddAddress extends Component {
 
   handleCreateAddress = e => {
     e.preventDefault();
+
     const { userID } = this.props;
     const {
       form,
@@ -195,25 +196,37 @@ class AddAddress extends Component {
       selectedDistrict,
       selectedState
     } = this.state;
-    console.log(selectedDistrict);
-    authAxios
-      .post(addressCreateURL, {
-        ...form,
-        user: userID,
-        area: selectedArea,
-        place: selectedPlace,
-        village: selectedVillage,
-        district: selectedDistrict,
-        state: selectedState
-      })
-      .then(res => {
-        toast.success("Address added succesfully");
-        this.setState({ success: true });
-      })
-      .catch(err => {
-        this.setState({ error: err });
-        toast.error("Oops there was an error");
-      });
+
+    if (
+      form !== "" &&
+      selectedArea !== "" &&
+      selectedPlace !== "" &&
+      selectedVillage !== "" &&
+      selectedDistrict !== "" &&
+      selectedState !== ""
+    ) {
+      authAxios
+        .post(addressCreateURL, {
+          ...form,
+          user: userID,
+          area: selectedArea,
+          place: selectedPlace,
+          village: selectedVillage,
+          district: selectedDistrict,
+          state: selectedState
+        })
+        .then(res => {
+          toast.success("Address added succesfully");
+          this.setState({ success: true });
+        })
+        .catch(err => {
+          this.setState({ error: err });
+          toast.error("Oops there was an error");
+        });
+    } else {
+      console.log("else");
+      toast.error("Please provide complete address");
+    }
   };
 
   handleChangeB(event) {
@@ -247,6 +260,7 @@ class AddAddress extends Component {
     // console.log(villages);
     return (
       <div>
+        {loading && <div className="loading-cls"></div>}
         <Card ClassName="h-100 shadow-sm bg-white rounded">
           <Card.Body ClassName="d-flex felx-column">
             <div ClassName="a-flex mb-2 justify-content-between">
@@ -275,7 +289,6 @@ class AddAddress extends Component {
                 onInputChange={this.handleInputChange}
                 noOptionsMessage={() => null}
                 placeholder={"Select district"}
-                autoFocus={true}
                 menuIsOpen={this.state.menuOpen}
               />
               <Select
@@ -289,7 +302,6 @@ class AddAddress extends Component {
                 onInputChange={this.handleInputChange}
                 noOptionsMessage={() => null}
                 placeholder={"Select village"}
-                autoFocus={true}
                 menuIsOpen={this.state.menuOpen}
               />
               <Select
@@ -303,7 +315,6 @@ class AddAddress extends Component {
                 onInputChange={this.handleInputChange}
                 noOptionsMessage={() => null}
                 placeholder={"Select your locality"}
-                autoFocus={true}
                 menuIsOpen={this.state.menuOpen}
               />
               <Select
@@ -317,7 +328,6 @@ class AddAddress extends Component {
                 onInputChange={this.handleInputChange}
                 noOptionsMessage={() => null}
                 placeholder={"Select area"}
-                autoFocus={true}
                 menuIsOpen={this.state.menuOpen}
               />
               <Form>

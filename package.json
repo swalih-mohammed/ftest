@@ -2,8 +2,8 @@
   "name": "LocalDukans",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://localdukans.com/",
-  "proxy": "http://localdukans.com/",
+  "homepage": "https://localdukans.com/",
+  "proxy": "https://localdukans.com/",
   "basename": "/",
   "dependencies": {
     "@babel/core": "7.1.0",

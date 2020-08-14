@@ -37,7 +37,7 @@ class Address extends Component {
   render() {
     const { addressList } = this.state;
     const { token } = this.props;
-    console.log(addressList);
+    // console.log(addressList);
 
     if (!token) {
       return <Redirect to="/login" />;

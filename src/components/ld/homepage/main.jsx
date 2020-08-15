@@ -75,7 +75,7 @@ class Homepage extends Component {
           <title>Local Dukans</title>
         </Helmet>
         <section className="p-0">
-          {appInfo && <Image src={appInfo.coverPhoto1} fluid />}
+          {appInfo && <Image src={appInfo.coverPhoto1} fluid responsive />}
         </section>
         {Newlocalities && <FeautredLocality Newlocalities={Newlocalities} />}
         <FeautredShops featuredShops={featuredShops} />

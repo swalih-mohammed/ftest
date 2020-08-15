@@ -11,6 +11,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Img } from "react-image";
 
 import Search from "./search";
 import { placeListURL, localhost } from "../../../constants";
@@ -149,16 +150,11 @@ class LocalityList extends React.PureComponent {
                         <Link
                           to={`${process.env.PUBLIC_URL}/places/${locality.id}`}
                         >
-                          {/* <img
-                            src={`${localhost}${locality.image}`}
-                            // src={locality.image}
-                            // src={
-                            //   "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-                            // }
-                            alt=""
-                            className="img-fluid blur-up lazyload bg-img"
-                          /> */}
-                          <img src={`${locality.image}`} />
+                          <Img
+                            className="img-fluid lazyload bg-img"
+                            src={locality.image}
+                            loader={<div className="loading-cls"></div>}
+                          />
                         </Link>
                       </div>
                       <div className="absolute-contain">

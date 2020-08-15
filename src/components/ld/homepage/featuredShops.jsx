@@ -10,6 +10,7 @@ import { authAxios } from "../../../authAxios";
 import "react-toastify/dist/ReactToastify.css";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Img } from "react-image";
 
 class FeautredShops extends Component {
   componentDidMount() {
@@ -76,10 +77,15 @@ class FeautredShops extends Component {
                                 <Link
                                   to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}
                                 >
-                                  <img
+                                  {/* <img
                                     src={shop.image}
                                     className="img-fluid lazyload bg-img"
                                     alt=""
+                                  /> */}
+                                  <Img
+                                    className="img-fluid lazyload bg-img"
+                                    src={shop.image}
+                                    loader={<div className="loading-cls"></div>}
                                   />
                                 </Link>
                               </div>

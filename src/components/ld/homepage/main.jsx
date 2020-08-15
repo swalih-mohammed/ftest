@@ -8,6 +8,7 @@ import FeautredLocality from "./featuredLocality";
 import Search from "../localityList/search";
 import Localities from "../localityList/main";
 import FeautredShops from "./featuredShops";
+import { Img } from "react-image";
 
 import { newPlacesURL, feautredShopsURL, appInfoURL } from "../../../constants";
 
@@ -75,7 +76,20 @@ class Homepage extends Component {
           <title>Local Dukans</title>
         </Helmet>
         <section className="p-0">
-          {appInfo && <Image src={appInfo.coverPhoto1} fluid responsive />}
+          {appInfo && (
+            // <Image
+            //   src={appInfo.coverPhoto1}
+            //   fluid
+            //   className="img-fluid lazyload bg-img"
+            //   responsive
+            //   // style={{ height: 200, width: 500 }}
+            // />
+            <Img
+              className="img-fluid lazyload bg-img"
+              src={appInfo.coverPhoto1}
+              loader={<div className="loading-cls"></div>}
+            />
+          )}
         </section>
         {Newlocalities && <FeautredLocality Newlocalities={Newlocalities} />}
         <FeautredShops featuredShops={featuredShops} />

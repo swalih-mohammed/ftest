@@ -112,7 +112,9 @@ class FeautredLocality extends Component {
                             </div>
                             {/* </a> */}
                             <div className="blog-details">
-                              <a href="#">
+                              <a
+                                href={`${process.env.PUBLIC_URL}/places/${locality.id}`}
+                              >
                                 <p>{locality.name}</p>
                                 <p>{locality.village_name} Village</p>
                               </a>

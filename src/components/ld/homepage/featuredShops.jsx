@@ -104,7 +104,9 @@ class FeautredShops extends Component {
                             </div>
 
                             <div className="blog-details">
-                              <a href="#">
+                              <a
+                                href={`${process.env.PUBLIC_URL}/shops/${shop.id}`}
+                              >
                                 <p>{shop.name}</p>
                               </a>
                               <br></br>

@@ -162,6 +162,9 @@ class LocalityList extends React.PureComponent {
                         </Link>
                       </div>
                       <div className="absolute-contain">
+                        <Link
+                          to={`${process.env.PUBLIC_URL}/places/${locality.id}`}
+                        ></Link>
                         <h3>{locality.name}</h3>
                         <h4>{locality.village_name} Village</h4>
 

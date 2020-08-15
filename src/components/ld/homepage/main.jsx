@@ -86,6 +86,7 @@ class Homepage extends Component {
             // />
             <Img
               className="img-fluid lazyload bg-img"
+              loading="lazy"
               src={appInfo.coverPhoto1}
               loader={<div className="loading-cls"></div>}
             />

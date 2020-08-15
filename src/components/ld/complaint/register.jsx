@@ -61,6 +61,7 @@ const Register = props => {
   return (
     <div>
       <ToastContainer />
+      <Breadcrumb title={"My Orders"} />
       <section className="register-page section-b-space">
         <div className="container">
           <div className="row">

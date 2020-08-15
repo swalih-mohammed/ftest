@@ -128,6 +128,7 @@ class ProductItem extends Component {
               // src={product.product_image}
               src={`${process.env.PUBLIC_URL}/${product.product_image}`}
               className="img-fluid lazyload bg-img"
+              loading="lazy"
               alt=""
             />
             {/* </Link> */}

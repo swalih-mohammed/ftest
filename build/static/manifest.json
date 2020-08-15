@@ -1,7 +1,7 @@
 {
   "short_name": "Local Dukans",
   "name": "Local Dukans",
-  "start_url": "https://localdukans.com",
+  "start_url": "../index.html",
   "scope": ".",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -45,7 +45,7 @@
       "density": "4.0"
     },
     {
-      "src": "/static/ms-icon-144x144.png",
+      "src": "/static/ms-icon-310x310.png",
       "sizes": "310x310",
       "type": "image/png",
       "density": "4.0"

@@ -151,7 +151,8 @@ class LocalityList extends React.PureComponent {
                           to={`${process.env.PUBLIC_URL}/places/${locality.id}`}
                         >
                           <Img
-                            className="img-fluid lazyload bg-img"
+                            // className="img-fluid lazyload bg-img"
+                            loading="lazy"
                             src={locality.image}
                             loader={<div className="loading-cls"></div>}
                           />

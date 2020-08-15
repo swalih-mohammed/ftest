@@ -41,7 +41,7 @@ class FeautredShops extends Component {
 
   render() {
     const { featuredShops } = this.props;
-    // console.log(featuredShops);
+    console.log(featuredShops);
     return (
       <div>
         {/*Blog Section*/}
@@ -83,6 +83,7 @@ class FeautredShops extends Component {
                                     alt=""
                                   /> */}
                                   <Img
+                                    loading="lazy"
                                     className="img-fluid lazyload bg-img"
                                     src={shop.image}
                                     loader={<div className="loading-cls"></div>}

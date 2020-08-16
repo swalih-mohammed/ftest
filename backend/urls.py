@@ -33,6 +33,9 @@ urlpatterns = [
 
     # path('', index, name='index'),
     path('', include('frontend.urls')),
+    # path('service-worker.js', include('pwa.urls')),
+    path('service-worker.js', (TemplateView.as_view(template_name="service-worker.js",
+                                                    content_type='application/javascript', )), name='service-worker.js'),
 
     path('api-auth/', include('rest_framework.urls')),
     path('rest-auth/', include('rest_auth.urls')),

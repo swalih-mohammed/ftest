@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 
     'core',
     'frontend',
+    'pwa',
 ]
 
 MIDDLEWARE = [
@@ -117,26 +118,26 @@ SITE_ID = 1
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sibiyan$default',
-        'USER': 'sibiyan',
-        'PASSWORD': 'Pandaram@1',
-        'HOST': 'sibiyan.mysql.pythonanywhere-services.com',
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'ecom_five',
-#         'USER': 'postgres',
-#         'PASSWORD': 'Keralam@1',
-#         'HOST': 'localhost'
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sibiyan$default',
+#         'USER': 'sibiyan',
+#         'PASSWORD': 'Pandaram@1',
+#         'HOST': 'sibiyan.mysql.pythonanywhere-services.com',
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ecom_five',
+        'USER': 'postgres',
+        'PASSWORD': 'Keralam@1',
+        'HOST': 'localhost'
+    }
+}
 
 
 # Password validation
@@ -192,6 +193,7 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'build/static'), ]
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

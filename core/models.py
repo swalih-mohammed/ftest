@@ -284,17 +284,18 @@ class Item(models.Model):
                              on_delete=models.CASCADE)
     product_image = models.ForeignKey(ProductImage, blank=True, null=True,
                              on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    title_local = models.CharField(max_length=100, blank=True, null=True)
     quantity = models.CharField(max_length=100, blank=True, null=True)
     price = models.FloatField()
     discount_price = models.FloatField(blank=True, null=True)
     productategory = models.ForeignKey(ProductCategory,
                                  on_delete=models.CASCADE, blank=True, null=True)
-    slug = models.SlugField(blank=True, null=True)
+    # slug = models.SlugField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='product',blank=True, null=True)
-    image_1 = models.ImageField(upload_to='product',blank=True, null=True)
-    image_2 = models.ImageField(upload_to='product',blank=True, null=True)
+    # image = models.ImageField(upload_to='product',blank=True, null=True)
+    # image_1 = models.ImageField(upload_to='product',blank=True, null=True)
+    # image_2 = models.ImageField(upload_to='product',blank=True, null=True)
     is_available = models.BooleanField(default=False, null=True)
     is_featured = models.BooleanField(default=False,  blank=True, null=True)
     is_on_sale = models.BooleanField(default=False,  blank=True, null=True)
@@ -303,15 +304,15 @@ class Item(models.Model):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        return reverse("core:product", kwargs={
-            'slug': self.slug
-        })
+    # def get_absolute_url(self):
+    #     return reverse("core:product", kwargs={
+    #         'slug': self.slug
+    #     })
 
-    def get_add_to_cart_url(self):
-        return reverse("core:add-to-cart", kwargs={
-            'slug': self.slug
-        })
+    # def get_add_to_cart_url(self):
+    #     return reverse("core:add-to-cart", kwargs={
+    #         'slug': self.slug
+    #     })
 
     def get_remove_from_cart_url(self):
         return reverse("core:remove-from-cart", kwargs={

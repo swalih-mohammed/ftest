@@ -24,7 +24,7 @@ import homepage from "./components/ld/homepage/main";
 import LocalityHome from "./components/ld/localityHome/main";
 import LocalityList from "./components/ld/localityList/main";
 import ShopHome from "./components/ld/shopHome/main";
-import ShopList from "./components/ld/shopHome/list";
+// import ShopList from "./components/ld/shopHome/list";
 import Login from "./components/ld/pages/login";
 import Register from "./components/ld/pages/register";
 import Logout from "./components/ld/pages/logout";

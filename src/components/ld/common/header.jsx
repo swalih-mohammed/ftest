@@ -102,6 +102,7 @@ class Header extends Component {
     return (
       <div>
         <header id="sticky" className="sticky">
+          {/* <header id="sticky" className="sticky header-2 header-6"> */}
           {this.state.isLoading ? <Pace color="#27ae60" /> : null}
           <div className="mobile-fix-option"></div>
           {/*Top Header Component*/}
@@ -110,7 +111,8 @@ class Header extends Component {
           <div className="container">
             <div className="row">
               <div className="col-sm-12">
-                <div className="main-menu border-section border-top-0">
+                {/* <div className="main-menu border-section border-top-0"> */}
+                <div className="main-menu">
                   <div className="menu-left">
                     <div className="navbar">
                       <a href="javascript:void(0)" onClick={this.openNav}>
@@ -151,12 +153,6 @@ class Header extends Component {
                           </li>
                           <li className="onhover-div mobile-setting">
                             <div>
-                              {/* <i>
-                                <FontAwesomeIcon icon={faCog} size={"lg"} />
-                              </i> */}
-                              {/* <i>
-                                <FontAwesomeIcon icon={faHeart} size={"lg"} />
-                              </i> */}
                               {this.props.userType === "is_staff_user" ? (
                                 <Link
                                   to={`${process.env.PUBLIC_URL}/manage-order-delivery`}

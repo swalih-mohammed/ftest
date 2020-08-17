@@ -63,7 +63,7 @@ class ShopAdmin(admin.ModelAdmin):
 
     ]
     list_display_links = [
-
+        'name',
         'place',
         'village'
 

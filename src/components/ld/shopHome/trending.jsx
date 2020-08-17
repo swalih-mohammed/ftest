@@ -5,6 +5,9 @@ import { connect } from "react-redux";
 import { ShopFProductListURL } from "../../../constants";
 import { getTopCollection, getTrendingCollection } from "../../../services";
 import { Product4 } from "../../../services/script";
+import ProductStyleNine from "./product-nine";
+import ProductStyleTwo from "./ProductStyleTwo";
+
 // import {
 //   addToCart,
 //   addToWishlist,
@@ -23,17 +26,6 @@ class Tranding extends Component {
   };
 
   render() {
-    // const {
-    //   items,
-    //   symbol,
-    //   addToCart,
-    //   addToWishlist,
-    //   addToCompare,
-    //   incrementQty,
-    //   decrementQty,
-    //   removeFromCart,
-    //   type
-    // } = this.props;
     const { fProducts } = this.props;
     return (
       <div>
@@ -50,7 +42,9 @@ class Tranding extends Component {
                 <Slider {...Product4} className="product-4 product-m no-arrow">
                   {fProducts.map((product, index) => (
                     <div key={index}>
-                      <ProductItem product={product} key={index} />
+                      {/* <ProductItem product={product} key={index} /> */}
+                      {/* <ProductStyleNine product={product} key={index} /> */}
+                      <ProductStyleTwo product={product} key={index} />
                     </div>
                   ))}
                 </Slider>

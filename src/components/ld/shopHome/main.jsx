@@ -4,18 +4,16 @@ import { connect } from "react-redux";
 import "../../common/index.scss";
 import Slider from "react-slick";
 import Jumbotron from "react-bootstrap/Jumbotron";
+import Offer from "./offer";
 // import { Link } from "react-router-dom";
 import axios from "axios";
 import { fetchCart } from "../../../actions/cart";
 import Image from "react-bootstrap/Image";
 
-// import { Slider3 } from "../../../services/script";
-// import Category from "./category";
 import Shipping from "./shipping";
 import Trending from "./trending";
 import ProductList from "./product-list";
-// import Search from "../../pages/search";
-// import Header from "../common/header";
+// import ProductList from "./product-test";
 
 import {
   ShopProductListURL,
@@ -111,6 +109,9 @@ class Shop extends Component {
                       <div>
                         {ShopDetail.shipping_message !== "" ? (
                           <Shipping message={ShopDetail.shipping_message} />
+                        ) : null}
+                        {ShopDetail.offer_message !== "" ? (
+                          <Offer message={ShopDetail.offer_message} />
                         ) : null}
                       </div>
                     )}

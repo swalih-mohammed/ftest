@@ -25,9 +25,9 @@ from rest_framework import filters
 from core.models import Item, OrderItem, Order
 
 from .serializers import (OrderStatusSerializer,
-    ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
-    ShopProductSerializer, UserProfileSerializer, PlaceSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
-)
+                          ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
+                          ShopProductSerializer, UserProfileSerializer, PlaceSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
+                          )
 from core.models import OrderStatus, UserProfile, Place, Area, Cluster, Village, District, State, Shop, Item, OrderItem, Order, Address, Coupon, Refund, UserProfile, Variation, ItemVariation, FavoriteShops, FavoritePlaces
 
 
@@ -36,25 +36,29 @@ def infinite_order_filter(request):
     offset = request.GET.get('offset')
     # query = request.GET.get('q')
     profile = UserProfile.objects.get(user=request.user)
-    print(limit,offset)
+    # print(limit, offset)
 
-    if profile.is_shop_owner:
-       print("owner")
-       shop = Shop.objects.get(owner=request.user)
-       queryset = Order.objects.filter(shop=shop, ordered=True).order_by('-start_date')
-       queryset = queryset.all()[int(offset): int(offset) + int(limit)]
-       return queryset        	
-    else:
-        print("customer")
-        queryset = Order.objects.filter(user=request.user, ordered=True).order_by('-start_date')
-        # queryset =  queryset.all()[int(offset): int(offset) + int(limit)]
-        return queryset.all()[int(offset): int(offset) + int(limit)]
+    # if profile.is_shop_owner:
+    #     print("owner")
+    #     shop = Shop.objects.filter(owner=request.user).last()
+    #     queryset = Order.objects.filter(
+    #         shop=shop, ordered=True).order_by('-start_date')
+    #     queryset = queryset.all()[int(offset): int(offset) + int(limit)]
+    #     return queryset
+    # else:
+    #     print("customer")
+    queryset = Order.objects.filter(
+        user=request.user, ordered=True).order_by('-start_date')
+    # queryset =  queryset.all()[int(offset): int(offset) + int(limit)]
+    return queryset.all()[int(offset): int(offset) + int(limit)]
+
 
 def is_there_more_data(request):
     offset = request.GET.get('offset')
     if int(offset) > Order.objects.filter(user=request.user, ordered=True).count():
         return False
     return True
+
 
 class OrderListView(generics.ListAPIView):
     serializer_class = OrderSerializer
@@ -75,17 +79,19 @@ class OrderListView(generics.ListAPIView):
 def is_valid_queryparam(param):
     return param != '' and param is not None
 
+
 def filter(request):
 
     qs = Order.objects.all()
 
     profile = UserProfile.objects.get(user=request.user)
     if profile.is_shop_owner:
-       shop = Shop.objects.filter(owner=request.user).first()
-       print(shop)
-       print(profile)
-       qs = Order.objects.filter(shop=shop, ordered=True).order_by('-start_date')
-       # print("is_shop_owner")
+        shop = Shop.objects.filter(owner=request.user).first()
+        print(shop)
+        print(profile)
+        qs = Order.objects.filter(
+            shop=shop, ordered=True).order_by('-start_date')
+        # print("is_shop_owner")
     # print(profile)
     #     if profile.is_shop_owner:
 
@@ -102,7 +108,7 @@ def filter(request):
 
     print(startDate_contains_query, endDate_contains_query)
     # print(place_contains_query,village_contains_query, cluster_contains_query, district_contains_query, state_contains_query,)
-    if is_valid_queryparam(startDate_contains_query): 
+    if is_valid_queryparam(startDate_contains_query):
         qs = qs.filter(start_date__gte=startDate_contains_query)
 
     if is_valid_queryparam(endDate_contains_query):
@@ -113,25 +119,26 @@ def filter(request):
     #     qs = qs.filter(shop=shop, ordered=True).order_by('-start_date')
 
     if is_valid_queryparam(area_contains_query):
-        qs = qs.filter(address__area__name = area_contains_query)
+        qs = qs.filter(address__area__name=area_contains_query)
 
     if is_valid_queryparam(place_contains_query):
-        qs = qs.filter(shop__place__name = place_contains_query)
+        qs = qs.filter(shop__place__name=place_contains_query)
 
     if is_valid_queryparam(village_contains_query):
-        qs = qs.filter(shop__village__name = village_contains_query)
+        qs = qs.filter(shop__village__name=village_contains_query)
 
     if is_valid_queryparam(cluster_contains_query):
-        qs = qs.filter(shop__cluster__name = cluster_contains_query)
+        qs = qs.filter(shop__cluster__name=cluster_contains_query)
 
     if is_valid_queryparam(district_contains_query):
-        qs = qs.filter(shop__district__name = district_contains_query)
+        qs = qs.filter(shop__district__name=district_contains_query)
 
     if is_valid_queryparam(state_contains_query):
         print(state_contains_query)
-        qs = qs.filter(shop__state__name = state_contains_query)
+        qs = qs.filter(shop__state__name=state_contains_query)
 
     return qs
+
 
 class OrderFilterView(generics.ListAPIView):
     serializer_class = OrderSerializer
@@ -143,6 +150,7 @@ class OrderFilterView(generics.ListAPIView):
 
 class OrderSearchView(generics.ListAPIView):
     serializer_class = OrderSerializer
+
     def get_queryset(self):
         qs = Order.objects.all()
         return qs
@@ -152,9 +160,3 @@ class OrderStatusListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = OrderStatusSerializer
     queryset = OrderStatus.objects.all()
-
-
-
-
-
-

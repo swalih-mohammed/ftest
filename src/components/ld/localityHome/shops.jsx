@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AddToFavoriteShopsURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { ToastContainer, toast } from "react-toastify";
+import Shop from "./shopItem";
 
 // Import custom components
 import { Slider3 } from "../../../services/script";
@@ -43,81 +44,30 @@ class Shops extends Component {
     // console.log(123);
     return (
       <div>
-        {/*Blog Section*/}
-        <div className="container">
-          <div className="row">
-            <div className="col">
-              <div className="title4">
-                <br></br>
-                <h2 className="title-inner4">Shops</h2>
-                <div className="line">
-                  <span></span>
+        <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">
+          <div className="container">
+            <div className="row">
+              <div className="col">
+                <div className="title4">
+                  <br></br>
+                  <h2 className="title-inner4"> Shops</h2>
+                  <div className="line">
+                    <span></span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <section className="blog section-b-space pt-0 ratio2_3">
+
           <div className="container">
             <div className="row">
-              {shops.map(shop => (
-                <div key={shop.id} className="col-md-4">
-                  <div className="product-box">
-                    <div className="img-wrapper">
-                      <div className="lable-block">
-                        <div className="classic-effect">
-                          <div className="front">
-                            <Link
-                              to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}
-                            >
-                              <img
-                                src={shop.image}
-                                className="img-fluid lazyload bg-img"
-                                alt=""
-                              />
-                            </Link>
-                          </div>
-
-                          <div className="cart-info cart-wrap">
-                            <a
-                              href="javascript:void(0)"
-                              title="Add to Wishlist"
-                              onClick={() => this.addToWishList(shop.id)}
-                            >
-                              <i>
-                                <FontAwesomeIcon
-                                  icon={faHeart}
-                                  size={"2x"}
-                                  color={"#ff4c3b"}
-                                />
-                              </i>
-                            </a>
-                          </div>
-
-                          <span></span>
-                        </div>
-                        {/* </a> */}
-                        <div className="blog-details">
-                          <Link
-                            to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}
-                          >
-                            <p>{shop.name}</p>
-                          </Link>
-                          <br></br>
-                          {/* <h6>{shop.place}</h6>
-                            <br></br> */}
-                          {/* <h6>{shop.phone_number}</h6> */}
-                          <a href={"tel:" + shop.phone_number}>
-                            {shop.phone_number}
-                          </a>
-
-                          <hr className="style1" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div className="col">
+                <div className="no-slider row">
+                  {shops.map((shop, index) => (
+                    <Shop shop={shop} key={index} />
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </section>

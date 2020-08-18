@@ -8472,7 +8472,9 @@ footer{
   height: 60px;
   background-repeat: no-repeat;
   margin: 0 auto;
-  background-image:url("#{$mediapath}/loader/loader.gif");
+  // background-image:url("#{$mediapath}/loader/loader.gif");
+  background-image:url("https://www.localdukans.com/media/loader/loader.gif");
+ 
 }
 .seen-cls {
   text-align: center;

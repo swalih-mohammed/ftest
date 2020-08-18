@@ -74,15 +74,9 @@ class OrderSummary extends Component {
   };
 
   handleRemoveQuantityFromCart = (id, q) => {
-    console.log(q);
-    // console.log(id);
-    if (q > 1) {
-      console.log("more than one ");
-    }
     authAxios
       .post(orderItemUpdateQuantityURL, { id })
       .then(res => {
-        // this.handleFetchOrder();
         this.props.refreshCart();
       })
       .catch(err => {
@@ -103,7 +97,7 @@ class OrderSummary extends Component {
 
   hanldeDeleteOrder = id => {
     console.log(id);
-    console.log("delete");
+    // console.log("delete");
     authAxios
       .delete(orderDeleteURL(id))
       .then(res => {
@@ -115,18 +109,18 @@ class OrderSummary extends Component {
       });
   };
 
-  testOnchange = () => {
-    console.log("hi");
-  };
+  // testOnchange = () => {
+  //   // console.log("hi");
+  // };
 
   render() {
     // const { cartItems } = this.state;
     const { cartItems } = this.props;
-    // console.log(cartItems);
-    // console.log("order sum");
+
     return (
       <div>
         <ToastContainer />
+        {this.state.loading && <div className="loading-cls"></div>}
         {cartItems && (
           <React.Fragment>
             {cartItems.order_items ? (

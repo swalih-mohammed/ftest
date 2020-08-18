@@ -18,7 +18,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 class ProductStyleNine extends Component {
   handleAddToCart = (id, shop) => {
-    // console.log(this.props.token);
     if (this.props.token !== null) {
       this.setState({ loading: true });
       authAxios
@@ -53,6 +52,7 @@ class ProductStyleNine extends Component {
 
     return (
       <div className="product-box">
+        <ToastContainer />
         <div className="img-wrapper">
           <div className="lable-block">
             {product.is_featured == true ? (
@@ -62,6 +62,11 @@ class ProductStyleNine extends Component {
             )}
             {product.is_on_sale == true ? (
               <span className="lable3">sale</span>
+            ) : (
+              ""
+            )}
+            {product.is_available !== true ? (
+              <span className="lable4">Out of stock</span>
             ) : (
               ""
             )}
@@ -102,19 +107,21 @@ class ProductStyleNine extends Component {
             </h4>
 
             <div className="cart-bottom">
-              <button
-                title="Add to cart"
-                // onClick={() => onAddToCartClicked(product, 1)}
-                onClick={() => this.handleAddToCart(product.id, product.shop)}
-              >
-                <i>
-                  <FontAwesomeIcon
-                    icon={faShoppingCart}
-                    size={"lg"}
-                    color={"#ff4c3b"}
-                  />
-                </i>
-              </button>
+              {product.is_available ? (
+                <button
+                  title="Add to cart"
+                  onClick={() => this.handleAddToCart(product.id, product.shop)}
+                >
+                  {/* <i className="fa fa-shopping-cart" aria-hidden="true"></i> */}
+                  <i>
+                    <FontAwesomeIcon
+                      icon={faShoppingCart}
+                      size={"lg"}
+                      color={"#ff4c3b"}
+                    />
+                  </i>
+                </button>
+              ) : null}
             </div>
           </div>
         </div>

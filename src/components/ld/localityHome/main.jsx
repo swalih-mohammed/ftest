@@ -99,7 +99,8 @@ class Locality extends Component {
         <Helmet>
           <title>Local Dukans</title>
         </Helmet>
-        {/* <HeaderTwo logoName={"logo.png"} /> */}
+        {this.state.loading && <div className="loading-cls"></div>}
+
         <section className="p-0">
           {placeDetail && <Image src={placeDetail.image} fluid />}
         </section>

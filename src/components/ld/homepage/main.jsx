@@ -67,7 +67,7 @@ class Homepage extends Component {
   render() {
     const { Newlocalities, appInfo } = this.state;
     const { featuredShops } = this.state;
-    // console.log(appInfo);
+    // console.log(this.state.loading);
     // console.log(appInfo.coverPhoto1);
 
     return (
@@ -75,6 +75,7 @@ class Homepage extends Component {
         <Helmet>
           <title>Local Dukans</title>
         </Helmet>
+        {this.state.loading && <div className="loading-cls"></div>}
         <section className="p-0">
           {appInfo && (
             // <Image

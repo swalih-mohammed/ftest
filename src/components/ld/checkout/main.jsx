@@ -18,6 +18,7 @@ import Footer from "../common/footer";
 
 class checkOut extends Component {
   state = {
+    loading: false,
     shipping: 25,
     addressList: [],
     cart: null,
@@ -84,7 +85,7 @@ class checkOut extends Component {
 
   handleAddress = event => {
     this.setState({ selectedAddress: event.target.value });
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
 
   handleModeOfPayment = event => {
@@ -93,7 +94,7 @@ class checkOut extends Component {
   };
   submit = ev => {
     ev.preventDefault();
-    console.log("submitting");
+    // console.log("submitting");
     this.setState({ loading: true });
     const { selectedAddress, selectedModeofPayment } = this.state;
 
@@ -147,6 +148,7 @@ class checkOut extends Component {
         {/* <Header /> */}
         <ToastContainer />
         {/* <Footer /> */}
+        {this.state.loading && <div className="loading-cls"></div>}
         {cart ? (
           <div className="container padding-cls">
             <div className="checkout-page">
@@ -260,16 +262,20 @@ class checkOut extends Component {
                                   <div className="col-sm-6">
                                     <div className="box">
                                       <div className="radio">
-                                        <label>
-                                          <input
-                                            value={mode.id}
-                                            type="radio"
-                                            name="optradio"
-                                            onChange={this.handleModeOfPayment}
-                                          />
-                                          {"  "}
-                                          {mode.name}
-                                        </label>
+                                        <form>
+                                          <label>
+                                            <input
+                                              value={mode.id}
+                                              type="radio"
+                                              name="optradio"
+                                              onChange={
+                                                this.handleModeOfPayment
+                                              }
+                                            />
+                                            {"  "}
+                                            {mode.name}
+                                          </label>
+                                        </form>
                                       </div>
                                     </div>
                                   </div>

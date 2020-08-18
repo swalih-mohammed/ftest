@@ -45,6 +45,7 @@ class Address extends Component {
     return (
       <div>
         <Breadcrumb title={"Address"} />
+        {this.state.loading && <div className="loading-cls"></div>}
 
         {addressList && (
           <section className="section-b-space">

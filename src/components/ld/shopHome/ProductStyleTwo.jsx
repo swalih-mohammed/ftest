@@ -28,8 +28,6 @@ class ProductStyleEleven extends Component {
           this.setState({ loading: false });
         })
         .catch(err => {
-          console.log(err);
-          // this.setState({ error: err.response.status });
           if (err.response.status === 400) {
             toast.error("You have an active order from a different shop");
           } else {
@@ -60,6 +58,11 @@ class ProductStyleEleven extends Component {
             ) : (
               ""
             )}
+            {product.is_available !== true ? (
+              <span className="lable4">Out of stock</span>
+            ) : (
+              ""
+            )}
           </div>
           <div className="front">
             {/* <Link
@@ -73,19 +76,21 @@ class ProductStyleEleven extends Component {
             {/* </Link> */}
           </div>
           <div className="cart-info cart-wrap">
-            <button
-              title="Add to cart"
-              onClick={() => this.handleAddToCart(product.id, product.shop)}
-            >
-              {/* <i className="fa fa-shopping-cart" aria-hidden="true"></i> */}
-              <i>
-                <FontAwesomeIcon
-                  icon={faShoppingCart}
-                  size={"lg"}
-                  color={"#ff4c3b"}
-                />
-              </i>
-            </button>
+            {product.is_available ? (
+              <button
+                title="Add to cart"
+                onClick={() => this.handleAddToCart(product.id, product.shop)}
+              >
+                {/* <i className="fa fa-shopping-cart" aria-hidden="true"></i> */}
+                <i>
+                  <FontAwesomeIcon
+                    icon={faShoppingCart}
+                    size={"lg"}
+                    color={"#ff4c3b"}
+                  />
+                </i>
+              </button>
+            ) : null}
           </div>
         </div>
         <div className="product-detail">

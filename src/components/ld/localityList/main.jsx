@@ -12,9 +12,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Img } from "react-image";
+import Locality from "./locality";
+import { Product4, Product5 } from "../../../services/script";
 
 import Search from "./search";
 import { placeListURL, localhost } from "../../../constants";
+import { isTemplateExpression } from "typescript";
 
 class LocalityList extends React.PureComponent {
   constructor(props) {
@@ -91,10 +94,10 @@ class LocalityList extends React.PureComponent {
     console.log(this.state.query);
   };
 
-  handleSearch = e => {
-    e.preventDefault();
-    this.fetchlaces();
-  };
+  // handleSearch = e => {
+  //   e.preventDefault();
+  //   this.fetchlaces();
+  // };
 
   addToWishList = place => {
     this.setState({ loading: true });
@@ -121,80 +124,43 @@ class LocalityList extends React.PureComponent {
           <title>Local Dukans</title>
         </Helmet>
         <ToastContainer />
+        {this.state.loading && <div className="loading-cls"></div>}
         {/* <HeaderTwo logoName={"logo.png"} /> */}
         <Search />
 
-        <div className="container">
-          <div className="row">
-            <div className="col">
-              <div className="title4">
-                <br></br>
-                <h2 className="title-inner4"> Localities</h2>
-                <div className="line">
-                  <span></span>
+        {localities && (
+          <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">
+            {/* <div className="title2">
+              <h2 className="title-inner2">product style 4</h2>
+            </div> */}
+            <div className="container">
+              <div className="row">
+                <div className="col">
+                  <div className="title4">
+                    <br></br>
+                    <h2 className="title-inner4"> Localities</h2>
+                    <div className="line">
+                      <span></span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        {localities && (
-          <section className="banner-furniture absolute_banner ratio3_2">
             <div className="container">
-              <div className="row partition3">
-                {localities.map(locality => (
-                  <div key={locality.id} className="col-md-4">
-                    {/* <a href={`places/${locality.id}`}> */}
-                    <div className="collection-banner p-left text-left">
-                      <div className="img-wrapper">
-                        <Link
-                          to={`${process.env.PUBLIC_URL}/places/${locality.id}`}
-                        >
-                          <Img
-                            // className="img-fluid lazyload bg-img"
-                            loading="lazy"
-                            src={locality.image}
-                            loader={<div className="loading-cls"></div>}
-                          />
-                        </Link>
-                      </div>
-                      <div className="absolute-contain">
-                        <Link
-                          to={`${process.env.PUBLIC_URL}/places/${locality.id}`}
-                        ></Link>
-                        <h3>{locality.name}</h3>
-                        <h4>{locality.village_name} Village</h4>
-
-                        <br></br>
-                        <div>
-                          {/* <a
-                              href="javascript:void(0)"
-                              title="Add to Wishlist" //
-                            > */}
-                          <span>
-                            <a onClick={() => this.addToWishList(locality.id)}>
-                              {/* <i
-                                className="fa fa-heart fa-2x"
-                                style={{ color: "#81ba00" }}
-                                aria-hidden="true"
-                                // onClick={() => this.addToWishList(locality.id)}
-                              ></i> */}
-                              <i>
-                                <FontAwesomeIcon
-                                  icon={faHeart}
-                                  size={"2x"}
-                                  color={"#ff4c3b"}
-                                />
-                              </i>
-                            </a>
-                          </span>
-                          {/* </a> */}
-                        </div>
-                      </div>
-                    </div>
-                    {/* </a> */}
+              <div className="row">
+                <div className="col">
+                  <div className="no-slider row">
+                    {/* <Slider
+                    {...Product4}
+                    className="product-4 product-m no-arrow"
+                  > */}
+                    {localities.map((locality, index) => (
+                      <Locality locality={locality} key={index} />
+                    ))}
+                    {/* </Slider> */}
                   </div>
-                ))}
+                </div>
               </div>
             </div>
           </section>

@@ -23,13 +23,14 @@ class EditProduct extends Component {
     formData: {
       id: "",
       title: "",
+      title_local: "",
       quantity: "",
       price: "",
       discount_price: "",
       //   category: "",
       description: "",
-      is_available: "",
-      is_on_sale: ""
+      is_available: false,
+      is_on_sale: false
     },
     success: false,
     error: null,
@@ -37,10 +38,10 @@ class EditProduct extends Component {
   };
 
   componentDidMount() {
-    this.fetchAddress();
+    this.fetchProductDetails();
   }
 
-  fetchAddress = () => {
+  fetchProductDetails = () => {
     const {
       match: { params }
     } = this.props;
@@ -66,7 +67,18 @@ class EditProduct extends Component {
     });
   };
 
-  handleUpdateAddress = e => {
+  handleChangeCheckBox = e => {
+    const { formData } = this.state;
+    const updatedFormdata = {
+      ...formData,
+      [e.target.name]: e.target.checked
+    };
+    this.setState({
+      formData: updatedFormdata
+    });
+  };
+
+  handleUpdateProductDetails = e => {
     e.preventDefault();
     const { userID } = this.props;
     const { formData } = this.state;
@@ -97,14 +109,35 @@ class EditProduct extends Component {
     }
     return (
       <Container>
-        <Form onSubmit={this.handleUpdateAddress}>
+        {this.state.loading && <div className="loading-cls"></div>}
+        <Form onSubmit={this.handleUpdateProductDetails}>
           <Form.Group controlId="title">
             <Form.Label>Product Name</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Product Name"
+              // placeholder="Product Name"
               name="title"
               value={formData.title}
+              onChange={this.handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="title-local">
+            <Form.Label>Name in Local language</Form.Label>
+            <Form.Control
+              type="text"
+              // placeholder="Product Local Name"
+              name="title_local"
+              value={formData.title_local}
+              onChange={this.handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="quantity">
+            <Form.Label>Quantity</Form.Label>
+            <Form.Control
+              type="text"
+              // placeholder="Quantity"
+              name="quantity"
+              value={formData.quantity}
               onChange={this.handleChange}
             />
           </Form.Group>
@@ -112,17 +145,17 @@ class EditProduct extends Component {
             <Form.Label>Price</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Price"
+              // placeholder="Price"
               name="price"
               value={formData.price}
               onChange={this.handleChange}
             />
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
-            <Form.Label>Discount</Form.Label>
+            <Form.Label>Discounted Price</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Discount"
+              // placeholder="Discount"
               name="discount"
               value={formData.discount}
               onChange={this.handleChange}
@@ -136,29 +169,33 @@ class EditProduct extends Component {
             <Form.Label>Detail</Form.Label>
             <Form.Control type="text" placeholder="Detail" />
           </Form.Group>
-          <Form.Group
-            controlId="formBasicCheckbox"
-            name="is_available"
-            value={formData.is_available}
-            onChange={this.handleChange}
-          >
-            <Form.Check type="checkbox" label="In stock" />
+          <Form.Group controlId="formBasicCheckbox">
+            <Form.Check
+              type="checkbox"
+              name="is_available"
+              label="In stock"
+              checked={formData.is_available}
+              onChange={this.handleChangeCheckBox}
+            />
           </Form.Group>
-          <Form.Group
-            controlId="formBasicCheckbox"
-            name="is_featured"
-            value={formData.is_featured}
-            onChange={this.handleChange}
-          >
-            <Form.Check type="checkbox" label="Feauture product" />
+          <Form.Group controlId="formBasicCheckbox">
+            <Form.Check
+              type="checkbox"
+              label="Feautured product"
+              checked={formData.is_featured}
+              name="is_featured"
+              checked={formData.is_featured}
+              onChange={this.handleChangeCheckBox}
+            />
           </Form.Group>
-          <Form.Group
-            controlId="formBasicCheckbox"
-            name="is_on_sale"
-            value={formData.is_on_sale}
-            onChange={this.handleChange}
-          >
-            <Form.Check type="checkbox" label="On sale" />
+          <Form.Group controlId="formBasicCheckbox">
+            <Form.Check
+              type="checkbox"
+              label="On sale"
+              name="is_on_sale"
+              checked={formData.is_on_sale}
+              onChange={this.handleChangeCheckBox}
+            />
           </Form.Group>
           <Button variant="primary" type="submit">
             Submit

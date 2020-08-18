@@ -4,40 +4,16 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AddToFavoriteShopsURL } from "../../../constants";
-import { authAxios } from "../../../authAxios";
-import { ToastContainer, toast } from "react-toastify";
-
-// Import custom components
+import { Product4 } from "../../../services/script";
+import FshopItem from "./fshopItem";
 import { Slider3 } from "../../../services/script";
-// import Special from "../common/special";
-// import Search from "../../pages/search";
+import { ToastContainer } from "react-toastify";
 
 class FeautredShops extends Component {
   componentDidMount() {
     document.getElementById("color").setAttribute("href", `#`);
   }
 
-  addToWishList = shop => {
-    this.setState({ loading: true });
-    authAxios
-      .post(AddToFavoriteShopsURL, { shop })
-      .then(res => {
-        this.setState({ loading: false });
-        toast.success("This shop added to your favorites");
-      })
-      .catch(err => {
-        if (err.response.status === 401) {
-          toast.error("Please login to add to favorites");
-          this.setState({ loading: false });
-        } else if (err.response.status === 400) {
-          toast.error("This locality already exists in your favorites");
-          this.setState({ loading: false });
-        } else {
-          toast.error("An error occured");
-        }
-      });
-  };
   render() {
     const { featuredShops } = this.props;
     // console.log(123);
@@ -45,78 +21,28 @@ class FeautredShops extends Component {
       <div>
         {/*Blog Section*/}
         <ToastContainer />
-        <div className="container">
-          <div className="row">
-            <div className="col">
-              <div className="title4">
-                <br></br>
-                <h2 className="title-inner4">Featured Shops</h2>
-                <div className="line">
-                  <span></span>
+        <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">
+          <div className="container">
+            <div className="row">
+              <div className="col">
+                <div className="title4">
+                  <br></br>
+                  <h2 className="title-inner4"> Feautured Shops</h2>
+                  <div className="line">
+                    <span></span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <section className="blog section-b-space pt-0 ratio2_3">
+
           <div className="container">
             <div className="row">
-              <div className="col-md-12">
-                <Slider {...Slider3} className="slide-3 no-arrow">
-                  {/* <div> */}
-                  {featuredShops.map(shop => (
-                    // <div key={locality.id} className="col-md-12">
-                    <div key={shop.id} className="product-box">
-                      <div className="img-wrapper">
-                        <div className="lable-block">
-                          {/* <a href={"/places/" + locality.id}> */}
-                          <div className="classic-effect">
-                            <div className="front">
-                              <Link
-                                to={`${process.env.PUBLIC_URL}/places/${shop.id}`}
-                              >
-                                <img
-                                  src={shop.image}
-                                  className="img-fluid lazyload bg-img"
-                                  alt=""
-                                />
-                              </Link>
-                            </div>
-
-                            <div className="cart-info cart-wrap">
-                              <a
-                                href="javascript:void(0)"
-                                title="Add to Wishlist"
-                                onClick={() => this.addToWishList(shop.id)}
-                              >
-                                <i>
-                                  <FontAwesomeIcon
-                                    icon={faHeart}
-                                    size={"2x"}
-                                    color={"#ff4c3b"}
-                                  />
-                                </i>
-                              </a>
-                            </div>
-
-                            <span></span>
-                          </div>
-
-                          <div className="blog-details">
-                            <p>{shop.name}</p>
-                            <br></br>
-                            {/* <h6>{shop.place}</h6> */}
-
-                            <a href={"tel:" + shop.phone_number}>
-                              {shop.phone_number}
-                            </a>
-
-                            <hr className="style1" />
-
-                            {/* <h6>{shop.phone_number}</h6> */}
-                          </div>
-                        </div>
-                      </div>
+              <div className="col">
+                <Slider {...Product4} className="product-4 product-m no-arrow">
+                  {featuredShops.map((shop, index) => (
+                    <div key={index} className="col-xl-3 col-md-6 col-grid-box">
+                      <FshopItem shop={shop} />
                     </div>
                   ))}
                 </Slider>

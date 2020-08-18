@@ -76,7 +76,7 @@ class Wishlist extends Component {
             <FShop shops={shops} fetchShops={this.fetchShops} />
           ) : (
             <p>
-              No locality in favorite list. Please click on Heart button on any
+              No shops in favorite list. Please click on Heart button on any
               locality to have them added here
             </p>
           )}{" "}

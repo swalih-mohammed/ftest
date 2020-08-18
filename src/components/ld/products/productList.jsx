@@ -6,11 +6,14 @@ import Breadcrumb from "../common/breadcrumb";
 import { shopProductListURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { Modal, Button, Container } from "react-bootstrap";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class ProductList extends Component {
   state = {
     products: [],
-    show: false
+    show: false,
+    loading: false
   };
 
   componentDidMount() {
@@ -34,6 +37,10 @@ class ProductList extends Component {
       });
   };
 
+  handleClick = id => {
+    this.props.history.push("/edit-shop-product");
+  };
+
   render() {
     const { products } = this.state;
 
@@ -42,6 +49,7 @@ class ProductList extends Component {
     return (
       <div>
         {/*SEO Support End */}
+        {this.state.loading && <div className="loading-cls"></div>}
 
         {products ? (
           <div className="container">
@@ -51,30 +59,39 @@ class ProductList extends Component {
                   <thead>
                     <tr className="table-head">
                       <th scope="col">Edit</th>
-                      <th scope="col">ID</th>
+                      {/* <th scope="col">ID</th> */}
                       <th scope="col">Name</th>
-                      <th scope="col">quantity</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Quantity</th>
                       <th scope="col">Price</th>
-                      <th scope="col">Discount</th>
+                      {/* <th scope="col">Discount</th> */}
                     </tr>
                   </thead>
                   {products.map((item, index) => {
                     return (
                       <tbody key={index}>
                         <tr>
-                          <Link to={`edit-shop-product/${item.id}`}>
-                            <i
-                              class="fa fa-pencil-square-o"
-                              aria-hidden="true"
-                            ></i>
-                          </Link>
-
-                          <td>{item.id}</td>
+                          {/* <td>{item.id}</td> */}
+                          <td>
+                            <React.Fragment>
+                              <Link to={`edit-shop-product/${item.id}`}>
+                                <i>
+                                  <FontAwesomeIcon
+                                    icon={faEdit}
+                                    size={"2x"}
+                                    color={"#ff4c3b"}
+                                    onClick={this.handleClick}
+                                  />
+                                </i>
+                              </Link>
+                            </React.Fragment>
+                          </td>
                           <td>{item.title}</td>
-                          <td>{item.title}</td>
-                          <td>{item.title}</td>
-                          <td>{item.title}</td>
-                          <td>{item.title}</td>
+                          <td>{item.title_local}</td>
+                          <td>{item.quantity}</td>
+                          <td>{item.price}</td>
+                          {/* <td>{item.discount}</td> */}
+                          {/* <td>{item.title}</td> */}
                         </tr>
                       </tbody>
                     );

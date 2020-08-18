@@ -93,6 +93,7 @@ class Shop extends Component {
           <title>Local Dukans</title>
         </Helmet>
         {/* <Header /> */}
+        {this.state.loading && <div className="loading-cls"></div>}
 
         <section className="p-0">
           {ShopDetail ? <Image src={ShopDetail.image} fluid /> : null}

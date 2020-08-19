@@ -16,6 +16,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 class ProductStyleEleven extends Component {
+  state = {
+    loading: false
+  };
   handleAddToCart = (id, shop) => {
     // console.log(this.props.token);
     if (this.props.token !== null) {
@@ -46,6 +49,7 @@ class ProductStyleEleven extends Component {
 
     return (
       <div className="product-box">
+        {this.state.loading && <div className="loading-cls"></div>}
         <div className="img-wrapper">
           <div className="lable-block">
             {product.is_featured == true ? (
@@ -100,7 +104,15 @@ class ProductStyleEleven extends Component {
             <Link
               to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}
             >
-              <h6>{product.title}</h6>
+              <h6>
+                {product.title}{" "}
+                <span>
+                  {" "}
+                  {product.title_local ? (
+                    <span>{product.title_local}</span>
+                  ) : null}
+                </span>
+              </h6>{" "}
             </Link>
             <h4>
               {"Rs: "} {product.price}

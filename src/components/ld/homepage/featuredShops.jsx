@@ -16,6 +16,9 @@ import FshopItem from "./fShopItem";
 import { Product4, Product5 } from "../../../services/script";
 
 class FeautredShops extends Component {
+  state = {
+    loading: false
+  };
   componentDidMount() {
     document.getElementById("color").setAttribute("href", `#`);
   }
@@ -49,6 +52,8 @@ class FeautredShops extends Component {
       <div>
         {/*Blog Section*/}
         {/* <ToastContainer /> */}
+
+        {this.state.loading && <div className="loading-cls"></div>}
         <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">
           <div className="container">
             <div className="row">

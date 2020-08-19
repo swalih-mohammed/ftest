@@ -13,6 +13,7 @@ import Image from "react-bootstrap/Image";
 import Shipping from "./shipping";
 import Trending from "./trending";
 import ProductList from "./product-list";
+import ShopImage from "./shopImage";
 // import ProductList from "./product-test";
 
 import {
@@ -95,8 +96,11 @@ class Shop extends Component {
         {/* <Header /> */}
         {this.state.loading && <div className="loading-cls"></div>}
 
-        <section className="p-0">
+        {/* <section className="p-0">
           {ShopDetail ? <Image src={ShopDetail.image} fluid /> : null}
+        </section> */}
+        <section className="ratio_asos metro-section portfolio-section ">
+          {ShopDetail && <ShopImage ShopDetail={ShopDetail} />}
         </section>
 
         {ShopDetail && (

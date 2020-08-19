@@ -130,9 +130,6 @@ class LocalityList extends React.PureComponent {
 
         {localities && (
           <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">
-            {/* <div className="title2">
-              <h2 className="title-inner2">product style 4</h2>
-            </div> */}
             <div className="container">
               <div className="row">
                 <div className="col">

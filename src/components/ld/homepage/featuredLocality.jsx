@@ -31,13 +31,14 @@ class FeautredLocality extends Component {
     return (
       <div>
         <ToastContainer />
+        {this.state.loading && <div className="loading-cls"></div>}
         <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">
           <div className="container">
             <div className="row">
               <div className="col">
                 <div className="title4">
                   <br></br>
-                  <h2 className="title-inner4"> Localities</h2>
+                  <h2 className="title-inner4"> New Localities</h2>
                   <div className="line">
                     <span></span>
                   </div>
@@ -51,7 +52,7 @@ class FeautredLocality extends Component {
               <div className="col">
                 <Slider {...Product4} className="product-4 product-m no-arrow">
                   {Newlocalities.map((locality, index) => (
-                    <div key={index} className="col-xl-3 col-md-6 col-grid-box">
+                    <div key={index} className="col-xl-3 col-md-4 col-grid-box">
                       <FLocalityItem locality={locality} />
                     </div>
                   ))}

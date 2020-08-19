@@ -40,7 +40,7 @@ import ShopOrderTable from "./components/ld/manageOrders/shopOrderTable";
 import OrderItem from "./components/ld/orders/order-item";
 import Address from "./components/ld/address/main";
 import CreateAddress from "./components/ld/address/add2";
-import EditAddress from "./components/ld/address/edit";
+import EditAddress from "./components/ld/address/edit2";
 import Wishlist from "./components/ld/wishlist/main";
 import Checkout from "./components/ld/checkout/main";
 // import OrderSummary from "./components/ld/checkout/orderSummary";

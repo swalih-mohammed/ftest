@@ -8,6 +8,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LocalityItem from "./localityItem";
 
 class Locality extends Component {
+  state = {
+    loading: false
+  };
   render() {
     const { localities } = this.props;
     // console.log(localities);
@@ -15,6 +18,8 @@ class Locality extends Component {
     return (
       <div>
         <ToastContainer />
+
+        {this.state.loading && <div className="loading-cls"></div>}
 
         {localities && (
           <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">

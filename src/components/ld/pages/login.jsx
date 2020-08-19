@@ -13,7 +13,8 @@ class Login extends Component {
   state = {
     username: "",
     password: "",
-    success: false
+    success: false,
+    loading: false
   };
 
   handleChange = e => {
@@ -24,29 +25,33 @@ class Login extends Component {
     e.preventDefault();
     const { username, password } = this.state;
     if (username && password) {
+      this.setState({ loading: true });
       this.props.login(username, password);
-      // this.props.fetchUser();
-
-      toast.success("You have logged in successfully ");
+      this.setState({ loading: false });
+      // no error
+      if (this.props.error) {
+        toast.error("incorrect username or password");
+      } else {
+        toast.success("You have logged in successfully ");
+      }
+      // no user name and pasword filled
     } else {
       toast.error("please provide username and password");
     }
   };
   render() {
-    // console.log("login");
     const { error, loading, token } = this.props;
     const { username, password } = this.state;
-    // console.log(token);
+    // console.log(this.props.error);
+
     if (token) {
-      // const history = createHistory();
-      // history.go(0);
-      // window.location.reload();
       return <Redirect to="/" />;
     }
+
     return (
       <div>
         <Breadcrumb title={"Login"} />
-
+        {this.state.loading && <div className="loading-cls"></div>}
         {/*Login section*/}
         <div className="login-page section-b-space">
           <div className="container">

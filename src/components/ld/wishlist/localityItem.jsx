@@ -48,6 +48,7 @@ class ProductStyleFour extends Component {
 
     return (
       <div className="product-box">
+        {this.state.loading && <div className="loading-cls"></div>}
         <div className="img-wrapper">
           <div className="front">
             <Link to={`${process.env.PUBLIC_URL}/places/${locality.id}`}>
@@ -55,6 +56,7 @@ class ProductStyleFour extends Component {
                 src={`${localhost}${locality.place_image}`}
                 className="img-fluid"
                 alt=""
+                loading="lazy"
               />
             </Link>
           </div>

@@ -27,6 +27,7 @@ class ProductList extends Component {
   };
   handleSubmit = e => {
     // e.preventDefault();
+    this.setState({ loading: true });
     authAxios
       .get(shopProductListURL)
       .then(res => {
@@ -43,7 +44,6 @@ class ProductList extends Component {
 
   render() {
     const { products } = this.state;
-
     // console.log(cartItems);
     // console.log(this.state.products);
     return (

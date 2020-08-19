@@ -100,7 +100,6 @@ class OrderItem extends Component {
   };
 
   orderCancelCustoemr = e => {
-    // console.log("hi");
     e.preventDefault();
     const { orderID } = this.state;
     const selectedOrderStatus = 4;
@@ -123,13 +122,11 @@ class OrderItem extends Component {
       selectedOrderStatus: status.id
     });
   };
+
   updateOrderStatus = e => {
     e.preventDefault();
     const { orderID } = this.state;
-
     const { selectedOrderStatus } = this.state;
-    // console.log(selectedOrderStatus);
-
     authAxios
       .put(orderStatusUpdateURL(orderID), {
         order_status: selectedOrderStatus
@@ -155,6 +152,7 @@ class OrderItem extends Component {
       ShopSuccess,
       CustomerSuccess
     } = this.state;
+    console.log(orderAddress);
     const { userType } = this.props;
     // console.log(orderAddress);
 

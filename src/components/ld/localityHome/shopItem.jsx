@@ -51,10 +51,8 @@ class ProductStyleFour extends Component {
               title="Add to cart"
               onClick={() => this.addToWishList(shop.id)}
             >
-              {/* <i className="fa fa-heart" aria-hidden="true"></i> */}
               <i>
                 <FontAwesomeIcon icon={faHeart} size={"lg"} color={"#ff4c3b"} />
-                {/* <FontAwesomeIcon icon={faHeart} /> */}
               </i>
             </button>
           </div>

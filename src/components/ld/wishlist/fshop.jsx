@@ -9,12 +9,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ShopItem from "./shopItem";
 
 class Shop extends Component {
+  state = {
+    loading: false
+  };
   render() {
     const { shops } = this.props;
     // console.log(shops);
 
     return (
       <div>
+        {this.state.loading && <div className="loading-cls"></div>}
         <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">
           <div className="container">
             <div className="row">

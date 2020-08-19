@@ -15,6 +15,7 @@ import Result from "./testTable";
 
 const Manage = () => {
   const [orders, setOrders] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 0), 0)
@@ -29,10 +30,10 @@ const Manage = () => {
 
   const fetchOrders = e => {
     // e.preventDefault();
+    setLoading(true);
     const endingtDate = endDate === undefined ? null : endDate;
     const staringtDate = startDate === undefined ? null : startDate;
-    // console.log(endingtDate, staringtDate);
-    // console.log(staringtDate);
+
     authAxios
       .get(orderFilterURL, {
         params: {
@@ -42,8 +43,10 @@ const Manage = () => {
       })
       .then(res => {
         setOrders(res.data);
+        setLoading(false);
       })
       .catch(err => {});
+    setLoading(false);
   };
 
   const columns = [
@@ -87,11 +90,12 @@ const Manage = () => {
       accessor: "mode_of_payment"
     }
   ];
-  console.log(orders);
+  // console.log(loading);
 
   return (
     <div>
       <section className="register-page section-b-space">
+        {loading && <div className="loading-cls"></div>}
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
@@ -109,6 +113,19 @@ const Manage = () => {
                             selectsStart
                             // onChange={handleChangeStartDate}
                             onChange={date => setStartDate(date)}
+                            popperClassName="some-custom-class"
+                            popperPlacement="top-end"
+                            popperModifiers={{
+                              offset: {
+                                enabled: true,
+                                offset: "5px, 10px"
+                              },
+                              preventOverflow: {
+                                enabled: true,
+                                escapeWithReference: false,
+                                boundariesElement: "viewport"
+                              }
+                            }}
                             dateFormat="dd/MMM/yy"
                             showTimeSelect
                             timeFormat="HH:mm"

@@ -8,6 +8,7 @@ import Shipping from "./shipping";
 import Service from "./service";
 import Offer from "./offer";
 import Image from "react-bootstrap/Image";
+import LocalityImage from "./localityImage";
 
 // Import custom components
 import { Slider3 } from "../../../services/script";
@@ -101,14 +102,15 @@ class Locality extends Component {
         </Helmet>
         {this.state.loading && <div className="loading-cls"></div>}
 
-        <section className="p-0">
-          {placeDetail && <Image src={placeDetail.image} fluid />}
+        {/* <section className="p-0"> */}
+        <section className="ratio_asos metro-section portfolio-section ">
+          {placeDetail && <LocalityImage placeDetail={placeDetail} />}
         </section>
         {placeDetail && (
           <div>
-            {placeDetail.exicutive_phone_number !== "" ? (
+            {/* {placeDetail.exicutive_phone_number !== "" ? (
               <Service message={placeDetail.exicutive_phone_number} />
-            ) : null}
+            ) : null} */}
             {placeDetail.offer_message !== "" ? (
               <Offer message={placeDetail.offer_message} />
             ) : null}

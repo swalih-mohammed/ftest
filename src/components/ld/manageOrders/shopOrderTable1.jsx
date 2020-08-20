@@ -127,7 +127,7 @@ const Manage = () => {
                               }
                             }}
                             dateFormat="dd/MMM/yy"
-                            // showTimeSelect
+                            showTimeSelect
                             timeFormat="HH:mm"
                             injectTimes={[
                               setHours(setMinutes(new Date(), 1), 0),
@@ -135,12 +135,6 @@ const Manage = () => {
                               setHours(setMinutes(new Date(), 59), 23)
                             ]}
                           />
-                          {/* <DatePicker
-                            selected={startDate}
-                            onChange={date => setStartDate(date)}
-                            showTimeInput
-                            customTimeInput={<ExampleCustomTimeInput />}
-                          /> */}
                         </div>
                         <div className="form-group col-md-8 col-sm-8 col-xs-8">
                           <DatePicker
@@ -196,13 +190,5 @@ const Manage = () => {
     </div>
   );
 };
-
-// const ExampleCustomTimeInput = ({ value, onChange }) => (
-//   <input
-//     value={value}
-//     onChange={e => onChange(e.target.value)}
-//     style={{ border: "solid 1px pink" }}
-//   />
-// );
 
 export default Manage;

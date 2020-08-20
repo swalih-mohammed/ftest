@@ -163,6 +163,20 @@ class Sidebar extends Component {
                         <span className="sub-arrow"></span>
                       </Link>
                     </li>
+                    <li>
+                      <Link to="/orders" onClick={this.closeNav}>
+                        My orders
+                        <span className="sub-arrow"></span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/addresses" onClick={this.closeNav}>
+                        <span>
+                          <i className="sub-arrow" aria-hidden="true"></i>
+                        </span>
+                        Address
+                      </Link>
+                    </li>
                   </div>
                 ) : null}
 
@@ -180,6 +194,20 @@ class Sidebar extends Component {
                       <Link to="/manage-order-delivery" onClick={this.closeNav}>
                         Manage Delivery
                         <span className="sub-arrow"></span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/orders" onClick={this.closeNav}>
+                        My orders
+                        <span className="sub-arrow"></span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/addresses" onClick={this.closeNav}>
+                        <span>
+                          <i className="sub-arrow" aria-hidden="true"></i>
+                        </span>
+                        Address
                       </Link>
                     </li>
                   </div>

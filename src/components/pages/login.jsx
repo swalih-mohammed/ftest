@@ -1,13 +1,27 @@
 import React, { Component } from "react";
-
+import { authLogin } from "../store/actions/auth";
+import { connect } from "react-redux";
 import Breadcrumb from "../common/breadcrumb";
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
-  
+  state = {
+    username: "",
+    password: ""
+  };
+
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const { username, password } = this.state;
+    this.props.login(username, password);
+  };
 
   render() {
   

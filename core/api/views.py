@@ -140,13 +140,14 @@ class ShopProductListView(ListAPIView):
 class ProductListForShopView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ShopProductSerializer
-    print("HIhi")
+    # print("HIhi")
     # queryset = Item.objects.all()
 
     def get_queryset(self):
-        print("jhhhhhhhhhh")
-        # return Item.objects.filter(shop_id=self.kwargs['shop_id'], is_featured=True )
-        return Item.objects.all()
+        # print("jhhhhhhhhhh")
+        # return Item.objects.filter(shop_id=self.kwargs['shop_id'] )
+        shop = Shop.objects.filter(owner=request.user)
+        return Item.objects.filter(shop=shop)
 
 # class ProductUpdateForShopView(UpdateAPIView):
 #     permission_classes = (IsAuthenticated, )

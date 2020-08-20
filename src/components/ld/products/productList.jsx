@@ -28,8 +28,11 @@ class ProductList extends Component {
   handleSubmit = e => {
     // e.preventDefault();
     this.setState({ loading: true });
+    const userID = this.props.userID;
     authAxios
-      .get(shopProductListURL)
+      .get(shopProductListURL, {
+        userID: userID
+      })
       .then(res => {
         this.setState({ products: res.data, loading: false });
       })
@@ -44,7 +47,7 @@ class ProductList extends Component {
 
   render() {
     const { products } = this.state;
-    // console.log(cartItems);
+    console.log(this.props.userID);
     // console.log(this.state.products);
     return (
       <div>
@@ -108,7 +111,8 @@ class ProductList extends Component {
   }
 }
 const mapStateToProps = state => ({
-  cartItems: state.cart.shoppingCart
+  cartItems: state.cart.shoppingCart,
+  userID: state.user.user.userID
 });
 
 export default connect(mapStateToProps)(ProductList);

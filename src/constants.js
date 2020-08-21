@@ -32,7 +32,8 @@ export const ShopModeOfPaymentURL = `${endpoint}/mode-of-payment/`;
 // export const areaFilterURL = name => `${endpoint}/places/${name}/areas`;
 export const placeShopListURL = id => `${endpoint}/places/${id}/shops/`;
 export const productListURL = `${endpoint}/products/`;
-export const shopProductListURL = `${endpoint}/producstsofashop/`;
+// export const shopProductListURL = `${endpoint}/producstsofashop/`;
+export const shopProductListURL = id => `${endpoint}/producstsofashop/${id}/`;
 
 export const productDetailURL = id => `${endpoint}/products/${id}/`;
 export const ShopFProductListURL = id => `${endpoint}/shops/${id}/fproducts`;

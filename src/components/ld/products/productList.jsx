@@ -27,18 +27,19 @@ class ProductList extends Component {
   };
   handleSubmit = e => {
     // e.preventDefault();
-    this.setState({ loading: true });
-    const userID = this.props.userID;
-    authAxios
-      .get(shopProductListURL, {
-        userID: userID
-      })
-      .then(res => {
-        this.setState({ products: res.data, loading: false });
-      })
-      .catch(err => {
-        this.setState({ error: err, loading: false });
-      });
+    if (this.props.userID !== null) {
+      this.setState({ loading: true });
+      const userID = this.props.userID;
+      console.log(userID);
+      authAxios
+        .get(shopProductListURL(userID))
+        .then(res => {
+          this.setState({ products: res.data, loading: false });
+        })
+        .catch(err => {
+          this.setState({ error: err, loading: false });
+        });
+    }
   };
 
   handleClick = id => {
@@ -47,14 +48,14 @@ class ProductList extends Component {
 
   render() {
     const { products } = this.state;
-    console.log(this.props.userID);
+    console.log(this.state.products);
     // console.log(this.state.products);
     return (
       <div>
         {/*SEO Support End */}
         {this.state.loading && <div className="loading-cls"></div>}
 
-        {products ? (
+        {products.length > 0 ? (
           <div className="container">
             <div className="row">
               <div className="col-sm-12">

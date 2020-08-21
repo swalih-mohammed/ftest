@@ -72,7 +72,7 @@ urlpatterns = [
          orderAddressView.as_view(), name='order-address'),
 
     path('products/', ItemListView.as_view(), name='product-list'),
-    path('producstsofashop/', ProductListForShopView.as_view(),
+    path('producstsofashop/<int:owner_id>/', ProductListForShopView.as_view(),
          name='shop-product-list'),
     path('producstsofashop/<pk>/update/',
          ProductUpdateForShopView.as_view(), name='shop-product-edit'),

@@ -32,6 +32,7 @@ class Login extends Component {
       if (this.props.error) {
         toast.error("incorrect username or password");
       } else {
+        // this.props.fetchUser();
         toast.success("You have logged in successfully ");
       }
       // no user name and pasword filled

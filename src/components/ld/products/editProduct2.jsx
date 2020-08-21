@@ -24,7 +24,7 @@ class EditProduct extends Component {
       id: "",
       title: "",
       title_local: "",
-      quantity: "",
+      item_quantity: "",
       price: "",
       discount_price: "",
       //   category: "",
@@ -103,7 +103,7 @@ class EditProduct extends Component {
 
   render() {
     const { formData, success, error, loading } = this.state;
-    console.log(formData);
+    // console.log(formData);
 
     if (success) {
       return <Redirect to="/shop-product-list" />;
@@ -138,7 +138,7 @@ class EditProduct extends Component {
               type="text"
               // placeholder="Quantity"
               name="quantity"
-              value={formData.quantity || ""}
+              value={formData.item_quantity || ""}
               onChange={this.handleChange}
             />
           </Form.Group>

@@ -41,7 +41,7 @@ class CartHeader extends Component {
             </Link>
             <h4>
               <span>
-                {item.quantity} x {item.final_price}
+                {item.quantity} x {item.item.price} = {item.final_price}
               </span>
             </h4>
           </div>

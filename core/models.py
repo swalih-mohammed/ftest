@@ -285,7 +285,7 @@ class Item(models.Model):
                              on_delete=models.CASCADE)
     title = models.CharField(max_length=100, blank=True, null=True)
     title_local = models.CharField(max_length=100, blank=True, null=True)
-    quantity = models.CharField(max_length=100, blank=True, null=True)
+    item_quantity = models.CharField(max_length=100, blank=True, null=True)
     price = models.FloatField()
     discount_price = models.FloatField(blank=True, null=True)
     productategory = models.ForeignKey(ProductCategory,

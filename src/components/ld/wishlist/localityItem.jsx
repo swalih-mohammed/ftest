@@ -45,7 +45,7 @@ class ProductStyleFour extends Component {
   };
   render() {
     const { locality } = this.props;
-    console.log(locality);
+    // console.log(locality);
 
     return (
       <div className="product-box">

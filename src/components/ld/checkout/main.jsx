@@ -13,8 +13,7 @@ import {
 } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { fetchCart, clearKart } from "../../../actions/cart";
-import Header from "../common/header";
-import Footer from "../common/footer";
+import ModeOfPayment from "./modeOfPayment";
 
 class checkOut extends Component {
   state = {
@@ -240,6 +239,12 @@ class checkOut extends Component {
                       <h6 style={{ color: "#FFF" }}> Select Mode of Payment</h6>
                     </div>
                     {ShopModeOfPayment.map(mode => (
+                      // <div key={mode.id} className="row">
+                      //   <ModeOfPayment
+                      //     mode={mode}
+                      //     handleModeOfPayment={this.handleModeOfPayment}
+                      //   />
+                      // </div>
                       <div key={mode.id} className="row">
                         <div className="col-lg-3">
                           <div className="dashboard-left">
@@ -267,6 +272,7 @@ class checkOut extends Component {
                                             <input
                                               value={mode.id}
                                               type="radio"
+                                              checked={this.state.checked}
                                               name="optradio"
                                               onChange={
                                                 this.handleModeOfPayment

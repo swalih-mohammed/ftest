@@ -64,11 +64,10 @@ class ProductStyleFour extends Component {
             </Link>
             <br />
             <h4>{shop.shop_place_name}</h4>
-            <h4>
-              <h6>
-                <a href={"tel:" + shop.phone_number}>{shop.phone_number}</a>
-              </h6>
-            </h4>
+
+            {/* <h6>
+              <a href={"tel:" + shop.phone_number}>{shop.phone_number}</a>
+            </h6> */}
           </div>
         </div>
       </div>

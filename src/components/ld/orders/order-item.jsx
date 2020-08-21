@@ -152,7 +152,7 @@ class OrderItem extends Component {
       ShopSuccess,
       CustomerSuccess
     } = this.state;
-    console.log(orderAddress);
+    // console.log(orderAddress);
     const { userType } = this.props;
     // console.log(orderAddress);
 
@@ -193,7 +193,7 @@ class OrderItem extends Component {
                           onInputChange={this.handleInputChange}
                           noOptionsMessage={() => null}
                           placeholder={"Select order status"}
-                          autoFocus={true}
+                          // autoFocus={true}
                           menuIsOpen={this.state.menuOpen}
                         />
                       </div>

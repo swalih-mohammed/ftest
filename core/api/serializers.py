@@ -306,6 +306,8 @@ class ItemDetailSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'title',
+            'title_local',
+            'quantity',
             'price',
             'discount_price',
             # 'category',

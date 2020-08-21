@@ -102,7 +102,15 @@ class ProductStyleNine extends Component {
             {/* <Link
               to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}
             > */}
-            <h6>{product.title}</h6>
+            <h6>
+              {product.title}{" "}
+              <span>
+                {" "}
+                {product.title_local ? (
+                  <span>{product.title_local}</span>
+                ) : null}
+              </span>
+            </h6>{" "}
             {/* </Link> */}
             <h4>
               {"Rs: "} {product.price}
@@ -110,7 +118,6 @@ class ProductStyleNine extends Component {
                 <span className="money">{product.price}</span>
               </del> */}
             </h4>
-
             <div className="cart-bottom">
               {product.is_available ? (
                 <button

@@ -30,7 +30,8 @@ class EditProduct extends Component {
       //   category: "",
       description: "",
       is_available: false,
-      is_on_sale: false
+      is_on_sale: false,
+      is_featured: false
     },
     success: false,
     error: null,
@@ -102,7 +103,7 @@ class EditProduct extends Component {
 
   render() {
     const { formData, success, error, loading } = this.state;
-    // console.log(formData);
+    console.log(formData);
 
     if (success) {
       return <Redirect to="/shop-product-list" />;
@@ -117,7 +118,7 @@ class EditProduct extends Component {
               type="text"
               // placeholder="Product Name"
               name="title"
-              value={formData.title}
+              value={formData.title || ""}
               onChange={this.handleChange}
             />
           </Form.Group>
@@ -127,7 +128,7 @@ class EditProduct extends Component {
               type="text"
               // placeholder="Product Local Name"
               name="title_local"
-              value={formData.title_local}
+              value={formData.title_local || ""}
               onChange={this.handleChange}
             />
           </Form.Group>
@@ -137,7 +138,7 @@ class EditProduct extends Component {
               type="text"
               // placeholder="Quantity"
               name="quantity"
-              value={formData.quantity}
+              value={formData.quantity || ""}
               onChange={this.handleChange}
             />
           </Form.Group>
@@ -147,7 +148,7 @@ class EditProduct extends Component {
               type="text"
               // placeholder="Price"
               name="price"
-              value={formData.price}
+              value={formData.price || ""}
               onChange={this.handleChange}
             />
           </Form.Group>
@@ -157,18 +158,18 @@ class EditProduct extends Component {
               type="text"
               // placeholder="Discount"
               name="discount"
-              value={formData.discount}
+              value={formData.discount || ""}
               onChange={this.handleChange}
             />
           </Form.Group>
-          <Form.Group
+          {/* <Form.Group
             controlId="formBasicPassword"
             name="detail"
             value={formData.detail}
           >
             <Form.Label>Detail</Form.Label>
             <Form.Control type="text" placeholder="Detail" />
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group controlId="formBasicCheckbox">
             <Form.Check
               type="checkbox"

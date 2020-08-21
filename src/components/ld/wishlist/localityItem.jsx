@@ -12,22 +12,23 @@ import { authAxios } from "../../../authAxios";
 import { ToastContainer, toast } from "react-toastify";
 
 class ProductStyleFour extends Component {
+  state = {
+    loading: false
+  };
   removeFromFavList = id => {
+    this.setState({ loading: true });
     authAxios
       .put(RemoveFromFavoritePlacesURL(id), {
         is_active: false
       })
       .then(res => {
-        this.setState({
-          message: "This locality removed from your favorite list"
-        });
         toast.error("This locality removed from your favorite list");
-        // this.fetchPlaces();
         this.props.fetchPlaces();
+        this.setState({ loading: false });
       })
       .catch(err => {
-        this.setState({ error: err });
         toast.error("an error occured");
+        this.setState({ loading: false });
       });
   };
 
@@ -44,7 +45,7 @@ class ProductStyleFour extends Component {
   };
   render() {
     const { locality } = this.props;
-    console.log(locality);
+    // console.log(locality);
 
     return (
       <div className="product-box">

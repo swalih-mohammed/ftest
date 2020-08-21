@@ -45,14 +45,14 @@ class ProductStyleFour extends Component {
   };
   render() {
     const { locality } = this.props;
-    // console.log(locality);
+    console.log(locality);
 
     return (
       <div className="product-box">
         {this.state.loading && <div className="loading-cls"></div>}
         <div className="img-wrapper">
           <div className="front">
-            <Link to={`${process.env.PUBLIC_URL}/places/${locality.id}`}>
+            <Link to={`${process.env.PUBLIC_URL}/places/${locality.place}`}>
               <img
                 src={`${localhost}${locality.place_image}`}
                 className="img-fluid"

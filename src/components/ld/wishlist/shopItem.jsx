@@ -35,7 +35,7 @@ class ProductStyleFour extends Component {
       <div className="product-box">
         <div className="img-wrapper">
           <div className="front">
-            <Link to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}>
+            <Link to={`${process.env.PUBLIC_URL}/shops/${shop.shop}`}>
               <img
                 src={`${localhost}${shop.shop_image}`}
                 // src={shop.image}

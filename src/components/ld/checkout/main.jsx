@@ -84,12 +84,17 @@ class checkOut extends Component {
 
   handleAddress = event => {
     this.setState({ selectedAddress: event.target.value });
-    // console.log(event.target.value);
+    console.log(event.target.value);
   };
 
-  handleModeOfPayment = event => {
-    this.setState({ selectedModeofPayment: event.target.value });
-    // console.log(event.target.value);
+  //   handleModeOfPayment = event => {
+  //     this.setState({ selectedModeofPayment: event.target.value });
+  //     console.log(event.target.value);
+  //   };
+
+  handleModeOfPayment = mode => {
+    this.setState({ selectedModeofPayment: mode });
+    // console.log(mode);
   };
   submit = ev => {
     ev.preventDefault();
@@ -145,7 +150,7 @@ class checkOut extends Component {
     return (
       <div>
         {/* <Header /> */}
-        <ToastContainer />
+        {/* <ToastContainer /> */}
         {/* <Footer /> */}
         {this.state.loading && <div className="loading-cls"></div>}
         {cart ? (
@@ -238,60 +243,10 @@ class checkOut extends Component {
                     <div className="account-sidebar">
                       <h6 style={{ color: "#FFF" }}> Select Mode of Payment</h6>
                     </div>
-                    {ShopModeOfPayment.map(mode => (
-                      // <div key={mode.id} className="row">
-                      //   <ModeOfPayment
-                      //     mode={mode}
-                      //     handleModeOfPayment={this.handleModeOfPayment}
-                      //   />
-                      // </div>
-                      <div key={mode.id} className="row">
-                        <div className="col-lg-3">
-                          <div className="dashboard-left">
-                            <div className="collection-mobile-back">
-                              <span className="filter-back">
-                                <i
-                                  className="fa fa-angle-left"
-                                  aria-hidden="true"
-                                ></i>{" "}
-                                back
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-lg-9">
-                          <div className="dashboard-right">
-                            <div className="dashboard">
-                              <div className="box-account box-info">
-                                <div className="row">
-                                  <div className="col-sm-6">
-                                    <div className="box">
-                                      <div className="radio">
-                                        <form>
-                                          <label>
-                                            <input
-                                              value={mode.id}
-                                              type="radio"
-                                              checked={this.state.checked}
-                                              name="optradio"
-                                              onChange={
-                                                this.handleModeOfPayment
-                                              }
-                                            />
-                                            {"  "}
-                                            {mode.name}
-                                          </label>
-                                        </form>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                    {/* <ModeOfPayment
+                      handleModeOfPayment={this.handleModeOfPayment}
+                      options={ShopModeOfPayment}
+                    /> */}
                   </div>
                 </section>
               ) : null}

@@ -15,7 +15,6 @@ import Result from "./testTable";
 
 const Manage = () => {
   const [orders, setOrders] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 0), 0)
@@ -30,10 +29,10 @@ const Manage = () => {
 
   const fetchOrders = e => {
     // e.preventDefault();
-    setLoading(true);
     const endingtDate = endDate === undefined ? null : endDate;
     const staringtDate = startDate === undefined ? null : startDate;
-
+    // console.log(endingtDate, staringtDate);
+    // console.log(staringtDate);
     authAxios
       .get(orderFilterURL, {
         params: {
@@ -43,10 +42,8 @@ const Manage = () => {
       })
       .then(res => {
         setOrders(res.data);
-        setLoading(false);
       })
       .catch(err => {});
-    setLoading(false);
   };
 
   const columns = [
@@ -90,12 +87,11 @@ const Manage = () => {
       accessor: "mode_of_payment"
     }
   ];
-  // console.log(loading);
+  // console.log(orders);
 
   return (
     <div>
       <section className="register-page section-b-space">
-        {loading && <div className="loading-cls"></div>}
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
@@ -113,21 +109,8 @@ const Manage = () => {
                             selectsStart
                             // onChange={handleChangeStartDate}
                             onChange={date => setStartDate(date)}
-                            // popperClassName="some-custom-class"
-                            // popperPlacement="top-end"
-                            popperModifiers={{
-                              offset: {
-                                enabled: true
-                                // offset: "5px, 10px"
-                              },
-                              preventOverflow: {
-                                enabled: true
-                                // escapeWithReference: false,
-                                // boundariesElement: "viewport"
-                              }
-                            }}
                             dateFormat="dd/MMM/yy"
-                            // showTimeSelect
+                            showTimeSelect
                             timeFormat="HH:mm"
                             injectTimes={[
                               setHours(setMinutes(new Date(), 1), 0),
@@ -135,19 +118,13 @@ const Manage = () => {
                               setHours(setMinutes(new Date(), 59), 23)
                             ]}
                           />
-                          {/* <DatePicker
-                            selected={startDate}
-                            onChange={date => setStartDate(date)}
-                            showTimeInput
-                            customTimeInput={<ExampleCustomTimeInput />}
-                          /> */}
                         </div>
                         <div className="form-group col-md-8 col-sm-8 col-xs-8">
                           <DatePicker
                             selected={endDate}
                             // onChange={handleChangeEndtDate}
                             onChange={date => setEndDate(date)}
-                            // showTimeSelect
+                            showTimeSelect
                             dateFormat="dd/MMM/yy"
                             timeFormat="HH:mm"
                             injectTimes={[
@@ -196,13 +173,5 @@ const Manage = () => {
     </div>
   );
 };
-
-// const ExampleCustomTimeInput = ({ value, onChange }) => (
-//   <input
-//     value={value}
-//     onChange={e => onChange(e.target.value)}
-//     style={{ border: "solid 1px pink" }}
-//   />
-// );
 
 export default Manage;

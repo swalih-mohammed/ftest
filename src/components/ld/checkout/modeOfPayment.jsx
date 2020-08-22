@@ -1,65 +1,68 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 class ModeOfPayment extends Component {
-  state = {
-    isChecked: false
+  constructor(props) {
+    super(props);
+  }
+  handleCheckBox = e => {
+    this.props.handleModeOfPayment(e.target.value);
   };
 
-  handleChange = e => {
-    this.props.handleModeOfPayment(e);
-    this.toggleChange();
-  };
-  toggleChange = () => {
-    this.setState({
-      isChecked: !this.state.isChecked
-    });
-  };
+  // handleChange = e => {
+  //   this.props.handleModeOfPayment(e);
+  // };
 
   render() {
-    const { mode } = this.props;
+    const { options } = this.props;
+    const initialValues = {
+      modOfPayment: ""
+    };
+
     return (
-      <div key={mode.id} className="row">
-        <div className="col-lg-3">
-          <div className="dashboard-left">
-            <div className="collection-mobile-back">
-              <span className="filter-back">
-                <i className="fa fa-angle-left" aria-hidden="true"></i> back
-              </span>
+      <Formik initialValues={initialValues}>
+        {formik => (
+          <Form>
+            <div className="form-control">
+              <Field name="modOfPayment">
+                {({ field }) => {
+                  // console.log(field);
+                  return options.map(option => {
+                    // console.log(option);
+                    return (
+                      <React.Fragment key={option.id}>
+                        <div className="row">
+                          <div className="col-lg-3">
+                            <div className="box">
+                              <div className="radio">
+                                <input
+                                  type="radio"
+                                  id={option.id}
+                                  {...field}
+                                  // {...rest}
+                                  value={option.id}
+                                  onChange={e => {
+                                    this.handleCheckBox(e);
+                                  }}
+                                />
+                                <label htmlFor={option.name}>
+                                  {option.name}
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </React.Fragment>
+                    );
+                  });
+                }}
+              </Field>
+              {/* <ErrorMessage component={TextError} name={name} /> */}
             </div>
-          </div>
-        </div>
-        <div className="col-lg-9">
-          <div className="dashboard-right">
-            <div className="dashboard">
-              <div className="box-account box-info">
-                <div className="row">
-                  <div className="col-sm-6">
-                    <div className="box">
-                      <div className="radio">
-                        <form>
-                          <label>
-                            <input
-                              value={mode.id}
-                              type="radio"
-                              checked={this.state.isChecked}
-                              name="optradio"
-                              onChange={this.handleChange}
-                              //   onChange={this.props.handleModeOfPayment}
-                            />
-                            {"  "}
-                            {mode.name}
-                          </label>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+          </Form>
+        )}
+      </Formik>
     );
   }
 }

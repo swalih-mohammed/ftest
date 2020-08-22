@@ -34,6 +34,10 @@ export const placeShopListURL = id => `${endpoint}/places/${id}/shops/`;
 export const productListURL = `${endpoint}/products/`;
 // export const shopProductListURL = `${endpoint}/producstsofashop/`;
 export const shopProductListURL = id => `${endpoint}/producstsofashop/${id}/`;
+export const addProductURL = `${endpoint}/add-product/`;
+export const productImagesURL = id => `${endpoint}/product-images/${id}/`;
+export const ShopProductCategoryURL = id =>
+  `${endpoint}/product-shop-category/${id}/`;
 
 export const productDetailURL = id => `${endpoint}/products/${id}/`;
 export const ShopFProductListURL = id => `${endpoint}/shops/${id}/fproducts`;

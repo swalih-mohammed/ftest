@@ -1,6 +1,6 @@
 from django_countries.serializer_fields import CountryField
 from rest_framework import serializers
-from core.models import (AppInfo, ModeOfPayment, Candidate, Compliant, Taxi, Cooli, OrderStatus,
+from core.models import (ProductCategory, ProductImage, AppInfo, ModeOfPayment, Candidate, Compliant, Taxi, Cooli, OrderStatus,
                          UserProfile, Address, ServiceArea, Area, Place, Village, Cluster, District, State, Shop, Item, Order, OrderItem, Coupon, Variation, ItemVariation, Area, FavoritePlaces, FavoriteShops
 
                          )
@@ -30,6 +30,18 @@ class AppInfoSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
+        fields = '__all__'
+
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = '__all__'
+
+
+class ShopProductCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductCategory
         fields = '__all__'
 
 

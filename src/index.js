@@ -49,7 +49,7 @@ import OrderSummary from "./components/ld/checkout/or";
 //products
 import ShopProducts from "./components/ld/products/productList";
 import ShopProductsEdit from "./components/ld/products/editProduct2";
-// import AddProduct from "./components/ld/products/addProduct"
+import AddShopProduct from "./components/ld/products/addProduct";
 // import EditProduct from "./components/ld/products/addProduct"
 // import DeleteProduct from "./components/ld/products/addProduct"
 
@@ -121,6 +121,10 @@ class Root extends React.Component {
                   <Route
                     path={`${process.env.PUBLIC_URL}/shop-product-list`}
                     component={ShopProducts}
+                  />
+                  <Route
+                    path={`${process.env.PUBLIC_URL}/add-shop-product`}
+                    component={AddShopProduct}
                   />
                   <Route
                     path={`${process.env.PUBLIC_URL}/edit-shop-product/:productID`}

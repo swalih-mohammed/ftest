@@ -41,6 +41,9 @@ from .views import (
     ServiceAreaView,
     ProductListForShopView,
     ProductUpdateForShopView,
+    ProductImageListView,
+    ShopProductCategoryListView,
+    AddProductView,
     AppInfoView
 
 
@@ -71,6 +74,8 @@ urlpatterns = [
     path('addresses/<pk>/',
          orderAddressView.as_view(), name='order-address'),
 
+
+    path('add-product/', AddProductView.as_view(), name='add-product'),
     path('products/', ItemListView.as_view(), name='product-list'),
     path('producstsofashop/<int:owner_id>/', ProductListForShopView.as_view(),
          name='shop-product-list'),
@@ -78,13 +83,16 @@ urlpatterns = [
          ProductUpdateForShopView.as_view(), name='shop-product-edit'),
     path('products/<pk>/', ItemDetailView.as_view(), name='product-detail'),
 
+    path('product-shop-category/<int:owner_id>/',
+         ShopProductCategoryListView.as_view(), name='shop-product-category-list'),
+    path('product-images/<int:cateogry_id>/',
+         ProductImageListView.as_view(), name='product-images'),
     path('places/<int:place_id>/shops/', PlaceShopListView.as_view(),
          name='place-shop-list'),
     path('places/<int:taxi_id>/taxis/', PlaceTaxiListView.as_view(),
          name='place-taxi-list'),
     path('places/<int:cooli_id>/coolies/', PlaceCooliListView.as_view(),
          name='place-cooli-list'),
-
 
     path('shops-filter/', ShopFilterView.as_view(), name='shop-filter'),
     path('shops/', ShopListView.as_view(), name='shop-list'),
@@ -110,7 +118,6 @@ urlpatterns = [
     path('order-filter/', OrderFilterView.as_view(), name='order-filter'),
     path('order-search/', OrderSearchView.as_view(), name='order-search'),
     path('order-status/', OrderStatusListView.as_view(), name='order-status'),
-
 
     path('orders/<pk>/delete/',
          OrderDeleteView.as_view(), name='order-delete'),
@@ -140,7 +147,6 @@ urlpatterns = [
 
     path('mode-of-payment/', ShopsModOfPaymentView.as_view(),
          name='mode-of-payment'),
-
 
     # favrite
     path('add-to-favorite-places/', AddToFavoritePlacesView.as_view(),
@@ -173,8 +179,6 @@ urlpatterns = [
     path('districts-filter/', DistrictFilterView.as_view(),
          name='district-filter'),
     path('states/', StateListView.as_view(), name='state-list'),
-
-
 
 
 ]

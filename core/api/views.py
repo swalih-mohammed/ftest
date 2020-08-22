@@ -27,11 +27,11 @@ from rest_framework.decorators import api_view
 
 from core.models import Item, OrderItem, Order, AppInfo
 
-from .serializers import (ModeOfPayment, OrderStatusUpdateserializer, AppInfoSerializer,
+from .serializers import (ShopProductCategorySerializer,ProductImageSerializer,ModeOfPayment, OrderStatusUpdateserializer, AppInfoSerializer,
     ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
     ShopProductSerializer, UserProfileSerializer, PlaceSerializer, ServiceAreaSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
 )
-from core.models import UserProfile, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, Refund, UserProfile, Variation, ItemVariation, FavoriteShops, FavoritePlaces, ServiceArea
+from core.models import ProductImage, ProductCategory,UserProfile, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, Refund, UserProfile, Variation, ItemVariation, FavoriteShops, FavoritePlaces, ServiceArea
 
 
 class AppInfoView(ListAPIView):
@@ -128,6 +128,33 @@ class ShopFProductListView(ListAPIView):
 
     def get_queryset(self):
         return Item.objects.filter(shop_id=self.kwargs['shop_id'], is_featured=True )
+
+
+class AddProductView(CreateAPIView):
+    permission_classes = (AllowAny, )
+    serializer_class = ShopProductSerializer
+    queryset = Item.objects.all()
+
+class ShopProductCategoryListView(ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ShopProductCategorySerializer
+    # queryset = Item.objects.all()
+
+    def get_queryset(self):
+        shop = Shop.objects.filter(owner=self.kwargs['owner_id']).first() 
+        qs = ProductCategory.objects.filter(shop =shop)
+        return qs
+       
+
+class ProductImageListView(ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ProductImageSerializer
+    # queryset = Item.objects.all()
+
+    def get_queryset(self):
+        print(self.kwargs)
+        return ProductImage.objects.filter(productCategory=self.kwargs['cateogry_id'] )
+
 
 class ShopProductListView(ListAPIView):
     permission_classes = (AllowAny,)

@@ -58,7 +58,7 @@ class OrderSummary extends Component {
   };
 
   handleAddToCart2 = (id, shop) => {
-    console.log(id, shop);
+    // console.log(id, shop);
     this.setState({ loading: true });
     authAxios
       .post(addToCartURL, { id, shop })
@@ -172,6 +172,7 @@ class OrderSummary extends Component {
                                                 type="button"
                                                 className="btn quantity-left-minus"
                                                 // onClick={this.minusQty}
+
                                                 onClick={() =>
                                                   this.handleRemoveQuantityFromCart(
                                                     item.item.id

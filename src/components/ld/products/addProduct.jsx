@@ -1,175 +1,236 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import { authSignup } from "../../../actions/auth";
 import { Redirect } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
+import axios from "axios";
+
+import { productImagesURL, ShopProductCategoryURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
-import { registerComplaintURL } from "../../../constants";
-import { useFormik, Field } from "formik";
+import Select from "react-select";
 
-const AddProduct = props => {
-  const [saving, setSaving] = useState(false);
-  const formik = useFormik({
-    initialValues: {
-      applicant: props.currentUser,
-      name: "",
-      phone_number: "",
-      order_number: "",
-      detail: ""
-    },
-    onSubmit: values => {
-      console.log(values);
-      const title = values["title"] === undefined ? null : values["title"];
-      const applicant = props.currentUser;
-      const price = values["price"] === undefined ? null : values["price"];
-      const quantity =
-        values["quantity"] === undefined ? null : values["quantity"];
-      const category =
-        values["category"] === undefined ? null : values["category"];
-      const discount_price =
-        values["discount_price"] === undefined
-          ? null
-          : values["discount_price"];
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-      const description =
-        values["description"] === undefined ? null : values["description"];
-      const image = values["image"] === undefined ? null : values["image"];
-      const is_available =
-        values["is_available"] === undefined ? null : values["is_available"];
+import {
+  Form,
+  Button,
+  InputGroup,
+  FormControl,
+  Col,
+  Container
+} from "react-bootstrap";
 
-      const is_featured =
-        values["is_featured"] === undefined ? null : values["is_featured"];
-      const is_on_sale =
-        values["is_on_sale"] === undefined ? null : values["is_on_sale"];
+class AddProduct extends Component {
+  state = {
+    id: "",
+    title: "",
+    title_local: "",
+    item_quantity: "",
+    price: "",
+    discount_price: "",
+    is_available: false,
+    is_on_sale: false,
+    is_featured: false,
 
-      setSaving(true);
-      authAxios
-        .post(registerComplaintURL, {
-          title: title,
-          quantity: quantity,
-          applicant: applicant,
-          price: price,
-          discount_price: discount_price,
-          category: category,
-          description: description,
-          image: image,
-          is_available: is_available,
-          is_on_sale: is_on_sale
-        })
-        .then(res => {
-          setSaving(false);
-        })
-        .catch(err => {
-          // this.setState({ loading: false, error: err });
-        });
+    success: false,
+    error: null,
+    loading: false,
+
+    categoryID: 1,
+    productImages: [],
+    shopID: 1,
+    ShopProductCategory: []
+  };
+
+  componentDidMount() {
+    // this.fetchProductImage();
+    this.fetchProductCategory();
+  }
+
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleChangeCheckBox = e => {
+    this.setState({ [e.target.name]: e.target.checked });
+  };
+
+  fetchProductCategory = () => {
+    const ownerID = this.props.userID;
+    this.setState({ loading: true });
+    // authAxios
+    axios
+      .get(ShopProductCategoryURL(ownerID))
+      .then(res => {
+        this.setState({ ShopProductCategory: res.data, loading: false });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
+  };
+
+  fetchProductImage = () => {
+    const categoryID = this.state.categoryID;
+    this.setState({ loading: true });
+    // authAxios
+    axios
+      .get(productImagesURL(categoryID))
+      .then(res => {
+        this.setState({ productImages: res.data, loading: false });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
+  };
+
+  render() {
+    console.log(this.state.productImages);
+    console.log(this.props.userID);
+    const {
+      success,
+      error,
+      loading,
+      id,
+      title,
+      title_local,
+      item_quantity,
+      price,
+      discount_price,
+      is_available,
+      is_on_sale,
+      is_featured
+    } = this.state;
+
+    // console.log(formData);
+
+    if (success) {
+      return <Redirect to="/shop-product-list" />;
     }
-  });
+    return (
+      <Container>
+        {this.state.loading && <div className="loading-cls"></div>}
+        <Form onSubmit={this.handleUpdateProductDetails}>
+          <Form.Group controlId="title">
+            <Form.Label>Product Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="title"
+              value={title || ""}
+              onChange={this.handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="title">
+            <Form.Label>Product Local Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="title_local"
+              value={title_local || ""}
+              onChange={this.handleChange}
+            />
+          </Form.Group>
 
-  // console.log(props.currentUser);
-
-  return (
-    <div>
-      <section className="register-page section-b-space">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <h3>Add a product</h3>
-              <div className="theme-card">
-                <form className="theme-form" onSubmit={formik.handleSubmit}>
-                  <div className="form-row">
-                    <div className="col-md-6">
-                      <label htmlFor="email">Prodcut Name</label>
-                      <input
-                        className="form-control"
-                        id="title"
-                        name="title"
-                        type="text"
-                        onChange={formik.handleChange}
-                        value={formik.values.title}
-                      />
-                    </div>
-                    <div className="col-md-6">
-                      <label htmlFor="email">Quantity [KG]</label>
-                      <input
-                        className="form-control"
-                        id="quantity"
-                        name="quantity"
-                        type="text"
-                        onChange={formik.handleChange}
-                        value={formik.values.quantity}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-row">
-                    <div className="col-md-6">
-                      <label htmlFor="email">Price</label>
-                      <input
-                        className="form-control"
-                        id="title"
-                        name="price"
-                        type="text"
-                        onChange={formik.handleChange}
-                        value={formik.values.price}
-                      />
-                    </div>
-                    <div className="col-md-6">
-                      <label htmlFor="email">Discount Price</label>
-                      <input
-                        className="form-control"
-                        id="title"
-                        name="discount_price"
-                        type="text"
-                        onChange={formik.handleChange}
-                        value={formik.values.discount_price}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-row">
-                    <div className="col-md-6">
-                      <label htmlFor="email">Category</label>
-                      <select
-                        className="form-control"
-                        id="discount_price"
-                        name="category"
-                        type="text"
-                        onChange={formik.handleChange}
-                        value={formik.values.category}
-                      />
-                    </div>
-
-                    <div className="col-md-6">
-                      <label htmlFor="review">Image</label>
-                      <image
-                        className="form-control"
-                        id="image"
-                        name="image"
-                        type="text"
-                        onChange={formik.handleChange}
-                        value={formik.values.image}
-                      />
-                    </div>
-
-                    <input
-                      type="submit"
-                      className="btn btn-solid"
-                      id="submit"
-                      placeholder="Submit"
-                      required=""
-                    />
-                  </div>
-                </form>
-              </div>
-            </div>
+          <Form.Group controlId="quantity">
+            <Form.Label>Quantity</Form.Label>
+            <Form.Control
+              type="text"
+              // placeholder="Quantity"
+              name="quantity"
+              value={item_quantity || ""}
+              onChange={this.handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Price</Form.Label>
+            <Form.Control
+              type="text"
+              name="price"
+              value={price || ""}
+              onChange={this.handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Discounted Price</Form.Label>
+            <Form.Control
+              type="text"
+              name="discount"
+              value={discount_price || ""}
+              onChange={this.handleChange}
+            />
+          </Form.Group>
+          <div>
+            <Select
+              className="mb-3"
+              onChange={this.handleChangeState}
+              getOptionLabel={option => `${option.name}`}
+              getOptionValue={option => `${option}`}
+              // options={states}
+              isSearchable={true}
+              filterOption={this.customFilter}
+              onInputChange={this.handleInputChange}
+              noOptionsMessage={() => null}
+              placeholder={"Select state"}
+              // autoFocus={true}
+              // menuIsOpen={this.state.menuOpen}
+            />
           </div>
-        </div>
-      </section>
-    </div>
-  );
-};
+          <div>
+            <Select
+              className="mb-3"
+              onChange={this.handleChangeState}
+              getOptionLabel={option => `${option.name}`}
+              getOptionValue={option => `${option}`}
+              // options={states}
+              isSearchable={true}
+              filterOption={this.customFilter}
+              onInputChange={this.handleInputChange}
+              noOptionsMessage={() => null}
+              placeholder={"Select state"}
+              // autoFocus={true}
+              // menuIsOpen={this.state.menuOpen}
+            />
+          </div>
+          <Form.Group controlId="formBasicCheckbox">
+            <Form.Check
+              type="checkbox"
+              name="is_available"
+              label="In stock"
+              checked={is_available}
+              onChange={this.handleChangeCheckBox}
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicCheckbox">
+            <Form.Check
+              type="checkbox"
+              label="Feautured product"
+              name="is_featured"
+              checked={is_featured}
+              onChange={this.handleChangeCheckBox}
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicCheckbox">
+            <Form.Check
+              type="checkbox"
+              label="On sale"
+              name="is_on_sale"
+              checked={is_on_sale}
+              onChange={this.handleChangeCheckBox}
+            />
+          </Form.Group>
+
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </Container>
+    );
+  }
+}
 
 const mapStateToProps = state => {
   return {
-    currentUser: state.user.user.userID
+    token: state.auth.token,
+    // userID: state.user.user.userID
+    userID: state.user.user.userID
   };
 };
 

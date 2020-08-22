@@ -4,7 +4,11 @@ import { Redirect } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import axios from "axios";
 
-import { productImagesURL, ShopProductCategoryURL } from "../../../constants";
+import {
+  productImagesURL,
+  ShopProductCategoryURL,
+  addProductURL
+} from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import Select from "react-select";
 
@@ -22,20 +26,21 @@ import {
 
 class AddProduct extends Component {
   state = {
-    id: "",
     title: "",
     title_local: "",
     item_quantity: "",
     price: "",
     discount_price: "",
+    product_image: "",
+    productategory: "",
     is_available: false,
     is_on_sale: false,
     is_featured: false,
 
+    id: "",
     success: false,
     error: null,
     loading: false,
-
     categoryID: 1,
     productImages: [],
     shopID: 1,
@@ -49,6 +54,21 @@ class AddProduct extends Component {
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleChangeCategory = cat => {
+    this.setState(
+      {
+        productategory: cat.id
+      },
+      () => {
+        this.fetchProductImage();
+      }
+    );
+  };
+
+  handleChangeImage = image => {
+    this.setState({ product_image: image.id });
   };
 
   handleChangeCheckBox = e => {
@@ -83,9 +103,50 @@ class AddProduct extends Component {
       });
   };
 
+  handleCreateItem = e => {
+    e.preventDefault();
+    const { userID } = this.props;
+    // console.log(userID);
+    const {
+      title,
+      title_local,
+      item_quantity,
+      price,
+      discount_price,
+      productategory,
+      product_image,
+      is_available,
+      is_on_sale,
+      is_featured
+    } = this.state;
+    authAxios
+      .post(addProductURL, {
+        userID,
+        title,
+        title_local,
+        item_quantity,
+        price,
+        discount_price,
+        productategory,
+        product_image,
+        is_available,
+        is_on_sale,
+        is_featured
+      })
+      .then(res => {
+        this.setState({
+          saving: false,
+          success: true
+        });
+      })
+      .catch(err => {
+        this.setState({ error: err });
+      });
+  };
+
   render() {
-    console.log(this.state.productImages);
-    console.log(this.props.userID);
+    // console.log(this.state.productImages);
+    // console.log(this.props.userID);
     const {
       success,
       error,
@@ -109,7 +170,7 @@ class AddProduct extends Component {
     return (
       <Container>
         {this.state.loading && <div className="loading-cls"></div>}
-        <Form onSubmit={this.handleUpdateProductDetails}>
+        <Form onSubmit={this.handleCreateItem}>
           <Form.Group controlId="title">
             <Form.Label>Product Name</Form.Label>
             <Form.Control
@@ -134,7 +195,7 @@ class AddProduct extends Component {
             <Form.Control
               type="text"
               // placeholder="Quantity"
-              name="quantity"
+              name="item_quantity"
               value={item_quantity || ""}
               onChange={this.handleChange}
             />
@@ -152,7 +213,7 @@ class AddProduct extends Component {
             <Form.Label>Discounted Price</Form.Label>
             <Form.Control
               type="text"
-              name="discount"
+              name="discount_price"
               value={discount_price || ""}
               onChange={this.handleChange}
             />
@@ -160,14 +221,14 @@ class AddProduct extends Component {
           <div>
             <Select
               className="mb-3"
-              onChange={this.handleChangeState}
+              onChange={this.handleChangeCategory}
               getOptionLabel={option => `${option.name}`}
               getOptionValue={option => `${option}`}
-              // options={states}
+              options={this.state.ShopProductCategory}
               isSearchable={true}
-              filterOption={this.customFilter}
-              onInputChange={this.handleInputChange}
-              noOptionsMessage={() => null}
+              // filterOption={this.customFilter}
+              // onInputChange={this.handleInputChange}
+              // noOptionsMessage={() => null}
               placeholder={"Select state"}
               // autoFocus={true}
               // menuIsOpen={this.state.menuOpen}
@@ -176,15 +237,15 @@ class AddProduct extends Component {
           <div>
             <Select
               className="mb-3"
-              onChange={this.handleChangeState}
+              onChange={this.handleChangeImage}
               getOptionLabel={option => `${option.name}`}
               getOptionValue={option => `${option}`}
-              // options={states}
-              isSearchable={true}
-              filterOption={this.customFilter}
-              onInputChange={this.handleInputChange}
+              options={this.state.productImages}
+              // isSearchable={true}
+              // filterOption={this.customFilter}
+              // onInputChange={this.handleInputChange}
               noOptionsMessage={() => null}
-              placeholder={"Select state"}
+              placeholder={"Select image"}
               // autoFocus={true}
               // menuIsOpen={this.state.menuOpen}
             />

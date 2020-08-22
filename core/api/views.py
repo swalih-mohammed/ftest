@@ -130,10 +130,31 @@ class ShopFProductListView(ListAPIView):
         return Item.objects.filter(shop_id=self.kwargs['shop_id'], is_featured=True )
 
 
-class AddProductView(CreateAPIView):
-    permission_classes = (AllowAny, )
-    serializer_class = ShopProductSerializer
-    queryset = Item.objects.all()
+class AddProductView(APIView):
+    def post(self, request, *args, **kwargs):
+        # permission_classes = (AllowAny, )
+        # serializer_class = ShopProductSerializer
+        # queryset = Item.objects.all()
+        print(request.data)
+        user = request.data.get('userID', None)
+        shop = Shop.objects.filter(owner=user).first() 
+        title = request.data.get('title', None)
+        title_local = request.data.get('title_local', None)
+        item_quantity = request.data.get('item_quantity', None)
+        price = request.data.get('price', None)
+        discount_price = request.data.get('discount_price', None)
+        productategory = request.data.get('productategory', None)
+        productategory = get_object_or_404(ProductCategory, id=productategory)
+        product_image = request.data.get('product_image', None)
+        product_image = get_object_or_404(ProductImage, id=product_image)
+        is_on_sale = request.data.get('userID', None)
+        is_available = request.data.get('userID', None)
+        is_featured = request.data.get('userID', None)
+        
+        item = Item.objects.create( shop=shop,
+                title=title, title_local=title_local,  item_quantity=item_quantity,  price=price,  discount_price=discount_price,  productategory=productategory,  product_image=product_image,is_available=is_available, is_on_sale=is_on_sale, is_featured=is_featured)
+        item.save()
+        return Response(status=HTTP_200_OK)
 
 class ShopProductCategoryListView(ListAPIView):
     permission_classes = (AllowAny,)
@@ -292,8 +313,8 @@ class AddToCartView(APIView):
             order1 = myorder[0]
             cart_item_shop_id = order1.item.shop_id
             cart_item_shop = Shop.objects.get(id=cart_item_shop_id)
-            print(cart_item_shop)
-            print(shop)
+            # print(cart_item_shop)
+            # print(shop)
 
             if shop != cart_item_shop:
                 # print(cart_item_shop)
@@ -425,7 +446,6 @@ class CountryListView(APIView):
     def get(self, request, *args, **kwargs):
         return Response(countries, status=HTTP_200_OK)
 
-
 class AddressListView(ListAPIView):
     permission_classes = (IsAuthenticated, )
     serializer_class = AddressSerializer
@@ -433,7 +453,6 @@ class AddressListView(ListAPIView):
     def get_queryset(self):
         addresses = Address.objects.filter(user=self.request.user).order_by('-create_date')
         return addresses
-
 
 class AddressCreateView(CreateAPIView):
     permission_classes = (AllowAny, )
@@ -480,8 +499,6 @@ class OrderItemDetailView(RetrieveAPIView):
     permission_classes = (AllowAny, )
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
-
-
 
 class FavoriteShopsView(ListAPIView):
     permission_classes = (IsAuthenticated, )

@@ -137,7 +137,7 @@ class EditProduct extends Component {
             <Form.Control
               type="text"
               // placeholder="Quantity"
-              name="quantity"
+              name="item_quantity"
               value={formData.item_quantity || ""}
               onChange={this.handleChange}
             />
@@ -157,8 +157,8 @@ class EditProduct extends Component {
             <Form.Control
               type="text"
               // placeholder="Discount"
-              name="discount"
-              value={formData.discount || ""}
+              name="discount_price"
+              value={formData.discount_price || ""}
               onChange={this.handleChange}
             />
           </Form.Group>

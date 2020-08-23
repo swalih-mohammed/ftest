@@ -57,6 +57,11 @@ class ProductList extends Component {
 
         {products.length > 0 ? (
           <div className="container">
+            <div className="account-sidebar">
+              <Link style={{ color: "#FFF" }} to={`/add-shop-product`}>
+                Add a product
+              </Link>
+            </div>
             <div className="row">
               <div className="col-sm-12">
                 <table className="table    ">
@@ -65,10 +70,10 @@ class ProductList extends Component {
                       <th scope="col">Edit</th>
                       {/* <th scope="col">ID</th> */}
                       <th scope="col">Name</th>
-                      <th scope="col">Name</th>
+                      {/* <th scope="col">Name</th> */}
                       <th scope="col">Quantity</th>
-                      <th scope="col">Price</th>
-                      {/* <th scope="col">Discount</th> */}
+                      {/* <th scope="col">Price</th> */}
+                      <th scope="col">Discounted Price</th>
                     </tr>
                   </thead>
                   {products.map((item, index) => {
@@ -91,10 +96,10 @@ class ProductList extends Component {
                             </React.Fragment>
                           </td>
                           <td>{item.title}</td>
-                          <td>{item.title_local}</td>
-                          <td>{item.quantity}</td>
-                          <td>{item.price}</td>
-                          {/* <td>{item.discount}</td> */}
+                          {/* <td>{item.title_local}</td> */}
+                          <td>{item.item_quantity}</td>
+                          {/* <td>{item.price}</td> */}
+                          <td>{item.discount_price}</td>
                           {/* <td>{item.title}</td> */}
                         </tr>
                       </tbody>

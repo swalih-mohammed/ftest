@@ -229,7 +229,7 @@ class AddProduct extends Component {
               // filterOption={this.customFilter}
               // onInputChange={this.handleInputChange}
               // noOptionsMessage={() => null}
-              placeholder={"Select state"}
+              placeholder={"Select product category"}
               // autoFocus={true}
               // menuIsOpen={this.state.menuOpen}
             />
@@ -239,9 +239,10 @@ class AddProduct extends Component {
               className="mb-3"
               onChange={this.handleChangeImage}
               getOptionLabel={option => `${option.name}`}
+              getOptionLabel={option => `${option.image}`}
               getOptionValue={option => `${option}`}
               options={this.state.productImages}
-              // isSearchable={true}
+              isSearchable={true}
               // filterOption={this.customFilter}
               // onInputChange={this.handleInputChange}
               noOptionsMessage={() => null}

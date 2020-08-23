@@ -136,8 +136,8 @@ class AddProductView(APIView):
         # serializer_class = ShopProductSerializer
         # queryset = Item.objects.all()
         print(request.data)
-        user = request.data.get('userID', None)
-        shop = Shop.objects.filter(owner=user).first() 
+        # user = request.data.get('userID', None)
+        shop = Shop.objects.filter(owner=request.user).first()
         print(shop)
         title = request.data.get('title', None)
         title_local = request.data.get('title_local', None)
@@ -148,9 +148,9 @@ class AddProductView(APIView):
         productategory = get_object_or_404(ProductCategory, id=productategory)
         product_image = request.data.get('product_image', None)
         product_image = get_object_or_404(ProductImage, id=product_image)
-        is_on_sale = request.data.get('userID', None)
-        is_available = request.data.get('userID', None)
-        is_featured = request.data.get('userID', None)
+        is_on_sale = request.data.get('is_on_sale', None)
+        is_available = request.data.get('is_available', None)
+        is_featured = request.data.get('is_featured', None)
         
         item = Item.objects.create(shop=shop,
                 title=title, title_local=title_local,  item_quantity=item_quantity,  price=price,  discount_price=discount_price,  productategory=productategory,  product_image=product_image,is_available=is_available, is_on_sale=is_on_sale, is_featured=is_featured)

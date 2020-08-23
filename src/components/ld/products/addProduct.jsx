@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import axios from "axios";
+import Image from "react-bootstrap/Image";
 
 import {
   productImagesURL,
@@ -43,6 +44,7 @@ class AddProduct extends Component {
     loading: false,
     categoryID: 1,
     productImages: [],
+    selectedImage: "",
     shopID: 1,
     ShopProductCategory: []
   };
@@ -69,6 +71,7 @@ class AddProduct extends Component {
 
   handleChangeImage = image => {
     this.setState({ product_image: image.id });
+    this.setState({ selectedImage: image.image1 });
   };
 
   handleChangeCheckBox = e => {
@@ -90,11 +93,11 @@ class AddProduct extends Component {
   };
 
   fetchProductImage = () => {
-    const categoryID = this.state.categoryID;
+    const productategory = this.state.productategory;
     this.setState({ loading: true });
     // authAxios
     axios
-      .get(productImagesURL(categoryID))
+      .get(productImagesURL(productategory))
       .then(res => {
         this.setState({ productImages: res.data, loading: false });
       })
@@ -145,7 +148,7 @@ class AddProduct extends Component {
   };
 
   render() {
-    // console.log(this.state.productImages);
+    console.log(this.state.selectedImage);
     // console.log(this.props.userID);
     const {
       success,
@@ -159,10 +162,11 @@ class AddProduct extends Component {
       discount_price,
       is_available,
       is_on_sale,
-      is_featured
+      is_featured,
+      productategory
     } = this.state;
 
-    // console.log(formData);
+    console.log(productategory);
 
     if (success) {
       return <Redirect to="/shop-product-list" />;
@@ -239,7 +243,7 @@ class AddProduct extends Component {
               className="mb-3"
               onChange={this.handleChangeImage}
               getOptionLabel={option => `${option.name}`}
-              getOptionLabel={option => `${option.image}`}
+              // getOptionLabel={option => `${option.image}`}
               getOptionValue={option => `${option}`}
               options={this.state.productImages}
               isSearchable={true}
@@ -251,6 +255,12 @@ class AddProduct extends Component {
               // menuIsOpen={this.state.menuOpen}
             />
           </div>
+          {this.state.selectedImage ? (
+            <Col xs={6} md={4}>
+              <Image src={this.state.selectedImage} rounded />
+            </Col>
+          ) : null}
+
           <Form.Group controlId="formBasicCheckbox">
             <Form.Check
               type="checkbox"

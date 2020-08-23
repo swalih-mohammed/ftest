@@ -138,6 +138,7 @@ class AddProductView(APIView):
         print(request.data)
         user = request.data.get('userID', None)
         shop = Shop.objects.filter(owner=user).first() 
+        print(shop)
         title = request.data.get('title', None)
         title_local = request.data.get('title_local', None)
         item_quantity = request.data.get('item_quantity', None)
@@ -151,7 +152,7 @@ class AddProductView(APIView):
         is_available = request.data.get('userID', None)
         is_featured = request.data.get('userID', None)
         
-        item = Item.objects.create( shop=shop,
+        item = Item.objects.create(shop=shop,
                 title=title, title_local=title_local,  item_quantity=item_quantity,  price=price,  discount_price=discount_price,  productategory=productategory,  product_image=product_image,is_available=is_available, is_on_sale=is_on_sale, is_featured=is_featured)
         item.save()
         return Response(status=HTTP_200_OK)

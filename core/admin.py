@@ -56,20 +56,22 @@ class ShopAdmin(admin.ModelAdmin):
     inlines = [inlineItem]
     list_display = [
         'name',
+        # 'owner'
         'place',
         'village',
-        'district',
-        'state'
+        # 'district',
+        # 'state'
 
     ]
     list_display_links = [
         'name',
+        # 'owner'
         'place',
         'village'
 
     ]
     list_filter = ['place', 'village', 'district', 'state',  'create_date']
-    search_fields = ['name', 'place', ]
+    search_fields = ['name', 'place', 'owner']
 
 
 class ItemAdmin(admin.ModelAdmin):

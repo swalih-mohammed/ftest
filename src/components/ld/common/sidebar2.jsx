@@ -218,12 +218,12 @@ class Sidebar extends Component {
             {/* user type exist  */}
 
             <div>
-              <li>
+              {/* <li>
                 <Link to="/add-shop" onClick={this.closeNav}>
                   Add your shop
                   <span className="sub-arrow"></span>
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/add-complaint" onClick={this.closeNav}>
                   Contact Us

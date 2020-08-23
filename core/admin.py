@@ -56,7 +56,7 @@ class ShopAdmin(admin.ModelAdmin):
     inlines = [inlineItem]
     list_display = [
         'name',
-        # 'owner'
+        'owner',
         'place',
         'village',
         # 'district',
@@ -65,7 +65,7 @@ class ShopAdmin(admin.ModelAdmin):
     ]
     list_display_links = [
         'name',
-        # 'owner'
+        'owner',
         'place',
         'village'
 

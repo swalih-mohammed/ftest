@@ -32,7 +32,9 @@ class Login extends Component {
       if (this.props.error) {
         toast.error("incorrect username or password");
       } else {
-        // this.props.fetchUser();
+        if (this.props.token) {
+          this.props.fetchUser();
+        }
         toast.success("You have logged in successfully ");
       }
       // no user name and pasword filled
@@ -43,7 +45,7 @@ class Login extends Component {
   render() {
     const { error, loading, token } = this.props;
     const { username, password } = this.state;
-    // console.log(this.props.error);
+    console.log(this.props.token);
 
     if (token) {
       return <Redirect to="/" />;

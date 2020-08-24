@@ -144,6 +144,12 @@ class OrderItem extends Component {
     console.log(this.state.orderStatus);
   };
 
+  ShopModeOfPaymentOptions = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" }
+  ];
+
   render() {
     const {
       order,
@@ -152,7 +158,7 @@ class OrderItem extends Component {
       ShopSuccess,
       CustomerSuccess
     } = this.state;
-    // console.log(orderAddress);
+    // console.log(order);
     const { userType } = this.props;
     // console.log(orderAddress);
 
@@ -172,8 +178,48 @@ class OrderItem extends Component {
             <a href="/orders">
               <div className="account-sidebar">Back to Orders</div>
             </a>
+
+            {userType === "ShopOwner" ? (
+              <div className="checkout-page">
+                <form onSubmit={this.updateOrderStatus}>
+                  <div className="checkout-form">
+                    <div className="row check-out">
+                      <div className="form-group col-md-6 col-sm-6 col-xs-12">
+                        <div className="field-label">Update order status</div>
+
+                        <Select
+                          className="mb-3"
+                          onChange={this.handleChangeOrderStatus}
+                          getOptionLabel={option => `${option.name}`}
+                          getOptionValue={option => `${option}`}
+                          options={this.state.orderStatus}
+                          isSearchable={true}
+                          //   filterOption={this.customFilter}
+                          onInputChange={this.handleInputChange}
+                          noOptionsMessage={() => null}
+                          placeholder={"Select order status"}
+                          // autoFocus={true}
+                          menuIsOpen={this.state.menuOpen}
+                        />
+                      </div>
+                    </div>
+                    <br></br>
+                    <input
+                      type="submit"
+                      className="btn btn-solid"
+                      id="submit"
+                      placeholder="Submit"
+                      required=""
+                    />
+                  </div>
+                </form>
+                <br></br>
+              </div>
+            ) : (
+              ""
+            )}
             {(userType === "DeliveryStaff") |
-            (userType === "ShopOwner") |
+            // (userType === "ShopOwner") |
             (userType === "is_staff_user") ? (
               <div className="checkout-page">
                 <form onSubmit={this.updateOrderStatus}>
@@ -240,6 +286,7 @@ class OrderItem extends Component {
                             </div>
                             <h6>Date: {order.start_date}</h6>
                             <h6>Status: {order.orderStatus}</h6>
+                            <h6>Mod of Payment: {order.mode_of_payment}</h6>
                           </div>
 
                           {userType && (

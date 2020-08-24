@@ -125,6 +125,12 @@ class ShopCategory(models.Model):
     def __str__(self):
         return self.name
 
+class ModeOfPayment(models.Model):
+    name = models.CharField(max_length=100)
+    # shop = models.ForeignKey(Shop, blank=True, null=True, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
+
 class Shop(models.Model):
 
     name = models.CharField(max_length=100, blank=True, null=True)
@@ -155,6 +161,7 @@ class Shop(models.Model):
 
     is_accepting_orders = models.BooleanField(default=False)
     product_categories = models.ManyToManyField(ProductCategory, blank=True, null=True)
+    paymentMode = models.ManyToManyField(ModeOfPayment, blank=True, null=True)
     # mode_of_payment = models.ManyToManyField(ModeOfPayment, blank=True, null=True)
     is_featured = models.BooleanField(default=False,  blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -164,11 +171,6 @@ class Shop(models.Model):
     def __str__(self):
         return self.name
 
-class ModeOfPayment(models.Model):
-    name = models.CharField(max_length=100)
-    shop = models.ForeignKey(Shop, blank=True, null=True, on_delete=models.CASCADE)
-    def __str__(self):
-        return self.name
 
 class Role(models.Model):
     user = models.OneToOneField(
@@ -422,7 +424,6 @@ class Order(models.Model):
                              on_delete=models.CASCADE, blank=True, null=True)
     place = models.ForeignKey(Place,
                               on_delete=models.CASCADE, blank=True, null=True)
-
     paymentMode = models.ForeignKey(ModeOfPayment,
                               on_delete=models.CASCADE, blank=True, null=True)
     # shipping_address = models.ForeignKey(Address,

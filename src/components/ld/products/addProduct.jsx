@@ -79,11 +79,11 @@ class AddProduct extends Component {
   };
 
   fetchProductCategory = () => {
-    const ownerID = this.props.userID;
+    const shopID = null;
     this.setState({ loading: true });
     // authAxios
     axios
-      .get(ShopProductCategoryURL(ownerID))
+      .get(ShopProductCategoryURL(shopID))
       .then(res => {
         this.setState({ ShopProductCategory: res.data, loading: false });
       })
@@ -148,7 +148,7 @@ class AddProduct extends Component {
   };
 
   render() {
-    console.log(this.state.selectedImage);
+    // console.log(this.state.selectedImage);
     // console.log(this.props.userID);
     const {
       success,
@@ -166,7 +166,7 @@ class AddProduct extends Component {
       productategory
     } = this.state;
 
-    console.log(productategory);
+    // console.log(productategory);
 
     if (success) {
       return <Redirect to="/shop-product-list" />;
@@ -205,7 +205,7 @@ class AddProduct extends Component {
             />
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
-            <Form.Label>Price</Form.Label>
+            <Form.Label>MRP</Form.Label>
             <Form.Control
               type="text"
               name="price"
@@ -214,7 +214,7 @@ class AddProduct extends Component {
             />
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
-            <Form.Label>Discounted Price</Form.Label>
+            <Form.Label>Price after Discount</Form.Label>
             <Form.Control
               type="text"
               name="discount_price"

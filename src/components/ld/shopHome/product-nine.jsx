@@ -113,10 +113,13 @@ class ProductStyleNine extends Component {
             </h6>{" "}
             {/* </Link> */}
             <h4>
-              {"Rs: "} {product.price}
-              {/* <del>
-                <span className="money">{product.price}</span>
-              </del> */}
+              {"Rs: "} {product.discount_price}{" "}
+              <del>
+                <span className="money">
+                  {"  MRP "}
+                  {product.price}
+                </span>
+              </del>
             </h4>
             <div className="cart-bottom">
               {product.is_available ? (

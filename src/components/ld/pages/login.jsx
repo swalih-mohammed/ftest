@@ -45,7 +45,7 @@ class Login extends Component {
   render() {
     const { error, loading, token } = this.props;
     const { username, password } = this.state;
-    console.log(this.props.token);
+    // console.log(this.props.token);
 
     if (token) {
       return <Redirect to="/" />;

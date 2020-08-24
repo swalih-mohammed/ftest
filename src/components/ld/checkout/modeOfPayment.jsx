@@ -19,6 +19,7 @@ class ModeOfPayment extends Component {
     const initialValues = {
       modOfPayment: ""
     };
+    // console.log(this.props.modOfPayment);
 
     return (
       <Formik initialValues={initialValues}>

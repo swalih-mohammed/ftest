@@ -1,6 +1,6 @@
-export const localhost = "http://127.0.0.1:8000";
+// export const localhost = "http://127.0.0.1:8000";
 
-// export const localhost = "https://www.localdukans.com";
+export const localhost = "https://www.localdukans.com";
 
 const apiURL = "/api";
 
@@ -38,6 +38,8 @@ export const addProductURL = `${endpoint}/add-product/`;
 export const productImagesURL = id => `${endpoint}/product-images/${id}/`;
 export const ShopProductCategoryURL = id =>
   `${endpoint}/product-shop-category/${id}/`;
+export const ShopProductCategoryForCustomerURL = id =>
+  `${endpoint}/product-shop-category-for-customer/${id}/`;
 
 export const productDetailURL = id => `${endpoint}/products/${id}/`;
 export const ShopFProductListURL = id => `${endpoint}/shops/${id}/fproducts`;

@@ -43,6 +43,7 @@ from .views import (
     ProductUpdateForShopView,
     ProductImageListView,
     ShopProductCategoryListView,
+    ShopProductCategoryForCustomerListView,
     AddProductView,
     AppInfoView
 
@@ -85,6 +86,9 @@ urlpatterns = [
 
     path('product-shop-category/<int:owner_id>/',
          ShopProductCategoryListView.as_view(), name='shop-product-category-list'),
+    path('product-shop-category-for-customer/<int:shop_id>/',
+         ShopProductCategoryForCustomerListView.as_view(), name='shop-product-category-list'),
+
     path('product-images/<int:cateogry_id>/',
          ProductImageListView.as_view(), name='product-images'),
     path('places/<int:place_id>/shops/', PlaceShopListView.as_view(),

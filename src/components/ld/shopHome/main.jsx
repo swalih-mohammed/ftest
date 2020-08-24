@@ -14,12 +14,14 @@ import Shipping from "./shipping";
 import Trending from "./trending";
 import ProductList from "./product-list";
 import ShopImage from "./shopImage";
+import Productcategory from "../products/productCategory";
 // import ProductList from "./product-test";
 
 import {
   ShopProductListURL,
   ShopFProductListURL,
-  ShopDetailURL
+  ShopDetailURL,
+  ShopProductCategoryForCustomerURL
 } from "../../../constants";
 
 class Shop extends Component {
@@ -28,7 +30,10 @@ class Shop extends Component {
     error: null,
     products: [],
     featuredProducts: [],
-    ShopDetail: null
+    ShopDetail: null,
+    ShopProductCategory: [],
+    SelectedCategory: "all",
+    filteredProduct: []
   };
 
   componentDidMount() {
@@ -36,8 +41,28 @@ class Shop extends Component {
     this.fetchProducts();
     this.fetchfeaturedProducts();
     this.fetchShopDetails();
-    this.props.refreshCart();
+    this.fetchProductCategory();
+    // this.props.refreshCart();
   }
+  handleChangeCategory = cat => {
+    this.setState({ SelectedCategory: cat });
+    console.log(cat);
+    this.filterProduct();
+  };
+
+  filterProduct() {
+    const { SelectedCategory } = this.state;
+    this.setState({
+      filteredProduct: this.state.products.filter(
+        product => product.productategory == SelectedCategory
+      )
+    });
+  }
+
+  handleClearCategory = () => {
+    this.setState({ SelectedCategory: "all" });
+    console.log("all");
+  };
 
   fetchProducts = () => {
     const {
@@ -69,6 +94,23 @@ class Shop extends Component {
       });
   };
 
+  fetchProductCategory = () => {
+    // const ownerID = this.props.userID;
+    const {
+      match: { params }
+    } = this.props;
+    this.setState({ loading: true });
+    // authAxios
+    axios
+      .get(ShopProductCategoryForCustomerURL(params.shopID))
+      .then(res => {
+        this.setState({ ShopProductCategory: res.data, loading: false });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
+  };
+
   fetchfeaturedProducts = () => {
     const {
       match: { params }
@@ -85,7 +127,13 @@ class Shop extends Component {
   };
 
   render() {
-    const { products, featuredProducts, ShopDetail } = this.state;
+    const {
+      products,
+      featuredProducts,
+      ShopDetail,
+      ShopProductCategory,
+      filteredProduct
+    } = this.state;
     // console.log(products);
 
     return (
@@ -125,10 +173,37 @@ class Shop extends Component {
                       <Trending fProducts={featuredProducts} />
                     )}
 
-                    {/* <Category /> */}
+                    {ShopProductCategory.length > 0 ? (
+                      <Productcategory
+                        handleClearCategory={this.handleClearCategory}
+                        handleChangeCategory={this.handleChangeCategory}
+                        ShopProductCategory={ShopProductCategory}
+                      />
+                    ) : null}
+
                     {/* <Search /> */}
 
-                    {products && <ProductList products={products} />}
+                    {this.state.SelectedCategory !== "all" ? (
+                      <React.Fragment>
+                        <h1>filter exist</h1>
+                        {products && (
+                          <ProductList
+                            products={filteredProduct}
+                            SelectedCategory={this.state.SelectedCategory}
+                          />
+                        )}
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        <h1>filter does not exist</h1>
+                        {products && (
+                          <ProductList
+                            products={products}
+                            SelectedCategory={this.state.SelectedCategory}
+                          />
+                        )}
+                      </React.Fragment>
+                    )}
                   </div>
                 ) : (
                   <Jumbotron>

@@ -16,7 +16,7 @@ import { Product4, Product5 } from "../../../services/script";
 class ProductList extends Component {
   render() {
     const { products } = this.props;
-    // const { cartItems } = this.props;
+    // console.log(products);
 
     return (
       <div>
@@ -35,6 +35,8 @@ class ProductList extends Component {
               <div className="col">
                 {/* <Slider {...Product5} className="product-5 product-m no-arrow"> */}
                 <div className="no-slider row">
+                  {/* {this.props.SelectedCategory === "all" ? ( */}
+
                   {products.map((product, index) => (
                     // <div className="col-xl-3 col-md-6 col-grid-box">
                     <ProductStyleNine product={product} key={index} />

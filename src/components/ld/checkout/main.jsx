@@ -142,7 +142,7 @@ class checkOut extends Component {
     } = this.state;
 
     // console.log(cart);
-    // console.log(shop_id);
+    console.log(ShopModeOfPayment);
 
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
@@ -243,10 +243,10 @@ class checkOut extends Component {
                     <div className="account-sidebar">
                       <h6 style={{ color: "#FFF" }}> Select Mode of Payment</h6>
                     </div>
-                    {/* <ModeOfPayment
+                    <ModeOfPayment
                       handleModeOfPayment={this.handleModeOfPayment}
                       options={ShopModeOfPayment}
-                    /> */}
+                    />
                   </div>
                 </section>
               ) : null}

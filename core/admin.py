@@ -15,14 +15,23 @@ make_refund_accepted.short_description = 'Update orders to refund granted'
 admin.site.site_header = 'Local Dukans - Administration'
 
 
+class PaymentModeInline(admin.TabularInline):
+    model = ModeOfPayment
+
+
 class OrderAdmin(admin.ModelAdmin):
+    # inlines = [
+    #     PaymentModeInline,
+    # ]
+    # exclude = ('toppings',)
+
     list_display = ['id', 'user',
                     'shop',
                     'order_status',
                     'place',
                     'address',
                     'start_date',
-                    'paymentMode'
+                    # 'paymentMode'
 
                     ]
     list_display_links = [
@@ -78,9 +87,11 @@ class ItemAdmin(admin.ModelAdmin):
     list_display = [
         'title',
         'shop',
-        'price'
+        'price',
+        'discount_price'
     ]
-    list_filter = ['title', 'shop', 'is_available', 'productategory']
+    list_filter = ['shop', 'is_available', 'productategory']
+    search_fields = ['title']
 
 
 class ShopCategoryAdmin(admin.ModelAdmin):
@@ -291,6 +302,7 @@ class ProductImageAdmin(admin.ModelAdmin):
     list_display = [
         'name',
         'image1',
+        'productCategory'
     ]
     list_filter = ['productCategory']
     list_editable = ['image1']

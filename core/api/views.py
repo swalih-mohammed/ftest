@@ -135,7 +135,7 @@ class AddProductView(APIView):
         # permission_classes = (AllowAny, )
         # serializer_class = ShopProductSerializer
         # queryset = Item.objects.all()
-        print(request.data)
+        # print(request.data)
         # user = request.data.get('userID', None)
         shop = Shop.objects.filter(owner=request.user).first()
         print(shop)
@@ -166,7 +166,17 @@ class ShopProductCategoryListView(ListAPIView):
         shop = Shop.objects.filter(owner=self.kwargs['owner_id']).first() 
         qs = ProductCategory.objects.filter(shop =shop)
         return qs
-       
+
+class ShopProductCategoryForCustomerListView(ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ShopProductCategorySerializer
+    # queryset = Item.objects.all()
+
+    def get_queryset(self):
+        shop = get_object_or_404(Shop, id=self.kwargs['shop_id'])
+        qs = ProductCategory.objects.filter(shop =shop)
+        return qs   
+
 
 class ProductImageListView(ListAPIView):
     permission_classes = (AllowAny,)

@@ -61,7 +61,7 @@ class Shop extends Component {
 
   handleClearCategory = () => {
     this.setState({ SelectedCategory: "all" });
-    console.log("all");
+    // console.log("all");
   };
 
   fetchProducts = () => {

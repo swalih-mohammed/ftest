@@ -145,7 +145,7 @@ class Orders extends Component {
                                       <h6>Date: {order.start_date}</h6>
                                       <h6>Status: {order.orderStatus}</h6>
                                       <br></br>
-                                      <a href={`order/${order.id}`}>
+                                      <a href={`customer-order/${order.id}`}>
                                         View More
                                       </a>
                                     </div>

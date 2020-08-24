@@ -32,13 +32,48 @@ class OrderItem extends Component {
     shippingCharges: 25,
     orderTotal: null,
     orderStatus: [],
+    shopOrderStatus: [],
+    staffOrderStatus: [],
     selectedOrderStatus: null
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.fetchOrder();
     this.fetchOrderStatus();
     this.props.fetchUserType();
+    this.filter();
+    setTimeout(() => {
+      this.filter();
+    }, 3000);
+  }
+
+  filter() {
+    const { userType } = this.props;
+    console.log(userType);
+    if (userType === "ShopOwner") {
+      this.orderStatusShop();
+    }
+    if (userType === "is_staff_user") {
+      this.orderStatusStaff();
+      // console.log("staff");
+    }
+  }
+
+  orderStatusShop() {
+    const { orderStatus } = this.state;
+    this.setState({
+      shopOrderStatus: this.state.orderStatus.filter(
+        status => status.can_update_by === "shop"
+      )
+    });
+  }
+  orderStatusStaff() {
+    const { orderStatus } = this.state;
+    this.setState({
+      staffOrderStatus: this.state.orderStatus.filter(
+        status => status.can_update_by === "staff"
+      )
+    });
   }
 
   fetchOrderStatus = () => {
@@ -144,12 +179,6 @@ class OrderItem extends Component {
     console.log(this.state.orderStatus);
   };
 
-  ShopModeOfPaymentOptions = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" }
-  ];
-
   render() {
     const {
       order,
@@ -158,10 +187,10 @@ class OrderItem extends Component {
       ShopSuccess,
       CustomerSuccess
     } = this.state;
-    // console.log(order);
-    const { userType } = this.props;
-    // console.log(orderAddress);
 
+    const { userType } = this.props;
+    console.log(this.state.shopOrderStatus, userType);
+    // console.log(shopOrderStatus);
     if (ShopSuccess) {
       return <Redirect to="/shop-order-table" />;
     }
@@ -192,7 +221,7 @@ class OrderItem extends Component {
                           onChange={this.handleChangeOrderStatus}
                           getOptionLabel={option => `${option.name}`}
                           getOptionValue={option => `${option}`}
-                          options={this.state.orderStatus}
+                          options={this.state.shopOrderStatus}
                           isSearchable={true}
                           //   filterOption={this.customFilter}
                           onInputChange={this.handleInputChange}
@@ -233,7 +262,7 @@ class OrderItem extends Component {
                           onChange={this.handleChangeOrderStatus}
                           getOptionLabel={option => `${option.name}`}
                           getOptionValue={option => `${option}`}
-                          options={this.state.orderStatus}
+                          options={this.state.staffOrderStatus}
                           isSearchable={true}
                           //   filterOption={this.customFilter}
                           onInputChange={this.handleInputChange}

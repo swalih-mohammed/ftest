@@ -59,7 +59,7 @@ class ProductStyleFour extends Component {
         </div>
         <div className="product-detail">
           <div>
-            <Link to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}>
+            <Link to={`${process.env.PUBLIC_URL}/shops/${shop.shop}`}>
               <h4>{shop.shop_name}</h4>
             </Link>
             <br />

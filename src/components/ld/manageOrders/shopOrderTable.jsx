@@ -110,7 +110,7 @@ const Manage = () => {
                             // onChange={handleChangeStartDate}
                             onChange={date => setStartDate(date)}
                             dateFormat="dd/MMM/yy"
-                            showTimeSelect
+                            // showTimeSelect
                             timeFormat="HH:mm"
                             injectTimes={[
                               setHours(setMinutes(new Date(), 1), 0),
@@ -124,7 +124,7 @@ const Manage = () => {
                             selected={endDate}
                             // onChange={handleChangeEndtDate}
                             onChange={date => setEndDate(date)}
-                            showTimeSelect
+                            // showTimeSelect
                             dateFormat="dd/MMM/yy"
                             timeFormat="HH:mm"
                             injectTimes={[

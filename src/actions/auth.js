@@ -52,12 +52,12 @@ export const authLogin = (username, password) => {
       })
       .then(res => {
         const token = res.data.key;
-        const expirationDate = new Date(new Date().getTime() + 86400 * 1000);
+        const expirationDate = new Date(new Date().getTime() + 604800 * 1000);
         localStorage.setItem("token", token);
         localStorage.setItem("expirationDate", expirationDate);
         dispatch(authSuccess(token));
         // dispatch(fetchUser);
-        dispatch(checkAuthTimeout(86400));
+        dispatch(checkAuthTimeout(604800));
       })
       .catch(err => {
         dispatch(authFail(err));

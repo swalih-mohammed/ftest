@@ -38,6 +38,8 @@ import OrderTable from "./components/ld/manageOrders/tableIndex";
 import ShopOrderTable from "./components/ld/manageOrders/shopOrderTable";
 
 import OrderItem from "./components/ld/orders/order-item";
+import OrderItemCustomer from "./components/ld/orders/order-item-customer";
+
 import Address from "./components/ld/address/main";
 import CreateAddress from "./components/ld/address/add2";
 import EditAddress from "./components/ld/address/edit2";
@@ -138,6 +140,11 @@ class Root extends React.Component {
                     path={`${process.env.PUBLIC_URL}/order/:orderID`}
                     component={OrderItem}
                   />
+                  <Route
+                    path={`${process.env.PUBLIC_URL}/customer-order/:orderID`}
+                    component={OrderItemCustomer}
+                  />
+
                   <Route
                     path={`${process.env.PUBLIC_URL}/orders`}
                     component={Orders}

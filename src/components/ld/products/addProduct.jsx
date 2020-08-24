@@ -259,8 +259,8 @@ class AddProduct extends Component {
             />
           </div>
           {this.state.selectedImage ? (
-            <Col xs={6} md={4}>
-              <Image src={this.state.selectedImage} rounded />
+            <Col xs={8} md={4}>
+              <Image src={this.state.selectedImage} loading="lazy" fluid />
             </Col>
           ) : null}
 

@@ -79,11 +79,11 @@ class AddProduct extends Component {
   };
 
   fetchProductCategory = () => {
-    const shopID = null;
+    const ownerID = this.props.userID;
     this.setState({ loading: true });
     // authAxios
     axios
-      .get(ShopProductCategoryURL(shopID))
+      .get(ShopProductCategoryURL(ownerID))
       .then(res => {
         this.setState({ ShopProductCategory: res.data, loading: false });
       })
@@ -170,6 +170,9 @@ class AddProduct extends Component {
 
     if (success) {
       return <Redirect to="/shop-product-list" />;
+    }
+    if (!this.props.token) {
+      return <Redirect to="/login" />;
     }
     return (
       <Container>

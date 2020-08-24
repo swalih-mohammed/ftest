@@ -50,13 +50,13 @@ class UserTypeView(APIView):
     def get(self, request, *args, **kwargs):
         profile = UserProfile.objects.get(user=request.user)
         if profile.is_shop_owner:
-            print("is_shop_owner")
+            # print("is_shop_owner")
             return Response({'UserType': "ShopOwner", 'userID': request.user.id, 'userName': request.user.username}, status=HTTP_200_OK)
         elif profile.is_staff_user:
-            print("is_staff_user")
+            # print("is_staff_user")
             return Response({'UserType': "is_staff_user", 'userID': request.user.id, 'userName': request.user.username}, status=HTTP_200_OK)
         elif profile.is_delivery_staff:
-            print("is_delivery_staff")
+            # print("is_delivery_staff")
             return Response({'UserType': "DeliveryStaff", 'userID': request.user.id, 'userName': request.user.username}, status=HTTP_200_OK)
         else:
             print("customer")

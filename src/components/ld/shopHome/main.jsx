@@ -185,7 +185,7 @@ class Shop extends Component {
 
                     {this.state.SelectedCategory !== "all" ? (
                       <React.Fragment>
-                        <h1>filter exist</h1>
+                        {/* <h1>filter exist</h1> */}
                         {products && (
                           <ProductList
                             products={filteredProduct}
@@ -195,7 +195,7 @@ class Shop extends Component {
                       </React.Fragment>
                     ) : (
                       <React.Fragment>
-                        <h1>filter does not exist</h1>
+                        {/* <h1>filter does not exist</h1> */}
                         {products && (
                           <ProductList
                             products={products}

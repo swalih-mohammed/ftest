@@ -26,7 +26,7 @@ class Sidebar extends Component {
     this.closeNav();
     this.props.logout();
     toast.error("You have logged out");
-    this.props.clearUser();
+    // this.props.clearUser();
     window.location.reload();
   };
 
@@ -92,11 +92,9 @@ class Sidebar extends Component {
   // };
 
   render() {
-    // console.log(this.props.fetchUserType);
-    // console.log("prinin side bar");
-    // if (this.state.logoutSuccess) {
-    //   return <Redirect to="/" />;
-    // }
+    const { user } = this.props;
+    // console.log(user.user);
+
     return (
       <div id="mySidenav" className="sidenav">
         <ToastContainer />
@@ -115,13 +113,13 @@ class Sidebar extends Component {
             </div>
           </a>
           <ul id="sub-menu" className="sidebar-menu">
-            {this.props.userType ? (
+            {user.user ? (
               <div>
-                {this.props.userType === "Customer" ? (
+                {user.user.is_customer ? (
                   <div>
                     <li>
                       <Link to="/orders" onClick={this.closeNav}>
-                        Hello ! {this.props.userName}
+                        Hello ! {user.user.userName}
                         <span className="sub-arrow"></span>
                       </Link>
                     </li>
@@ -143,26 +141,32 @@ class Sidebar extends Component {
                 ) : null}
 
                 {/* customer end  */}
-                {this.props.userType === "ShopOwner" ? (
+                {user.user.is_shop_owner ? (
                   <div>
                     <li>
                       <Link to="/orders" onClick={this.closeNav}>
-                        Hello ! {this.props.userName}
+                        Hello ! {user.user.userName}
                         <span className="sub-arrow"></span>
                       </Link>
                     </li>
                     <li>
+                      <Link to="/shop-dashboard" onClick={this.closeNav}>
+                        My Shop
+                        <span className="sub-arrow"></span>
+                      </Link>
+                    </li>
+                    {/* <li>
                       <Link to="/shop-product-list" onClick={this.closeNav}>
                         Shop Products
                         <span className="sub-arrow"></span>
                       </Link>
-                    </li>
-                    <li>
+                    </li> */}
+                    {/* <li>
                       <Link to="/shop-order-table" onClick={this.closeNav}>
                         Shop Orders
                         <span className="sub-arrow"></span>
                       </Link>
-                    </li>
+                    </li> */}
                     <li>
                       <Link to="/orders" onClick={this.closeNav}>
                         My orders
@@ -182,11 +186,11 @@ class Sidebar extends Component {
 
                 {/* shop owner end */}
 
-                {this.props.userType == "is_staff_user" ? (
+                {user.user.is_staff_user ? (
                   <div>
                     <li>
                       <Link to="/orders" onClick={this.closeNav}>
-                        Hello ! {this.props.userName}
+                        Hello ! {user.user.userName}
                         <span className="sub-arrow"></span>
                       </Link>
                     </li>
@@ -258,8 +262,7 @@ class Sidebar extends Component {
 
 const mapStateToProps = state => {
   return {
-    userType: state.user.user.UserType,
-    userName: state.user.user.userName,
+    user: state.user,
     token: state.auth.token
   };
 };

@@ -25,6 +25,14 @@ export const areaFilterURL = `${endpoint}/areas-filter/`;
 
 export const placeDetailURL = id => `${endpoint}/places/${id}/detail/`;
 export const ShopDetailURL = id => `${endpoint}/shops/${id}/detail/`;
+
+//shop dashboard
+export const ShopDashboardDetialURL = `${endpoint}/shop-dash-detail/`;
+export const ShopDashProductsURL = `${endpoint}/shop-dash-products/`;
+export const ShopDashOrdersURL = `${endpoint}/shop-dash-orders/`;
+export const ShopDashOpenStatusURL = id =>
+  `${endpoint}/shop-dash-open-status/${id}/update/`;
+
 export const ShopModeOfPaymentURL = `${endpoint}/mode-of-payment/`;
 // export const ShopModeOfPaymentURL = id =>
 //   `${endpoint}/shops/${id}/mode-of-payment/`;

@@ -1,7 +1,17 @@
 import axios from "axios";
 import * as actionTypes from "../constants/ActionTypes";
-import { fetchUser } from "./user";
+// import { fetchUser } from "./user";
 import { login, signUp } from "../constants";
+// import { authAxios } from "../authAxios";
+import { userTypeURL } from "../constants";
+import { endpoint } from "../constants";
+import {
+  USER_START,
+  USER_SUCCESS,
+  USER_FAIL,
+  USER_NOT_SIGNED,
+  CLEAR_USER
+} from "../constants/ActionTypes";
 
 export const authStart = () => {
   return {
@@ -23,6 +33,12 @@ export const authFail = error => {
   };
 };
 
+export const userProfile = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT
+  };
+};
+
 export const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("expirationDate");
@@ -35,7 +51,8 @@ export const checkAuthTimeout = expirationTime => {
   return dispatch => {
     setTimeout(() => {
       dispatch(logout());
-    }, expirationTime * 100000);
+      dispatch(clearUser());
+    }, expirationTime * 1000);
   };
 };
 
@@ -56,7 +73,7 @@ export const authLogin = (username, password) => {
         localStorage.setItem("token", token);
         localStorage.setItem("expirationDate", expirationDate);
         dispatch(authSuccess(token));
-        // dispatch(fetchUser);
+        dispatch(fetchUser(token));
         dispatch(checkAuthTimeout(604800));
       })
       .catch(err => {
@@ -78,16 +95,20 @@ export const authSignup = (username, email, password1, password2) => {
       })
       .then(res => {
         const token = res.data.key;
-        const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+        const expirationDate = new Date(new Date().getTime() + 604800 * 1000);
         localStorage.setItem("token", token);
         localStorage.setItem("expirationDate", expirationDate);
         dispatch(authSuccess(token));
-        dispatch(checkAuthTimeout(3600));
+        dispatch(checkAuthTimeout(604800));
       })
       .catch(err => {
         dispatch(authFail(err));
       });
   };
+};
+
+export const resetPassword = () => {
+  console.log("not yet");
 };
 
 export const authCheckState = () => {
@@ -99,6 +120,7 @@ export const authCheckState = () => {
       const expirationDate = new Date(localStorage.getItem("expirationDate"));
       if (expirationDate <= new Date()) {
         dispatch(logout());
+        dispatch(clearUser());
       } else {
         dispatch(authSuccess(token));
         dispatch(
@@ -111,27 +133,49 @@ export const authCheckState = () => {
   };
 };
 
-export const resetPassword = email => {
+export const userStart = () => {
+  return {
+    type: USER_START
+  };
+};
+
+export const userSuccess = data => {
+  return {
+    type: USER_SUCCESS,
+    data
+  };
+};
+
+export const userFail = error => {
+  return {
+    type: USER_FAIL,
+    error: error
+  };
+};
+
+export const clearUser = () => {
+  // console.log("clearing action");
+  return {
+    type: CLEAR_USER
+  };
+};
+
+export const fetchUser = token => {
+  const authAxios = axios.create({
+    baseURL: endpoint,
+    headers: {
+      Authorization: `Token ${token}`
+    }
+  });
   return dispatch => {
-    // dispatch(authStart());
-    console.log("resetting");
-    axios
-      // .post("http://www.localdukans.com/rest-auth/reset/", {
-      .post("https://www.localdukans.com/rest-auth/reset/", {
-        email: email
-      })
+    dispatch(userStart());
+    authAxios
+      .get(userTypeURL)
       .then(res => {
-        const responsed = res.data;
-        console.log(responsed);
-        // const token = res.data.key;
-        // const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
-        // localStorage.setItem("token", token);
-        // localStorage.setItem("expirationDate", expirationDate);
-        // dispatch(authSuccess(token));
-        // dispatch(checkAuthTimeout(3600));
+        dispatch(userSuccess(res.data));
       })
       .catch(err => {
-        // dispatch(authFail(err));
+        dispatch(userFail(err));
       });
   };
 };

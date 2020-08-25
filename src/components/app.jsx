@@ -7,18 +7,19 @@ import Footer from "./ld/common/footer";
 import ThemeSettings from "./common/theme-settings";
 import Header from "./ld/common/header";
 import { connect } from "react-redux";
-import { authCheckState, logout } from "../actions/auth";
+import { authCheckState, logout, fetchUser } from "../actions/auth";
 import { fetchCart } from "../actions/cart";
-import { fetchUser } from "../actions/user";
+// import { fetchUser } from "../actions/user";
 
 class App extends Component {
   componentDidMount() {
     this.props.onTryAutoSignup();
+    // this.props.fetchUser();
     // if (this.props.userType === null) {
     // }
     // this.props.fetchCart();
     if (this.props.isAuthenticated) {
-      this.props.fetchUser();
+      // this.props.fetchUser();
     }
 
     // console.log("app");

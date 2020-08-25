@@ -1,4 +1,5 @@
 from django_countries import countries
+from datetime import datetime, timedelta, time
 from django.contrib import humanize
 from rest_framework.mixins import UpdateModelMixin
 from django.db.models import Q
@@ -42,25 +43,56 @@ class AppInfoView(ListAPIView):
         appInfo= AppInfo.objects.all()
         return appInfo
 
-# class StateListView(ListAPIView):
-#     permission_classes = (IsAuthenticated, )
-#     serializer_class = StateSerializer
+class ShopDashDetailView(RetrieveAPIView):
+    serializer_class = ShopSerializer
+    permission_classes = (IsAuthenticated,)
 
-class UserTypeView(APIView):
+    def get_object(self):
+        try:
+            shop = Shop.objects.filter(owner=self.request.user).first()
+            return shop
+        except ObjectDoesNotExist:
+            raise Http404("shop not found")
+
+class ShopDashOrderView(APIView):
     def get(self, request, *args, **kwargs):
-        profile = UserProfile.objects.get(user=request.user)
-        if profile.is_shop_owner:
-            # print("is_shop_owner")
-            return Response({'UserType': "ShopOwner", 'userID': request.user.id, 'userName': request.user.username}, status=HTTP_200_OK)
-        elif profile.is_staff_user:
-            # print("is_staff_user")
-            return Response({'UserType': "is_staff_user", 'userID': request.user.id, 'userName': request.user.username}, status=HTTP_200_OK)
-        elif profile.is_delivery_staff:
-            # print("is_delivery_staff")
-            return Response({'UserType': "DeliveryStaff", 'userID': request.user.id, 'userName': request.user.username}, status=HTTP_200_OK)
-        else:
-            print("customer")
-            return Response({'UserType': "Customer", 'userID': request.user.id, 'userName': request.user.username}, status=HTTP_200_OK)
+        print(request)
+        shop = Shop.objects.filter(owner=request.user).first()
+        if shop:
+            today = datetime.now().date()
+            pendingOrders = Order.objects.filter(shop=shop, order_status=1, ordered=True,  ).count()
+            totalOrders = Order.objects.filter(shop=shop, ordered=True, ).count()
+            item = Item.objects.filter(shop=shop).count()
+            return Response({'pendingOrders': pendingOrders , 'totalOrders': totalOrders, 'item': item}, status=HTTP_200_OK)
+
+@api_view(['GET', 'PUT',])
+def ShopDashOpenStatusView(request, pk):
+    try:
+        # shop = Shop.objects.filter(owner=self.request.user).first()
+        shop = Shop.objects.get(pk=pk)
+    except shop.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+  
+    if request.method == 'PUT':
+        serializer = ShopSerializer(shop, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+
+class UserTypeView(RetrieveAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        try:
+            order = UserProfile.objects.filter(user=self.request.user).first()
+            return order
+        except ObjectDoesNotExist:
+            raise Http404("No user found")
+
+
 
 class UserIDView(APIView):
     def get(self, request, *args, **kwargs):
@@ -407,9 +439,7 @@ class OrderConfirmView(APIView):
 
 @api_view(['GET', 'PUT',])
 def OrderStatusUpdateView(request, pk):
-    print(pk)
-    """
-    """
+   
     try:
         order = Order.objects.get(pk=pk)
     except Order.DoesNotExist:
@@ -421,6 +451,7 @@ def OrderStatusUpdateView(request, pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+
 
 
 

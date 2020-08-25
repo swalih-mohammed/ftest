@@ -67,7 +67,7 @@ class Orders extends Component {
   render() {
     const { orders, hasMore, query, limit } = this.state;
     const { userType, token } = this.props;
-    // console.log(query, orders, limit, hasMore);
+    console.log(123);
 
     if (!token) {
       return <Redirect to="/login" />;

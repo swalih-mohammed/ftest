@@ -28,6 +28,8 @@ class AppInfoSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    userName = serializers.ReadOnlyField(source='user.username')
+
     class Meta:
         model = UserProfile
         fields = '__all__'

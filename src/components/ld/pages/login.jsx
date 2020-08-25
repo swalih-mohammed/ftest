@@ -33,7 +33,11 @@ class Login extends Component {
         toast.error("incorrect username or password");
       } else {
         if (this.props.token) {
-          this.props.fetchUser();
+          // this.props.fetchUser();
+          setTimeout(() => {
+            console.log("fetching user type");
+            this.props.fetchUser();
+          }, 3000);
         }
         toast.success("You have logged in successfully ");
       }

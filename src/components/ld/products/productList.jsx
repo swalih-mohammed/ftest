@@ -118,7 +118,7 @@ class ProductList extends Component {
 }
 const mapStateToProps = state => ({
   cartItems: state.cart.shoppingCart,
-  userID: state.user.user.userID
+  userID: state.user.user.id
 });
 
 export default connect(mapStateToProps)(ProductList);

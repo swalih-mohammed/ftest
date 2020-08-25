@@ -1,10 +1,12 @@
-import {
-  USER_START,
-  USER_SUCCESS,
-  USER_FAIL,
-  USER_NOT_SIGNED,
-  CLEAR_USER
-} from "../constants/ActionTypes";
+// import {
+//   USER_START,
+//   USER_SUCCESS,
+//   USER_FAIL,
+//   USER_NOT_SIGNED,
+//   CLEAR_USER
+// } from "../constants/ActionTypes";
+
+import * as actionTypes from "../constants/ActionTypes";
 import { updateObject } from "../store/utility";
 
 const initialState = {
@@ -36,14 +38,17 @@ const userSuccess = (state, action) => {
 };
 
 const userFail = (state, action) => {
+  // console.log(action);
   return updateObject(state, {
-    user: action.error,
-    loading: false
+    user: null,
+    // user: action.error,
+    loading: false,
+    error: action.error
   });
 };
 
 const userClear = (state, action) => {
-  // console.log("cleairng use");
+  // console.log("cleairng user");
   return updateObject(state, {
     user: {},
     error: null,
@@ -52,16 +57,17 @@ const userClear = (state, action) => {
 };
 
 const reducer = (state = initialState, action) => {
+  // console.log(action.type);
   switch (action.type) {
-    case USER_START:
+    case actionTypes.USER_START:
       return userStart(state, action);
-    case USER_SUCCESS:
+    case actionTypes.USER_SUCCESS:
       return userSuccess(state, action);
-    case USER_FAIL:
+    case actionTypes.USER_FAIL:
       return userFail(state, action);
-    case USER_NOT_SIGNED:
+    case actionTypes.USER_NOT_SIGNED:
       return userNotSigned(state, action);
-    case CLEAR_USER:
+    case actionTypes.CLEAR_USER:
       return userClear(state, action);
     default:
       return state;

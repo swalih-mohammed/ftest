@@ -36,6 +36,7 @@ import ManageOrderSearch from "./components/ld/manageOrders/searchOrder";
 import ShopOrderManage from "./components/ld/shopManagement/test";
 import OrderTable from "./components/ld/manageOrders/tableIndex";
 import ShopOrderTable from "./components/ld/manageOrders/shopOrderTable";
+import ShopDashboard from "./components/ld/manageShops/shopDash";
 
 import OrderItem from "./components/ld/orders/order-item";
 import OrderItemCustomer from "./components/ld/orders/order-item-customer";
@@ -107,6 +108,10 @@ class Root extends React.Component {
                   <Route
                     path={`${process.env.PUBLIC_URL}/shops/:shopID`}
                     component={ShopHome}
+                  />
+                  <Route
+                    path={`${process.env.PUBLIC_URL}/shop-dashboard`}
+                    component={ShopDashboard}
                   />
                   <Route
                     path={`${process.env.PUBLIC_URL}/editaddress/:addressID`}

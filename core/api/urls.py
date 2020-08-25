@@ -45,7 +45,8 @@ from .views import (
     ShopProductCategoryListView,
     ShopProductCategoryForCustomerListView,
     AddProductView,
-    AppInfoView
+    AppInfoView,
+    ShopDashDetailView, ShopDashOrderView, ShopDashOpenStatusView
 
 
 
@@ -183,6 +184,13 @@ urlpatterns = [
     path('districts-filter/', DistrictFilterView.as_view(),
          name='district-filter'),
     path('states/', StateListView.as_view(), name='state-list'),
+
+    #  shop dashboard
+
+    path('shop-dash-detail/', ShopDashDetailView.as_view(), name='shop-dash-detail'),
+    path('shop-dash-orders/', ShopDashOrderView.as_view(), name='shop-dash-orders'),
+    path('shop-dash-open-status/<pk>/update/', ShopDashOpenStatusView,
+         name='shop-dash-open-status'),
 
 
 ]

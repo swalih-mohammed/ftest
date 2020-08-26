@@ -81,63 +81,54 @@ def is_valid_queryparam(param):
 
 
 def filter(request):
-
     qs = Order.objects.all()
-
     profile = UserProfile.objects.get(user=request.user)
-    if profile.is_shop_owner:
-        shop = Shop.objects.filter(owner=request.user).first()
-        print(shop)
-        print(profile)
-        qs = Order.objects.filter(
-            shop=shop, ordered=True).order_by('-start_date')
-        # print("is_shop_owner")
-    # print(profile)
-    #     if profile.is_shop_owner:
 
-    area_contains_query = request.GET.get('area')
-    place_contains_query = request.GET.get('place')
-    village_contains_query = request.GET.get('village')
-    cluster_contains_query = request.GET.get('cluster')
-    district_contains_query = request.GET.get('distrit')
-    state_contains_query = request.GET.get('state')
-    userType_contains_query = request.GET.get('userType')
     startDate_contains_query = request.GET.get('staringtDate')
     endDate_contains_query = request.GET.get('endingtDate')
-    print(userType_contains_query)
+    place_contains_query = request.GET.get('place')
 
-    print(startDate_contains_query, endDate_contains_query)
-    # print(place_contains_query,village_contains_query, cluster_contains_query, district_contains_query, state_contains_query,)
+    # area_contains_query = request.GET.get('area')
+    # village_contains_query = request.GET.get('village')
+    # cluster_contains_query = request.GET.get('cluster')
+    # district_contains_query = request.GET.get('distrit')
+    # state_contains_query = request.GET.get('state')
+    # userType_contains_query = request.GET.get('userType')
+
+    if is_valid_queryparam(place_contains_query):
+        qs = qs.filter(shop__place__name=place_contains_query)
+
     if is_valid_queryparam(startDate_contains_query):
         qs = qs.filter(start_date__gte=startDate_contains_query)
 
     if is_valid_queryparam(endDate_contains_query):
         qs = qs.filter(start_date__lte=endDate_contains_query)
 
-    # if is_valid_queryparam(userType_contains_query == "is_shop_owner"):
-    #     shop = Shop.objects.filter(owner=request.user).first()
-    #     qs = qs.filter(shop=shop, ordered=True).order_by('-start_date')
+    # if is_valid_queryparam(area_contains_query):
+    #     qs = qs.filter(address__area__name=area_contains_query)
 
-    if is_valid_queryparam(area_contains_query):
-        qs = qs.filter(address__area__name=area_contains_query)
+    # if is_valid_queryparam(village_contains_query):
+    #     qs = qs.filter(shop__village__name=village_contains_query)
 
-    if is_valid_queryparam(place_contains_query):
-        qs = qs.filter(shop__place__name=place_contains_query)
+    # if is_valid_queryparam(cluster_contains_query):
+    #     qs = qs.filter(shop__cluster__name=cluster_contains_query)
 
-    if is_valid_queryparam(village_contains_query):
-        qs = qs.filter(shop__village__name=village_contains_query)
+    # if is_valid_queryparam(district_contains_query):
+    #     qs = qs.filter(shop__district__name=district_contains_query)
 
-    if is_valid_queryparam(cluster_contains_query):
-        qs = qs.filter(shop__cluster__name=cluster_contains_query)
+    # if is_valid_queryparam(state_contains_query):
+    #     print(state_contains_query)
+    #     qs = qs.filter(shop__state__name=state_contains_query)
 
-    if is_valid_queryparam(district_contains_query):
-        qs = qs.filter(shop__district__name=district_contains_query)
-
-    if is_valid_queryparam(state_contains_query):
-        print(state_contains_query)
-        qs = qs.filter(shop__state__name=state_contains_query)
-
-    return qs
+    if profile.is_shop_owner:
+        shop = Shop.objects.filter(owner=request.user).first()
+        print(shop)
+        print(profile)
+        qs = Order.objects.filter(
+            shop=shop, ordered=True).order_by('-start_date')
+        return qs
+    else:
+        return qs
 
 
 class OrderFilterView(generics.ListAPIView):

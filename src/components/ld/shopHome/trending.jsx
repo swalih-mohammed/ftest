@@ -8,14 +8,6 @@ import { Product4 } from "../../../services/script";
 import ProductStyleNine from "./product-nine";
 import ProductStyleTwo from "./ProductStyleTwo";
 
-// import {
-//   addToCart,
-//   addToWishlist,
-//   addToCompare,
-//   incrementQty,
-//   decrementQty,
-//   removeFromCart
-// } from "../../../actions";
 import ProductItem from "./product-item";
 
 class Tranding extends Component {

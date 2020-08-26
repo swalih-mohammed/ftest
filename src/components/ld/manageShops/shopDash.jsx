@@ -77,7 +77,7 @@ class Orders extends Component {
   render() {
     const { ShopDetail, orders } = this.state;
     const { token } = this.props;
-    console.log(this.state.Orders);
+    // console.log(token);
 
     if (!token) {
       return <Redirect to="/login" />;

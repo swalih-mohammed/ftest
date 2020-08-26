@@ -40,7 +40,7 @@ class OrderItem extends Component {
   componentWillMount() {
     this.fetchOrder();
     this.fetchOrderStatus();
-    this.props.fetchUserType();
+    // this.props.fetchUserType();
     this.filter();
     setTimeout(() => {
       this.filter();
@@ -48,14 +48,11 @@ class OrderItem extends Component {
   }
 
   filter() {
-    const { userType } = this.props;
-    console.log(userType);
-    if (userType === "ShopOwner") {
+    if (this.props.user.user.is_shop_owner) {
       this.orderStatusShop();
     }
-    if (userType === "is_staff_user") {
+    if (this.props.user.user.is_staff_user) {
       this.orderStatusStaff();
-      // console.log("staff");
     }
   }
 
@@ -188,9 +185,8 @@ class OrderItem extends Component {
       CustomerSuccess
     } = this.state;
 
-    const { userType } = this.props;
-    console.log(this.state.shopOrderStatus, userType);
-    // console.log(shopOrderStatus);
+    const { user } = this.props;
+
     if (ShopSuccess) {
       return <Redirect to="/shop-order-table" />;
     }
@@ -208,7 +204,7 @@ class OrderItem extends Component {
               <div className="account-sidebar">Back to Orders</div>
             </a>
 
-            {userType === "ShopOwner" ? (
+            {user.user.is_customer ? (
               <div className="checkout-page">
                 <form onSubmit={this.updateOrderStatus}>
                   <div className="checkout-form">
@@ -247,9 +243,8 @@ class OrderItem extends Component {
             ) : (
               ""
             )}
-            {(userType === "DeliveryStaff") |
-            // (userType === "ShopOwner") |
-            (userType === "is_staff_user") ? (
+
+            {user.user.is_staff_user ? (
               <div className="checkout-page">
                 <form onSubmit={this.updateOrderStatus}>
                   <div className="checkout-form">
@@ -318,9 +313,9 @@ class OrderItem extends Component {
                             <h6>Mod of Payment: {order.mode_of_payment}</h6>
                           </div>
 
-                          {userType && (
+                          {user.user && (
                             <React.Fragment>
-                              {userType === "Customer" ? (
+                              {user.user.is_customer ? (
                                 <Button
                                   type="submit"
                                   variant="info"
@@ -398,22 +393,6 @@ class OrderItem extends Component {
                               );
                             })}
                           </ul>
-                          {/* <ul className="sub-total"> */}
-                          {/* <li>
-                              Subtotal{" "}
-                              <span className="count">
-                              
-                                {order.total}
-                              </span>
-                            </li> */}
-                          {/* <li>
-                              Shipping{" "}
-                              <span className="count">
-                          
-                                {this.state.shippingCharges}
-                              </span>
-                            </li> */}
-                          {/* </ul> */}
 
                           <ul className="total">
                             <li>
@@ -438,18 +417,9 @@ class OrderItem extends Component {
 
 const mapStateToProps = state => {
   return {
-    userType: state.user.user.UserType
+    user: state.user
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchUserType: () => dispatch(fetchUser())
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OrderItem);
+export default connect(mapStateToProps)(OrderItem);
 // export default OrderItem;

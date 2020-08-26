@@ -6,6 +6,7 @@ import Breadcrumb from "../common/breadcrumb";
 import { authAxios } from "../../../authAxios";
 import { orderFilterURL } from "../../../constants";
 import { useFormik, Field } from "formik";
+import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import setHours from "date-fns/setHours";
@@ -13,9 +14,12 @@ import setMinutes from "date-fns/setMinutes";
 import Card from "react-bootstrap/Card";
 // import Result from "./orderList";
 import Result from "./testTable";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Manage = props => {
   const [orders, setOrders] = useState(null);
+  const [loading, setloading] = useState(false);
   // const [startDate, setStartDate] = useState(new Date());
   // const [endDate, setEndDate] = useState(new Date());
 
@@ -26,32 +30,42 @@ const Manage = props => {
     setHours(setMinutes(new Date(), 59), 23)
   );
 
+  // const validationSchema = Yup.object().shape({
+  //   place: Yup.string().required("Required")
+  // });
+
   const formik = useFormik({
     initialValues: {
       place: ""
     },
+    // validationSchema
     onSubmit: values => {
-      const place = values["place"] === undefined ? null : values["place"];
+      // const place = values["place"] === undefined ? null : values["place"];
       const endingtDate = endDate === undefined ? null : endDate;
       const staringtDate = startDate === undefined ? null : startDate;
-      // this.setState({ loading: true });
-      console.log(endingtDate, staringtDate);
-      console.log(staringtDate);
-      authAxios
-        .get(orderFilterURL, {
-          params: {
-            place,
-            staringtDate,
-            endingtDate
-          }
-        })
-        .then(res => {
-          // this.setState({ orders: res.data, loading: false, success: true });
-          setOrders(res.data);
-        })
-        .catch(err => {
-          // this.setState({ loading: false, error: err });
-        });
+      const place = values["place"];
+
+      if (place !== "") {
+        setloading(true);
+        authAxios
+          .get(orderFilterURL, {
+            params: {
+              place,
+              staringtDate,
+              endingtDate
+            }
+          })
+          .then(res => {
+            setOrders(res.data);
+            setloading(false);
+          })
+          .catch(err => {
+            setloading(false);
+            toast.error("error occured");
+          });
+      } else {
+        toast.error("Please select a place");
+      }
     }
   });
 
@@ -91,7 +105,7 @@ const Manage = props => {
   ];
 
   // const staringtDate =
-  // console.log(staringtDate);
+  // console.log(orders);
 
   return (
     <div>
@@ -117,8 +131,8 @@ const Manage = props => {
                             <option value="" disabled selected>
                               Select your option
                             </option>
-                            {props.places.map(a => (
-                              <option key={a.id}>{a}</option>
+                            {props.places.map((a, index) => (
+                              <option key={a.index}>{a}</option>
                             ))}
                           </select>
                         </div>
@@ -132,8 +146,13 @@ const Manage = props => {
                               selectsStart
                               // onChange={handleChangeStartDate}
                               onChange={date => setStartDate(date)}
+                              popperModifiers={{
+                                preventOverflow: {
+                                  enabled: true
+                                }
+                              }}
                               dateFormat="dd/MMM/yy"
-                              showTimeSelect
+                              // showTimeSelect
                               timeFormat="HH:mm"
                               injectTimes={[
                                 setHours(setMinutes(new Date(), 1), 0),
@@ -147,7 +166,12 @@ const Manage = props => {
                               selected={endDate}
                               // onChange={handleChangeEndtDate}
                               onChange={date => setEndDate(date)}
-                              showTimeSelect
+                              popperModifiers={{
+                                preventOverflow: {
+                                  enabled: true
+                                }
+                              }}
+                              // showTimeSelect
                               dateFormat="dd/MMM/yy"
                               timeFormat="HH:mm"
                               injectTimes={[
@@ -176,14 +200,31 @@ const Manage = props => {
               {orders ? (
                 <div>
                   <Card
-                    bg={"secondary"}
+                    bg={"danger"}
+                    style={{ width: "18rem" }}
+                    className="mb-2"
+                    text={"light"}
+                  >
+                    <Card.Body>
+                      <Card.Title>
+                        {" "}
+                        {
+                          orders.filter(order => order.order_status === 1)
+                            .length
+                        }{" "}
+                        Pending Orders{" "}
+                      </Card.Title>
+                    </Card.Body>
+                  </Card>
+                  <Card
+                    bg={"success"}
                     style={{ width: "18rem" }}
                     className="mb-2"
                     text={"light"}
                   >
                     {/* <Card.Header>Order for today</Card.Header> */}
                     <Card.Body>
-                      <Card.Title> {orders.length} Orders </Card.Title>
+                      <Card.Title> {orders.length} Total Orders </Card.Title>
                     </Card.Body>
                   </Card>
                 </div>

@@ -73,7 +73,7 @@ const ReactTable = ({ columns, data }) => {
     // hook for sorting
     useSortBy
   );
-  console.log(defaultColumn);
+  // console.log(defaultColumn);
   return (
     <Container>
       <Table

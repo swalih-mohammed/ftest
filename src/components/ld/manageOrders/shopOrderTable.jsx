@@ -111,6 +111,11 @@ const Manage = () => {
                             onChange={date => setStartDate(date)}
                             dateFormat="dd/MMM/yy"
                             // showTimeSelect
+                            popperModifiers={{
+                              preventOverflow: {
+                                enabled: true
+                              }
+                            }}
                             timeFormat="HH:mm"
                             injectTimes={[
                               setHours(setMinutes(new Date(), 1), 0),
@@ -122,6 +127,11 @@ const Manage = () => {
                         <div className="form-group col-md-8 col-sm-8 col-xs-8">
                           <DatePicker
                             selected={endDate}
+                            popperModifiers={{
+                              preventOverflow: {
+                                enabled: true
+                              }
+                            }}
                             // onChange={handleChangeEndtDate}
                             onChange={date => setEndDate(date)}
                             // showTimeSelect

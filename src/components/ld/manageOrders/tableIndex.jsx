@@ -21,7 +21,7 @@ class Manage extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchUserType();
+    // this.props.fetchUserType();
     this.fetchServieArea();
   }
 
@@ -63,7 +63,7 @@ class Manage extends Component {
 
 const mapStateToProps = state => {
   return {
-    userType: state.user.user.UserType,
+    user: state.user,
     token: state.auth.token
   };
 };

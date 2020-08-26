@@ -14,15 +14,6 @@ import { fetchCart } from "../actions/cart";
 class App extends Component {
   componentDidMount() {
     this.props.onTryAutoSignup();
-    // this.props.fetchUser();
-    // if (this.props.userType === null) {
-    // }
-    // this.props.fetchCart();
-    if (this.props.isAuthenticated) {
-      // this.props.fetchUser();
-    }
-
-    // console.log("app");
   }
 
   render() {

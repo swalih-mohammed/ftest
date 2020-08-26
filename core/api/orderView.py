@@ -120,14 +120,12 @@ def filter(request):
     #     print(state_contains_query)
     #     qs = qs.filter(shop__state__name=state_contains_query)
 
-    if profile.is_shop_owner:
-        shop = Shop.objects.filter(owner=request.user).first()
-        print(shop)
-        print(profile)
-        qs = Order.objects.filter(
-            shop=shop, ordered=True).order_by('-start_date')
+    if profile.is_staff_user:
         return qs
     else:
+        shop = Shop.objects.filter(owner=request.user).first()
+        qs = Order.objects.filter(
+            shop=shop, ordered=True).order_by('-start_date')
         return qs
 
 

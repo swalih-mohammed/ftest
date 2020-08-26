@@ -298,6 +298,7 @@ class AddToCartView(APIView):
         item = get_object_or_404(Item, id=id)
         # print(item)
         shop = get_object_or_404(Shop, id=shop)
+        # print(shop)
         place_id = shop.place_id
         place = Place.objects.get(id=place_id)
         # qs_user_address = Address.objects.filter(
@@ -347,19 +348,20 @@ class AddToCartView(APIView):
             # print(order_item.shop_id)
 
         order_qs = Order.objects.filter(user=request.user, ordered=False)
+        # print(order_qs)
 
         if order_qs.exists():
             order = order_qs[0]
+            shopOfItemInCart = order.shop
+    
+            # myorder = OrderItem.objects.filter(
+            #     user=self.request.user, ordered=False)
+            # order1 = myorder[0]
+            # cart_item_shop_id = order1.item.shop_id
+            # cart_item_shop = Shop.objects.get(id=cart_item_shop_id)
+           
 
-            myorder = OrderItem.objects.filter(
-                user=self.request.user, ordered=False)
-            order1 = myorder[0]
-            cart_item_shop_id = order1.item.shop_id
-            cart_item_shop = Shop.objects.get(id=cart_item_shop_id)
-            # print(cart_item_shop)
-            # print(shop)
-
-            if shop != cart_item_shop:
+            if shop != shopOfItemInCart:
                 # print(cart_item_shop)
                 # print(shop)
                 return Response({"message": "Unable to add this tiem to your bucket as your have an active order from a diffent shop. Please remove that item and try again"}, status=HTTP_400_BAD_REQUEST)

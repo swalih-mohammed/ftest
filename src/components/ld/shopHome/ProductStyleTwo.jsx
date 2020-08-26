@@ -32,7 +32,10 @@ class ProductStyleEleven extends Component {
         })
         .catch(err => {
           if (err.response.status === 400) {
+            this.setState({ error: err, loading: false });
             toast.error("You have an active order from a different shop");
+          } else if (err.response.status === 401) {
+            toast.error("Please login");
           } else {
             this.setState({ error: err, loading: false });
             toast.error("Oops there was an error");
@@ -46,6 +49,7 @@ class ProductStyleEleven extends Component {
 
   render() {
     const { product } = this.props;
+    // console.log(product);
 
     return (
       <div className="product-box">
@@ -101,19 +105,15 @@ class ProductStyleEleven extends Component {
           <div>
             {/* <div className="rating">{RatingStars}</div> */}
             <div className="rating">{""}</div>
-            <Link
-              to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}
-            >
-              <h6>
-                {product.title}{" "}
-                <span>
-                  {" "}
-                  {product.title_local ? (
-                    <span>{product.title_local}</span>
-                  ) : null}
-                </span>
-              </h6>{" "}
-            </Link>
+            <h6>
+              {product.title}{" "}
+              <span>
+                {" "}
+                {product.title_local ? (
+                  <span>{product.title_local}</span>
+                ) : null}
+              </span>
+            </h6>{" "}
             <h4>
               {"Rs: "} {product.price}
             </h4>

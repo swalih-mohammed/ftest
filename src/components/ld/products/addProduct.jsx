@@ -79,7 +79,8 @@ class AddProduct extends Component {
   };
 
   fetchProductCategory = () => {
-    const ownerID = this.props.userID;
+    // const ownerID = this.props.userID;
+    const ownerID = this.props.user.user.id;
     this.setState({ loading: true });
     // authAxios
     axios
@@ -108,7 +109,8 @@ class AddProduct extends Component {
 
   handleCreateItem = e => {
     e.preventDefault();
-    const { userID } = this.props;
+    const userID = this.props.user.user.id;
+
     // console.log(userID);
     const {
       title,
@@ -166,7 +168,7 @@ class AddProduct extends Component {
       productategory
     } = this.state;
 
-    // console.log(productategory);
+    // console.log(this.props.user.user.id);
 
     if (success) {
       return <Redirect to="/shop-product-list" />;
@@ -305,7 +307,7 @@ const mapStateToProps = state => {
   return {
     token: state.auth.token,
     // userID: state.user.user.userID
-    userID: state.user.user.userID
+    user: state.user
   };
 };
 

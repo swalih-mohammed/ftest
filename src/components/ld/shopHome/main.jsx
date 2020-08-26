@@ -42,11 +42,11 @@ class Shop extends Component {
     this.fetchfeaturedProducts();
     this.fetchShopDetails();
     this.fetchProductCategory();
-    // this.props.refreshCart();
+    this.props.refreshCart();
   }
   handleChangeCategory = cat => {
     this.setState({ SelectedCategory: cat });
-    console.log(cat);
+    // console.log(cat);
     this.filterProduct();
   };
 

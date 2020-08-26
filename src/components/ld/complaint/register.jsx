@@ -95,7 +95,7 @@ const Register = props => {
                   </div>
                   <div className="form-row">
                     <div className="col-md-6">
-                      <label htmlFor="email">Order No (if you have one)</label>
+                      <label htmlFor="email">Do you have an order ID?</label>
                       <input
                         className="form-control"
                         id="order_number"
@@ -107,7 +107,7 @@ const Register = props => {
                     </div>
 
                     <div className="col-md-6">
-                      <label htmlFor="review">Detail</label>
+                      <label htmlFor="review">What is your concern?</label>
                       <textarea
                         className="form-control"
                         id="details"

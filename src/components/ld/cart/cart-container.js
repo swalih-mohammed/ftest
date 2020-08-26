@@ -17,12 +17,7 @@ class CartContainer extends Component {
     cart: []
   };
 
-  componentWillMount() {
-    if (this.props.authenticated) {
-      // this.handleFetchOrder();
-      this.props.fetchCart();
-    }
-  }
+  componentWillMount() {}
 
   handleFetchOrder = () => {
     this.setState({ loading: true });

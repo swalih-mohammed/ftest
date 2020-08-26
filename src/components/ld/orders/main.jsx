@@ -25,7 +25,7 @@ class Orders extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchUserType();
+    // this.props.fetchUserType();
 
     this.setState({ loading: true }, () => {
       const { offset, limit, query } = this.state;
@@ -67,7 +67,7 @@ class Orders extends Component {
   render() {
     const { orders, hasMore, query, limit } = this.state;
     const { userType, token } = this.props;
-    console.log(123);
+    // console.log(123);
 
     if (!token) {
       return <Redirect to="/login" />;
@@ -128,17 +128,6 @@ class Orders extends Component {
                                   <div className="box">
                                     <div className="box-title">
                                       <h4>Order ID: {order.id}</h4>
-                                      {/* {(userType === "DeliveryStaff") |
-                                        (userType === "ShopOwner") && (
-                                        <div>
-                                          <div>
-                                            Customer: {order.customer_name}
-                                          </div>
-                                          <div>
-                                            Customer: {order.phone_number}
-                                          </div>
-                                        </div>
-                                      )} */}
                                     </div>
 
                                     <div className="box-content">
@@ -170,20 +159,12 @@ class Orders extends Component {
 
 const mapStateToProps = state => {
   return {
-    userType: state.user.user.UserType,
+    // userType: state.user.user.UserType,
+    user: state.user,
     token: state.auth.token
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchUserType: () => dispatch(fetchUser())
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Orders);
+export default connect(mapStateToProps)(Orders);
 
 // export default Orders;

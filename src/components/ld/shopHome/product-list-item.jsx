@@ -51,7 +51,7 @@ class ProductListItem extends Component {
   };
 
   handleAddToCart = (id, shop) => {
-    // console.log(this.props.token);
+    console.log(this.props.token);
     if (this.props.token !== null) {
       this.setState({ loading: true });
       authAxios
@@ -62,10 +62,12 @@ class ProductListItem extends Component {
           this.setState({ loading: false });
         })
         .catch(err => {
-          console.log(err);
+          // console.log(err);
           // this.setState({ error: err.response.status });
           if (err.response.status === 400) {
             toast.error("You have an active order from a different shop");
+          } else if (err.response.status === 401) {
+            toast.error("Please login");
           } else {
             this.setState({ error: err, loading: false });
             toast.error("Oops there was an error");

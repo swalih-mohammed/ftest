@@ -27,7 +27,7 @@ class Manage extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchUserType();
+    // this.props.fetchUserType();
     this.fetchServieArea();
   }
 

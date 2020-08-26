@@ -36,7 +36,8 @@ class ProductStyleNine extends Component {
               this.setState({ loading: false });
               toast.error("You have an active order from a different shop");
             } else if (err.response.status === 401) {
-              toast.error("To add item into your cart, please login");
+              this.setState({ loading: false });
+              toast.error(" please login or refresh");
             } else {
               this.setState({ loading: false });
               toast.error("Oops there was an error");
@@ -45,7 +46,7 @@ class ProductStyleNine extends Component {
         });
     } else {
       this.setState({ loading: false });
-      toast.error("To add item into your cart, please login");
+      toast.error("Please login");
     }
   };
 

@@ -73,7 +73,7 @@ class ProductList extends Component {
                       {/* <th scope="col">Name</th> */}
                       <th scope="col">Quantity</th>
                       {/* <th scope="col">Price</th> */}
-                      <th scope="col">Discounted Price</th>
+                      <th scope="col">Price</th>
                     </tr>
                   </thead>
                   {products.map((item, index) => {

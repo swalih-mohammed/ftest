@@ -62,7 +62,7 @@ class Register extends Component {
                             className="form-control"
                             id="username"
                             name="username"
-                            placeholder="First Name"
+                            placeholder="User Name"
                             required=""
                           />
                         </div>
@@ -74,7 +74,7 @@ class Register extends Component {
                             className="form-control"
                             id="email"
                             name="email"
-                            placeholder="Last Name"
+                            placeholder="Email"
                             required=""
                           />
                         </div>

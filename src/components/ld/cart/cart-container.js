@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 class CartContainer extends Component {
   state = {
     cart: [],
-    display: false
+    display: true
   };
 
   // componentWillMount() {}

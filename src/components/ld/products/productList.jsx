@@ -8,6 +8,8 @@ import { authAxios } from "../../../authAxios";
 import { Modal, Button, Container } from "react-bootstrap";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 class ProductList extends Component {
   state = {
@@ -27,9 +29,9 @@ class ProductList extends Component {
   };
   handleSubmit = e => {
     // e.preventDefault();
-    if (this.props.userID !== null) {
+    if (this.props.user.user.id !== null) {
       this.setState({ loading: true });
-      const userID = this.props.userID;
+      const userID = this.props.user.user.id;
       console.log(userID);
       authAxios
         .get(shopProductListURL(userID))
@@ -39,6 +41,8 @@ class ProductList extends Component {
         .catch(err => {
           this.setState({ error: err, loading: false });
         });
+    } else {
+      toast.error("Please login or refresh");
     }
   };
 
@@ -48,10 +52,11 @@ class ProductList extends Component {
 
   render() {
     const { products } = this.state;
-    console.log(this.state.products);
+    // console.log(this.state.products);
     // console.log(this.state.products);
     return (
       <div>
+        <ToastContainer />
         {/*SEO Support End */}
         {this.state.loading && <div className="loading-cls"></div>}
 
@@ -118,7 +123,7 @@ class ProductList extends Component {
 }
 const mapStateToProps = state => ({
   cartItems: state.cart.shoppingCart,
-  userID: state.user.user.id
+  user: state.user
 });
 
 export default connect(mapStateToProps)(ProductList);

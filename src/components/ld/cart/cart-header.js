@@ -30,7 +30,7 @@ class CartHeader extends Component {
     // console.log(234);
     return (
       <li>
-        <ToastContainer />
+        {/* <ToastContainer /> */}
         <div className="media">
           <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>
             {/* <img alt="" className="mr-3" src={`${item.pictures[0]}`} /> */}

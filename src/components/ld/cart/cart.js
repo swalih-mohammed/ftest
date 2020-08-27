@@ -18,7 +18,7 @@ class cartComponent extends Component {
       <div>
         {/*SEO Support*/}
         <Helmet>
-          <title>MultiKart | Cart List Page</title>
+          <title>Local Dukans | Cart List Page</title>
           <meta
             name="description"
             content="Local Dukans –  Buy local and grow globla"

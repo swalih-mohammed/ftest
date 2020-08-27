@@ -150,7 +150,7 @@ class checkOut extends Component {
     return (
       <div>
         {/* <Header /> */}
-        {/* <ToastContainer /> */}
+        <ToastContainer />
         {/* <Footer /> */}
         {this.state.loading && <div className="loading-cls"></div>}
         {cart ? (

@@ -11,26 +11,24 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+from decouple import config, Csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-n2bsfxg3(1x&w++g2w()0os%bfy^0b58jg^7hl8^t(6kx3_g&'
+# SECRET_KEY = '-n2bsfxg3(1x&w++g2w()0os%bfy^0b58jg^7hl8^t(6kx3_g&'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
-# ALLOWED_HOSTS = ['www.localdukans.com', ]
-ALLOWED_HOSTS = ['*', ]
+# ALLOWED_HOSTS = ['*', ]
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
-
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = config('CORS_ORIGIN_ALLOW_ALL', cast=bool)
 
 # Application definition
 
@@ -118,26 +116,35 @@ SITE_ID = 1
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sibiyan$default',
-        'USER': 'sibiyan',
-        'PASSWORD': 'Pandaram@1',
-        'HOST': 'sibiyan.mysql.pythonanywhere-services.com',
-    }
-}
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sibiyan$default',
+#         'USER': 'sibiyan',
+#         'PASSWORD': 'Pandaram@1',
+#         'HOST': 'sibiyan.mysql.pythonanywhere-services.com',
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'ecom_five',
-#         'USER': 'postgres',
-#         'PASSWORD': 'Keralam@1',
-#         'HOST': 'localhost'
+#         'ENGINE': config('DB_ENGINE'),
+#         'NAME': config('DB_NAME'),
+#         'USER': config('DB_USER'),
+#         'PASSWORD': config('DB_PASSWORD'),
+#         'HOST': config('DB_HOST'),
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': config('DB_ENGINE_PS'),
+        'NAME': config('DB_NAME_PS'),
+        'USER': config('DB_USER_PS'),
+        'PASSWORD': config('DB_PASSWORD_PS'),
+        'HOST': config('DB_HOST_PS')
+    }
+}
 
 
 # Password validation

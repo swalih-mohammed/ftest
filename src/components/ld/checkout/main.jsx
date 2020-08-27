@@ -142,7 +142,7 @@ class checkOut extends Component {
     } = this.state;
 
     // console.log(cart);
-    console.log(ShopModeOfPayment);
+    // console.log(ShopModeOfPayment);
 
     if (!isAuthenticated) {
       return <Redirect to="/login" />;

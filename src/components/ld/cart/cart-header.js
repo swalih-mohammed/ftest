@@ -13,12 +13,12 @@ class CartHeader extends Component {
   handleRemoveItemFromCart = id => {
     // console.log(id);
     // console.log("removing");
-    toast.error("Item removed from your cart");
+    // toast.error("Item removed from your cart");
     authAxios
       .delete(orderItemDeleteURL(id))
       .then(res => {
         this.refreshCart();
-        toast.error("Item removed from your cart");
+        // toast.error("Item removed from your cart");
       })
       .catch(err => {
         this.setState({ error: err });
@@ -36,9 +36,9 @@ class CartHeader extends Component {
             {/* <img alt="" className="mr-3" src={`${item.pictures[0]}`} /> */}
           </Link>
           <div className="media-body">
-            <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>
-              <h4>{item.item.title}</h4>
-            </Link>
+            {/* <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}> */}
+            <h4>{item.item.title}</h4>
+            {/* </Link> */}
             <h4>
               <span>
                 {item.quantity} x {item.item.price} = {item.final_price}

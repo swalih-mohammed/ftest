@@ -11,13 +11,16 @@ import { orderSummaryURL, localhost } from "../../../constants";
 
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { constants } from "fs";
+// import { SCHED_NONE } from "cluster";
 
 class CartContainer extends Component {
   state = {
-    cart: []
+    cart: [],
+    display: false
   };
 
-  componentWillMount() {}
+  // componentWillMount() {}
 
   handleFetchOrder = () => {
     this.setState({ loading: true });
@@ -32,16 +35,23 @@ class CartContainer extends Component {
       });
   };
 
+  handleViewCartDisply = () => {
+    // console.log(123);
+    this.setState({ display: !this.state.display });
+  };
+
   render() {
     // const { cart } = this.state;
 
     const { cart } = this.props;
-    // console.log(cart);
+    const { display } = this.state;
+    // console.log(display);
 
     return (
       <div>
         {cart ? (
           <li className="onhover-div mobile-cart">
+            {/* style={{ display: display }} */}
             <div className="cart-qty-cls">
               {cart.order_items ? cart.order_items.length : 0}
             </div>
@@ -55,12 +65,20 @@ class CartContainer extends Component {
               />
               {/* <i className="fa fa-shopping-cart"></i> */}
               <i>
-                <FontAwesomeIcon icon={faShoppingCart} />
+                <FontAwesomeIcon
+                  icon={faShoppingCart}
+                  onClick={() => {
+                    this.handleViewCartDisply();
+                  }}
+                />
               </i>
             </Link>
-            <ul className="show-div shopping-cart">
+            <ul
+              className="show-div shopping-cart"
+              // style={{ display: display ? "" : "none" }}
+            >
               {cart && (
-                <div>
+                <div style={{ display: display ? "" : "none" }}>
                   {cart.order_items ? (
                     <div>
                       {cart.order_items.map(item => (
@@ -93,10 +111,13 @@ class CartContainer extends Component {
                         view cart
                       </Link> */}
                               <Link
+                                onClick={() => {
+                                  this.handleViewCartDisply();
+                                }}
                                 to={`${process.env.PUBLIC_URL}/order-summary`}
                                 className="checkout"
                               >
-                                View Cart
+                                Go to cart
                               </Link>
                             </div>
                           </li>
@@ -117,7 +138,12 @@ class CartContainer extends Component {
             <div className="cart-qty-cls">{0}</div>
 
             <i>
-              <FontAwesomeIcon icon={faShoppingCart} />
+              <FontAwesomeIcon
+                icon={faShoppingCart}
+                onClick={() => {
+                  this.handleViewCartDisply();
+                }}
+              />
             </i>
 
             <ul className="show-div shopping-cart">

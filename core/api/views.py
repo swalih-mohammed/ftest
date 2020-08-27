@@ -233,17 +233,17 @@ class ProductListForShopView(ListAPIView):
     serializer_class = ShopProductSerializer
     
     def get_queryset(self):
+        user = self.request.user
+        # print(user)
+        shop = get_object_or_404(Shop, owner=user )
         # user = User.objects.get_object_or_404(id=)
-        shop = Shop.objects.filter(owner_id=self.kwargs['owner_id'] ).first()
+        # shop = Shop.objects.filter(owner_id=self.kwargs['owner_id'] ).first()
         if shop is None:
             return Response({"message": "No shop found"}, status=HTTP_400_BAD_REQUEST)
         # print(shop)
         return Item.objects.filter(shop=shop )
       
-# class ProductUpdateForShopView(UpdateAPIView):
-#     permission_classes = (IsAuthenticated, )
-#     serializer_class = ShopProductSerializer
-#     queryset = Item.objects.all()
+
 
 class ItemDetailView(RetrieveAPIView):
     permission_classes = (AllowAny,)

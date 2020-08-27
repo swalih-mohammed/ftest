@@ -115,14 +115,20 @@ class Sidebar extends Component {
           <ul id="sub-menu" className="sidebar-menu">
             {user.user ? (
               <div>
+                <li>
+                  <Link to="/orders" onClick={this.closeNav}>
+                    Hello ! {user.user.userName}
+                    <span className="sub-arrow"></span>
+                  </Link>
+                </li>
                 {user.user.is_customer ? (
                   <div>
-                    <li>
+                    {/* <li>
                       <Link to="/orders" onClick={this.closeNav}>
                         Hello ! {user.user.userName}
                         <span className="sub-arrow"></span>
                       </Link>
-                    </li>
+                    </li> */}
                     <li>
                       <Link to="/orders" onClick={this.closeNav}>
                         My orders
@@ -143,12 +149,12 @@ class Sidebar extends Component {
                 {/* customer end  */}
                 {user.user.is_shop_owner ? (
                   <div>
-                    <li>
+                    {/* <li>
                       <Link to="/orders" onClick={this.closeNav}>
                         Hello ! {user.user.userName}
                         <span className="sub-arrow"></span>
                       </Link>
-                    </li>
+                    </li> */}
                     <li>
                       <Link to="/shop-dashboard" onClick={this.closeNav}>
                         My Shop
@@ -188,32 +194,32 @@ class Sidebar extends Component {
 
                 {user.user.is_staff_user ? (
                   <div>
-                    <li>
+                    {/* <li>
                       <Link to="/orders" onClick={this.closeNav}>
                         Hello ! {user.user.userName}
                         <span className="sub-arrow"></span>
                       </Link>
-                    </li>
+                    </li> */}
                     <li>
                       <Link to="/manage-order-delivery" onClick={this.closeNav}>
                         Manage Delivery
                         <span className="sub-arrow"></span>
                       </Link>
                     </li>
-                    <li>
+                    {/* <li>
                       <Link to="/orders" onClick={this.closeNav}>
                         My orders
                         <span className="sub-arrow"></span>
                       </Link>
-                    </li>
-                    <li>
+                    </li> */}
+                    {/* <li>
                       <Link to="/addresses" onClick={this.closeNav}>
                         <span>
                           <i className="sub-arrow" aria-hidden="true"></i>
                         </span>
                         Address
                       </Link>
-                    </li>
+                    </li> */}
                   </div>
                 ) : null}
                 {/* staf end  */}

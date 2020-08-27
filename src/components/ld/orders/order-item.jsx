@@ -165,33 +165,31 @@ class OrderItem extends Component {
       })
       .then(res => {
         toast.success("Order status updated");
-        this.setState({ ShopSuccess: true });
+        this.setState({ success: true });
       })
       .catch(err => {
         this.setState({ error: err });
       });
   };
 
-  callbacktest = () => {
-    console.log(this.state.orderStatus);
-  };
+  // callbacktest = () => {
+  //   console.log(this.state.orderStatus);
+  // };
 
   render() {
-    const {
-      order,
-      orderAddress,
-      orderItems,
-      ShopSuccess,
-      CustomerSuccess
-    } = this.state;
+    const { order, orderAddress, orderItems, success } = this.state;
 
     const { user } = this.props;
+    // console.log(user);
 
-    if (ShopSuccess) {
-      return <Redirect to="/shop-order-table" />;
-    }
-    if (CustomerSuccess) {
-      return <Redirect to="/orders" />;
+    if (success) {
+      if (user.user.is_staff_user) {
+        return <Redirect to="/manage-order-delivery" />;
+      } else if (user.user.is_shop_owner) {
+        return <Redirect to="/shop-order-table" />;
+      } else {
+        return <Redirect to="/orders" />;
+      }
     }
 
     return (

@@ -111,6 +111,7 @@ const Manage = props => {
     <div>
       <section className="register-page section-b-space">
         <div className="container">
+          {loading && <div className="loading-cls"></div>}
           <div className="row">
             <div className="col-lg-12">
               <h4>Find Orders</h4>
@@ -129,10 +130,10 @@ const Manage = props => {
                             value={formik.values.place}
                           >
                             <option value="" disabled selected>
-                              Select your option
+                              Select your place
                             </option>
                             {props.places.map((a, index) => (
-                              <option key={a.index}>{a}</option>
+                              <option key={index}>{a}</option>
                             ))}
                           </select>
                         </div>

@@ -61,6 +61,7 @@ class Shop extends Component {
 
   handleClearCategory = () => {
     this.setState({ SelectedCategory: "all" });
+    window.scrollTo(0, 1300);
     // console.log("all");
   };
 

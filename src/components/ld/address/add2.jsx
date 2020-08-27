@@ -98,7 +98,7 @@ class AddAddress extends Component {
 
   handleChangeArea = area => {
     this.setState({ selectedArea: area.id });
-    console.log(this.state.selectedArea);
+    // console.log(this.state.selectedArea);
   };
 
   loadStates = async () => {

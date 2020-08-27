@@ -7,6 +7,7 @@ import { Slider6, Slider4 } from "../../../services/script";
 class ProductCategory extends Component {
   handleChangeCategory = cat => {
     this.props.handleChangeCategory(cat);
+    window.scrollTo(0, 1300);
   };
 
   render() {

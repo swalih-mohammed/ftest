@@ -92,7 +92,8 @@ class checkOut extends Component {
     // console.log(e.target.value);
   };
 
-  handleCouponSubmit = async () => {
+  handleCouponSubmit = async e => {
+    e.preventDefault();
     // console.log(this.state.coupon);
     const code = this.state.coupon;
     if (code !== "") {
@@ -384,7 +385,8 @@ class checkOut extends Component {
                         ) : null}
                       </div>
                       <Button
-                        onClick={this.handleCouponSubmit}
+                        type="submit"
+                        onClick={this.handleCouponSubmit.bind(this)}
                         variant="flat"
                         size="xxl"
                         style={{ color: "red" }}

@@ -119,13 +119,11 @@ class Root extends React.Component {
                     component={Register}
                   />
 
-                  {/* <Suspense fallback={<Loader />}> */}
                   <Route
                     exact
                     path={`${process.env.PUBLIC_URL}/`}
                     component={homepage}
                   />
-                  {/* </Suspense> */}
 
                   <Route
                     path={`${process.env.PUBLIC_URL}/logout`}

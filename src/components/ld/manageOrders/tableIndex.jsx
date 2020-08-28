@@ -20,7 +20,7 @@ class Manage extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // this.props.fetchUserType();
     this.fetchServieArea();
   }
@@ -47,8 +47,8 @@ class Manage extends Component {
   };
 
   render() {
-    const { data, places } = this.state;
-    const { userType, token } = this.props;
+    const { places } = this.state;
+    // const { userType, token } = this.props;
     // console.log(places);
 
     return (

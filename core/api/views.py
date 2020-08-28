@@ -467,23 +467,23 @@ class ProductUpdateForShopView(GenericAPIView, UpdateModelMixin):
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
-# class ProductUpdateForShopView(UpdateAPIView):
-#     permission_classes = (IsAuthenticated, )
-#     serializer_class = ShopProductSerializer
-#     queryset = Item.objects.all()
-
-
 class AddCouponView(APIView):
     def post(self, request, *args, **kwargs):
         code = request.data.get('code', None)
         if code is None:
             return Response({"message": "Invalid data received"}, status=HTTP_400_BAD_REQUEST)
-        order = Order.objects.get(
-            user=self.request.user, ordered=False)
+        
         coupon = get_object_or_404(Coupon, code=code)
+        offer = coupon.offer
+        print(offer)
+
+        order = Order.objects.get(user=self.request.user, ordered=False)
+        shop = order.shop
+        place = order.place
+        print(coupon)
         order.coupon = coupon
         order.save()
-        return Response(status=HTTP_200_OK)
+        return Response({"message": offer },status=HTTP_200_OK)
 
 
 class CountryListView(APIView):

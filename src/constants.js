@@ -1,6 +1,6 @@
-// export const localhost = "http://127.0.0.1:8000";
+export const localhost = "http://127.0.0.1:8000";
 
-export const localhost = "https://www.localdukans.com";
+// export const localhost = "https://www.localdukans.com";
 
 const apiURL = "/api";
 
@@ -34,8 +34,6 @@ export const ShopDashOpenStatusURL = id =>
   `${endpoint}/shop-dash-open-status/${id}/update/`;
 
 export const ShopModeOfPaymentURL = `${endpoint}/mode-of-payment/`;
-// export const ShopModeOfPaymentURL = id =>
-//   `${endpoint}/shops/${id}/mode-of-payment/`;
 
 // export const areaFilterURL = name => `${endpoint}/places/${name}/areas`;
 export const placeShopListURL = id => `${endpoint}/places/${id}/shops/`;

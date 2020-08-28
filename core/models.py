@@ -203,7 +203,6 @@ class UserProfile(models.Model):
     is_active = models.BooleanField(default=True, null=True)
     user_role = models.ForeignKey(Role,null=True, on_delete=models.DO_NOTHING )
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    
 
     def __str__(self):
         return self.user.username
@@ -401,10 +400,10 @@ class Address(models.Model):
     
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     is_active = models.BooleanField(default=True, null=True)
-    # def __str__(self):
-    #     return self.user.username
     def __str__(self):
         return self.user.username
+    # def __str__(self):
+    #     return self.user.username
 
     class Meta:
         verbose_name_plural = 'Addresses'
@@ -458,12 +457,12 @@ class Order(models.Model):
         total = 0
         for order_item in self.items.all():
             total += order_item.get_final_price()
-        if self.coupon:
-            total -= self.coupon.amount
+        # if self.coupon:
+        #     total -= self.coupon.amount
         return total
-    # def get_items_count(self):
-    #     total_item = self.items.count
-    #     return total_item
+    def get_items_count(self):
+        total_item = self.items.count
+        return total_item
 
 class FavoritePlaces(models.Model):
         user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -488,7 +487,18 @@ class FavoriteShops(models.Model):
 
 class Coupon(models.Model):
     code = models.CharField(max_length=15)
-    amount = models.FloatField()
+    offer = models.TextField(max_length=250, blank=True, null=True)
+    shops = models.ManyToManyField(Shop)
+    places  = models.ManyToManyField(Place)
+    min_amount = models.FloatField(null=True)
+    start_date = models.DateTimeField(null=True)
+    expiry_date = models.DateTimeField(null=True)
+    is_only_once_per_user = models.BooleanField(default=True, null=True)
+    is_universal = models.BooleanField(default=False, null=True)
+    is_for_shop_only = models.BooleanField(default=False, null=True)
+    is_for_place_only = models.BooleanField(default=False, null=True)
+    is_valid = models.BooleanField(default=False, null=True)
+    create_date = models.DateTimeField(auto_now_add=True,null=True)
 
     def __str__(self):
         return self.code

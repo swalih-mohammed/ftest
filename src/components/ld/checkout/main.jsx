@@ -5,11 +5,14 @@ import { Link, Redirect } from "react-router-dom";
 import SimpleReactValidator from "simple-react-validator";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 import {
   addressListURL,
   checkoutURL,
   orderSummaryURL,
-  ShopModeOfPaymentURL
+  ShopModeOfPaymentURL,
+  addCouponURL
 } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { fetchCart, clearKart } from "../../../actions/cart";
@@ -24,7 +27,9 @@ class checkOut extends Component {
     selectedAddress: null,
     shop_id: null,
     ShopModeOfPayment: [],
-    selectedModeofPayment: null
+    selectedModeofPayment: null,
+    coupon: "",
+    offer: ""
   };
 
   componentDidMount() {
@@ -82,6 +87,32 @@ class checkOut extends Component {
       });
   };
 
+  handleCouponChange = e => {
+    this.setState({ coupon: e.target.value });
+    // console.log(e.target.value);
+  };
+
+  handleCouponSubmit = async () => {
+    // console.log(this.state.coupon);
+    const code = this.state.coupon;
+    if (code !== "") {
+      this.setState({ loading: true });
+      authAxios
+        .post(addCouponURL, {
+          code
+        })
+        .then(res => {
+          this.setState({ offer: res.data, loading: false });
+          toast.success("Coupon applied succesfully");
+        })
+        .catch(err => {
+          this.setState({ error: err, loading: false });
+        });
+    } else {
+      toast.error("Coupon not entered");
+    }
+  };
+
   handleAddress = event => {
     this.setState({ selectedAddress: event.target.value });
     console.log(event.target.value);
@@ -102,7 +133,7 @@ class checkOut extends Component {
     this.setState({ loading: true });
     const { selectedAddress, selectedModeofPayment } = this.state;
 
-    if ((selectedAddress !== null) | (selectedModeofPayment !== null)) {
+    if (selectedAddress !== null && selectedModeofPayment !== null) {
       authAxios
         .post(checkoutURL, {
           selectedAddress,
@@ -138,10 +169,11 @@ class checkOut extends Component {
       selectedAddress,
       cart,
       ShopModeOfPayment,
-      shop_id
+      shop_id,
+      offer
     } = this.state;
 
-    // console.log(cart);
+    // console.log(this.state.offer);
     // console.log(ShopModeOfPayment);
 
     if (!isAuthenticated) {
@@ -323,6 +355,47 @@ class checkOut extends Component {
                   </Link>
                 </div>
               )}
+
+              <div className="row">
+                <div className="col-lg-6">
+                  <div className="theme-card">
+                    <form
+                      className="theme-form"
+                      // onSubmit={this.handleCouponSubmit}
+                    >
+                      <div className="form-group">
+                        <label htmlFor="coupon">Enter Coupon code</label>
+                        <input
+                          // onChange={this.handleCouponChange}
+                          onChange={this.handleCouponChange.bind(this)}
+                          type="text"
+                          className="form-control"
+                          id="coupon"
+                          value={this.state.coupon}
+                          name="coupon"
+                          required=""
+                        />
+                      </div>
+                      <div>
+                        {offer ? (
+                          <Alert variant={"success"}>
+                            Offer Applied !!{offer.message}
+                          </Alert>
+                        ) : null}
+                      </div>
+                      <Button
+                        onClick={this.handleCouponSubmit}
+                        variant="flat"
+                        size="xxl"
+                        style={{ color: "red" }}
+                      >
+                        Apply coupon
+                      </Button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
               <br></br>
               <button
                 type="button"

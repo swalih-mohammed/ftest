@@ -113,9 +113,9 @@ class AddressAdmin(admin.ModelAdmin):
 
     ]
 
-    search_fields = ['user', 'place', 'phone_number']
-    list_filter = ['area', 'place', 'village',
-                   'district', 'state', 'create_date']
+    # search_fields = ['user', 'place', 'phone_number']
+    # list_filter = ['area', 'place', 'village',
+    #                'district', 'state', 'create_date']
 
 
 class ItemVariationAdmin(admin.ModelAdmin):
@@ -317,6 +317,16 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_filter = ['is_customer', 'is_shop_owner', 'create_date']
 
 
+class CouponAdmin(admin.ModelAdmin):
+    list_display = [
+        'code',
+        'start_date',
+        'expiry_date',
+        'create_date'
+    ]
+    list_filter = ['code', 'create_date']
+
+
 admin.site.register(ItemVariation, ItemVariationAdmin)
 admin.site.register(Variation, VariationAdmin)
 admin.site.register(Item, ItemAdmin)
@@ -325,7 +335,7 @@ admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderStatus)
 
 # admin.site.register(Payment)
-admin.site.register(Coupon)
+admin.site.register(Coupon, CouponAdmin)
 admin.site.register(Refund)
 admin.site.register(Address, AddressAdmin)
 

@@ -472,18 +472,33 @@ class AddCouponView(APIView):
         code = request.data.get('code', None)
         if code is None:
             return Response({"message": "Invalid data received"}, status=HTTP_400_BAD_REQUEST)
-        
         coupon = get_object_or_404(Coupon, code=code)
-        offer = coupon.offer
-        print(offer)
-
         order = Order.objects.get(user=self.request.user, ordered=False)
-        shop = order.shop
-        place = order.place
-        print(coupon)
-        order.coupon = coupon
-        order.save()
-        return Response({"message": offer },status=HTTP_200_OK)
+        min_amount = request.data.get('min_amount', None)
+        if order.total < min_amount:
+            return Response({"message": "This order is not eligible for the offer"}, status=HTTP_400_BAD_REQUEST)
+        if coupon.is_only_once_per_user:
+            checkOrder = Order.objects.filter(coupon=coupon, user=self.request.user)
+            if checkOrder.exists():
+                return Response({"message": "This coupon is valid once per user"}, status=HTTP_400_BAD_REQUEST)
+        if coupon.is_for_shop_only:
+            checkCoupon = Coupon.objects.filter(shop=order.shop)
+            if checkCoupon is None:
+                return Response({"message": "This coupon is not valid for your shop"}, status=HTTP_400_BAD_REQUEST)
+        if coupon.is_for_place_only:
+            checkCoupon = Coupon.objects.filter(place=order.place)
+            if checkCoupon is None:
+                return Response({"message": "This coupon is not valid for your locality"}, status=HTTP_400_BAD_REQUEST)
+        start_date = coupon.start_date
+        end_date = coupon.expiry_date
+        order_date = order.start_date
+
+        if order_date > start_date and order_date < end_date:
+            order.coupon = coupon
+            order.save()
+            return Response({"message": offer },status=HTTP_200_OK)
+        else:
+            return Response({"message": "Invalid coupon"}, status=HTTP_400_BAD_REQUEST)
 
 
 class CountryListView(APIView):
@@ -567,7 +582,7 @@ class AddToFavoritePlacesView(APIView):
         
         wish_list_qs = FavoritePlaces.objects.filter(user=request.user,place=place, is_active=True)
         if wish_list_qs.exists():
-            print("alredy exist")
+            # print("alredy exist")
             return Response({"message": "This shop already exists in your favorite list "}, status=HTTP_400_BAD_REQUEST)
         wish_list_qs_2 = FavoritePlaces.objects.filter(user=request.user,place=place, is_active=False)
         if wish_list_qs_2.exists():

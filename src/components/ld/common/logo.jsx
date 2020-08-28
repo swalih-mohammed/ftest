@@ -7,7 +7,7 @@ function LogoImage(props) {
   return (
     <Link to="/">
       <img
-        src={`${localhost}/media/logo/ld4.jpg`}
+        src={`${localhost}/media/logo/ld3.jpg`}
         // src="/media/logo/ld4.jpg"
         alt="logo"
         loading="lazy"

@@ -1,26 +1,26 @@
-import React from "react";
+// import React from "react";
 // import "./fontawesome/index";
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ScrollContext } from "react-router-scroll-4";
-import { IntlReducer as Intl, IntlProvider } from "react-redux-multilingual";
+// import { IntlReducer as Intl, IntlProvider } from "react-redux-multilingual";
 import "./index.scss";
-// import serviceWorker from "./serviceWorker";
-import * as serviceWorker from "./serviceWorker";
+// import * as serviceWorker from "./serviceWorker";
 
 // Import custom components
 import store from "./store";
 import * as actions from "./actions/auth";
-import translations from "./constants/translations";
-// import { getAllProducts } from "./actions";
-// import Landing from "./components/landing";
+// import translations from "./constants/translations";
 
 //local dukans
+import Loader from "./components/ld/common/loader";
 import Layout from "./components/app";
-import Cart from "./components/cart";
-import homepage from "./components/ld/homepage/main";
+// import Cart from "./components/cart";
+// import homepage from "./components/ld/homepage/main";
+
 import LocalityHome from "./components/ld/localityHome/main";
 import LocalityList from "./components/ld/localityList/main";
 import ShopHome from "./components/ld/shopHome/main";
@@ -38,29 +38,57 @@ import OrderTable from "./components/ld/manageOrders/tableIndex";
 import ShopOrderTable from "./components/ld/manageOrders/shopOrderTable";
 import ShopDashboard from "./components/ld/manageShops/shopDash";
 
-import OrderItem from "./components/ld/orders/order-item";
-import OrderItemCustomer from "./components/ld/orders/order-item-customer";
+// import OrderItem from "./components/ld/orders/order-item";
+// import OrderItemCustomer from "./components/ld/orders/order-item-customer";
 
-import Address from "./components/ld/address/main";
-import CreateAddress from "./components/ld/address/add2";
-import EditAddress from "./components/ld/address/edit2";
-import Wishlist from "./components/ld/wishlist/main";
-import Checkout from "./components/ld/checkout/main";
-// import OrderSummary from "./components/ld/checkout/orderSummary";
-import OrderSummary from "./components/ld/checkout/or";
+const OrderItem = lazy(() => import("./components/ld/orders/order-item"));
+const OrderItemCustomer = lazy(() =>
+  import("./components/ld/orders/order-item-customer")
+);
+
+// import Address from "./components/ld/address/main";
+// import CreateAddress from "./components/ld/address/add2";
+// import EditAddress from "./components/ld/address/edit2";
+// import Wishlist from "./components/ld/wishlist/main";
+// import Checkout from "./components/ld/checkout/main";
+// import OrderSummary from "./components/ld/checkout/or";
+
+const Address = lazy(() => import("./components/ld/address/main"));
+const CreateAddress = lazy(() => import("./components/ld/address/add2"));
+const EditAddress = lazy(() => import("./components/ld/address/edit2"));
+const Wishlist = lazy(() => import("./components/ld/wishlist/main"));
+const Checkout = lazy(() => import("./components/ld/checkout/main"));
+const OrderSummary = lazy(() => import("./components/ld/checkout/or"));
 
 //products
-import ShopProducts from "./components/ld/products/productList";
-import ShopProductsEdit from "./components/ld/products/editProduct2";
-import AddShopProduct from "./components/ld/products/addProduct";
-// import EditProduct from "./components/ld/products/addProduct"
-// import DeleteProduct from "./components/ld/products/addProduct"
+// import ShopProducts from "./components/ld/products/productList";
+// import ShopProductsEdit from "./components/ld/products/editProduct2";
+// import AddShopProduct from "./components/ld/products/addProduct";
 
-import AddShop from "./components/ld/manageShops/addShop";
-import ManageShopFilter from "./components/ld/manageShops/filterIndex";
-import ManageShopSearch from "./components/ld/manageShops/searchShop";
-import AddCandidate from "./components/ld/career/register";
-import AddComplaint from "./components/ld/complaint/register";
+const ShopProducts = lazy(() => import("./components/ld/products/productList"));
+const ShopProductsEdit = lazy(() =>
+  import("./components/ld/products/editProduct2")
+);
+const AddShopProduct = lazy(() =>
+  import("./components/ld/products/addProduct")
+);
+
+// import AddShop from "./components/ld/manageShops/addShop";
+// import ManageShopFilter from "./components/ld/manageShops/filterIndex";
+// import ManageShopSearch from "./components/ld/manageShops/searchShop";
+// import AddCandidate from "./components/ld/career/register";
+// import AddComplaint from "./components/ld/complaint/register";
+
+const AddShop = lazy(() => import("./components/ld/manageShops/addShop"));
+const ManageShopFilter = lazy(() =>
+  import("./components/ld/manageShops/filterIndex")
+);
+const ManageShopSearch = lazy(() =>
+  import("./components/ld/manageShops/searchShop")
+);
+const AddCandidate = lazy(() => import("./components/ld/career/register"));
+const AddComplaint = lazy(() => import("./components/ld/complaint/register"));
+const homepage = lazy(() => import("./components/ld/homepage/main"));
 
 class Root extends React.Component {
   // componentDidMount() {
@@ -70,15 +98,17 @@ class Root extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <IntlProvider translations={translations} locale="en">
-          <BrowserRouter basename={"/"}>
-            <ScrollContext>
+        {/* <IntlProvider translations={translations} locale="en"> */}
+        <BrowserRouter basename={"/"}>
+          <ScrollContext>
+            <Suspense fallback={<Loader />}>
               <Switch>
                 <Route
                   path={`${process.env.PUBLIC_URL}/reset-password`}
                   component={PassworReset}
                 />
                 <Layout>
+                  {/* <Suspense fallback={<div>Loading</div>}> */}
                   <Route
                     path={`${process.env.PUBLIC_URL}/login`}
                     component={Login}
@@ -88,11 +118,15 @@ class Root extends React.Component {
                     path={`${process.env.PUBLIC_URL}/register`}
                     component={Register}
                   />
+
+                  {/* <Suspense fallback={<Loader />}> */}
                   <Route
                     exact
                     path={`${process.env.PUBLIC_URL}/`}
                     component={homepage}
                   />
+                  {/* </Suspense> */}
+
                   <Route
                     path={`${process.env.PUBLIC_URL}/logout`}
                     component={Logout}
@@ -212,13 +246,14 @@ class Root extends React.Component {
                   />
                 </Layout>
               </Switch>
-            </ScrollContext>
-          </BrowserRouter>
-        </IntlProvider>
+            </Suspense>
+          </ScrollContext>
+        </BrowserRouter>
+        {/* </IntlProvider> */}
       </Provider>
     );
   }
 }
 
 ReactDOM.render(<Root />, document.getElementById("root"));
-serviceWorker.register();
+// serviceWorker.register();

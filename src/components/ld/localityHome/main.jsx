@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import "../../common/index.scss";
-import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Shipping from "./shipping";
@@ -10,19 +9,11 @@ import Offer from "./offer";
 import Image from "react-bootstrap/Image";
 import LocalityImage from "./localityImage";
 
-// Import custom components
-import { Slider3 } from "../../../services/script";
-// import Trading from "./tranding";
-// import Special from "../common/special";
 import {
   svgFreeShipping,
   svgservice,
   svgoffer
 } from "../../../services/script";
-import HeaderTwo from "../../common/headers/header-two";
-import FooterOne from "../../common/footers/footer-one";
-import ThemeSettings from "../../common/theme-settings";
-import Search from "../../pages/search";
 import Category from "./category";
 import FeautredShops from "./featuredShops";
 import Shops from "./shops";

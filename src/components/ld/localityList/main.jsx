@@ -13,7 +13,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Img } from "react-image";
 import Locality from "./locality";
-import { Product4, Product5 } from "../../../services/script";
+// import { Product4, Product5 } from "../../../services/script";
 
 import Search from "./search";
 import { placeListURL, localhost } from "../../../constants";

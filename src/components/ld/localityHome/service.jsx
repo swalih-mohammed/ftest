@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import { svgservice } from "../../../services/script";
 
 class Service extends Component {

@@ -8,7 +8,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { orderListURL, orderStatusListURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 
-import Result from "./result";
+import Result from "./result":
 
 class ShopOrderManagement extends Component {
   constructor(props) {

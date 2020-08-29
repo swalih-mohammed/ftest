@@ -3,8 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import Suggestions from "./searchSuggestions";
-import style from "./searchStyle.css";
+// import style from "./searchStyle.css";
 import { placeListURL } from "../../../constants";
 
 class Search extends Component {

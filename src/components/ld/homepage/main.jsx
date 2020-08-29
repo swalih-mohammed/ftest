@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import "../../common/index.scss";
-// import Slider from "react-slick";
-// import Image from "react-bootstrap/Image";
 import FeautredLocality from "./featuredLocality";
 import Search from "../localityList/search";
 import Localities from "../localityList/main";

@@ -1,14 +1,15 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import { withTranslate } from "react-redux-multilingual";
 
 // Custom Components
 
 import Footer from "./ld/common/footer";
-import ThemeSettings from "./common/theme-settings";
+// import ThemeSettings from "./common/theme-settings";
 import Header from "./ld/common/header";
 import { connect } from "react-redux";
 import { authCheckState, logout, fetchUser } from "../actions/auth";
 import { fetchCart } from "../actions/cart";
+import Loader from "./ld/common/loader";
 // import { fetchUser } from "../actions/user";
 
 class App extends Component {
@@ -20,7 +21,9 @@ class App extends Component {
     return (
       <div>
         <Header logoName={"logo.png"} />
+        <Suspense fallback={<Loader />}>
         {this.props.children}
+        </Suspense>
         <Footer logoName={"logo.png"} />
         {/* <ThemeSettings /> */}
       </div>

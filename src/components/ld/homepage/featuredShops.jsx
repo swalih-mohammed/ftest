@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import { Slider3 } from "../../../services/script";
-import Search from "../../pages/search";
 import { AddToFavoriteShopsURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import "react-toastify/dist/ReactToastify.css";

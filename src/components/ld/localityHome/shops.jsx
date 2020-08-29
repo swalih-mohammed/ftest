@@ -9,10 +9,9 @@ import { authAxios } from "../../../authAxios";
 import { ToastContainer, toast } from "react-toastify";
 import Shop from "./shopItem";
 
-// Import custom components
-import { Slider3 } from "../../../services/script";
+// import { Slider3 } from "../../../services/script";
 // import Special from "../common/special";
-import Search from "../../pages/search";
+// import Search from "../../pages/search";
 
 class Shops extends Component {
   componentDidMount() {

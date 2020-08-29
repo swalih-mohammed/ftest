@@ -3,239 +3,366 @@ import { connect } from "react-redux";
 import { authSignup } from "../../../actions/auth";
 import { Redirect } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
+import Select from "react-select";
+import axios from "axios";
+import { Form, Button, Card } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import { addressCreateURL } from "../../../constants";
+import {
+  addressCreateURL,
+  placeFilterURL,
+  areaFilterURL,
+  districtFilterURL,
+  villagesFilterURL
+} from "../../../constants";
+import { stateListURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 
-const UPDATE_FORM = "UPDATE_FORM";
-const CREATE_FORM = "CREATE_FORM";
-
 class AddAddress extends Component {
-  state = {
-    formData: {
-      place: "",
-      area: "",
-      house_name: "",
-      road_name: "",
-      village: "",
-      district: "",
-      state: "",
-      pin_code: "",
-      phone_number: "",
-      default: true
-    },
-    success: false,
-    error: null,
-    loading: false,
-    editMode: false
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      aeras: [],
+      places: [],
+      villages: [],
+      districts: [],
+      states: [],
+
+      selectedArea: "",
+      selectedPlace: "",
+      selectedVillage: "",
+      selectedDistrict: "",
+      selectedState: "",
+
+      form: {
+        full_address: "",
+        phone_number: ""
+      },
+
+      success: false,
+      error: null,
+      loading: false
+    };
+  }
+
+  componentDidMount() {
+    this.loadStates();
+  }
+
+  handleChangeState = state => {
+    this.setState(
+      {
+        selectedState: state.id
+      },
+      () => {
+        this.loadDistricts();
+      }
+    );
   };
 
-  handleChange = e => {
-    const { formData } = this.state;
-    const updatedFormdata = {
-      ...formData,
-      [e.target.name]: e.target.value
-    };
-    this.setState({
-      formData: updatedFormdata
-    });
+  handleChangeDistrict = district => {
+    this.setState(
+      {
+        selectedDistrict: district.id
+      },
+      () => {
+        this.loadVillages();
+      }
+    );
+  };
+
+  handleChangeVillage = village => {
+    this.setState(
+      {
+        selectedVillage: village.id
+      },
+      () => {
+        this.loadPlaces();
+        console.log(this.state.selectedDistrict);
+      }
+    );
+  };
+
+  handleChangePlaces = place => {
+    this.setState(
+      {
+        selectedPlace: place.id
+      },
+      () => {
+        this.loadAreas();
+      }
+    );
+  };
+
+  handleChangeArea = area => {
+    this.setState({ selectedArea: area.id });
+    // console.log(this.state.selectedArea);
+  };
+
+  loadStates = async () => {
+    this.setState({ loading: true });
+    authAxios
+      .get(stateListURL)
+      .then(res => {
+        this.setState({ states: res.data, loading: false });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
+  };
+
+  loadDistricts = () => {
+    const stateID = this.state.selectedState;
+    // console.log(stateID);
+    this.setState({ loading: true });
+    axios
+      .get(districtFilterURL, {
+        params: {
+          stateID
+        }
+      })
+      .then(res => {
+        this.setState({ districts: res.data, loading: false });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
+  };
+
+  loadVillages = async () => {
+    this.setState({ loading: true });
+    const districtID = this.state.selectedDistrict;
+
+    authAxios
+      .get(villagesFilterURL, {
+        params: {
+          districtID
+        }
+      })
+
+      .then(res => {
+        this.setState({ villages: res.data, loading: false });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
+  };
+
+  loadPlaces = async () => {
+    this.setState({ loading: true });
+    const villageID = this.state.selectedVillage;
+    authAxios
+      .get(placeFilterURL, {
+        params: {
+          villageID
+        }
+      })
+      .then(res => {
+        this.setState({ places: res.data, loading: false });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
+  };
+
+  loadAreas = async () => {
+    this.setState({ loading: true });
+    const placeID = this.state.selectedPlace;
+    authAxios
+      .get(areaFilterURL, {
+        params: {
+          placeID
+        }
+      })
+      .then(res => {
+        this.setState({ aeras: res.data, loading: false });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
   };
 
   handleCreateAddress = e => {
     e.preventDefault();
+
     const { userID } = this.props;
-    // console.log(userID);
-    const { formData } = this.state;
-    authAxios
-      .post(addressCreateURL, {
-        ...formData,
-        user: userID,
-        address_type: "S"
-      })
-      .then(res => {
-        this.setState({
-          saving: false,
-          success: true,
-          formData: { default: false }
+    const {
+      form,
+      selectedArea,
+      selectedPlace,
+      selectedVillage,
+      selectedDistrict,
+      selectedState
+    } = this.state;
+
+    if (
+      form !== "" &&
+      selectedArea !== "" &&
+      selectedPlace !== "" &&
+      selectedVillage !== "" &&
+      selectedDistrict !== "" &&
+      selectedState !== ""
+    ) {
+      authAxios
+        .post(addressCreateURL, {
+          ...form,
+          user: userID,
+          area: selectedArea,
+          place: selectedPlace,
+          village: selectedVillage,
+          district: selectedDistrict,
+          state: selectedState
+        })
+        .then(res => {
+          toast.success("Address added succesfully");
+          this.setState({ success: true });
+        })
+        .catch(err => {
+          this.setState({ error: err });
+          toast.error("Oops there was an error");
         });
-        this.props.handleCallback();
-      })
-      .catch(err => {
-        this.setState({ error: err });
-      });
+    } else {
+      console.log("else");
+      toast.error("Please provide complete address");
+    }
   };
 
+  handleChangeB(event) {
+    let fieldName = event.target.name;
+    let fleldVal = event.target.value;
+    this.setState({ form: { ...this.state.form, [fieldName]: fleldVal } });
+    // console.log(this.state.form.phone_number);
+  }
+
   render() {
-    const { formData, success, error, loading } = this.state;
-    // console.log(success);
+    const {
+      success,
+      error,
+      loading,
+      states,
+      districts,
+      villages,
+      places,
+      aeras,
+      phone_number,
+      full_address,
+      selectedState
+    } = this.state;
+
+    // console.log(this.state.selectedArea);
+
     if (success) {
       return <Redirect to="/addresses" />;
     }
+
+    // console.log(villages);
     return (
       <div>
-        <Breadcrumb title={"Add Address"} />
-
-        {/*Create address section*/}
-        <section className="register-page section-b-space">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
-                <h3>Add Address</h3>
-                <div className="theme-card">
-                  <form
-                    className="theme-form"
-                    onSubmit={this.handleCreateAddress}
-                  >
-                    <div className="form-row">
-                      <div className="col-md-6">
-                        <label htmlFor="palce">Locality</label>
-                        <input
-                          onChange={this.handleChange}
-                          type="text"
-                          className="form-control"
-                          id="place"
-                          name="place"
-                          value={formData.place}
-                          placeholder="Locality"
-                          required=""
-                        />
-                      </div>
-                      <div className="col-md-6">
-                        <label htmlFor="area">Area</label>
-                        <input
-                          onChange={this.handleChange}
-                          type="text"
-                          className="form-control"
-                          id="area"
-                          name="area"
-                          value={formData.area}
-                          placeholder="Area"
-                          required=""
-                        />
-                      </div>
-                    </div>
-                    <div className="form-row">
-                      <div className="col-md-6">
-                        <label htmlFor="house_name">House Name/Falt No</label>
-                        <input
-                          onChange={this.handleChange}
-                          type="text"
-                          className="form-control"
-                          id="house_name"
-                          name="house_name"
-                          value={formData.house_name}
-                          placeholder="House Name/Flat No"
-                          required=""
-                        />
-                      </div>
-                      <div className="col-md-6">
-                        <label htmlFor="review">Raod Name</label>
-                        <input
-                          onChange={this.handleChange}
-                          type="text"
-                          className="form-control"
-                          id="road_name"
-                          name="road_name"
-                          value={formData.road_name}
-                          placeholder="Road Name"
-                          required=""
-                        />
-                      </div>
-                      <div className="col-md-6">
-                        <label htmlFor="review">village</label>
-                        <input
-                          onChange={this.handleChange}
-                          type="text"
-                          className="form-control"
-                          id="village"
-                          name="village"
-                          value={formData.village}
-                          placeholder="Village/Panchayath"
-                          required=""
-                        />
-                      </div>
-                      <div className="col-md-6">
-                        <label htmlFor="review">District</label>
-                        <input
-                          onChange={this.handleChange}
-                          type="text"
-                          className="form-control"
-                          id="district"
-                          name="district"
-                          value={formData.district}
-                          placeholder="District"
-                          required=""
-                        />
-                      </div>
-                      <div className="col-md-6">
-                        <label htmlFor="review">State</label>
-                        <input
-                          onChange={this.handleChange}
-                          type="text"
-                          className="form-control"
-                          id="state"
-                          name="state"
-                          value={formData.state}
-                          placeholder="State"
-                          required=""
-                        />
-                      </div>
-                      <div className="col-md-6">
-                        <label htmlFor="review">Pin Code</label>
-                        <input
-                          onChange={this.handleChange}
-                          type="text"
-                          className="form-control"
-                          id="pin_code"
-                          name="pin_code"
-                          value={formData.pin_code}
-                          placeholder="Pin Code"
-                          required=""
-                        />
-                      </div>
-                      <div className="col-md-6">
-                        <label htmlFor="review">Phone Number</label>
-                        <input
-                          onChange={this.handleChange}
-                          type="text"
-                          className="form-control"
-                          id="phone_number"
-                          name="phone_number"
-                          value={formData.phone_number}
-                          placeholder="Phone Number"
-                          required=""
-                        />
-                      </div>
-
-                      <div className="col-md-6">
-                        <label htmlFor="review">Make it defalult</label>
-                        <input
-                          onChange={this.handleChange}
-                          type="radio"
-                          className="form-control"
-                          id="default"
-                          name="default"
-                          value={formData.default}
-                          default="fax"
-                          required=""
-                        />
-                      </div>
-
-                      <input
-                        // onChange={this.handleSubmit}
-                        type="submit"
-                        className="btn btn-solid"
-                        id="submit"
-                        placeholder="Submit"
-                        required=""
-                      />
-                    </div>
-                  </form>
-                </div>
-              </div>
+        {loading && <div className="loading-cls"></div>}
+        <Card ClassName="h-100 shadow-sm bg-white rounded">
+          <Card.Body ClassName="d-flex felx-column">
+            <div ClassName="a-flex mb-2 justify-content-between">
+              <Select
+                className="mb-3"
+                onChange={this.handleChangeState}
+                getOptionLabel={option => `${option.name}`}
+                getOptionValue={option => `${option}`}
+                options={states}
+                isSearchable={true}
+                filterOption={this.customFilter}
+                onInputChange={this.handleInputChange}
+                noOptionsMessage={() => null}
+                placeholder={"Select state"}
+                autoFocus={true}
+                menuIsOpen={this.state.menuOpen}
+              />
+              <Select
+                className="mb-3"
+                onChange={this.handleChangeDistrict}
+                getOptionLabel={option => `${option.name}`}
+                getOptionValue={option => `${option}`}
+                options={districts}
+                isSearchable={true}
+                filterOption={this.customFilter}
+                onInputChange={this.handleInputChange}
+                noOptionsMessage={() => null}
+                placeholder={"Select district"}
+                menuIsOpen={this.state.menuOpen}
+              />
+              <Select
+                className="mb-3"
+                onChange={this.handleChangeVillage}
+                getOptionLabel={option => `${option.name}`}
+                getOptionValue={option => `${option}`}
+                options={villages}
+                isSearchable={true}
+                filterOption={this.customFilter}
+                onInputChange={this.handleInputChange}
+                noOptionsMessage={() => null}
+                placeholder={"Select village"}
+                menuIsOpen={this.state.menuOpen}
+              />
+              <Select
+                className="mb-3"
+                onChange={this.handleChangePlaces}
+                getOptionLabel={option => `${option.name}`}
+                getOptionValue={option => `${option}`}
+                options={places}
+                isSearchable={true}
+                filterOption={this.customFilter}
+                onInputChange={this.handleInputChange}
+                noOptionsMessage={() => null}
+                placeholder={"Select your locality"}
+                menuIsOpen={this.state.menuOpen}
+              />
+              <Select
+                className="mb-3"
+                onChange={this.handleChangeArea}
+                getOptionLabel={option => `${option.name}`}
+                getOptionValue={option => `${option}`}
+                options={aeras}
+                isSearchable={true}
+                filterOption={this.customFilter}
+                onInputChange={this.handleInputChange}
+                noOptionsMessage={() => null}
+                placeholder={"Select area"}
+                menuIsOpen={this.state.menuOpen}
+              />
+              <Form>
+                <Form.Group controlId="formGridAddress1">
+                  <Form.Control
+                    type="text"
+                    name="phone_number"
+                    placeholder="Phone Number"
+                    ClassName="mb-3"
+                    defaultValue={this.state.phone_number}
+                    onChange={this.handleChangeB.bind(this)}
+                  />
+                </Form.Group>
+                <Form.Group controlId="exampleForm.ControlTextarea1">
+                  <Form.Control
+                    as="textarea"
+                    type="text"
+                    name="full_address"
+                    placeholder="Road, House Name ..."
+                    ClassName="mb-3"
+                    defaultValue={this.state.form.full_address}
+                    onChange={this.handleChangeB.bind(this)}
+                  />
+                </Form.Group>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={this.handleCreateAddress}
+                >
+                  Submit
+                </Button>
+              </Form>
             </div>
-          </div>
-        </section>
+          </Card.Body>
+        </Card>
       </div>
     );
   }

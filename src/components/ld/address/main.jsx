@@ -1,14 +1,9 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-
 import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
-import axios from "axios";
-
-import { addressListURL, feautredShopsURL } from "../../../constants";
+import { addressListURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
-import { fetchUser } from "../../../actions/user";
-import Edit from "./edit";
 
 class Address extends Component {
   state = {

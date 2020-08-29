@@ -22,7 +22,6 @@ class App extends Component {
         <Header logoName={"logo.png"} />
         {this.props.children}
         <Footer logoName={"logo.png"} />
-
         {/* <ThemeSettings /> */}
       </div>
     );

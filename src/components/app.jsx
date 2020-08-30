@@ -1,16 +1,16 @@
-import React, { Component, Suspense } from "react";
+import React, { Component, Suspense, lazy } from "react";
 import { withTranslate } from "react-redux-multilingual";
 
 // Custom Components
+// import Footer from "./ld/common/footer";
+// import { fetchCart } from "../actions/cart";
+// import { fetchUser } from "../actions/user";
 
-import Footer from "./ld/common/footer";
-// import ThemeSettings from "./common/theme-settings";
 import Header from "./ld/common/header";
 import { connect } from "react-redux";
 import { authCheckState, logout, fetchUser } from "../actions/auth";
-import { fetchCart } from "../actions/cart";
 import Loader from "./ld/common/loader";
-// import { fetchUser } from "../actions/user";
+const Footer = lazy(() => import("./ld/common/footer"));
 
 class App extends Component {
   componentDidMount() {
@@ -21,10 +21,12 @@ class App extends Component {
     return (
       <div>
         <Header logoName={"logo.png"} />
-        <Suspense fallback={<Loader />}>
+        {/* <Suspense fallback={<Loader />}> */}
         {this.props.children}
-        </Suspense>
+        {/* </Suspense> */}
+         <Suspense fallback={<Loader />}>
         <Footer logoName={"logo.png"} />
+          </Suspense>
         {/* <ThemeSettings /> */}
       </div>
     );
@@ -40,9 +42,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onTryAutoSignup: () => dispatch(authCheckState()),
-    // logout: () => dispatch(logout()),
-    // fetchCart: () => dispatch(fetchCart()),
-    fetchUser: () => dispatch(fetchUser())
+    // fetchUser: () => dispatch(fetchUser())
   };
 };
 

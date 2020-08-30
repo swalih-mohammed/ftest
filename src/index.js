@@ -116,7 +116,7 @@ class Root extends React.Component {
         {/* <IntlProvider translations={translations} locale="en"> */}
         <BrowserRouter basename={"/"}>
           <ScrollContext>
-            {/* <Suspense fallback={<Loader />}> */}
+            <Suspense fallback={<Loader />}>
               <Switch>
                 <Route
                   path={`${process.env.PUBLIC_URL}/reset-password`}
@@ -258,10 +258,10 @@ class Root extends React.Component {
                     path={`${process.env.PUBLIC_URL}/add-complaint`}
                     component={AddComplaint}
                   />
-                  {/* </Suspense> */}
+               
                 </Layout>
               </Switch>
-            {/* </Suspense> */}
+            </Suspense>
           </ScrollContext>
         </BrowserRouter>
         {/* </IntlProvider> */}

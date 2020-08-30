@@ -19,29 +19,30 @@ import store from "./store";
 
 ///non-lazy imports
 
-//commoon
+//common///////////////////
+
 import Loader from "./components/ld/common/loader";
 import Layout from "./components/app";
 
-// home
+// home 
 // import homepage from "./components/ld/homepage/main";
 // import LocalityList from "./components/ld/localityList/main";
 // import LocalityHome from "./components/ld/localityHome/main";
 // import ShopHome from "./components/ld/shopHome/main";
 
 //pages 
-import Login from "./components/ld/pages/login";
-import Register from "./components/ld/pages/register";
-import Logout from "./components/ld/pages/logout";
-import PassworReset from "./components/ld/pages/forgetPassword";
+// import Login from "./components/ld/pages/login";
+// import Register from "./components/ld/pages/register";
+// import Logout from "./components/ld/pages/logout";
+// import PassworReset from "./components/ld/pages/forgetPassword";
 import Wishlist from "./components/ld/wishlist/main";
 import Checkout from "./components/ld/checkout/main";
 import OrderSummary from "./components/ld/checkout/or";
 
 //shop products
-import ShopProducts from "./components/ld/products/productList";
-import ShopProductsEdit from "./components/ld/products/editProduct2";
-import AddShopProduct from "./components/ld/products/addProduct";
+// import ShopProducts from "./components/ld/products/productList";
+// import ShopProductsEdit from "./components/ld/products/editProduct2";
+// import AddShopProduct from "./components/ld/products/addProduct";
 
 //address
 import Address from "./components/ld/address/main";
@@ -59,19 +60,44 @@ import ShopDashboard from "./components/ld/manageShops/shopDash";
 import OrderItem from "./components/ld/orders/order-item";
 import OrderItemCustomer from "./components/ld/orders/order-item-customer";
 
-//shop manage
+// //shop manage
 // import AddShop from "./components/ld/manageShops/addShop";
 // import ManageShopFilter from "./components/ld/manageShops/filterIndex";
 // import ManageShopSearch from "./components/ld/manageShops/searchShop";
 // import AddCandidate from "./components/ld/career/register";
 // import AddComplaint from "./components/ld/complaint/register";
-//lazy loading 
+
+//lazy loading ////////////////////////////////
 
 //home page 
 const homepage = lazy(() => import("./components/ld/homepage/main"));
 const LocalityHome = lazy(() => import("./components/ld/localityHome/main"));
 const LocalityList = lazy(() => import("./components/ld/localityList/main"));
 const ShopHome = lazy(() => import("./components/ld/shopHome/main"));
+
+
+// pages
+const Login = lazy(() => import("./components/ld/pages/login")); 
+const Register = lazy(() => import("./components/ld/pages/register"));
+const Logout = lazy(() => import("./components/ld/pages/logout"));
+const PassworReset = lazy(() => import("./components/ld/pages/forgetPassword"));
+// const Wishlist = lazy(() => import("./components/ld/wishlist/main"));
+// const Checkout = lazy(() => import("./components/ld/checkout/main"));
+// const OrderSummary = lazy(() => import("./components/ld/checkout/or"));
+
+//shop products
+const ShopProducts = lazy(() => import("./components/ld/products/productList"));
+const ShopProductsEdit = lazy(() =>
+  import("./components/ld/products/editProduct2")
+);
+const AddShopProduct = lazy(() =>
+  import("./components/ld/products/addProduct")
+);
+
+//address
+// const Address = lazy(() => import("./components/ld/address/main"));
+// const CreateAddress = lazy(() => import("./components/ld/address/add"));
+// const EditAddress = lazy(() => import("./components/ld/address/edit"));
 
 // const Layout = lazy(() => import("./components/app"));
 // const Orders = lazy(() => import("./components/ld/orders/main"));
@@ -87,21 +113,9 @@ const ShopHome = lazy(() => import("./components/ld/shopHome/main"));
 //   import("./components/ld/orders/order-item-customer")
 // );
 
-//address
-// const Address = lazy(() => import("./components/ld/address/main"));
-// const CreateAddress = lazy(() => import("./components/ld/address/add"));
-// const EditAddress = lazy(() => import("./components/ld/address/edit"));
-// const Wishlist = lazy(() => import("./components/ld/wishlist/main"));
-// const Checkout = lazy(() => import("./components/ld/checkout/main"));
-// const OrderSummary = lazy(() => import("./components/ld/checkout/or"));
 
-// const ShopProducts = lazy(() => import("./components/ld/products/productList"));
-// const ShopProductsEdit = lazy(() =>
-//   import("./components/ld/products/editProduct2")
-// );
-// const AddShopProduct = lazy(() =>
-//   import("./components/ld/products/addProduct")
-// );
+
+
 
 
 const AddShop = lazy(() => import("./components/ld/manageShops/addShop"));
@@ -128,11 +142,12 @@ class Root extends React.Component {
           <ScrollContext>
             <Suspense fallback={<Loader />}>
               <Switch>
+              <Layout>
                 <Route
                   path={`${process.env.PUBLIC_URL}/reset-password`}
                   component={PassworReset}
                 />
-                <Layout>
+               
                   {/* <Suspense fallback={<div>Loading</div>}> */}
                   <Route
                     path={`${process.env.PUBLIC_URL}/login`}

@@ -29,7 +29,8 @@ class checkOut extends Component {
     ShopModeOfPayment: [],
     selectedModeofPayment: null,
     coupon: "",
-    offer: ""
+    offer: "",
+    error:""
   };
 
   componentDidMount() {
@@ -171,11 +172,12 @@ class checkOut extends Component {
       cart,
       ShopModeOfPayment,
       shop_id,
-      offer
+      offer,
+      error
     } = this.state;
 
     // console.log(this.state.offer);
-    // console.log(ShopModeOfPayment);
+    // console.log(error);
 
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
@@ -381,6 +383,12 @@ class checkOut extends Component {
                         {offer ? (
                           <Alert variant={"success"}>
                             Offer Applied !!{offer.message}
+                          </Alert>
+                        ) : null}
+                      </div>
+                      <div>
+                        {error ? ( 
+                          <Alert variant={"danger"}> This coupon is not valid
                           </Alert>
                         ) : null}
                       </div>

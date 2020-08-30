@@ -402,14 +402,14 @@ class OrderDetailView(RetrieveAPIView):
 
 class OrderConfirmView(APIView):
     def post(self, request, *args, **kwargs):
-        print(request.data)
+        # print(request.data)
 
         shipping_address_id = request.data.get('selectedAddress')
         address = Address.objects.get(id=shipping_address_id)
 
         paymentmodeID = request.data.get('selectedModeofPayment')
         modeOfPayment = ModeOfPayment.objects.get(id=paymentmodeID)
-        print(modeOfPayment)
+        # print(modeOfPayment)
         
         
         # print(address)
@@ -473,33 +473,48 @@ class AddCouponView(APIView):
         if code is None:
             return Response({"message": "Invalid data received"}, status=HTTP_400_BAD_REQUEST)
         coupon = get_object_or_404(Coupon, code=code)
+        if coupon.is_valid == False:
+            print("not valid")
+            return Response({"message": "This order is not eligible for the offer"}, status=HTTP_400_BAD_REQUEST)
         order = Order.objects.get(user=self.request.user, ordered=False)
-        min_amount = request.data.get('min_amount', None)
-        if order.total < min_amount:
+        min_amount = coupon.min_amount
+        total = order.get_total()
+        shop = order.shop
+        place = order.place
+        # print(total)
+        if total < min_amount:
+            print("amount is not eligible ")
             return Response({"message": "This order is not eligible for the offer"}, status=HTTP_400_BAD_REQUEST)
         if coupon.is_only_once_per_user:
-            checkOrder = Order.objects.filter(coupon=coupon, user=self.request.user)
+            checkOrder = Order.objects.filter(ordered=True, coupon=coupon, user=self.request.user)
             if checkOrder.exists():
+                print("not firths order")
                 return Response({"message": "This coupon is valid once per user"}, status=HTTP_400_BAD_REQUEST)
         if coupon.is_for_shop_only:
-            checkCoupon = Coupon.objects.filter(shop=order.shop)
-            if checkCoupon is None:
+            print(shop)
+            shopInCoupon = shop.coupon_set.filter(shops=shop).exists()
+            print(shopInCoupon)
+            if shopInCoupon == False:
+                print("not for this shop")
                 return Response({"message": "This coupon is not valid for your shop"}, status=HTTP_400_BAD_REQUEST)
         if coupon.is_for_place_only:
-            checkCoupon = Coupon.objects.filter(place=order.place)
-            if checkCoupon is None:
+            placeInCoupon = place.coupon_set.filter(places=place).exists()
+            if placeInCoupon == False:
+                print("not for this place")
                 return Response({"message": "This coupon is not valid for your locality"}, status=HTTP_400_BAD_REQUEST)
         start_date = coupon.start_date
         end_date = coupon.expiry_date
         order_date = order.start_date
+        offer = coupon.offer
 
         if order_date > start_date and order_date < end_date:
+            print("valid")
             order.coupon = coupon
             order.save()
             return Response({"message": offer },status=HTTP_200_OK)
         else:
+            print("old")
             return Response({"message": "Invalid coupon"}, status=HTTP_400_BAD_REQUEST)
-
 
 class CountryListView(APIView):
     def get(self, request, *args, **kwargs):

@@ -87,7 +87,7 @@ class Address extends Component {
                                   <h6>District: {address.districtName}</h6>
                                   <h6>Phone: {address.phone_number}</h6>
                                   <br></br>
-                                  <a href={`editaddress/${address.id}`}>Edit</a>
+                                  <a href={`${process.env.PUBLIC_URL}/editaddress/${address.id}`}>Edit</a>
                                 </div>
                               </div>
                             </div>

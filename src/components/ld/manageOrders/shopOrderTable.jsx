@@ -15,6 +15,7 @@ import Result from "./testTable";
 
 const Manage = () => {
   const [orders, setOrders] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 0), 0)
@@ -33,6 +34,7 @@ const Manage = () => {
     const staringtDate = startDate === undefined ? null : startDate;
     // console.log(endingtDate, staringtDate);
     // console.log(staringtDate);
+    setLoading(true);
     authAxios
       .get(orderFilterURL, {
         params: {
@@ -41,16 +43,21 @@ const Manage = () => {
         }
       })
       .then(res => {
+      
         setOrders(res.data);
+        setLoading(false);
       })
-      .catch(err => {});
+      .catch(err => {
+        setLoading(false);
+      });
   };
 
   const columns = [
     {
       Header: "ID",
       accessor: "id",
-      Cell: e => <a href={`order/${e.value}`}> {e.value} </a>
+      Cell: e => <a href={`${process.env.PUBLIC_URL}/order/${e.value}`}> {e.value} </a>
+    //  <Link to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}>
     },
     {
       Header: "Customer",
@@ -87,12 +94,13 @@ const Manage = () => {
       accessor: "mode_of_payment"
     }
   ];
-  // console.log(orders);
+  console.log(loading);
 
   return (
     <div>
       <section className="register-page section-b-space">
         <div className="container">
+        {loading && <div className="loading-cls"></div>}
           <div className="row">
             <div className="col-lg-12">
               <h4>Find Orders</h4>

@@ -1,4 +1,3 @@
-
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
@@ -24,13 +23,13 @@ import store from "./store";
 import Loader from "./components/ld/common/loader";
 import Layout from "./components/app";
 
-// home 
+// home
 // import homepage from "./components/ld/homepage/main";
 // import LocalityList from "./components/ld/localityList/main";
 // import LocalityHome from "./components/ld/localityHome/main";
 // import ShopHome from "./components/ld/shopHome/main";
 
-//pages 
+//pages
 // import Login from "./components/ld/pages/login";
 // import Register from "./components/ld/pages/register";
 // import Logout from "./components/ld/pages/logout";
@@ -67,17 +66,20 @@ import OrderItemCustomer from "./components/ld/orders/order-item-customer";
 // import AddCandidate from "./components/ld/career/register";
 // import AddComplaint from "./components/ld/complaint/register";
 
+// import swDev from "./swDev";
+// import * as serviceWorker from "./serviceWorker";
+
+// serviceWorker
 //lazy loading ////////////////////////////////
 
-//home page 
+//home page
 const homepage = lazy(() => import("./components/ld/homepage/main"));
 const LocalityHome = lazy(() => import("./components/ld/localityHome/main"));
 const LocalityList = lazy(() => import("./components/ld/localityList/main"));
 const ShopHome = lazy(() => import("./components/ld/shopHome/main"));
 
-
 // pages
-const Login = lazy(() => import("./components/ld/pages/login")); 
+const Login = lazy(() => import("./components/ld/pages/login"));
 const Register = lazy(() => import("./components/ld/pages/register"));
 const Logout = lazy(() => import("./components/ld/pages/logout"));
 const PassworReset = lazy(() => import("./components/ld/pages/forgetPassword"));
@@ -113,11 +115,6 @@ const AddShopProduct = lazy(() =>
 //   import("./components/ld/orders/order-item-customer")
 // );
 
-
-
-
-
-
 const AddShop = lazy(() => import("./components/ld/manageShops/addShop"));
 const ManageShopFilter = lazy(() =>
   import("./components/ld/manageShops/filterIndex")
@@ -127,7 +124,6 @@ const ManageShopSearch = lazy(() =>
 );
 const AddCandidate = lazy(() => import("./components/ld/career/register"));
 const AddComplaint = lazy(() => import("./components/ld/complaint/register"));
-
 
 class Root extends React.Component {
   // componentDidMount() {
@@ -142,12 +138,12 @@ class Root extends React.Component {
           <ScrollContext>
             <Suspense fallback={<Loader />}>
               <Switch>
-              <Layout>
-                <Route
-                  path={`${process.env.PUBLIC_URL}/reset-password`}
-                  component={PassworReset}
-                />
-               
+                <Layout>
+                  <Route
+                    path={`${process.env.PUBLIC_URL}/reset-password`}
+                    component={PassworReset}
+                  />
+
                   {/* <Suspense fallback={<div>Loading</div>}> */}
                   <Route
                     path={`${process.env.PUBLIC_URL}/login`}
@@ -158,7 +154,7 @@ class Root extends React.Component {
                     path={`${process.env.PUBLIC_URL}/register`}
                     component={Register}
                   />
-                   {/* <Suspense fallback={<Loader />}> */}
+                  {/* <Suspense fallback={<Loader />}> */}
                   <Route
                     exact
                     path={`${process.env.PUBLIC_URL}/`}
@@ -283,7 +279,7 @@ class Root extends React.Component {
                     path={`${process.env.PUBLIC_URL}/add-complaint`}
                     component={AddComplaint}
                   />
-                   {/* </Suspense> */}
+                  {/* </Suspense> */}
                 </Layout>
               </Switch>
             </Suspense>
@@ -296,4 +292,5 @@ class Root extends React.Component {
 }
 
 ReactDOM.render(<Root />, document.getElementById("root"));
+// swDev();
 // serviceWorker.register();

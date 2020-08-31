@@ -1,7 +1,7 @@
 {
   "short_name": "Local Dukans",
   "name": "Local Dukans",
-  "start_url": "https://www.localdukans.com",
+  "start_url": "./",
   "scope": ".",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -28,9 +28,16 @@
     />
     <!-- Theme css -->
     <!-- <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/assets/css/color1.css" media="screen" id="color"> -->
-    <link rel="stylesheet" type="text/css" href="/assets/css/color1.css" media="screen" id="color">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/assets/css/color1.css"
+      media="screen"
+      id="color"
+    />
   </head>
   <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div class="loader-wrapper">
       <div class="loader"></div>
     </div>
@@ -49,5 +56,15 @@
     -->
     <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="" media="screen" id="color" />
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("./serviceworker.js")
+            .then(reg => console.log("Success: ", reg.scope))
+            .catch(err => console.log("Failure: ", err));
+        });
+      }
+    </script>
   </body>
 </html>

@@ -197,3 +197,25 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # MEDIA_ROOT = "/home/sibiyan/ftest/media",
 
 SITE_ID = 1
+
+
+PWA_APP_NAME = 'My App'
+PWA_APP_DESCRIPTION = "My app description"
+PWA_APP_THEME_COLOR = '#0A0302'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        "src": "/static/android-icon-36x36.png",
+        "sizes": "36x36",
+        "type": "image/png",
+        "density": "0.75"
+    }
+]
+
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'

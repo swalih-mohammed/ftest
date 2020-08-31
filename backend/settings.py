@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
     'core',
     'frontend',
-    'pwa',
+
 ]
 
 MIDDLEWARE = [

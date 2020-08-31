@@ -115,6 +115,7 @@ SITE_ID = 1
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+# mysql
 
 DATABASES = {
     'default': {
@@ -125,6 +126,8 @@ DATABASES = {
         'HOST': config('DB_HOST'),
     }
 }
+
+# postgess
 
 # DATABASES = {
 #     'default': {

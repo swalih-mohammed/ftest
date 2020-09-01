@@ -1,6 +1,7 @@
 {
   "short_name": "Local Dukans",
   "name": "Local Dukans",
+  "description": "Local Dukans -  Buy Local Grow Global",
   "start_url": "./",
   "scope": ".",
   "display": "standalone",

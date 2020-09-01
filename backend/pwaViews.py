@@ -10,14 +10,14 @@ from django.utils import timezone
 from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 
-# from djangopwa import version
+from backend import version
 
 
 logger = logging.getLogger('djpwa.pwa.views')
 
 
 def offline(request):
-    return render(request, 'pwa/offline.html')
+    return render(request, 'offline.html')
 
 
 def my_page(request):
@@ -31,7 +31,8 @@ def my_page(request):
         'Must not cache': reverse('must_not_cache'),
     }
 
-    return render(request, 'pwa/my_page.html', context={'routes': routes})
+    # return render(request, 'pwa/my_page.html', context={'routes': routes})
+    return render(request, 'index.html', context={'routes': routes})
 
 
 def say_something(request, key):
@@ -68,12 +69,15 @@ class ServiceWorkerView(TemplateView):
     content_type = 'application/javascript'
     name = 'sw.js'
 
-    # def get_context_data(self, **kwargs):
-    #     return {
-    #         'version': version,
-    #         'icon_url': static('icons/aurss.512x512.png'),
-    #         'manifest_url': static('manifest.json'),
-    #         'style_url': static('style.css'),
-    #         'home_url': reverse('home'),
-    #         'offline_url': reverse('offline'),
-    #     }
+    def get_context_data(self, **kwargs):
+        return {
+            'version': version,
+            'icon_url': static('splash.512x512.png'),
+            'manifest_url': static('manifest.json'),
+            # 'style_url': static('style.css'),
+            # 'home_url': reverse('home'),
+            'home_url': "/",
+            # 'offline_url': reverse('offline'),
+            'offline_url': 'offline.html',
+
+        }

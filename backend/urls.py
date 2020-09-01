@@ -7,10 +7,8 @@ from django.views.generic import TemplateView
 from .views import index
 from django.contrib import admin
 
-
 # from .pwaViews import views as pwa_views
-from .pwaViews import ServiceWorkerView, ManifestView
-
+from .pwaViews import ServiceWorkerView
 
 urlpatterns = [
     path('', include('frontend.urls')),
@@ -29,11 +27,11 @@ urlpatterns = [
         ServiceWorkerView.as_view(),
         name=ServiceWorkerView.name,
     ),
-    path(
-        'manifest.json',
-        ManifestView.as_view(),
-        name=ManifestView.name,
-    ),
+    # path(
+    #     'manifest.json',
+    #     ManifestView.as_view(),
+    #     name=ManifestView.name,
+    # ),
 
 
 

@@ -9,7 +9,7 @@ from django.contrib import admin
 
 
 # from .pwaViews import views as pwa_views
-from .pwaViews import ServiceWorkerView
+from .pwaViews import ServiceWorkerView, ManifestView
 
 
 urlpatterns = [
@@ -29,6 +29,12 @@ urlpatterns = [
         ServiceWorkerView.as_view(),
         name=ServiceWorkerView.name,
     ),
+    path(
+        'manifest.json',
+        ManifestView.as_view(),
+        name=ManifestView.name,
+    ),
+
 
 
     re_path('.*', TemplateView.as_view(template_name='index.html'))

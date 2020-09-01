@@ -2,12 +2,11 @@
   "short_name": "Local Dukans",
   "name": "Local Dukans",
   "description": "Local Dukans -  Buy Local Grow Global",
-  "start_url": "./",
+  "start_url": "/",
   "scope": ".",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ff4c3b",
-  "description": "By local Grow Global",
   "icons": [
     {
       "src": "/static/android-icon-36x36.png",

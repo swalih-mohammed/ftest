@@ -72,17 +72,19 @@ class ServiceWorkerView(TemplateView):
     def get_context_data(self, **kwargs):
         return {
             'version': version,
-            'icon_url': static('icons/aurss.512x512.png'),
-            'manifest_url': static('manifest.json'),
+            # 'icon_url': static('icons/aurss.512x512.png'),
+            # 'manifest_url': static('manifest.json'),
+            # 'manifest_url': static('manifest.json')
+
             # 'style_url': static('style.css'),
-            # 'home_url': reverse('home'),
+            'home_url': "/",
             # 'offline_url': reverse('offline'),
 
 
         }
 
 
-class ManifestView(TemplateView):
-    template_name = '/static/manifest.json'
-    content_type = 'application/javascript'
-    name = 'manifest.json'
+# class ManifestView(TemplateView):
+#     template_name = '/static/manifest.json'
+#     content_type = 'application/javascript'
+#     name = 'manifest.json'

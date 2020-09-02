@@ -10,10 +10,10 @@ if (workbox) {
 
 const OFFLINE_URL = "{{ offline_url }}";
 const appShell = [
-  // "{{ icon_url }}",
-  // "{{ manifest_url }}",
+  "{{ icon_url }}",
+  "{{ manifest_url }}",
   // "{{ style_url }}",
-  // "{{ home_url }}",
+  "{{ home_url }}"
   // "{{ offline_url }}"
 ].map(partialUrl => `${location.protocol}//${location.host}${partialUrl}`);
 

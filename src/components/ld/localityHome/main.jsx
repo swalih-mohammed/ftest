@@ -110,9 +110,11 @@ class Locality extends Component {
             ) : null}
           </div>
         )}
-        {featuredShops && <FeautredShops featuredShops={featuredShops} />}
+        {featuredShops.length > 0 ? (
+          <FeautredShops featuredShops={featuredShops} />
+        ) : null}
         {/* <Category /> */}
-        {shops && <Shops shops={shops} />}
+        {shops.length > 0 ? <Shops shops={shops} /> : <p>No shops to show</p>}
       </div>
     );
   }

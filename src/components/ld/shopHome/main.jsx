@@ -36,7 +36,7 @@ class Shop extends Component {
     SelectedCategory: "all",
     filteredProduct: [],
     offset: 0,
-    limit: 2,
+    limit: 20,
     query: "all",
     hasMore: true,
     data: []
@@ -174,7 +174,7 @@ class Shop extends Component {
       hasMore,
       data
     } = this.state;
-    // console.log(products, hasMore, data);
+    // console.log(featuredProducts, hasMore, data);
 
     return (
       <div>
@@ -205,10 +205,10 @@ class Shop extends Component {
                         ) : null}
                       </div>
                     )}
-                    {featuredProducts && (
+                    {featuredProducts.length > 1 ? (
                       <Trending fProducts={featuredProducts} />
-                    )}
-                    {ShopProductCategory.length > 0 ? (
+                    ) : null}
+                    {ShopProductCategory.length > 1 ? (
                       <Productcategory
                         handleClearCategory={this.handleClearCategory}
                         handleChangeCategory={this.handleChangeCategory}
@@ -218,6 +218,7 @@ class Shop extends Component {
                     {/* <Search /> */}
                     {products && (
                       <ProductList
+                        loading={this.state.loading}
                         fetchProducts={this.fetchProducts}
                         hasmore={this.state.hasMore}
                         products={products}

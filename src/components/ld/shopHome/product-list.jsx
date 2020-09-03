@@ -36,17 +36,25 @@ class ProductList extends Component {
                     <ProductStyleNine product={product} key={index} />
                   ))}
                 </div>
-                {this.props.hasmore ? (
-                  <p
-                    onClick={this.props.fetchProducts}
-                    className="seen-cls seen-it-cls"
-                  >
-                    <b>Load More</b>
-                  </p>
+
+                {this.props.loading ? (
+                  <div className="loading-cls"></div>
                 ) : (
-                  <p className="seen-cls seen-it-cls">
-                    <b>No more products</b>
-                  </p>
+                  <React.Fragment>
+                    {" "}
+                    {this.props.hasmore ? (
+                      <p
+                        onClick={this.props.fetchProducts}
+                        className="seen-cls seen-it-cls"
+                      >
+                        <b>Load More</b>
+                      </p>
+                    ) : (
+                      <p className="seen-cls seen-it-cls">
+                        <b>No more products</b>
+                      </p>
+                    )}
+                  </React.Fragment>
                 )}
               </div>
             </div>

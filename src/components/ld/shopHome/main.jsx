@@ -9,6 +9,7 @@ import Offer from "./offer";
 import axios from "axios";
 import { fetchCart } from "../../../actions/cart";
 import Image from "react-bootstrap/Image";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import Shipping from "./shipping";
 import Trending from "./trending";
@@ -18,7 +19,7 @@ import Productcategory from "../products/productCategory";
 // import ProductList from "./product-test";
 
 import {
-  ShopProductListURL,
+  ShopProductListInfinitURL,
   ShopFProductListURL,
   ShopDetailURL,
   ShopProductCategoryForCustomerURL
@@ -33,7 +34,12 @@ class Shop extends Component {
     ShopDetail: null,
     ShopProductCategory: [],
     SelectedCategory: "all",
-    filteredProduct: []
+    filteredProduct: [],
+    offset: 0,
+    limit: 2,
+    query: "all",
+    hasMore: true,
+    data: []
   };
 
   componentDidMount() {
@@ -42,27 +48,20 @@ class Shop extends Component {
     this.fetchfeaturedProducts();
     this.fetchShopDetails();
     this.fetchProductCategory();
-    this.props.refreshCart();
+    // this.props.refreshCart();
   }
+
   handleChangeCategory = cat => {
-    this.setState({ SelectedCategory: cat });
-    // console.log(cat);
-    this.filterProduct();
+    this.setState({ offset: 0, query: cat, hasMore: true }, () => {
+      this.fetchFreshProducts();
+    });
   };
 
-  filterProduct() {
-    const { SelectedCategory } = this.state;
-    this.setState({
-      filteredProduct: this.state.products.filter(
-        product => product.productategory == SelectedCategory
-      )
-    });
-  }
-
   handleClearCategory = () => {
-    this.setState({ SelectedCategory: "all" });
-    window.scrollTo(0, 1300);
-    // console.log("all");
+    // window.scrollTo(0, 1300);
+    this.setState({ offset: 0, query: "all", hasMore: true }, () => {
+      this.fetchFreshProducts();
+    });
   };
 
   fetchProducts = () => {
@@ -70,10 +69,49 @@ class Shop extends Component {
       match: { params }
     } = this.props;
     this.setState({ loading: true });
+    const { limit, offset, query } = this.state;
+    const shopID = params.shopID;
+    // console.log(offset);
     axios
-      .get(ShopProductListURL(params.shopID))
+      .get(
+        ShopProductListInfinitURL +
+          `?limit=${limit}&offset=${offset}&query=${query}&shopID=${shopID}`
+      )
       .then(res => {
-        this.setState({ products: res.data, loading: false });
+        const newProducts = res.data.products;
+        const hasMore = res.data.has_more;
+        this.setState({
+          hasMore: hasMore,
+          loading: false,
+          products: [...this.state.products, ...newProducts],
+          offset: offset + limit
+        });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
+  };
+
+  fetchFreshProducts = () => {
+    const {
+      match: { params }
+    } = this.props;
+    this.setState({ loading: true });
+    const { limit, offset, query } = this.state;
+    const shopID = params.shopID;
+    axios
+      .get(
+        ShopProductListInfinitURL +
+          `?limit=${limit}&offset=${offset}&query=${query}&shopID=${shopID}`
+      )
+      .then(res => {
+        this.setState({
+          data: res.data,
+          loading: false,
+          hasMore: res.data.has_more,
+          products: res.data.products,
+          offset: offset + limit
+        });
       })
       .catch(err => {
         this.setState({ error: err, loading: false });
@@ -96,12 +134,11 @@ class Shop extends Component {
   };
 
   fetchProductCategory = () => {
-    // const ownerID = this.props.userID;
     const {
       match: { params }
     } = this.props;
     this.setState({ loading: true });
-    // authAxios
+
     axios
       .get(ShopProductCategoryForCustomerURL(params.shopID))
       .then(res => {
@@ -133,21 +170,20 @@ class Shop extends Component {
       featuredProducts,
       ShopDetail,
       ShopProductCategory,
-      filteredProduct
+      filteredProduct,
+      hasMore,
+      data
     } = this.state;
-    // console.log(products);
+    // console.log(products, hasMore, data);
 
     return (
       <div>
         <Helmet>
           <title>Local Dukans</title>
         </Helmet>
-        {/* <Header /> */}
+
         {this.state.loading && <div className="loading-cls"></div>}
 
-        {/* <section className="p-0">
-          {ShopDetail ? <Image src={ShopDetail.image} fluid /> : null}
-        </section> */}
         <section className="ratio_asos metro-section portfolio-section ">
           {ShopDetail && <ShopImage ShopDetail={ShopDetail} />}
         </section>
@@ -169,11 +205,9 @@ class Shop extends Component {
                         ) : null}
                       </div>
                     )}
-
                     {featuredProducts && (
                       <Trending fProducts={featuredProducts} />
                     )}
-
                     {ShopProductCategory.length > 0 ? (
                       <Productcategory
                         handleClearCategory={this.handleClearCategory}
@@ -181,29 +215,14 @@ class Shop extends Component {
                         ShopProductCategory={ShopProductCategory}
                       />
                     ) : null}
-
                     {/* <Search /> */}
-
-                    {this.state.SelectedCategory !== "all" ? (
-                      <React.Fragment>
-                        {/* <h1>filter exist</h1> */}
-                        {products && (
-                          <ProductList
-                            products={filteredProduct}
-                            SelectedCategory={this.state.SelectedCategory}
-                          />
-                        )}
-                      </React.Fragment>
-                    ) : (
-                      <React.Fragment>
-                        {/* <h1>filter does not exist</h1> */}
-                        {products && (
-                          <ProductList
-                            products={products}
-                            SelectedCategory={this.state.SelectedCategory}
-                          />
-                        )}
-                      </React.Fragment>
+                    {products && (
+                      <ProductList
+                        fetchProducts={this.fetchProducts}
+                        hasmore={this.state.hasMore}
+                        products={products}
+                        SelectedCategory={this.state.SelectedCategory}
+                      />
                     )}
                   </div>
                 ) : (

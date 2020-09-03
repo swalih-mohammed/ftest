@@ -36,17 +36,6 @@ def infinite_order_filter(request):
     offset = request.GET.get('offset')
     # query = request.GET.get('q')
     profile = UserProfile.objects.get(user=request.user)
-    # print(limit, offset)
-
-    # if profile.is_shop_owner:
-    #     print("owner")
-    #     shop = Shop.objects.filter(owner=request.user).last()
-    #     queryset = Order.objects.filter(
-    #         shop=shop, ordered=True).order_by('-start_date')
-    #     queryset = queryset.all()[int(offset): int(offset) + int(limit)]
-    #     return queryset
-    # else:
-    #     print("customer")
     queryset = Order.objects.filter(
         user=request.user, ordered=True).order_by('-start_date')
     # queryset =  queryset.all()[int(offset): int(offset) + int(limit)]

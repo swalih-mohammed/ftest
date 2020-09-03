@@ -103,17 +103,13 @@ class ProductStyleNine extends Component {
             {/* <Link
               to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}
             > */}
-            <h6>
-              {product.title}{" "}
-              <span>
-                {" "}
-                {product.title_local ? (
-                  <span>{product.title_local}</span>
-                ) : null}
-              </span>
-            </h6>{" "}
-            {/* </Link> */}
-            <h4>
+            {product.title_local ? (
+              <h6>{product.title_local}</h6>
+            ) : (
+              <h6>{product.title_local}</h6>
+            )}
+
+            {/* <h4>
               {"Rs: "} {product.discount_price}{" "}
               <del>
                 <span className="money">
@@ -121,7 +117,26 @@ class ProductStyleNine extends Component {
                   {product.price}
                 </span>
               </del>
-            </h4>
+            </h4> */}
+            {product.price ? (
+              <React.Fragment>
+                <h4>
+                  {"Rs: "} {product.discount_price}{" "}
+                  <del>
+                    <span className="money">
+                      {"  MRP "}
+                      {product.price}
+                    </span>
+                  </del>
+                </h4>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <h4>
+                  {"Rs: "} {product.discount_price}{" "}
+                </h4>
+              </React.Fragment>
+            )}
             <div className="cart-bottom">
               {product.is_available ? (
                 <button

@@ -17,7 +17,7 @@ class Orders extends Component {
       loading: false,
       error: null,
       offset: 0,
-      limit: 10,
+      limit: 2,
       query: "all",
       // query: 184
       hasMore: true

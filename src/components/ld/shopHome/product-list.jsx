@@ -10,6 +10,7 @@ import { fetchCart } from "../../../actions/cart";
 import ProductListItem from "./product-list-item";
 import ProductStyleNine from "./product-nine";
 import { Product4, Product5 } from "../../../services/script";
+import InfiniteScroll from "react-infinite-scroll-component";
 // import axios from "axios";
 // import { ShopProductListURL } from "../../../constants";
 
@@ -21,9 +22,6 @@ class ProductList extends Component {
     return (
       <div>
         <section className="ratio_asos absolute-product section-b-space">
-          {/* <div className="title2">
-            <h2 className="title-inner2">products</h2>
-          </div> */}
           <div className="title4">
             <h2 className="title-inner4">Products</h2>
             <div className="line">
@@ -33,17 +31,23 @@ class ProductList extends Component {
           <div className="container">
             <div className="row">
               <div className="col">
-                {/* <Slider {...Product5} className="product-5 product-m no-arrow"> */}
                 <div className="no-slider row">
-                  {/* {this.props.SelectedCategory === "all" ? ( */}
-
                   {products.map((product, index) => (
-                    // <div className="col-xl-3 col-md-6 col-grid-box">
                     <ProductStyleNine product={product} key={index} />
-                    // </div>
                   ))}
                 </div>
-                {/* </Slider> */}
+                {this.props.hasmore ? (
+                  <p
+                    onClick={this.props.fetchProducts}
+                    className="seen-cls seen-it-cls"
+                  >
+                    <b>Load More</b>
+                  </p>
+                ) : (
+                  <p className="seen-cls seen-it-cls">
+                    <b>No more products</b>
+                  </p>
+                )}
               </div>
             </div>
           </div>

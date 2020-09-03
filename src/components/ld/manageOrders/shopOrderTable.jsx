@@ -43,7 +43,6 @@ const Manage = () => {
         }
       })
       .then(res => {
-      
         setOrders(res.data);
         setLoading(false);
       })
@@ -56,8 +55,10 @@ const Manage = () => {
     {
       Header: "ID",
       accessor: "id",
-      Cell: e => <a href={`${process.env.PUBLIC_URL}/order/${e.value}`}> {e.value} </a>
-    //  <Link to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}>
+      Cell: e => (
+        <a href={`${process.env.PUBLIC_URL}/order/${e.value}`}> {e.value} </a>
+      )
+      //  <Link to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}>
     },
     {
       Header: "Customer",
@@ -100,7 +101,7 @@ const Manage = () => {
     <div>
       <section className="register-page section-b-space">
         <div className="container">
-        {loading && <div className="loading-cls"></div>}
+          {loading && <div className="loading-cls"></div>}
           <div className="row">
             <div className="col-lg-12">
               <h4>Find Orders</h4>
@@ -119,6 +120,7 @@ const Manage = () => {
                             onChange={date => setStartDate(date)}
                             dateFormat="dd/MMM/yy"
                             // showTimeSelect
+                            onFocus={e => (e.target.readOnly = true)}
                             popperModifiers={{
                               preventOverflow: {
                                 enabled: true
@@ -142,6 +144,7 @@ const Manage = () => {
                             }}
                             // onChange={handleChangeEndtDate}
                             onChange={date => setEndDate(date)}
+                            onFocus={e => (e.target.readOnly = true)}
                             // showTimeSelect
                             dateFormat="dd/MMM/yy"
                             timeFormat="HH:mm"

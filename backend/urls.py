@@ -27,13 +27,12 @@ urlpatterns = [
         ServiceWorkerView.as_view(),
         name=ServiceWorkerView.name,
     ),
+    #
     # path(
     #     'manifest.json',
     #     ManifestView.as_view(),
     #     name=ManifestView.name,
     # ),
-
-
 
     re_path('.*', TemplateView.as_view(template_name='index.html'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

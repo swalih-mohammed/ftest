@@ -386,7 +386,6 @@ class AddToCartView(APIView):
 
             return Response(status=HTTP_200_OK)
 
-
 class OrderDetailView(RetrieveAPIView):
     serializer_class = OrderSerializer
     permission_classes = (IsAuthenticated,)

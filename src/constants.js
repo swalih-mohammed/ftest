@@ -55,7 +55,9 @@ export const ShopProductUpdateURL = id =>
 export const shopListURL = `${endpoint}/shops/`;
 export const shopAddURL = `${endpoint}/shop-add/`;
 export const shopFilterURL = `${endpoint}/shops-filter/`;
-export const ShopProductListURL = id => `${endpoint}/shops/${id}/products`;
+// export const ShopProductListURL = id => `${endpoint}/shops/${id}/products`;
+
+export const ShopProductListInfinitURL = `${endpoint}/shop-product-list/`;
 export const shopSearchURL = `${endpoint}/shop-search/`;
 export const addToCartURL = `${endpoint}/add-to-cart/`;
 export const orderSummaryURL = `${endpoint}/order-summary/`;

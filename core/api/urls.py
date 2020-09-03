@@ -58,7 +58,7 @@ from .shopView import (ShopsModOfPaymentView, ShopsDetailView, ShopAddView, Shop
                        AddCandidateView, AddComplaintView, PlaceTaxiListView, PlaceCooliListView)
 from .locationView import (PlaceListView, AreaFilterView, PlaceFilterView, VillageFilterView,
                            ClusterFilterView, DistrictFilterView, StateListView, PlaceFilterView, PlaceDetailView)
-# from .productView import (ProductofShopListView)
+from .productView import (shopProductListInfinitView)
 
 urlpatterns = [
     path('app-info/', AppInfoView.as_view(), name='app-info'),
@@ -120,6 +120,9 @@ urlpatterns = [
          OrderQuantityUpdateView.as_view(), name='order-item-update-quantity'),
     #     path('payments/', PaymentListView.as_view(), name='payment-list'),
     path('orders/', OrderListView.as_view(), name='order-list'),
+    path('shop-product-list/', shopProductListInfinitView.as_view(),
+         name='shop-product-list'),
+
     path('order-filter/', OrderFilterView.as_view(), name='order-filter'),
     path('order-search/', OrderSearchView.as_view(), name='order-search'),
     path('order-status/', OrderStatusListView.as_view(), name='order-status'),

@@ -153,6 +153,7 @@ const Manage = props => {
                                 }
                               }}
                               dateFormat="dd/MMM/yy"
+                              onFocus={e => (e.target.readOnly = true)}
                               // showTimeSelect
                               timeFormat="HH:mm"
                               injectTimes={[
@@ -173,6 +174,7 @@ const Manage = props => {
                                 }
                               }}
                               // showTimeSelect
+                              onFocus={e => (e.target.readOnly = true)}
                               dateFormat="dd/MMM/yy"
                               timeFormat="HH:mm"
                               injectTimes={[

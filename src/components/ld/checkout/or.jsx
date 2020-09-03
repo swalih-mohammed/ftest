@@ -155,11 +155,21 @@ class OrderSummary extends Component {
                                 </td>
                                 <td>
                                   <Link to={""}>
-                                    {item.item.title}{" "}
+                                    {item.item.title_local ? (
+                                      <React.Fragment>
+                                        {item.item.title_local} [
+                                        {item.item.item_quantity}]
+                                      </React.Fragment>
+                                    ) : (
+                                      <React.Fragment>
+                                        {item.item.title} [
+                                        {item.item.item_quantity}]
+                                      </React.Fragment>
+                                    )}
+
                                     <p>
-                                      {" "}
-                                      [ {"Rs: "}
-                                      {item.final_price}]
+                                      {"Rs: "}
+                                      {item.final_price}
                                     </p>
                                   </Link>
                                   <div className="mobile-cart-content row">

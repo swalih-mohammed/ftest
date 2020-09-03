@@ -300,7 +300,7 @@ class Item(models.Model):
     is_featured = models.BooleanField(default=False,  blank=True, null=True)
     is_on_sale = models.BooleanField(default=False,  blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    is_active = models.BooleanField(default=True, null=True)
+    is_active = models.BooleanField(default=False, null=True)
     def __str__(self):
         return self.title
 

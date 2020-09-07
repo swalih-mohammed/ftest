@@ -2,13 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 // import Modal from "react-responsive-modal";
+import Select from "react-select";
 import { Img } from "react-image";
-import {
-  addToCartURL,
-  localhost,
-  orderSummaryURL,
-  orderItemUpdateQuantityURL
-} from "../../../constants";
+import { addToCartURL, localhost } from "../../../constants";
 import { fetchCart, clearKart } from "../../../actions/cart";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,13 +14,34 @@ import "react-toastify/dist/ReactToastify.css";
 
 class ProductStyleNine extends Component {
   state = {
-    loading: false
+    loading: false,
+    selectedVariationID: "",
+    selectedVariationName: ""
   };
-  handleAddToCart = (id, shop) => {
+  componentDidMount() {
+    this.setDefaultVariation();
+  }
+
+  setDefaultVariation = () => {
+    if (this.props.variations) {
+      let firstValue = this.props.variations[0];
+      if (typeof firstValue !== "undefined") {
+        let name = this.props.variations[0].name;
+        let id = this.props.variations[0].id;
+        // console.log(name, id);
+        this.setState({
+          selectedVariationName: name,
+          selectedVariationID: id
+        });
+      }
+    }
+  };
+
+  handleAddToCart = (id, shop, variation) => {
     if (this.props.token !== null) {
       this.setState({ loading: true });
       authAxios
-        .post(addToCartURL, { id, shop })
+        .post(addToCartURL, { id, shop, variation })
         .then(res => {
           toast.success("item added to cart");
           this.props.refreshCart();
@@ -50,9 +67,17 @@ class ProductStyleNine extends Component {
     }
   };
 
+  handleChangeVariation(value) {
+    this.setState({
+      selectedVariationID: value.id,
+      selectedVariationName: value.name
+    });
+  }
+
   render() {
-    const { product } = this.props;
-    // console.log(product);
+    const { product, variations, defaultOption } = this.props;
+    const { selectedVariationName } = this.state;
+    // console.log(selectedVariation);
 
     return (
       <div className="product-box">
@@ -89,7 +114,7 @@ class ProductStyleNine extends Component {
             <Img
               loading="lazy"
               className="img-fluid lazyload bg-img"
-              // src={shop.image}
+              // src={product.product_image}
               src={`${localhost}${product.product_image}`}
               loader={<div className="loading-cls"></div>}
             />
@@ -137,13 +162,33 @@ class ProductStyleNine extends Component {
                 </h4>
               </React.Fragment>
             )}
+            {defaultOption ? (
+              <React.Fragment>
+                {defaultOption.name && (
+                  <Select
+                    options={variations}
+                    getOptionLabel={option => `${option.name}`}
+                    value={variations.filter(
+                      ({ name }) => name === this.state.selectedVariationName
+                    )}
+                    onChange={value => this.handleChangeVariation(value)}
+                  />
+                )}
+              </React.Fragment>
+            ) : null}
+
             <div className="cart-bottom">
               {product.is_available ? (
                 <button
                   title="Add to cart"
-                  onClick={() => this.handleAddToCart(product.id, product.shop)}
+                  onClick={() =>
+                    this.handleAddToCart(
+                      product.id,
+                      product.shop,
+                      this.state.selectedVariationID
+                    )
+                  }
                 >
-                  {/* <i className="fa fa-shopping-cart" aria-hidden="true"></i> */}
                   <i>
                     <FontAwesomeIcon
                       icon={faShoppingCart}

@@ -3,8 +3,6 @@ from django.contrib import humanize
 from rest_framework.mixins import UpdateModelMixin
 from django.db.models import Q
 from django.conf import settings
-# from django.views.decorators.csrf import csrf_exempt
-# from django.utils.decorators import method_decorator
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
@@ -26,7 +24,7 @@ from .serializers import (
     ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
     ShopProductSerializer, UserProfileSerializer, PlaceSerializer, ServiceAreaSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
 )
-from core.models import UserProfile, Role, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, Refund, UserProfile, Variation, ItemVariation, FavoriteShops, FavoritePlaces, ServiceArea
+from core.models import UserProfile, Role, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, Refund, UserProfile, Variation, FavoriteShops, FavoritePlaces, ServiceArea
 
 # class ProductofShopListView(g/enerics.ListAPIView):
 

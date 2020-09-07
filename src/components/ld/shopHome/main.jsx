@@ -174,8 +174,8 @@ class Shop extends Component {
       hasMore,
       data
     } = this.state;
-    // console.log(featuredProducts, hasMore, data);
 
+    console.log(products);
     return (
       <div>
         <Helmet>

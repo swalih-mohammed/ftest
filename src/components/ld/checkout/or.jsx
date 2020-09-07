@@ -57,11 +57,11 @@ class OrderSummary extends Component {
       });
   };
 
-  handleAddToCart2 = (id, shop) => {
-    // console.log(id, shop);
+  handleAddToCart2 = (id, shop, variation) => {
+    console.log(id, shop, variation);
     this.setState({ loading: true });
     authAxios
-      .post(addToCartURL, { id, shop })
+      .post(addToCartURL, { id, shop, variation })
       .then(res => {
         // this.handleFetchOrder();
         this.props.refreshCart();
@@ -116,7 +116,7 @@ class OrderSummary extends Component {
   render() {
     // const { cartItems } = this.state;
     const { cartItems } = this.props;
-    // console.log(cartItems);
+    console.log(cartItems);
 
     return (
       <div>
@@ -155,15 +155,13 @@ class OrderSummary extends Component {
                                 </td>
                                 <td>
                                   <Link to={""}>
-                                    {item.item.title_local ? (
+                                    {item.itemLocalName ? (
                                       <React.Fragment>
-                                        {item.item.title_local} [
-                                        {item.item.item_quantity}]
+                                        {item.itemLocalName} [{item.vname}]
                                       </React.Fragment>
                                     ) : (
                                       <React.Fragment>
-                                        {item.item.title} [
-                                        {item.item.item_quantity}]
+                                        {item.itemName} [{item.vname}]
                                       </React.Fragment>
                                     )}
 
@@ -185,7 +183,7 @@ class OrderSummary extends Component {
 
                                                 onClick={() =>
                                                   this.handleRemoveQuantityFromCart(
-                                                    item.item.id
+                                                    item.item_variation
                                                   )
                                                 }
                                                 data-type="minus"
@@ -260,8 +258,9 @@ class OrderSummary extends Component {
                                               // onClick={this.handleAddToCart2}
                                               onClick={() =>
                                                 this.handleAddToCart2(
-                                                  item.item.id,
-                                                  item.shop
+                                                  item.item,
+                                                  item.shop,
+                                                  item.item_variation
                                                 )
                                               }
                                               data-type="plus"
@@ -346,8 +345,9 @@ class OrderSummary extends Component {
                                           // onClick={this.handleAddToCart2}
                                           onClick={() =>
                                             this.handleAddToCart2(
-                                              item.item.id,
-                                              item.shop
+                                              item.item,
+                                              item.shop,
+                                              item.item_variation
                                             )
                                           }
                                           data-type="plus"

@@ -101,13 +101,13 @@ workbox.routing.registerRoute(
   })
 );
 
-// 3. cache news articles result
+// 3. cache home page
 workbox.routing.registerRoute(
   new RegExp("https://www.localdukans.com/"),
   workbox.strategies.staleWhileRevalidate({
     cacheName: "My-awesome-cache-news-headline",
     cacheExpiration: {
-      maxAgeSeconds: 60 * 30 //cache the news content for 30mn
+      maxAgeSeconds: 60 * 60 //cache the news content for 30mn
     }
   })
 );

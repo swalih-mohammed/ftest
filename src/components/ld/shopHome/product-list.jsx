@@ -32,9 +32,19 @@ class ProductList extends Component {
             <div className="row">
               <div className="col">
                 <div className="no-slider row">
-                  {products.map((product, index) => (
-                    <ProductStyleNine product={product} key={index} />
-                  ))}
+                  {products.map(product => {
+                    const variations = product.variations;
+                    const defaultOption = product.variations[0];
+
+                    return (
+                      <ProductStyleNine
+                        product={product}
+                        key={product.id}
+                        variations={variations}
+                        defaultOption={defaultOption}
+                      />
+                    );
+                  })}
                 </div>
 
                 {this.props.loading ? (

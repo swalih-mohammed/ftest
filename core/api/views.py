@@ -32,7 +32,7 @@ from .serializers import (ShopProductCategorySerializer,ProductImageSerializer,M
     ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
     ShopProductSerializer, UserProfileSerializer, PlaceSerializer, ServiceAreaSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
 )
-from core.models import ProductImage, ProductCategory,UserProfile, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, Refund, UserProfile, Variation, ItemVariation, FavoriteShops, FavoritePlaces, ServiceArea
+from core.models import ProductImage, ProductCategory,UserProfile, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, Refund, UserProfile, Variation, FavoriteShops, FavoritePlaces, ServiceArea
 
 
 class AppInfoView(ListAPIView):
@@ -250,14 +250,14 @@ class ItemDetailView(RetrieveAPIView):
     serializer_class = ItemDetailSerializer
     queryset = Item.objects.all()
 
-
 class OrderQuantityUpdateView(APIView):
     def post(self, request, *args, **kwargs):
         # print(request.data)
         id = request.data.get('id', None)
         if id is None:
             return Response({"message": "Invalid data"}, status=HTTP_400_BAD_REQUEST)
-        item = get_object_or_404(Item, id=id)
+        item = get_object_or_404(Variation, id=id)
+        # print(item)
         order_qs = Order.objects.filter(
             user=request.user,
             ordered=False
@@ -265,9 +265,9 @@ class OrderQuantityUpdateView(APIView):
         if order_qs.exists():
             order = order_qs[0]
             # check if the order item is in the order
-            if order.items.filter(item__id=item.id).exists():
+            if order.items.filter(item_variation__id=item.id).exists():
                 order_item = OrderItem.objects.filter(
-                    item=item,
+                    item_variation=item,
                     user=request.user,
                     ordered=False
                 )[0]
@@ -291,76 +291,51 @@ class OrderItemDeleteView(DestroyAPIView):
 
 class AddToCartView(APIView):
     def post(self, request, *args, **kwargs):
-        # print(request.data)
+        print(request.data)
         shop = request.data.get('shop', None)
         id = request.data.get('id', None)
+        v = request.data.get('variation', None)
         # variations = request.data.get('variations', [])
         item = get_object_or_404(Item, id=id)
-        # print(item)
+        variation = get_object_or_404(Variation, id=v)
+        # print(variation)
         shop = get_object_or_404(Shop, id=shop)
         # print(shop)
         place_id = shop.place_id
         place = Place.objects.get(id=place_id)
-        # qs_user_address = Address.objects.filter(
-        #     user=request.user)
-        # shipping_address = qs_user_address[0]
-        # address = qs_user_address.first()
-
-        # if not shipping_address:
-        #     return Response({"message": "Please add a delivery address from profile page"}, status=HTTP_400_BAD_REQUEST)
-        # else:
-            
-
-            # minimum_variation_count = Variation.objects.filter(
-            #     item=item).count()
-            # if len(variations) < minimum_variation_count:
-            #     return Response({"message": "Please specify the required variation types"}, status=HTTP_400_BAD_REQUEST)
-
         order_item_qs = OrderItem.objects.filter(
             item=item,
+            item_variation=variation,
             user=request.user,
-            # shop=shop,
             ordered=False
         )
-
-        # for v in variations:
-        #     order_item_qs = order_item_qs.filter(
-        #         Q(item_variations__exact=v)
-        #     )
-
         if order_item_qs.exists():
-
             order_item = order_item_qs.first()
             order_item.quantity += 1
             order_item.save()
+            # totalll = order_item.get_total()
+            # print(totalll)
         else:
-
             order_item = OrderItem.objects.create(
                 item=item,
+                item_variation=variation,
                 shop=shop,
-                # place=place,
-                # shipping_address=shipping_address,
                 user=request.user,
                 ordered=False
             )
-            # order_item.item_variations.add(*variations)
+            # order_item.item_variation.add(variation)
             order_item.save()
-            # print(order_item.shop_id)
+            # totalll = order_item.get_total()
+            # print(totalll)
+            # print("test")
 
         order_qs = Order.objects.filter(user=request.user, ordered=False)
-        # print(order_qs)
+        # ttoal = order_qs[0].get_total()
+        # print(ttoal)
 
         if order_qs.exists():
             order = order_qs[0]
             shopOfItemInCart = order.shop
-    
-            # myorder = OrderItem.objects.filter(
-            #     user=self.request.user, ordered=False)
-            # order1 = myorder[0]
-            # cart_item_shop_id = order1.item.shop_id
-            # cart_item_shop = Shop.objects.get(id=cart_item_shop_id)
-           
-
             if shop != shopOfItemInCart:
                 # print(cart_item_shop)
                 # print(shop)
@@ -371,13 +346,6 @@ class AddToCartView(APIView):
 
                 return Response(status=HTTP_200_OK)
 
-        # else:
-            # ordered_date = timezone.now()
-            # order = Order.objects.create(
-            #     user=request.user, shop=shop, address=address, place=place, ordered_date=ordered_date)
-            # order.items.add(order_item)
-
-            # return Response(status=HTTP_200_OK)
         else:
             ordered_date = timezone.now()
             order = Order.objects.create(
@@ -391,6 +359,7 @@ class OrderDetailView(RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
+       
         try:
             order = Order.objects.filter(user=self.request.user, ordered=False).last()
             return order

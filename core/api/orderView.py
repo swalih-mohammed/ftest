@@ -28,7 +28,7 @@ from .serializers import (OrderStatusSerializer,
                           ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
                           ShopProductSerializer, UserProfileSerializer, PlaceSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
                           )
-from core.models import OrderStatus, UserProfile, Place, Area, Cluster, Village, District, State, Shop, Item, OrderItem, Order, Address, Coupon, Refund, UserProfile, Variation, ItemVariation, FavoriteShops, FavoritePlaces
+from core.models import OrderStatus, UserProfile, Place, Area, Cluster, Village, District, State, Shop, Item, OrderItem, Order, Address, Coupon, Refund, UserProfile, Variation, FavoriteShops, FavoritePlaces
 
 
 def infinite_order_filter(request):

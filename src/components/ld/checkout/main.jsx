@@ -30,7 +30,7 @@ class checkOut extends Component {
     selectedModeofPayment: null,
     coupon: "",
     offer: "",
-    error:""
+    error: ""
   };
 
   componentDidMount() {
@@ -177,7 +177,7 @@ class checkOut extends Component {
     } = this.state;
 
     // console.log(this.state.offer);
-    // console.log(error);
+    console.log(cart);
 
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
@@ -229,7 +229,18 @@ class checkOut extends Component {
                         {cart.order_items.map((item, index) => {
                           return (
                             <li key={index}>
-                              {item.item.title} × {item.quantity}{" "}
+                              {item.itemLocalName ? (
+                                <React.Fragment>
+                                  {item.itemLocalName} [{item.vname}] {" x "}{" "}
+                                  {item.quantity}
+                                </React.Fragment>
+                              ) : (
+                                <React.Fragment>
+                                  {item.itemName} [{item.vname}] {" x "}{" "}
+                                  {item.quantity}
+                                </React.Fragment>
+                              )}
+
                               <span>
                                 {/* {symbol} */}
                                 {item.final_price}
@@ -387,8 +398,10 @@ class checkOut extends Component {
                         ) : null}
                       </div>
                       <div>
-                        {error ? ( 
-                          <Alert variant={"danger"}> This coupon is not valid
+                        {error ? (
+                          <Alert variant={"danger"}>
+                            {" "}
+                            This coupon is not valid
                           </Alert>
                         ) : null}
                       </div>

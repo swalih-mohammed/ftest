@@ -46,11 +46,7 @@ from .views import (
     ShopProductCategoryForCustomerListView,
     AddProductView,
     AppInfoView,
-    ShopDashDetailView, ShopDashOrderView, ShopDashOpenStatusView
-
-
-
-)
+    ShopDashDetailView, ShopDashOrderView, ShopDashOpenStatusView, AddProductVariationView, UpdateVariation, DeleteVariation)
 
 from .orderView import (OrderListView, OrderStatusListView,
                         OrderFilterView, OrderSearchView)
@@ -76,7 +72,8 @@ urlpatterns = [
     path('addresses/<pk>/',
          orderAddressView.as_view(), name='order-address'),
 
-
+    path('shop-product-add-variation/', AddProductVariationView.as_view(),
+         name='shop-product-add-variation'),
     path('add-product/', AddProductView.as_view(), name='add-product'),
     path('products/', ItemListView.as_view(), name='product-list'),
     path('producstsofashop/<int:owner_id>/', ProductListForShopView.as_view(),
@@ -85,6 +82,10 @@ urlpatterns = [
          ProductUpdateForShopView.as_view(), name='shop-product-edit'),
     path('products/<pk>/', ItemDetailView.as_view(), name='product-detail'),
 
+    path('variation/<pk>/update/',
+         UpdateVariation.as_view(), name='variation-edit'),
+    path('variation/<pk>/delete/',
+         DeleteVariation.as_view(), name='variation-delete'),
     path('product-shop-category/<int:owner_id>/',
          ShopProductCategoryListView.as_view(), name='shop-product-category-list'),
     path('product-shop-category-for-customer/<int:shop_id>/',

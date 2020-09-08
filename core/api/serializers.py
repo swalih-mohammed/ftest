@@ -174,6 +174,7 @@ class VariationSerializer(serializers.ModelSerializer):
             'price',
             'discount_price',
             'item',
+            'is_available'
         )
 
     # def get_item(self, obj):
@@ -288,9 +289,9 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class ItemDetailSerializer(serializers.ModelSerializer):
-    # category = serializers.SerializerMethodField()
-    # label = serializers.SerializerMethodField()
-    # variations = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
+    variations = serializers.SerializerMethodField()
 
     class Meta:
         model = Item
@@ -298,25 +299,19 @@ class ItemDetailSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'title_local',
-            'item_quantity',
-            'price',
-            'discount_price',
-            # 'category',
-            # 'slug',
-            'description',
-            # 'image',
-            # 'variations'
+            'category',
             'is_available',
             'is_featured',
-            'is_on_sale'
-
-
+            'is_on_sale',
+            'image',
+            'variations'
         )
 
-    # def get_category(self, obj):
-    #     return obj.get_category_display()
+    def get_category(self, obj):
+        return obj.get_category()
 
-    #
+    def get_image(self, obj):
+        return obj.get_image()
 
     def get_variations(self, obj):
         return VariationSerializer(obj.variation_set.all(), many=True).data

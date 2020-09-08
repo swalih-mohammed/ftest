@@ -28,7 +28,7 @@ from rest_framework.decorators import api_view
 
 from core.models import Item, OrderItem, Order, AppInfo
 
-from .serializers import (ShopProductCategorySerializer,ProductImageSerializer,ModeOfPayment, OrderStatusUpdateserializer, AppInfoSerializer,
+from .serializers import (VariationSerializer,ShopProductCategorySerializer,ProductImageSerializer,ModeOfPayment, OrderStatusUpdateserializer, AppInfoSerializer,
     ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
     ShopProductSerializer, UserProfileSerializer, PlaceSerializer, ServiceAreaSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
 )
@@ -161,31 +161,50 @@ class ShopFProductListView(ListAPIView):
     def get_queryset(self):
         return Item.objects.filter(shop_id=self.kwargs['shop_id'], is_featured=True )
 
+class AddProductVariationView(APIView):
+    def post(self, request, *args, **kwargs):
+        print(request.data)
+        item = request.data.get('item', None)
+        name = request.data.get('name', None)
+        price = request.data.get('price', None)
+        discount_price = request.data.get('discount_price', None)
+        is_available = request.data.get('is_available', None)
+        item = get_object_or_404(Item, id=item)
+        varitation = Variation.objects.create(item=item,name=name,
+                price=price, discount_price=discount_price, is_available=is_available)
+        varitation.save()
+        return Response(status=HTTP_200_OK)
+
+class UpdateVariation(GenericAPIView, UpdateModelMixin):
+    queryset = Variation.objects.all()
+    serializer_class = VariationSerializer
+    def put(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+        
+class DeleteVariation(DestroyAPIView):
+    permission_classes = (IsAuthenticated, )
+    queryset = Variation.objects.all()
 
 class AddProductView(APIView):
     def post(self, request, *args, **kwargs):
-        # permission_classes = (AllowAny, )
-        # serializer_class = ShopProductSerializer
-        # queryset = Item.objects.all()
-        # print(request.data)
-        # user = request.data.get('userID', None)
-        shop = Shop.objects.filter(owner=request.user).first()
-        print(shop)
         title = request.data.get('title', None)
         title_local = request.data.get('title_local', None)
-        item_quantity = request.data.get('item_quantity', None)
-        price = request.data.get('price', None)
-        discount_price = request.data.get('discount_price', None)
+        # item_quantity = request.data.get('item_quantity', None)
+        # price = request.data.get('price', None)
+        # discount_price = request.data.get('discount_price', None)
         productategory = request.data.get('productategory', None)
-        productategory = get_object_or_404(ProductCategory, id=productategory)
         product_image = request.data.get('product_image', None)
-        product_image = get_object_or_404(ProductImage, id=product_image)
         is_on_sale = request.data.get('is_on_sale', None)
         is_available = request.data.get('is_available', None)
         is_featured = request.data.get('is_featured', None)
-        
+
+        shop = Shop.objects.filter(owner=request.user).first()
+        productategory = get_object_or_404(ProductCategory, id=productategory)
+        product_image = get_object_or_404(ProductImage, id=product_image)
+        # item = Item.objects.create(shop=shop,
+        #         title=title, title_local=title_local,  item_quantity=item_quantity,  price=price,  discount_price=discount_price,  productategory=productategory,  product_image=product_image,is_available=is_available, is_on_sale=is_on_sale, is_featured=is_featured)
         item = Item.objects.create(shop=shop,
-                title=title, title_local=title_local,  item_quantity=item_quantity,  price=price,  discount_price=discount_price,  productategory=productategory,  product_image=product_image,is_available=is_available, is_on_sale=is_on_sale, is_featured=is_featured)
+                title=title, title_local=title_local, productategory=productategory,  product_image=product_image,is_available=is_available, is_on_sale=is_on_sale, is_featured=is_featured)
         item.save()
         return Response(status=HTTP_200_OK)
 
@@ -243,8 +262,6 @@ class ProductListForShopView(ListAPIView):
         # print(shop)
         return Item.objects.filter(shop=shop )
       
-
-
 class ItemDetailView(RetrieveAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ItemDetailSerializer
@@ -422,16 +439,9 @@ def OrderStatusUpdateView(request, pk):
             return Response(serializer.data)
         return Response(serializer.errors)
 
-
-
-
 class ProductUpdateForShopView(GenericAPIView, UpdateModelMixin):
-    '''
-    You just need to provide the field which is to be modified.
-    '''
     queryset = Item.objects.all()
     serializer_class = ShopProductSerializer
-
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 

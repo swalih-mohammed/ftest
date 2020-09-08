@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import Modal from "react-responsive-modal";
-import {
-  addToCartURL,
-  localhost,
-  orderSummaryURL,
-  orderItemUpdateQuantityURL
-} from "../../../constants";
+// import Modal from "react-responsive-modal";
+import Select from "react-select";
+
+import { addToCartURL, localhost } from "../../../constants";
 import { fetchCart, clearKart } from "../../../actions/cart";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,14 +14,42 @@ import "react-toastify/dist/ReactToastify.css";
 
 class ProductStyleEleven extends Component {
   state = {
-    loading: false
+    loading: false,
+    selectedVariationID: "",
+    selectedVariationName: "",
+    selectedVariationMRP: "",
+    selectedVariationPrice: ""
   };
-  handleAddToCart = (id, shop) => {
-    // console.log(this.props.token);
+
+  componentDidMount() {
+    this.setDefaultVariation();
+  }
+
+  setDefaultVariation = () => {
+    if (this.props.variations) {
+      let firstValue = this.props.variations[0];
+      if (typeof firstValue !== "undefined") {
+        let name = this.props.variations[0].name;
+        let id = this.props.variations[0].id;
+        let mrp = this.props.variations[0].price;
+        let price = this.props.variations[0].discount_price;
+        // console.log(name, id);
+        this.setState({
+          selectedVariationName: name,
+          selectedVariationID: id,
+          selectedVariationMRP: mrp,
+          selectedVariationPrice: price
+        });
+      }
+    }
+  };
+
+  handleAddToCart = (id, shop, variation) => {
+    console.log(variation);
     if (this.props.token !== null) {
       this.setState({ loading: true });
       authAxios
-        .post(addToCartURL, { id, shop })
+        .post(addToCartURL, { id, shop, variation })
         .then(res => {
           toast.success("item added to cart");
           this.props.refreshCart();
@@ -48,7 +73,7 @@ class ProductStyleEleven extends Component {
   };
 
   render() {
-    const { product } = this.props;
+    const { product, variations, defaultOption } = this.props;
     // console.log(product);
 
     return (
@@ -73,23 +98,24 @@ class ProductStyleEleven extends Component {
             )}
           </div>
           <div className="front">
-            {/* <Link
-              to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}
-            > */}
             <img
               src={`${localhost}${product.product_image}`}
               className="img-fluid"
               alt=""
             />
-            {/* </Link> */}
           </div>
           <div className="cart-info cart-wrap">
             {product.is_available ? (
               <button
                 title="Add to cart"
-                onClick={() => this.handleAddToCart(product.id, product.shop)}
+                onClick={() =>
+                  this.handleAddToCart(
+                    product.id,
+                    product.shop,
+                    this.state.selectedVariationID
+                  )
+                }
               >
-                {/* <i className="fa fa-shopping-cart" aria-hidden="true"></i> */}
                 <i>
                   <FontAwesomeIcon
                     icon={faShoppingCart}
@@ -103,20 +129,39 @@ class ProductStyleEleven extends Component {
         </div>
         <div className="product-detail">
           <div>
-            {/* <div className="rating">{RatingStars}</div> */}
             <div className="rating">{""}</div>
-            <h6>
-              {product.title}{" "}
-              <span>
-                {" "}
-                {product.title_local ? (
-                  <span>{product.title_local}</span>
-                ) : null}
-              </span>
-            </h6>{" "}
+
+            {product.title_local ? (
+              <h6>{product.title_local}</h6>
+            ) : (
+              <h6>{product.title}</h6>
+            )}
+
             <h4>
-              {"Rs: "} {product.price}
+              {"Rs: "} {this.state.selectedVariationPrice}{" "}
+              <del>
+                <span className="money">
+                  {"  MRP "}
+                  {this.state.selectedVariationMRP}
+                </span>
+              </del>
             </h4>
+            <br />
+            {defaultOption ? (
+              <React.Fragment>
+                {defaultOption.name && (
+                  <Select
+                    options={variations}
+                    getOptionLabel={option => `${option.name}`}
+                    value={variations.filter(
+                      ({ name }) => name === this.state.selectedVariationName
+                    )}
+                    onChange={value => this.handleChangeVariation(value)}
+                    isSearchable={false}
+                  />
+                )}
+              </React.Fragment>
+            ) : null}
           </div>
         </div>
       </div>

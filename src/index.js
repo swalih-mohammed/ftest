@@ -89,6 +89,10 @@ const PassworReset = lazy(() => import("./components/ld/pages/forgetPassword"));
 
 //shop products
 const ShopProducts = lazy(() => import("./components/ld/products/productList"));
+const ShopProductDetail = lazy(() =>
+  import("./components/ld/products/productDetail")
+);
+
 const ShopProductsEdit = lazy(() =>
   import("./components/ld/products/editProduct2")
 );
@@ -197,6 +201,10 @@ class Root extends React.Component {
                   <Route
                     path={`${process.env.PUBLIC_URL}/shop-product-list`}
                     component={ShopProducts}
+                  />
+                  <Route
+                    path={`${process.env.PUBLIC_URL}/shop-product-detail/:productID`}
+                    component={ShopProductDetail}
                   />
                   <Route
                     path={`${process.env.PUBLIC_URL}/add-shop-product`}

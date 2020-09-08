@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import "../../common/index.scss";
-import Slider from "react-slick";
+// import Slider from "react-slick";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Offer from "./offer";
 // import { Link } from "react-router-dom";
 import axios from "axios";
 import { fetchCart } from "../../../actions/cart";
-import Image from "react-bootstrap/Image";
-import InfiniteScroll from "react-infinite-scroll-component";
+// import Image from "react-bootstrap/Image";
+// import InfiniteScroll from "react-infinite-scroll-component";
 
 import Shipping from "./shipping";
 import Trending from "./trending";
@@ -175,7 +175,7 @@ class Shop extends Component {
       data
     } = this.state;
 
-    console.log(products);
+    console.log(featuredProducts);
     return (
       <div>
         <Helmet>
@@ -205,8 +205,11 @@ class Shop extends Component {
                         ) : null}
                       </div>
                     )}
-                    {featuredProducts.length > 1 ? (
-                      <Trending fProducts={featuredProducts} />
+                    {featuredProducts.length > 0 ? (
+                      <Trending
+                        fProducts={featuredProducts}
+                        loading={this.state.loading}
+                      />
                     ) : null}
                     {ShopProductCategory.length > 1 ? (
                       <Productcategory

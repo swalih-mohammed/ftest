@@ -77,7 +77,7 @@ class EditProduct extends Component {
 
   render() {
     const { formData, success, error, loading } = this.state;
-    console.log(success);
+    console.log(formData);
 
     if (success) {
       return <Redirect to="/addresses" />;

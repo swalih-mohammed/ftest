@@ -29,9 +29,9 @@ class AddProduct extends Component {
   state = {
     title: "",
     title_local: "",
-    item_quantity: "",
-    price: "",
-    discount_price: "",
+    // item_quantity: "",
+    // price: "",
+    // discount_price: "",
     product_image: "",
     productategory: "",
     is_available: false,
@@ -115,9 +115,9 @@ class AddProduct extends Component {
     const {
       title,
       title_local,
-      item_quantity,
-      price,
-      discount_price,
+      //   item_quantity,
+      //   price,
+      //   discount_price,
       productategory,
       product_image,
       is_available,
@@ -129,9 +129,9 @@ class AddProduct extends Component {
         userID,
         title,
         title_local,
-        item_quantity,
-        price,
-        discount_price,
+        // item_quantity,
+        // price,
+        // discount_price,
         productategory,
         product_image,
         is_available,
@@ -159,9 +159,9 @@ class AddProduct extends Component {
       id,
       title,
       title_local,
-      item_quantity,
-      price,
-      discount_price,
+      //   item_quantity,
+      //   price,
+      //   discount_price,
       is_available,
       is_on_sale,
       is_featured,
@@ -199,7 +199,7 @@ class AddProduct extends Component {
             />
           </Form.Group>
 
-          <Form.Group controlId="quantity">
+          {/* <Form.Group controlId="quantity">
             <Form.Label>Quantity</Form.Label>
             <Form.Control
               type="text"
@@ -208,8 +208,8 @@ class AddProduct extends Component {
               value={item_quantity || ""}
               onChange={this.handleChange}
             />
-          </Form.Group>
-          <Form.Group controlId="formBasicPassword">
+          </Form.Group> */}
+          {/* <Form.Group controlId="formBasicPassword">
             <Form.Label>MRP</Form.Label>
             <Form.Control
               type="text"
@@ -217,8 +217,8 @@ class AddProduct extends Component {
               value={price || ""}
               onChange={this.handleChange}
             />
-          </Form.Group>
-          <Form.Group controlId="formBasicPassword">
+          </Form.Group> */}
+          {/* <Form.Group controlId="formBasicPassword">
             <Form.Label>Price after Discount</Form.Label>
             <Form.Control
               type="text"
@@ -226,7 +226,7 @@ class AddProduct extends Component {
               value={discount_price || ""}
               onChange={this.handleChange}
             />
-          </Form.Group>
+          </Form.Group> */}
           <div>
             <Select
               className="mb-3"
@@ -235,12 +235,7 @@ class AddProduct extends Component {
               getOptionValue={option => `${option}`}
               options={this.state.ShopProductCategory}
               isSearchable={true}
-              // filterOption={this.customFilter}
-              // onInputChange={this.handleInputChange}
-              // noOptionsMessage={() => null}
               placeholder={"Select product category"}
-              // autoFocus={true}
-              // menuIsOpen={this.state.menuOpen}
             />
           </div>
           <div>
@@ -248,16 +243,11 @@ class AddProduct extends Component {
               className="mb-3"
               onChange={this.handleChangeImage}
               getOptionLabel={option => `${option.name}`}
-              // getOptionLabel={option => `${option.image}`}
               getOptionValue={option => `${option}`}
               options={this.state.productImages}
               isSearchable={true}
-              // filterOption={this.customFilter}
-              // onInputChange={this.handleInputChange}
               noOptionsMessage={() => null}
               placeholder={"Select image"}
-              // autoFocus={true}
-              // menuIsOpen={this.state.menuOpen}
             />
           </div>
           {this.state.selectedImage ? (
@@ -306,7 +296,6 @@ class AddProduct extends Component {
 const mapStateToProps = state => {
   return {
     token: state.auth.token,
-    // userID: state.user.user.userID
     user: state.user
   };
 };

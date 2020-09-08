@@ -39,8 +39,16 @@ export const ShopModeOfPaymentURL = `${endpoint}/mode-of-payment/`;
 export const placeShopListURL = id => `${endpoint}/places/${id}/shops/`;
 export const productListURL = `${endpoint}/products/`;
 // export const shopProductListURL = `${endpoint}/producstsofashop/`;
+
+//product - shop
 export const shopProductListURL = id => `${endpoint}/producstsofashop/${id}/`;
 export const addProductURL = `${endpoint}/add-product/`;
+export const shopProductDetailURL = `${endpoint}/shop-product-detail/`;
+
+//variation
+export const shopAddProductVariationURL = `${endpoint}/shop-product-add-variation/`;
+export const shopDeleteProductVariationURL = `${endpoint}/shop-product-delete-variation/`;
+
 export const productImagesURL = id => `${endpoint}/product-images/${id}/`;
 export const ShopProductCategoryURL = id =>
   `${endpoint}/product-shop-category/${id}/`;
@@ -51,7 +59,8 @@ export const productDetailURL = id => `${endpoint}/products/${id}/`;
 export const ShopFProductListURL = id => `${endpoint}/shops/${id}/fproducts`;
 export const ShopProductUpdateURL = id =>
   `${endpoint}/producstsofashop/${id}/update/`;
-
+export const VariationUpdateURL = id => `${endpoint}/variation/${id}/update/`;
+export const VariationDeleteURL = id => `${endpoint}/variation/${id}/delete/`;
 export const shopListURL = `${endpoint}/shops/`;
 export const shopAddURL = `${endpoint}/shop-add/`;
 export const shopFilterURL = `${endpoint}/shops-filter/`;

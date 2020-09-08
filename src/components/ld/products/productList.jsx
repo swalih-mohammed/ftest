@@ -47,12 +47,12 @@ class ProductList extends Component {
   };
 
   handleClick = id => {
-    this.props.history.push("/edit-shop-product");
+    this.props.history.push("/shop-product-detail");
   };
 
   render() {
     const { products } = this.state;
-    // console.log(this.state.products);
+    // console.log(products);
     // console.log(this.state.products);
     return (
       <div>
@@ -75,10 +75,10 @@ class ProductList extends Component {
                       <th scope="col">Edit</th>
                       {/* <th scope="col">ID</th> */}
                       <th scope="col">Name</th>
-                      {/* <th scope="col">Name</th> */}
-                      <th scope="col">Quantity</th>
+                      <th scope="col">Available</th>
+                      {/* <th scope="col">Quantity</th> */}
                       {/* <th scope="col">Price</th> */}
-                      <th scope="col">Price</th>
+                      {/* <th scope="col">Price</th> */}
                     </tr>
                   </thead>
                   {products.map((item, index) => {
@@ -88,7 +88,7 @@ class ProductList extends Component {
                           {/* <td>{item.id}</td> */}
                           <td>
                             <React.Fragment>
-                              <Link to={`edit-shop-product/${item.id}`}>
+                              <Link to={`shop-product-detail/${item.id}`}>
                                 <i>
                                   <FontAwesomeIcon
                                     icon={faEdit}
@@ -100,11 +100,14 @@ class ProductList extends Component {
                               </Link>
                             </React.Fragment>
                           </td>
-                          <td>{item.title}</td>
+
+                          <td>
+                            {item.title_local ? item.title_local : item.title}
+                          </td>
                           {/* <td>{item.title_local}</td> */}
-                          <td>{item.item_quantity}</td>
+                          <td>{item.is_available ? "Yes" : "No"}</td>
                           {/* <td>{item.price}</td> */}
-                          <td>{item.discount_price}</td>
+                          {/* <td>{item.discount_price}</td> */}
                           {/* <td>{item.title}</td> */}
                         </tr>
                       </tbody>

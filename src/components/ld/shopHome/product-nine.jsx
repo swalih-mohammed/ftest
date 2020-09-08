@@ -16,7 +16,9 @@ class ProductStyleNine extends Component {
   state = {
     loading: false,
     selectedVariationID: "",
-    selectedVariationName: ""
+    selectedVariationName: "",
+    selectedVariationMRP: "",
+    selectedVariationPrice: ""
   };
   componentDidMount() {
     this.setDefaultVariation();
@@ -28,10 +30,14 @@ class ProductStyleNine extends Component {
       if (typeof firstValue !== "undefined") {
         let name = this.props.variations[0].name;
         let id = this.props.variations[0].id;
+        let mrp = this.props.variations[0].price;
+        let price = this.props.variations[0].discount_price;
         // console.log(name, id);
         this.setState({
           selectedVariationName: name,
-          selectedVariationID: id
+          selectedVariationID: id,
+          selectedVariationMRP: mrp,
+          selectedVariationPrice: price
         });
       }
     }
@@ -76,8 +82,8 @@ class ProductStyleNine extends Component {
 
   render() {
     const { product, variations, defaultOption } = this.props;
-    const { selectedVariationName } = this.state;
-    // console.log(selectedVariation);
+    // const { selectedVariationMRP } = this.state;
+    // console.log(selectedVariationMRP);
 
     return (
       <div className="product-box">
@@ -131,37 +137,20 @@ class ProductStyleNine extends Component {
             {product.title_local ? (
               <h6>{product.title_local}</h6>
             ) : (
-              <h6>{product.title_local}</h6>
+              <h6>{product.title}</h6>
             )}
 
-            {/* <h4>
-              {"Rs: "} {product.discount_price}{" "}
+            <h4>
+              {"Rs: "} {this.state.selectedVariationPrice}{" "}
               <del>
                 <span className="money">
                   {"  MRP "}
-                  {product.price}
+                  {this.state.selectedVariationMRP}
                 </span>
               </del>
-            </h4> */}
-            {product.price ? (
-              <React.Fragment>
-                <h4>
-                  {"Rs: "} {product.discount_price}{" "}
-                  <del>
-                    <span className="money">
-                      {"  MRP "}
-                      {product.price}
-                    </span>
-                  </del>
-                </h4>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <h4>
-                  {"Rs: "} {product.discount_price}{" "}
-                </h4>
-              </React.Fragment>
-            )}
+            </h4>
+            <br />
+
             {defaultOption ? (
               <React.Fragment>
                 {defaultOption.name && (
@@ -172,6 +161,7 @@ class ProductStyleNine extends Component {
                       ({ name }) => name === this.state.selectedVariationName
                     )}
                     onChange={value => this.handleChangeVariation(value)}
+                    isSearchable={false}
                   />
                 )}
               </React.Fragment>

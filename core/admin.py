@@ -77,7 +77,13 @@ class ShopAdmin(admin.ModelAdmin):
     search_fields = ['name', 'place', 'owner']
 
 
+class inlineVariation(admin.StackedInline):
+    model = Variation
+    extra = 1
+
+
 class ItemAdmin(admin.ModelAdmin):
+    inlines = [inlineVariation]
     list_display = [
         'title',
         'shop',

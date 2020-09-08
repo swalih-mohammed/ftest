@@ -266,8 +266,15 @@ class Item(models.Model):
     is_on_sale = models.BooleanField(default=False,  blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     is_active = models.BooleanField(default=False, null=True)
+
     def __str__(self):
         return self.title
+    def get_category(self):
+        return self.productategory.name
+    def get_image(self):
+        return self.product_image.image1.url
+    def get_shop(self):
+        return self.shop.name
 
 class Variation(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)

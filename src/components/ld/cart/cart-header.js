@@ -36,12 +36,11 @@ class CartHeader extends Component {
             {/* <img alt="" className="mr-3" src={`${item.pictures[0]}`} /> */}
           </Link>
           <div className="media-body">
-            {/* <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}> */}
-            <h4>{item.item.title}</h4>
-            {/* </Link> */}
             <h4>
               <span>
-                {item.quantity} x {item.item.price} = {item.final_price}
+                {item.quantity} x{" "}
+                {item.itemLocalName ? item.itemLocalName : item.itemName} ={" "}
+                {item.final_price}
               </span>
             </h4>
           </div>

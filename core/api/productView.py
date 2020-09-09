@@ -18,13 +18,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-from core.models import Item, OrderItem, Order
+from core.models import Item, OrderItem, Order, ProductCategory
 
-from .serializers import (
-    ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
-    ShopProductSerializer, UserProfileSerializer, PlaceSerializer, ServiceAreaSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
-)
-from core.models import UserProfile, Role, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, Refund, UserProfile, Variation, FavoriteShops, FavoritePlaces, ServiceArea
+from .serializers import (ShopProductCategorySerializer, VariationSerializer, ProductImageSerializer,
+                          ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
+                          ShopProductSerializer, UserProfileSerializer, PlaceSerializer, ServiceAreaSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
+                          )
+from core.models import UserProfile, Role, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, UserProfile, Variation, FavoriteShops, FavoritePlaces, ServiceArea
 
 # class ProductofShopListView(g/enerics.ListAPIView):
 
@@ -93,7 +93,143 @@ class shopProductListInfinitView(generics.ListAPIView):
         return Response({
             "products": serializer.data,
             "has_more": is_there_more_data(request)
-
         })
-
 # product list infinit scrool end
+
+
+class AddProductVariationView(APIView):
+    def post(self, request, *args, **kwargs):
+        print(request.data)
+        item = request.data.get('item', None)
+        name = request.data.get('name', None)
+        price = request.data.get('price', None)
+        discount_price = request.data.get('discount_price', None)
+        is_available = request.data.get('is_available', None)
+        item = get_object_or_404(Item, id=item)
+        varitation = Variation.objects.create(item=item, name=name,
+                                              price=price, discount_price=discount_price, is_available=is_available)
+        varitation.save()
+        return Response(status=HTTP_200_OK)
+
+
+class UpdateVariation(GenericAPIView, UpdateModelMixin):
+    queryset = Variation.objects.all()
+    serializer_class = VariationSerializer
+
+    def put(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+
+class AddProductView(APIView):
+    def post(self, request, *args, **kwargs):
+        title = request.data.get('title', None)
+        title_local = request.data.get('title_local', None)
+        # item_quantity = request.data.get('item_quantity', None)
+        # price = request.data.get('price', None)
+        # discount_price = request.data.get('discount_price', None)
+        productategory = request.data.get('productategory', None)
+        product_image = request.data.get('product_image', None)
+        is_on_sale = request.data.get('is_on_sale', None)
+        is_available = request.data.get('is_available', None)
+        is_featured = request.data.get('is_featured', None)
+
+        shop = Shop.objects.filter(owner=request.user).first()
+        productategory = get_object_or_404(ProductCategory, id=productategory)
+        product_image = get_object_or_404(ProductImage, id=product_image)
+        # item = Item.objects.create(shop=shop,
+        #         title=title, title_local=title_local,  item_quantity=item_quantity,  price=price,  discount_price=discount_price,  productategory=productategory,  product_image=product_image,is_available=is_available, is_on_sale=is_on_sale, is_featured=is_featured)
+        item = Item.objects.create(shop=shop,
+                                   title=title, title_local=title_local, productategory=productategory,  product_image=product_image, is_available=is_available, is_on_sale=is_on_sale, is_featured=is_featured)
+        item.save()
+        return Response(status=HTTP_200_OK)
+
+
+class ShopProductListView(ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ShopProductSerializer
+    # queryset = Item.objects.all()
+
+    def get_queryset(self):
+        return Item.objects.filter(shop_id=self.kwargs['shop_id'])
+
+
+class ProductListForShopView(ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ShopProductSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        # print(user)
+        shop = get_object_or_404(Shop, owner=user)
+        # user = User.objects.get_object_or_404(id=)
+        # shop = Shop.objects.filter(owner_id=self.kwargs['owner_id'] ).first()
+        if shop is None:
+            return Response({"message": "No shop found"}, status=HTTP_400_BAD_REQUEST)
+        # print(shop)
+        return Item.objects.filter(shop=shop)
+
+
+class ItemDetailView(RetrieveAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ItemDetailSerializer
+    queryset = Item.objects.all()
+
+
+class ProductUpdateForShopView(GenericAPIView, UpdateModelMixin):
+    queryset = Item.objects.all()
+    serializer_class = ShopProductSerializer
+
+    def put(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+
+class ProductImageListView(ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ProductImageSerializer
+    # queryset = Item.objects.all()
+
+    def get_queryset(self):
+        print(self.kwargs)
+        return ProductImage.objects.filter(productCategory=self.kwargs['cateogry_id'])
+
+
+class ShopProductCategoryForCustomerListView(ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ShopProductCategorySerializer
+    # queryset = Item.objects.all()
+
+    def get_queryset(self):
+        shop = get_object_or_404(Shop, id=self.kwargs['shop_id'])
+        qs = ProductCategory.objects.filter(shop=shop)
+        return qs
+
+
+class ShopProductCategoryListView(ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ShopProductCategorySerializer
+    # queryset = Item.objects.all()
+
+    def get_queryset(self):
+        shop = Shop.objects.filter(owner=self.kwargs['owner_id']).first()
+        qs = ProductCategory.objects.filter(shop=shop)
+        return qs
+
+
+class DeleteVariation(DestroyAPIView):
+    permission_classes = (IsAuthenticated, )
+    queryset = Variation.objects.all()
+
+
+class ShopFProductListView(ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ShopProductSerializer
+    # queryset = Item.objects.all()
+
+    def get_queryset(self):
+        return Item.objects.filter(shop_id=self.kwargs['shop_id'], is_featured=True)
+
+
+class ItemListView(ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ItemSerializer
+    queryset = Item.objects.all()

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import (ProductImage, AppInfo, ModeOfPayment, Compliant, Taxi, Cooli, Candidate, ServiceArea, Role, ShopCategory, ProductCategory,
-                     Area, Place, Village, Cluster, District, State, Shop, Item, OrderItem, Order, OrderStatus, Coupon, Refund,
+                     Area, Place, Village, Cluster, District, State, Shop, Item, OrderItem, Order, OrderStatus, Coupon,
                      Address, UserProfile, Variation, Area, FavoritePlaces, FavoriteShops
                      )
 
@@ -301,7 +301,7 @@ admin.site.register(OrderStatus)
 
 # admin.site.register(Payment)
 admin.site.register(Coupon, CouponAdmin)
-admin.site.register(Refund)
+# admin.site.register(Refund)
 admin.site.register(Address, AddressAdmin)
 
 admin.site.register(UserProfile, UserProfileAdmin)

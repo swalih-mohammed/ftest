@@ -6,6 +6,7 @@ import ProductStyleTwo from "./ProductStyleTwo";
 class Tranding extends Component {
   render() {
     const { fProducts } = this.props;
+    // console.log(fProducts);
     return (
       <div>
         <section className="section-b-space addtocart_count ratio_square">
@@ -23,12 +24,17 @@ class Tranding extends Component {
                     const variations = product.variations;
                     const defaultOption = product.variations[0];
                     return (
-                      <ProductStyleTwo
-                        product={product}
+                      <div
                         key={product.id}
-                        variations={variations}
-                        defaultOption={defaultOption}
-                      />
+                        className="col-xl-3 col-md-6 col-grid-box"
+                      >
+                        <ProductStyleTwo
+                          product={product}
+                          key={product.id}
+                          variations={variations}
+                          defaultOption={defaultOption}
+                        />
+                      </div>
                     );
                   })}
                 </Slider>

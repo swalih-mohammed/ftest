@@ -4,8 +4,6 @@ from django.contrib import humanize
 from rest_framework.mixins import UpdateModelMixin
 from django.db.models import Q
 from django.conf import settings
-# from django.views.decorators.csrf import csrf_exempt
-# from django.utils.decorators import method_decorator
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
@@ -22,17 +20,14 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.decorators import api_view
-# from rest_framework.response import Response
-# from rest_framework import viewsets
-
 
 from core.models import Item, OrderItem, Order, AppInfo
 
-from .serializers import (VariationSerializer,ShopProductCategorySerializer,ProductImageSerializer,ModeOfPayment, OrderStatusUpdateserializer, AppInfoSerializer,
+from .serializers import (VariationSerializer, ShopProductCategorySerializer, ProductImageSerializer, ModeOfPayment, OrderStatusUpdateserializer, AppInfoSerializer,
     ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
     ShopProductSerializer, UserProfileSerializer, PlaceSerializer, ServiceAreaSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
 )
-from core.models import ProductImage, ProductCategory,UserProfile, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, Refund, UserProfile, Variation, FavoriteShops, FavoritePlaces, ServiceArea
+from core.models import ProductImage, ProductCategory, UserProfile, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, UserProfile, Variation, FavoriteShops, FavoritePlaces, ServiceArea
 
 
 class AppInfoView(ListAPIView):
@@ -40,8 +35,9 @@ class AppInfoView(ListAPIView):
     serializer_class = AppInfoSerializer
 
     def get_queryset(self):
-        appInfo= AppInfo.objects.all()
+        appInfo = AppInfo.objects.all()
         return appInfo
+
 
 class ShopDashDetailView(RetrieveAPIView):
     serializer_class = ShopSerializer
@@ -54,25 +50,29 @@ class ShopDashDetailView(RetrieveAPIView):
         except ObjectDoesNotExist:
             raise Http404("shop not found")
 
+
 class ShopDashOrderView(APIView):
     def get(self, request, *args, **kwargs):
         print(request)
         shop = Shop.objects.filter(owner=request.user).first()
         if shop:
             today = datetime.now().date()
-            pendingOrders = Order.objects.filter(shop=shop, order_status=1, ordered=True,  ).count()
-            totalOrders = Order.objects.filter(shop=shop, ordered=True, ).count()
+            pendingOrders = Order.objects.filter(
+                shop=shop, order_status=1, ordered=True,).count()
+            totalOrders = Order.objects.filter(
+                shop=shop, ordered=True, ).count()
             item = Item.objects.filter(shop=shop).count()
-            return Response({'pendingOrders': pendingOrders , 'totalOrders': totalOrders, 'item': item}, status=HTTP_200_OK)
+            return Response({'pendingOrders': pendingOrders, 'totalOrders': totalOrders, 'item': item}, status=HTTP_200_OK)
 
-@api_view(['GET', 'PUT',])
+
+@api_view(['GET', 'PUT', ])
 def ShopDashOpenStatusView(request, pk):
     try:
         # shop = Shop.objects.filter(owner=self.request.user).first()
         shop = Shop.objects.get(pk=pk)
     except shop.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-  
+
     if request.method == 'PUT':
         serializer = ShopSerializer(shop, data=request.data, partial=True)
         if serializer.is_valid():
@@ -93,34 +93,29 @@ class UserTypeView(RetrieveAPIView):
             raise Http404("No user found")
 
 
-
 class UserIDView(APIView):
     def get(self, request, *args, **kwargs):
         return Response({'userID': request.user.id, }, status=HTTP_200_OK)
+
 
 class ServiceAreaView(ListAPIView):
     permission_classes = (AllowAny, )
     serializer_class = ServiceAreaSerializer
 
     def get_queryset(self):
-        serviceArea= ServiceArea.objects.filter(user=self.request.user)
+        serviceArea = ServiceArea.objects.filter(user=self.request.user)
         return serviceArea
+
 
 class orderAddressView(RetrieveAPIView):
     permission_classes = (AllowAny, )
     serializer_class = AddressSerializer
     queryset = Address.objects.all()
 
-class ItemListView(ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = ItemSerializer
-    queryset = Item.objects.all()
-
 
 # infinit scroll for places start
 
 class NewPlaces(ListAPIView):
-
     permission_classes = (AllowAny,)
     serializer_class = PlaceSerializer
     queryset = Place.objects.all().order_by('-create_date')[:3]
@@ -131,6 +126,7 @@ class PlaceShopListView(ListAPIView):
     serializer_class = ShopSerializer
 
     def get_queryset(self):
+        #  place = get_object_or_404(Place, id=self.kwargs['place_id'])
         return Shop.objects.filter(place_id=self.kwargs['place_id'])
 
 class FeaturedShopsInPlace(ListAPIView):
@@ -138,7 +134,9 @@ class FeaturedShopsInPlace(ListAPIView):
     serializer_class = ShopSerializer
 
     def get_queryset(self):
-        return Shop.objects.filter(place_id=self.kwargs['place_id'], is_featured=True)
+        qs =Shop.objects.filter(service_localities__id=self.kwargs['place_id'])
+        # return Shop.objects.filter(place_id=self.kwargs['place_id'], is_featured=True)
+        return qs
 
 class FeaturedShops(ListAPIView):
     permission_classes = (AllowAny,)
@@ -151,121 +149,6 @@ class ShopListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ShopSerializer
     queryset = Shop.objects.all() 
-
-
-class ShopFProductListView(ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = ShopProductSerializer
-    # queryset = Item.objects.all()
-
-    def get_queryset(self):
-        return Item.objects.filter(shop_id=self.kwargs['shop_id'], is_featured=True )
-
-class AddProductVariationView(APIView):
-    def post(self, request, *args, **kwargs):
-        print(request.data)
-        item = request.data.get('item', None)
-        name = request.data.get('name', None)
-        price = request.data.get('price', None)
-        discount_price = request.data.get('discount_price', None)
-        is_available = request.data.get('is_available', None)
-        item = get_object_or_404(Item, id=item)
-        varitation = Variation.objects.create(item=item,name=name,
-                price=price, discount_price=discount_price, is_available=is_available)
-        varitation.save()
-        return Response(status=HTTP_200_OK)
-
-class UpdateVariation(GenericAPIView, UpdateModelMixin):
-    queryset = Variation.objects.all()
-    serializer_class = VariationSerializer
-    def put(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
-        
-class DeleteVariation(DestroyAPIView):
-    permission_classes = (IsAuthenticated, )
-    queryset = Variation.objects.all()
-
-class AddProductView(APIView):
-    def post(self, request, *args, **kwargs):
-        title = request.data.get('title', None)
-        title_local = request.data.get('title_local', None)
-        # item_quantity = request.data.get('item_quantity', None)
-        # price = request.data.get('price', None)
-        # discount_price = request.data.get('discount_price', None)
-        productategory = request.data.get('productategory', None)
-        product_image = request.data.get('product_image', None)
-        is_on_sale = request.data.get('is_on_sale', None)
-        is_available = request.data.get('is_available', None)
-        is_featured = request.data.get('is_featured', None)
-
-        shop = Shop.objects.filter(owner=request.user).first()
-        productategory = get_object_or_404(ProductCategory, id=productategory)
-        product_image = get_object_or_404(ProductImage, id=product_image)
-        # item = Item.objects.create(shop=shop,
-        #         title=title, title_local=title_local,  item_quantity=item_quantity,  price=price,  discount_price=discount_price,  productategory=productategory,  product_image=product_image,is_available=is_available, is_on_sale=is_on_sale, is_featured=is_featured)
-        item = Item.objects.create(shop=shop,
-                title=title, title_local=title_local, productategory=productategory,  product_image=product_image,is_available=is_available, is_on_sale=is_on_sale, is_featured=is_featured)
-        item.save()
-        return Response(status=HTTP_200_OK)
-
-class ShopProductCategoryListView(ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = ShopProductCategorySerializer
-    # queryset = Item.objects.all()
-
-    def get_queryset(self):
-        shop = Shop.objects.filter(owner=self.kwargs['owner_id']).first() 
-        qs = ProductCategory.objects.filter(shop =shop)
-        return qs
-
-class ShopProductCategoryForCustomerListView(ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = ShopProductCategorySerializer
-    # queryset = Item.objects.all()
-
-    def get_queryset(self):
-        shop = get_object_or_404(Shop, id=self.kwargs['shop_id'])
-        qs = ProductCategory.objects.filter(shop =shop)
-        return qs   
-
-
-class ProductImageListView(ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = ProductImageSerializer
-    # queryset = Item.objects.all()
-
-    def get_queryset(self):
-        print(self.kwargs)
-        return ProductImage.objects.filter(productCategory=self.kwargs['cateogry_id'] )
-
-
-class ShopProductListView(ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = ShopProductSerializer
-    # queryset = Item.objects.all()
-
-    def get_queryset(self):
-        return Item.objects.filter(shop_id=self.kwargs['shop_id'])
-
-class ProductListForShopView(ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = ShopProductSerializer
-    
-    def get_queryset(self):
-        user = self.request.user
-        # print(user)
-        shop = get_object_or_404(Shop, owner=user )
-        # user = User.objects.get_object_or_404(id=)
-        # shop = Shop.objects.filter(owner_id=self.kwargs['owner_id'] ).first()
-        if shop is None:
-            return Response({"message": "No shop found"}, status=HTTP_400_BAD_REQUEST)
-        # print(shop)
-        return Item.objects.filter(shop=shop )
-      
-class ItemDetailView(RetrieveAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = ItemDetailSerializer
-    queryset = Item.objects.all()
 
 class OrderQuantityUpdateView(APIView):
     def post(self, request, *args, **kwargs):
@@ -376,7 +259,6 @@ class OrderDetailView(RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
-       
         try:
             order = Order.objects.filter(user=self.request.user, ordered=False).last()
             return order
@@ -439,12 +321,6 @@ def OrderStatusUpdateView(request, pk):
             return Response(serializer.data)
         return Response(serializer.errors)
 
-class ProductUpdateForShopView(GenericAPIView, UpdateModelMixin):
-    queryset = Item.objects.all()
-    serializer_class = ShopProductSerializer
-    def put(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
-
 class AddCouponView(APIView):
     def post(self, request, *args, **kwargs):
         code = request.data.get('code', None)
@@ -494,9 +370,9 @@ class AddCouponView(APIView):
             print("old")
             return Response({"message": "Invalid coupon"}, status=HTTP_400_BAD_REQUEST)
 
-class CountryListView(APIView):
-    def get(self, request, *args, **kwargs):
-        return Response(countries, status=HTTP_200_OK)
+# class CountryListView(APIView):
+#     def get(self, request, *args, **kwargs):
+#         return Response(countries, status=HTTP_200_OK)
 
 class AddressListView(ListAPIView):
     permission_classes = (IsAuthenticated, )
@@ -630,10 +506,3 @@ class RemoveFromFavoritePlacesView(GenericAPIView, UpdateModelMixin):
         return self.partial_update(request, *args, **kwargs)
 
 
-
-# class OrderListView(ListAPIView):
-#     permission_classes = (IsAuthenticated, )
-#     serializer_class = OrderSerializer
-
-#     def get_queryset(self):
-#         return Order.objects.filter(user=self.request.user)

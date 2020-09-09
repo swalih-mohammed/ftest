@@ -23,29 +23,35 @@ from rest_framework import generics
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.decorators import api_view
 
-from core.models import ModeOfPayment,Shop, Candidate, Compliant, Taxi, Cooli
-from .serializers import (ModeOfPaymentSerializer,ShopSerializer, ShopSerializer, CooliSerializer, TaxiSerializer, CandidateSerializer, ComplaintSerializer) 
+from core.models import ModeOfPayment, Shop, Candidate, Compliant, Taxi, Cooli
+from .serializers import (ModeOfPaymentSerializer, ShopSerializer, ShopSerializer,
+                          CooliSerializer, TaxiSerializer, CandidateSerializer, ComplaintSerializer)
+
 
 class ShopAddView(CreateAPIView):
     permission_classes = (AllowAny, )
     serializer_class = ShopSerializer
     queryset = Shop.objects.all()
 
+
 class AddCandidateView(CreateAPIView):
     permission_classes = (AllowAny, )
     serializer_class = CandidateSerializer
     queryset = Candidate.objects.all()
-    
+
+
 class AddComplaintView(CreateAPIView):
     permission_classes = (AllowAny, )
     serializer_class = ComplaintSerializer
     queryset = Compliant.objects.all()
-    
+
+
 class PlaceTaxiListView(CreateAPIView):
     permission_classes = (AllowAny, )
     serializer_class = TaxiSerializer
     queryset = Taxi.objects.all()
-    
+
+
 class PlaceCooliListView(CreateAPIView):
     permission_classes = (AllowAny, )
     serializer_class = CooliSerializer
@@ -54,6 +60,7 @@ class PlaceCooliListView(CreateAPIView):
 
 def is_valid_queryparam(param):
     return param != '' and param is not None
+
 
 def filter(request):
     print("filter")
@@ -67,23 +74,25 @@ def filter(request):
     # print(place_contains_query,village_contains_query, cluster_contains_query, district_contains_query, state_contains_query,)
 
     if is_valid_queryparam(place_contains_query):
-        qs = Shop.objects.filter(place_name = place_contains_query)
+        qs = Shop.objects.filter(place_name=place_contains_query)
 
     if is_valid_queryparam(village_contains_query):
-        qs = Shop.objects.filter(village_name = village_contains_query)
+        qs = Shop.objects.filter(village_name=village_contains_query)
 
     if is_valid_queryparam(cluster_contains_query):
-        qs = Shop.objects.filter(cluster_name = cluster_contains_query)
+        qs = Shop.objects.filter(cluster_name=cluster_contains_query)
 
     if is_valid_queryparam(district_contains_query):
-        qs = Shop.objects.filter(district_name = district_contains_query)
+        qs = Shop.objects.filter(district_name=district_contains_query)
 
     if is_valid_queryparam(state_contains_query):
-        qs = Shop.objects.filter(state_name = state_contains_query)
+        qs = Shop.objects.filter(state_name=state_contains_query)
 
     return qs
 
 # class ShopFilterView(generics.ListAPIView):
+
+
 class ShopFilterView(generics.ListAPIView):
     serializer_class = ShopSerializer
 
@@ -91,18 +100,16 @@ class ShopFilterView(generics.ListAPIView):
         qs = filter(self.request)
         return qs
 
+
 class ShopsDetailView(RetrieveAPIView):
     permission_classes = (AllowAny, )
     serializer_class = ShopSerializer
     queryset = Shop.objects.all()
 
-# class ShopsModOfPaymentView(RetrieveAPIView):
-#     permission_classes = (AllowAny, )
-#     serializer_class = ModeOfPaymentSerializer
-#     queryset = ModeOfPayment.objects.all()
 
 class ShopsModOfPaymentView(generics.ListAPIView):
     serializer_class = ModeOfPaymentSerializer
+
     def get_queryset(self):
         # return Village.objects.all()
         queryset = ModeOfPayment.objects.all()
@@ -110,8 +117,3 @@ class ShopsModOfPaymentView(generics.ListAPIView):
         if shopID is not None:
             queryset = queryset.filter(shop=shopID)
         return queryset
-
-
-
-
-

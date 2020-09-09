@@ -27,7 +27,7 @@ class FeautredShops extends Component {
               <div className="col">
                 <div className="title4">
                   <br></br>
-                  <h2 className="title-inner4"> Feautured Shops</h2>
+                  <h2 className="title-inner4"> Premium Shops</h2>
                   <div className="line">
                     <span></span>
                   </div>

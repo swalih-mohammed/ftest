@@ -26,7 +26,7 @@ class Area(models.Model):
 
 class Place(models.Model):
     name = models.CharField(max_length=100)
-    areas = models.ManyToManyField('Area', related_name = 'areas', blank=True, null=True)
+    # areas = models.ManyToManyField('Area', related_name = 'areas', blank=True, null=True)
     village = models.ForeignKey('Village', related_name = 'village', blank=True, null=True,max_length=100, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='place', default='/place/default_place.jpg',blank=True, null=True)
     is_shipping = models.BooleanField(default=False)
@@ -44,7 +44,7 @@ class Village(models.Model):
     cluster = models.ForeignKey('Cluster', related_name = 'cluster', blank=True, null=True, max_length=100, on_delete=models.CASCADE)
     # district = models.ForeignKey('District', related_name = 'district', blank=True, null=True,  max_length=100, on_delete=models.CASCADE)
     villageDistrict = models.ForeignKey('District', related_name = 'villageDistrict', blank=True, null=True,  max_length=100, on_delete=models.CASCADE)
-    places = models.ManyToManyField('Place', related_name = 'places', blank=True, null=True)
+    # places = models.ManyToManyField(Place)
     is_shipping = models.BooleanField(default=False)
     shipping_message = models.TextField(blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -55,7 +55,7 @@ class Village(models.Model):
 class Cluster(models.Model):
     name = models.CharField(max_length=100)
     district = models.ForeignKey('District', related_name = 'district', blank=True, null=True,  max_length=100, on_delete=models.CASCADE)
-    villages = models.ManyToManyField('Village', related_name = 'villages', blank=True, null=True)
+    # villages = models.ManyToManyField('Village')
     is_shipping = models.BooleanField(default=False)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
@@ -65,7 +65,7 @@ class Cluster(models.Model):
 class District(models.Model):
     name = models.CharField(max_length=100)
     state = models.ForeignKey('State', related_name = 'state', max_length=100, blank= True, null=True, on_delete=models.CASCADE)
-    clusters = models.ManyToManyField('Cluster', related_name = 'clusters', blank=True, null=True)
+    # clusters = models.ManyToManyField('Cluster')
     is_shipping = models.BooleanField(default=False)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
@@ -74,7 +74,7 @@ class District(models.Model):
 
 class State(models.Model):
     name = models.CharField(max_length=100)
-    districts = models.ManyToManyField('District',  blank=True, null=True, related_name = 'districts')
+    # districts = models.ManyToManyField('District')
     is_shipping = models.BooleanField(default=False)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
@@ -119,7 +119,6 @@ class Shop(models.Model):
                               on_delete=models.CASCADE)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               on_delete=models.CASCADE, blank=True, null=True)
-    
     full_address = models.TextField(blank=True, null=True)
     shopCategory = models.ForeignKey(ShopCategory,null=True, blank=True, on_delete=models.DO_NOTHING )
     slug = models.SlugField(blank=True, null=True)
@@ -128,15 +127,19 @@ class Shop(models.Model):
     image_1 = models.ImageField(upload_to='shop', default='/shop/default_shop.jpg',blank=True, null=True)
     shipping_message = models.TextField(blank=True, null=True)
     offer_message = models.TextField(blank=True, null=True)
-
     is_accepting_orders = models.BooleanField(default=False)
-    product_categories = models.ManyToManyField(ProductCategory, blank=True, null=True)
-    paymentMode = models.ManyToManyField(ModeOfPayment, blank=True, null=True)
-    # mode_of_payment = models.ManyToManyField(ModeOfPayment, blank=True, null=True)
+    product_categories = models.ManyToManyField(ProductCategory)
+    paymentMode = models.ManyToManyField(ModeOfPayment)
     is_featured = models.BooleanField(default=False,  blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     is_active = models.BooleanField(default=True, null=True)
     shipping_contract = models.TextField(blank=True, null=True)
+    locality_shop = models.BooleanField(default=True,  blank=True, null=True)
+    village_shop= models.BooleanField(default=False,  blank=True, null=True)
+    cluster_shop= models.BooleanField(default=False,  blank=True, null=True)
+    service_areas = models.ManyToManyField(Area, related_name="ShopServiceAreas")
+    service_localities = models.ManyToManyField(Place ,related_name="ShopServicePlaces")
+    service_villages  = models.ManyToManyField(Village, related_name="ShopServiceVillages")
 
     def __str__(self):
         return self.name
@@ -426,20 +429,8 @@ class Coupon(models.Model):
     def __str__(self):
         return self.code
 
-
-class Refund(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    reason = models.TextField()
-    accepted = models.BooleanField(default=False)
-    email = models.EmailField()
-
-    def __str__(self):
-        return f"{self.pk}"
-
-
 def userprofile_receiver(sender, instance, created, *args, **kwargs):
     if created:
         userprofile = UserProfile.objects.create(user=instance)
-
 
 post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)

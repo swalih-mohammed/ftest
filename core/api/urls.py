@@ -2,16 +2,16 @@ from django.urls import path
 from .views import (
     UserIDView,
     UserTypeView,
-    ItemListView,
-    ItemDetailView,
+    #     ItemListView,
+    #     ItemDetailView,
     ShopListView,
-    ShopProductListView,
+    #     ShopProductListView,
     AddToCartView,
     OrderDetailView,
     OrderQuantityUpdateView,
     #     PaymentView,
     AddCouponView,
-    CountryListView,
+    #     CountryListView,
     AddressListView,
     AddressCreateView,
     AddressUpdateView,
@@ -29,7 +29,7 @@ from .views import (
     NewPlaces,
     FeaturedShops,
     FeaturedShopsInPlace,
-    ShopFProductListView,
+    #     ShopFProductListView,
     # favorite-list
     AddToFavoritePlacesView,
     AddToFavoriteShopsView,
@@ -39,14 +39,14 @@ from .views import (
     RemoveFromFavoritePlacesView,
     OrderItemDetailView,
     ServiceAreaView,
-    ProductListForShopView,
-    ProductUpdateForShopView,
-    ProductImageListView,
-    ShopProductCategoryListView,
-    ShopProductCategoryForCustomerListView,
-    AddProductView,
+    #     ProductListForShopView,
+    #     ProductUpdateForShopView,
+    #     ProductImageListView,
+    #     ShopProductCategoryListView,
+    #     ShopProductCategoryForCustomerListView,
+    #     AddProductView,
     AppInfoView,
-    ShopDashDetailView, ShopDashOrderView, ShopDashOpenStatusView, AddProductVariationView, UpdateVariation, DeleteVariation)
+    ShopDashDetailView, ShopDashOrderView, ShopDashOpenStatusView)
 
 from .orderView import (OrderListView, OrderStatusListView,
                         OrderFilterView, OrderSearchView)
@@ -54,14 +54,15 @@ from .shopView import (ShopsModOfPaymentView, ShopsDetailView, ShopAddView, Shop
                        AddCandidateView, AddComplaintView, PlaceTaxiListView, PlaceCooliListView)
 from .locationView import (PlaceListView, AreaFilterView, PlaceFilterView, VillageFilterView,
                            ClusterFilterView, DistrictFilterView, StateListView, PlaceFilterView, PlaceDetailView)
-from .productView import (shopProductListInfinitView)
+from .productView import (ItemListView, DeleteVariation, ShopProductCategoryForCustomerListView, ShopProductCategoryListView, ShopFProductListView, ProductImageListView, ProductUpdateForShopView, ItemDetailView, UpdateVariation, ProductListForShopView, AddProductVariationView, AddProductView,
+                          shopProductListInfinitView, ShopProductListView)
 
 urlpatterns = [
     path('app-info/', AppInfoView.as_view(), name='app-info'),
     path('user-id/', UserIDView.as_view(), name='user-id'),
     path('user-type/', UserTypeView.as_view(), name='UserType'),
     path('service-area/', ServiceAreaView.as_view(), name='service-area'),
-    path('countries/', CountryListView.as_view(), name='country-list'),
+    #     path('countries/', CountryListView.as_view(), name='country-list'),
 
     path('addresses/', AddressListView.as_view(), name='address-list'),
     path('addresses/create/', AddressCreateView.as_view(), name='address-create'),

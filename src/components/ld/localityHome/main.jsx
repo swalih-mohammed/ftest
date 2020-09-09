@@ -1,20 +1,14 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import "../../common/index.scss";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import axios from "axios";
 import Shipping from "./shipping";
-import Service from "./service";
+// import Service from "./service";
 import Offer from "./offer";
 import Image from "react-bootstrap/Image";
 import LocalityImage from "./localityImage";
-
-import {
-  svgFreeShipping,
-  svgservice,
-  svgoffer
-} from "../../../services/script";
-import Category from "./category";
+// import Category from "./category";
 import FeautredShops from "./featuredShops";
 import Shops from "./shops";
 

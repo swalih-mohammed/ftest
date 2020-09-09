@@ -88,7 +88,7 @@ workbox.routing.registerRoute(
 );
 // 2. images
 workbox.routing.registerRoute(
-  new RegExp(".(png|svg|jpg|jpeg)$"),
+  new RegExp(".(png|svg|jpg|jpeg|gif)$"),
   workbox.strategies.cacheFirst({
     cacheName: "My-awesome-cache-Images",
     plugins: [
@@ -102,14 +102,14 @@ workbox.routing.registerRoute(
 );
 
 // 3. cache home page
-workbox.routing.registerRoute(
-  new RegExp("https://www.localdukans.com/"),
-  workbox.strategies.staleWhileRevalidate({
-    cacheName: "My-awesome-cache-news-headline",
-    cacheExpiration: {
-      maxAgeSeconds: 60 * 60 //cache the news content for 30mn
-    }
-  })
-);
+// workbox.routing.registerRoute(
+//   new RegExp("https://www.localdukans.com/"),
+//   workbox.strategies.staleWhileRevalidate({
+//     cacheName: "My-awesome-cache-news-headline",
+//     cacheExpiration: {
+//       maxAgeSeconds: 60 * 60 //cache the news content for 30mn
+//     }
+//   })
+// );
 
 workbox.precaching.precacheAndRoute([]);

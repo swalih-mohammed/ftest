@@ -31,12 +31,13 @@ class VaritaionItem extends React.Component {
         this.props.fetchProductDetails();
       })
       .catch(err => {
-        this.setState({ error: err });
+        // this.setState({ error: err });
+        toast.error("error");
       });
   };
   render() {
     const { variation, item } = this.props;
-    console.log(this.state.editMode);
+    // console.log(this.state.editMode);
     return (
       <div>
         {this.state.editMode ? (

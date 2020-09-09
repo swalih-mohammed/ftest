@@ -1,20 +1,13 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
-import {
-  productDetailURL,
-  shopAddProductVariationURL,
-  ShopProductUpdateURL
-} from "../../../constants";
+import { productDetailURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
-import { Modal, Button, Container } from "react-bootstrap";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import { Card, ListGroup, ListGroupItem, Form } from "react-bootstrap";
-import { ToastContainer, toast } from "react-toastify";
 import EditModal from "./editModal";
 import AddVariationModal from "./addVariationModal";
 import ProductVariationItem from "./productV-item";
@@ -39,36 +32,9 @@ class ProductDetail extends Component {
     vPrice: "",
     vis_available: true
   };
-
   componentDidMount() {
     this.fetchProductDetails();
   }
-
-  handleCreateVariation = e => {
-    e.preventDefault();
-    const item = this.state.product.id;
-    const { vName, vMRP, vPrice, vis_available } = this.state;
-    authAxios
-      .post(shopAddProductVariationURL, {
-        item: item,
-        name: vName,
-        price: vPrice,
-        discount_price: vPrice,
-        is_available: vis_available
-      })
-      .then(res => {
-        this.setState({
-          saving: false,
-          success: true,
-          vMode: false
-        });
-        this.HideAddVariationModal();
-        this.fetchProductDetails();
-      })
-      .catch(err => {
-        this.setState({ error: err });
-      });
-  };
 
   showAddVariationModal = () => {
     this.setState({ addVariationModal: true });
@@ -77,12 +43,15 @@ class ProductDetail extends Component {
   HideAddVariationModal = () => {
     this.setState({ addVariationModal: false });
   };
+
+  // edit product
   editModalShow = () => {
     this.setState({ editProductMode: true });
   };
   editModalHide = () => {
     this.setState({ editProductMode: false });
   };
+
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -112,29 +81,6 @@ class ProductDetail extends Component {
     });
   };
 
-  handleUpdateProductDetails = e => {
-    e.preventDefault();
-    const { userID } = this.props;
-    const { productForm } = this.state;
-    authAxios
-      .put(ShopProductUpdateURL(productForm.id), {
-        ...productForm,
-        user: userID
-      })
-      .then(res => {
-        this.setState({
-          saving: false,
-          success: true
-          //   productForm: { default: false }
-        });
-        this.editModalHide();
-        toast.success("Your edit is successful");
-      })
-      .catch(err => {
-        this.setState({ error: err });
-      });
-  };
-
   fetchProductDetails = () => {
     const {
       match: { params }
@@ -157,16 +103,11 @@ class ProductDetail extends Component {
   render() {
     const {
       product,
-      vName,
-      vMRP,
-      vPrice,
-      vis_available,
       addVariationModal,
       editProductMode,
       productForm
     } = this.state;
     // console.log(productForm);
-
     return (
       <section className="section-b-space">
         <div className="container">
@@ -175,9 +116,7 @@ class ProductDetail extends Component {
               show={editProductMode}
               productForm={productForm}
               hide={this.editModalHide}
-              handleChangeProductForm={this.handleChangeProductForm}
-              handlecheckBox={this.handlecheckBox}
-              update={this.handleUpdateProductDetails}
+              fetchProduct={this.fetchProductDetails}
             />
           ) : null}
           <Card style={{ width: "18rem" }}>
@@ -216,10 +155,10 @@ class ProductDetail extends Component {
           </Card>
           {addVariationModal ? (
             <AddVariationModal
+              item={product.id}
               show={addVariationModal}
               HideAddVariationModal={this.HideAddVariationModal}
               handleChange={this.handleChange}
-              handleCreateVariation={this.handleCreateVariation}
               handleChangeCheckBox={this.handleChangeCheckBox}
             />
           ) : null}

@@ -186,8 +186,8 @@ class AddAddress extends Component {
 
   handleCreateAddress = e => {
     e.preventDefault();
-
-    const { userID } = this.props;
+    const userID = this.props.user.user.id;
+    console.log(userID);
     const {
       form,
       selectedArea,
@@ -257,7 +257,7 @@ class AddAddress extends Component {
       return <Redirect to="/addresses" />;
     }
 
-    // console.log(villages);
+    // console.log(this.props.user.user.id);
     return (
       <div>
         {loading && <div className="loading-cls"></div>}
@@ -277,6 +277,7 @@ class AddAddress extends Component {
                 placeholder={"Select state"}
                 autoFocus={true}
                 menuIsOpen={this.state.menuOpen}
+                isSearchable={false}
               />
               <Select
                 className="mb-3"
@@ -290,6 +291,7 @@ class AddAddress extends Component {
                 noOptionsMessage={() => null}
                 placeholder={"Select district"}
                 menuIsOpen={this.state.menuOpen}
+                isSearchable={false}
               />
               <Select
                 className="mb-3"
@@ -371,7 +373,7 @@ class AddAddress extends Component {
 const mapStateToProps = state => {
   return {
     token: state.auth.token,
-    userID: state.user.user.userID
+    user: state.user
   };
 };
 

@@ -45,11 +45,14 @@ class Address extends Component {
         {addressList && (
           <section className="section-b-space">
             <div className="container">
-              <div className="account-sidebar">
-                <Link style={{ color: "#FFF" }} to={`/create-address`}>
-                  Add Address
-                </Link>
-              </div>
+              {addressList.length < 1 ? (
+                <div className="account-sidebar">
+                  <Link style={{ color: "#FFF" }} to={`/create-address`}>
+                    Add Address
+                  </Link>
+                </div>
+              ) : null}
+
               {addressList.map(address => (
                 <div key={address.id} className="row">
                   <div className="col-lg-3">
@@ -87,7 +90,11 @@ class Address extends Component {
                                   <h6>District: {address.districtName}</h6>
                                   <h6>Phone: {address.phone_number}</h6>
                                   <br></br>
-                                  <a href={`${process.env.PUBLIC_URL}/editaddress/${address.id}`}>Edit</a>
+                                  <a
+                                    href={`${process.env.PUBLIC_URL}/editaddress/${address.id}`}
+                                  >
+                                    Edit
+                                  </a>
                                 </div>
                               </div>
                             </div>

@@ -28,11 +28,17 @@ class AppInfoSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    place = serializers.SerializerMethodField()
     userName = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = UserProfile
         fields = '__all__'
+
+    def get_place(self, obj):
+        # return AddressSerializer(obj.get_address()).data
+        # return obj.get_address()
+        return obj.get_place()
 
 
 class ProductImageSerializer(serializers.ModelSerializer):

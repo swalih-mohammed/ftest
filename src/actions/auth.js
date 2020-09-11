@@ -87,8 +87,8 @@ export const authSignup = (username, email, password1, password2) => {
   return dispatch => {
     dispatch(authStart());
     axios
-      .post("https://www.localdukans.com/rest-auth/registration/", {
-        // .post("http://127.0.0.1:8000/rest-auth/registration/", {
+      // .post("https://www.localdukans.com/rest-auth/registration/", {
+      .post("http://127.0.0.1:8000/rest-auth/registration/", {
         username: username,
         email: email,
         password1: password1,

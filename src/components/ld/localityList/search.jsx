@@ -12,8 +12,9 @@ class Search extends Component {
     query: "all",
     results: [],
     offset: 0,
-    limit: 20,
-    display: false
+    limit: 20
+    // display: false,
+    // displayResult: false
   };
 
   getInfo = () => {
@@ -35,7 +36,7 @@ class Search extends Component {
       },
       () => {
         if (this.state.query && this.state.query.length > 1) {
-          // this.showDropdown()
+          // this.hideResult();
           if (this.state.query.length % 2 === 0) {
             this.getInfo();
           }
@@ -47,8 +48,8 @@ class Search extends Component {
   };
 
   render() {
-    const { results, display } = this.state;
-    // console.log(results);
+    const { results } = this.state;
+    // console.log(displayResult);
 
     return (
       <section className="authentication-page section-b-space">
@@ -81,8 +82,19 @@ class Search extends Component {
                     {/* {display ? ( */}
                     <div>
                       {results.map((value, i) => {
+                        // console.log(123);
                         return (
-                          <div className="option" key={i} tabIndex="0">
+                          <div
+                            style={{
+                              display:
+                                this.state.query && this.state.query.length > 1
+                                  ? ""
+                                  : "none"
+                            }}
+                            className="option"
+                            key={i}
+                            tabIndex="0"
+                          >
                             <Link
                               to={`${process.env.PUBLIC_URL}/places/${value.id}`}
                             >

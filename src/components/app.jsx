@@ -6,31 +6,28 @@ import Footer from "./ld/common/footer";
 // import { fetchCart } from "../actions/cart";
 // import { fetchUser } from "../actions/user";
 
-
 // import Header from "./ld/common/header";
 import { connect } from "react-redux";
 import { authCheckState, logout, fetchUser } from "../actions/auth";
 import Loader from "./ld/common/loader";
 // const Footer = lazy(() => import("./ld/common/footer"));
 
-const Header = lazy(() =>
-  import("./ld/common/header")
-);
-
+const Header = lazy(() => import("./ld/common/header"));
 
 class App extends Component {
   componentDidMount() {
     this.props.onTryAutoSignup();
+    // this.props.fetchUser();
   }
 
   render() {
     return (
       <div>
         <Suspense fallback={<Loader />}>
-        <Header logoName={"logo.png"} />
-        {this.props.children}
-        <Footer logoName={"logo.png"} />
-          </Suspense>
+          <Header logoName={"logo.png"} />
+          {this.props.children}
+          <Footer logoName={"logo.png"} />
+        </Suspense>
       </div>
     );
   }
@@ -44,7 +41,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    onTryAutoSignup: () => dispatch(authCheckState()),
+    onTryAutoSignup: () => dispatch(authCheckState())
     // fetchUser: () => dispatch(fetchUser())
   };
 };

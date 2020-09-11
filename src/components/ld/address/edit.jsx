@@ -171,7 +171,7 @@ class AddAddress extends Component {
       },
       () => {
         this.loadPlaces();
-        console.log(this.state.selectedDistrict);
+        // console.log(this.state.selectedDistrict);
       }
     );
   };
@@ -290,7 +290,7 @@ class AddAddress extends Component {
       selectedState
     } = this.state;
 
-    console.log(this.state.orderAddress.full_address);
+    // console.log(this.state.orderAddress.full_address);
 
     if (success) {
       return <Redirect to="/addresses" />;

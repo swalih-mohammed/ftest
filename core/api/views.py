@@ -97,7 +97,6 @@ class UserIDView(APIView):
     def get(self, request, *args, **kwargs):
         return Response({'userID': request.user.id, }, status=HTTP_200_OK)
 
-
 class ServiceAreaView(ListAPIView):
     permission_classes = (AllowAny, )
     serializer_class = ServiceAreaSerializer
@@ -105,7 +104,6 @@ class ServiceAreaView(ListAPIView):
     def get_queryset(self):
         serviceArea = ServiceArea.objects.filter(user=self.request.user)
         return serviceArea
-
 
 class orderAddressView(RetrieveAPIView):
     permission_classes = (AllowAny, )
@@ -379,14 +377,15 @@ class AddressListView(ListAPIView):
     serializer_class = AddressSerializer
 
     def get_queryset(self):
-        addresses = Address.objects.filter(user=self.request.user).order_by('-create_date')
+        addresses = Address.objects.filter(user=self.request.user)
+        addresses = addresses[:1]
+        # print(addresses)
         return addresses
 
 class AddressCreateView(CreateAPIView):
     permission_classes = (AllowAny, )
     serializer_class = AddressSerializer
     queryset = Address.objects.all()
-
 
 class AddressUpdateView(UpdateAPIView):
     permission_classes = (IsAuthenticated, )

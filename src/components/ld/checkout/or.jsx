@@ -116,7 +116,7 @@ class OrderSummary extends Component {
   render() {
     // const { cartItems } = this.state;
     const { cartItems } = this.props;
-    console.log(cartItems);
+    // console.log(cartItems);
 
     return (
       <div>

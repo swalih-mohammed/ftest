@@ -5,7 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import SimpleReactValidator from "simple-react-validator";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import Button from "react-bootstrap/Button";
+import { Button, Navbar } from "react-bootstrap";
 import Alert from "react-bootstrap/Alert";
 import {
   addressListURL,
@@ -17,6 +17,7 @@ import {
 import { authAxios } from "../../../authAxios";
 import { fetchCart, clearKart } from "../../../actions/cart";
 import ModeOfPayment from "./modeOfPayment";
+import OrderAddress from "./orderAddress";
 
 class checkOut extends Component {
   state = {
@@ -120,20 +121,16 @@ class checkOut extends Component {
     console.log(event.target.value);
   };
 
-  //   handleModeOfPayment = event => {
-  //     this.setState({ selectedModeofPayment: event.target.value });
-  //     console.log(event.target.value);
-  //   };
-
   handleModeOfPayment = mode => {
     this.setState({ selectedModeofPayment: mode });
     // console.log(mode);
   };
   submit = ev => {
     ev.preventDefault();
-    // console.log("submitting");
+    const selectedAddress = this.state.addressList[0].id;
+    console.log(selectedAddress);
     this.setState({ loading: true });
-    const { selectedAddress, selectedModeofPayment } = this.state;
+    const { selectedModeofPayment } = this.state;
 
     if (selectedAddress !== null && selectedModeofPayment !== null) {
       authAxios
@@ -154,7 +151,7 @@ class checkOut extends Component {
           });
         });
     } else {
-      toast.error("Please select an address and mode of payment");
+      toast.error("Please select mode of payment");
     }
   };
 
@@ -177,7 +174,7 @@ class checkOut extends Component {
     } = this.state;
 
     // console.log(this.state.offer);
-    console.log(cart);
+    // console.log(cart);
 
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
@@ -194,6 +191,10 @@ class checkOut extends Component {
               <div className="checkout-form">
                 <section className="section-b-space">
                   <div className="container">
+                    <Navbar bg="dark">
+                      <h4 style={{ color: "white" }}>Shop details</h4>
+                    </Navbar>
+
                     <div className="row">
                       <div className="col-lg-9">
                         <div className="dashboard-right">
@@ -217,7 +218,10 @@ class checkOut extends Component {
                   </div>
                 </section>
                 {/* end of shop detail  */}
-                <div className="col-lg-6 col-sm-12 col-xs-12">
+                <div className="col-lg-6 col-sm-8 col-xs-12">
+                  <Navbar bg="dark">
+                    <h4 style={{ color: "white" }}>Product details</h4>
+                  </Navbar>
                   <div className="checkout-details">
                     <div className="order-box">
                       <div className="title-box">
@@ -251,7 +255,7 @@ class checkOut extends Component {
                       </ul>
                       <ul className="sub-total">
                         <li>
-                          Subtotal{" "}
+                          Total{" "}
                           <span className="count">
                             {/* {symbol} */}
                             {cart.total}
@@ -262,16 +266,16 @@ class checkOut extends Component {
                           <span className="count">{this.state.shipping}</span>
                         </li> */}
                       </ul>
-
+                      {/* 
                       <ul className="total">
                         <li>
                           Total{" "}
                           <span className="count">
-                            {/* {symbol} */}
+                       
                             {cart.total}
                           </span>
                         </li>
-                      </ul>
+                      </ul> */}
                     </div>
 
                     <Link style={{ color: "#FFF" }} to={`/order-summary`}>
@@ -286,9 +290,9 @@ class checkOut extends Component {
               {ShopModeOfPayment ? (
                 <section className="section-b-space">
                   <div className="container">
-                    <div className="account-sidebar">
-                      <h6 style={{ color: "#FFF" }}> Select Mode of Payment</h6>
-                    </div>
+                    <Navbar bg="dark">
+                      <h4 style={{ color: "white" }}>Select Payment Method</h4>
+                    </Navbar>
                     <ModeOfPayment
                       handleModeOfPayment={this.handleModeOfPayment}
                       options={ShopModeOfPayment}
@@ -296,70 +300,14 @@ class checkOut extends Component {
                   </div>
                 </section>
               ) : null}
+
               {addressList.length > 0 ? (
                 <section className="section-b-space">
                   <div className="container">
-                    <div className="account-sidebar">
-                      <h6 style={{ color: "#FFF" }}> Select Address</h6>
-                    </div>
-                    {addressList.map(address => (
-                      <div key={address.id} className="row">
-                        <div className="col-lg-3">
-                          <div className="dashboard-left">
-                            <div className="collection-mobile-back">
-                              <span className="filter-back">
-                                <i
-                                  className="fa fa-angle-left"
-                                  aria-hidden="true"
-                                ></i>{" "}
-                                back
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-lg-9">
-                          <div className="dashboard-right">
-                            <div className="dashboard">
-                              <div className="box-account box-info">
-                                <div className="box-head">
-                                  <h2>{address.PlaceName}</h2>
-                                </div>
-                                <div className="row">
-                                  <div className="col-sm-6">
-                                    <div className="box">
-                                      <div className="box-title">
-                                        <h3>{address.areaName}</h3>
-                                      </div>
-                                      <div className="box-content">
-                                        <h6>{address.full_address}</h6>
-                                        <h6>Village: {address.vilalgeName}</h6>
-                                        <h6>
-                                          District: {address.districtName}
-                                        </h6>
-                                        <h6>Sate: {address.stateName}</h6>
-                                        <h6>Phone: {address.phone_number}</h6>
-                                        <br></br>
-                                      </div>
-                                      <div className="radio">
-                                        <label>
-                                          <input
-                                            value={address.id}
-                                            type="radio"
-                                            name="optradio"
-                                            onChange={this.handleAddress}
-                                          />{" "}
-                                          Select
-                                        </label>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                    <Navbar bg="dark">
+                      <h4 style={{ color: "white" }}>Delivery Address</h4>
+                    </Navbar>
+                    <OrderAddress address={addressList[0]} />
                   </div>
                 </section>
               ) : (
@@ -370,63 +318,73 @@ class checkOut extends Component {
                 </div>
               )}
 
-              <div className="row">
-                <div className="col-lg-6">
-                  <div className="theme-card">
-                    <form
-                      className="theme-form"
-                      // onSubmit={this.handleCouponSubmit}
-                    >
-                      <div className="form-group">
-                        <label htmlFor="coupon">Enter Coupon code</label>
-                        <input
-                          // onChange={this.handleCouponChange}
-                          onChange={this.handleCouponChange.bind(this)}
-                          type="text"
-                          className="form-control"
-                          id="coupon"
-                          value={this.state.coupon}
-                          name="coupon"
-                          required=""
-                        />
+              <section className="section-b-space">
+                <div className="container">
+                  <div className="row">
+                    <div className="col-lg-6">
+                      <div className="theme-card">
+                        <form
+                          className="theme-form"
+                          // onSubmit={this.handleCouponSubmit}
+                        >
+                          <div className="form-group">
+                            <Navbar bg="dark">
+                              <h4 style={{ color: "white" }}>
+                                Enter Coupon code
+                              </h4>
+                            </Navbar>
+                            <br></br>
+                            {/* <label htmlFor="coupon">Enter Coupon code</label> */}
+                            <input
+                              // onChange={this.handleCouponChange}
+                              onChange={this.handleCouponChange.bind(this)}
+                              type="text"
+                              className="form-control"
+                              id="coupon"
+                              value={this.state.coupon}
+                              name="coupon"
+                              required=""
+                            />
+                          </div>
+                          <div>
+                            {offer ? (
+                              <Alert variant={"success"}>
+                                Offer Applied !!{offer.message}
+                              </Alert>
+                            ) : null}
+                          </div>
+                          <div>
+                            {error ? (
+                              <Alert variant={"danger"}>
+                                {" "}
+                                This coupon is not valid
+                              </Alert>
+                            ) : null}
+                          </div>
+                          <Button
+                            type="submit"
+                            onClick={this.handleCouponSubmit.bind(this)}
+                            variant="flat"
+                            size="xxl"
+                            style={{ color: "red" }}
+                          >
+                            Apply coupon
+                          </Button>
+                        </form>
                       </div>
-                      <div>
-                        {offer ? (
-                          <Alert variant={"success"}>
-                            Offer Applied !!{offer.message}
-                          </Alert>
-                        ) : null}
-                      </div>
-                      <div>
-                        {error ? (
-                          <Alert variant={"danger"}>
-                            {" "}
-                            This coupon is not valid
-                          </Alert>
-                        ) : null}
-                      </div>
-                      <Button
-                        type="submit"
-                        onClick={this.handleCouponSubmit.bind(this)}
-                        variant="flat"
-                        size="xxl"
-                        style={{ color: "red" }}
-                      >
-                        Apply coupon
-                      </Button>
-                    </form>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              <br></br>
-              <button
-                type="button"
-                className="btn-solid btn"
-                onClick={this.submit}
-              >
-                Place Order
-              </button>
+                  <br></br>
+                  <button
+                    type="button"
+                    className="btn-solid btn"
+                    onClick={this.submit}
+                  >
+                    Place Order
+                  </button>
+                </div>
+              </section>
             </div>
           </div>
         ) : (

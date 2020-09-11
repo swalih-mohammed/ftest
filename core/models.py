@@ -179,6 +179,14 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+    def get_place(self):
+        try:
+            address = Address.objects.filter(user=self.user).first()
+            place = "place_id"
+            place = getattr(address, place)
+            return place
+        except:
+            return 0
 
 class Candidate(models.Model):
     applicant = models.OneToOneField(

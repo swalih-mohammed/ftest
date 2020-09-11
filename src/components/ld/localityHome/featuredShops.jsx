@@ -16,7 +16,7 @@ class FeautredShops extends Component {
 
   render() {
     const { featuredShops } = this.props;
-    // console.log(123);
+    console.log(featuredShops);
     return (
       <div>
         {/*Blog Section*/}

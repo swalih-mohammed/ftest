@@ -67,7 +67,6 @@ class ProductStyleFour extends Component {
           <br />
           <h6>
             {" "}
-            Call us:
             <a href={"tel:" + placeDetail.exicutive_phone_number}>
               {placeDetail.exicutive_phone_number}
             </a>

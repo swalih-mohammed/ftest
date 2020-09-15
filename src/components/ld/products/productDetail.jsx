@@ -147,7 +147,7 @@ class ProductDetail extends Component {
             <Card.Body>
               <Button
                 onClick={this.showAddVariationModal}
-                variant="outline-secondary"
+                variant="outline-success"
               >
                 Add a variation
               </Button>{" "}
@@ -158,8 +158,9 @@ class ProductDetail extends Component {
               item={product.id}
               show={addVariationModal}
               HideAddVariationModal={this.HideAddVariationModal}
-              handleChange={this.handleChange}
-              handleChangeCheckBox={this.handleChangeCheckBox}
+              // handleChange={this.handleChange}
+              // handleChangeCheckBox={this.handleChangeCheckBox}
+              fetchProductDetails={this.fetchProductDetails}
             />
           ) : null}
           {product.variations ? (

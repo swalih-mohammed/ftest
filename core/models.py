@@ -269,14 +269,15 @@ class Item(models.Model):
     product_image = models.ForeignKey(ProductImage, blank=True, null=True,
                              on_delete=models.CASCADE)
     description = models.CharField(max_length=200, blank=True, null=True)
-
     productategory = models.ForeignKey(ProductCategory,
                                  on_delete=models.CASCADE, blank=True, null=True)                           
-    is_available = models.BooleanField(default=False, null=True)
+    is_available = models.BooleanField(default=True, null=True)
+    v_is_available = models.BooleanField(default=True, null=True)
+    stock_count = models.IntegerField(default=0,blank=True, null=True)
     is_featured = models.BooleanField(default=False,  blank=True, null=True)
     is_on_sale = models.BooleanField(default=False,  blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    is_active = models.BooleanField(default=False, null=True)
+    is_active = models.BooleanField(default=True, null=True)
 
     def __str__(self):
         return self.title
@@ -286,13 +287,22 @@ class Item(models.Model):
         return self.product_image.image1.url
     def get_shop(self):
         return self.shop.name
+    
+    def get_v_availability(self):
+        Variation = self.variation_set.all()
+        for v in Variation:
+            if v.stock_count < 1:
+                return False
+            return True
 
 class Variation(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     price = models.FloatField(blank=True, null=True)
     discount_price = models.FloatField(blank=True, null=True) 
-    is_available = models.BooleanField(default=False, null=True) 
+    is_available = models.BooleanField(default=False, null=True)
+    item_stock = models.BooleanField(default=False, null=True) 
+    stock_count = models.IntegerField(default=0,blank=True, null=True)
 
     class Meta:
         unique_together = (
@@ -301,7 +311,16 @@ class Variation(models.Model):
 
     def __str__(self):
         return self.name
-
+    
+    def check_if_available(self):
+        if self.item_stock:
+            if self.item.stock_count > 1:
+                return True
+            return False
+        if self.stock_count > 1:
+            return True
+        return False
+    
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)

@@ -1,119 +1,201 @@
 import React, { Component } from "react";
-import { Helmet } from "react-helmet";
+// import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import Breadcrumb from "../common/breadcrumb";
-import { shopProductListURL } from "../../../constants";
+// import Breadcrumb from "../common/breadcrumb";
+import {
+  ShopProductCategoryURL,
+  ShopProductInfinitURL
+} from "../../../constants";
 import { authAxios } from "../../../authAxios";
-import { Modal, Button, Container } from "react-bootstrap";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { Modal, Button, Container } from "react-bootstrap";
+// import { faEdit, faSleigh } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
+import { Form } from "react-bootstrap";
+import Productcategory from "./productCategory";
+import ProductCard from "./productCard";
 
 class ProductList extends Component {
   state = {
     products: [],
+    categories: [],
     show: false,
-    loading: false
+    loading: false,
+    limit: 20,
+    offset: 0,
+    query: "all",
+    hasMore: false,
+    outOfStock: false
   };
 
   componentDidMount() {
-    this.handleSubmit();
+    this.fetchProductCategory();
+    this.fetchFreshProducts();
   }
-  handleShow = () => {
-    this.setState({ show: true });
+
+  handleOutofStock = e => {
+    this.setState({
+      outOfStock: e.target.checked
+    });
   };
-  handleClose = () => {
-    this.setState({ show: false });
+
+  handleChangeCategory = cat => {
+    // console.log(cat);
+    this.setState({ offset: 0, query: cat, hasMore: true }, () => {
+      this.fetchFreshProducts();
+    });
   };
-  handleSubmit = e => {
-    // e.preventDefault();
-    if (this.props.user.user.id !== null) {
-      this.setState({ loading: true });
-      const userID = this.props.user.user.id;
-      console.log(userID);
-      authAxios
-        .get(shopProductListURL(userID))
-        .then(res => {
-          this.setState({ products: res.data, loading: false });
-        })
-        .catch(err => {
-          this.setState({ error: err, loading: false });
+
+  handleClearCategory = () => {
+    // window.scrollTo(0, 1300);
+    this.setState({ offset: 0, query: "all", hasMore: true }, () => {
+      this.fetchFreshProducts();
+    });
+  };
+
+  fetchProducts = () => {
+    this.setState({ loading: true });
+    const { limit, offset, query, outOfStock } = this.state;
+    const owner = this.props.user.user.id;
+    authAxios
+      .get(ShopProductInfinitURL, {
+        params: {
+          limit,
+          offset,
+          query,
+          owner,
+          outOfStock
+        }
+      })
+      .then(res => {
+        const newProducts = res.data.products;
+        const hasMore = res.data.has_more;
+        this.setState({
+          hasMore: hasMore,
+          loading: false,
+          products: [...this.state.products, ...newProducts],
+          offset: offset + limit
         });
-    } else {
-      toast.error("Please login or refresh");
-    }
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
+  };
+
+  fetchFreshProducts = () => {
+    this.setState({ loading: true });
+    const { limit, offset, query, outOfStock } = this.state;
+    const owner = this.props.user.user.id;
+    authAxios
+      .get(ShopProductInfinitURL, {
+        params: {
+          limit,
+          offset,
+          query,
+          owner,
+          outOfStock
+        }
+      })
+      .then(res => {
+        this.setState({
+          // products: res.data
+          loading: false,
+          hasMore: res.data.has_more,
+          products: res.data.products,
+          offset: offset + limit
+        });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
   };
 
   handleClick = id => {
     this.props.history.push("/shop-product-detail");
   };
 
-  render() {
-    const { products } = this.state;
-    // console.log(products);
-    // console.log(this.state.products);
-    return (
-      <div>
-        <ToastContainer />
-        {/*SEO Support End */}
-        {this.state.loading && <div className="loading-cls"></div>}
+  fetchProductCategory = () => {
+    // const ownerID = this.props.userID;
+    const ownerID = this.props.user.user.id;
+    // console.log(ownerID);
+    this.setState({ loading: true });
+    authAxios
+      .get(ShopProductCategoryURL(ownerID))
+      .then(res => {
+        this.setState({ categories: res.data, loading: false });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
+  };
 
+  render() {
+    const { products, categories, hasMore } = this.state;
+    // console.log(products);
+
+    return (
+      <div className="container">
+        {/* <ToastContainer /> */}
+        <div className="account-sidebar">
+          <Link style={{ color: "#FFF" }} to={`/add-shop-product`}>
+            Add a product
+          </Link>
+        </div>
+
+        {this.state.loading && <div className="loading-cls"></div>}
+        {categories.length > 1 ? (
+          <Productcategory
+            handleClearCategory={this.handleClearCategory}
+            handleChangeCategory={this.handleChangeCategory}
+            ShopProductCategory={categories}
+          />
+        ) : null}
+
+        <Form>
+          <div className="mb-3">
+            <Form.Check
+              onChange={this.handleOutofStock}
+              checked={this.state.outOfStock}
+              type="checkbox"
+              label="Search only out of stock"
+            />
+          </div>
+        </Form>
         {products.length > 0 ? (
-          <div className="container">
-            <div className="account-sidebar">
-              <Link style={{ color: "#FFF" }} to={`/add-shop-product`}>
-                Add a product
-              </Link>
-            </div>
+          <div>
             <div className="row">
               <div className="col-sm-12">
-                <table className="table    ">
-                  <thead>
-                    <tr className="table-head">
-                      <th scope="col">Edit</th>
-                      {/* <th scope="col">ID</th> */}
-                      <th scope="col">Name</th>
-                      <th scope="col">Available</th>
-                      {/* <th scope="col">Quantity</th> */}
-                      {/* <th scope="col">Price</th> */}
-                      {/* <th scope="col">Price</th> */}
-                    </tr>
-                  </thead>
-                  {products.map((item, index) => {
-                    return (
-                      <tbody key={index}>
-                        <tr>
-                          {/* <td>{item.id}</td> */}
-                          <td>
-                            <React.Fragment>
-                              <Link to={`shop-product-detail/${item.id}`}>
-                                <i>
-                                  <FontAwesomeIcon
-                                    icon={faEdit}
-                                    size={"2x"}
-                                    color={"#ff4c3b"}
-                                    onClick={this.handleClick}
-                                  />
-                                </i>
-                              </Link>
-                            </React.Fragment>
-                          </td>
-
-                          <td>
-                            {item.title_local ? item.title_local : item.title}
-                          </td>
-                          {/* <td>{item.title_local}</td> */}
-                          <td>{item.is_available ? "Yes" : "No"}</td>
-                          {/* <td>{item.price}</td> */}
-                          {/* <td>{item.discount_price}</td> */}
-                          {/* <td>{item.title}</td> */}
-                        </tr>
-                      </tbody>
-                    );
-                  })}
-                </table>
+                {products.map((item, index) => {
+                  return (
+                    <ProductCard
+                      item={item}
+                      key={index}
+                      fetchProducts={this.fetchProducts}
+                      hasMore={hasMore}
+                    />
+                  );
+                })}
+                {this.loading ? (
+                  <div className="loading-cls"></div>
+                ) : (
+                  <React.Fragment>
+                    {" "}
+                    {hasMore ? (
+                      <p
+                        onClick={this.fetchProducts}
+                        className="seen-cls seen-it-cls"
+                      >
+                        <b>Load More</b>
+                      </p>
+                    ) : (
+                      <p className="seen-cls seen-it-cls">
+                        <b>No more products</b>
+                      </p>
+                    )}
+                  </React.Fragment>
+                )}
               </div>
             </div>
           </div>
@@ -130,3 +212,10 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(ProductList);
+
+// handleShow = () => {
+//   this.setState({ show: true });
+// };
+// handleClose = () => {
+//   this.setState({ show: false });
+// };

@@ -146,6 +146,7 @@ class ShopProductSerializer(serializers.ModelSerializer):
     product_image = serializers.ReadOnlyField(
         source='product_image.image1.url')
     variations = serializers.SerializerMethodField()
+    v_availability = serializers.SerializerMethodField()
 
     class Meta:
         model = Item
@@ -168,9 +169,17 @@ class ShopProductSerializer(serializers.ModelSerializer):
     def get_variations(self, obj):
         return VariationSerializer(obj.variation_set.all(), many=True).data
 
+    def get_v_availability(self, obj):
+        Variation = obj.variation_set.all()
+        for v in Variation:
+            if v.stock_count < 1:
+                return False
+            return True
+
 
 class VariationSerializer(serializers.ModelSerializer):
-    # item = serializers.SerializerMethodField()
+    is_in_stock = serializers.SerializerMethodField()
+    # in_order = serializers.SerializerMethodField()
 
     class Meta:
         model = Variation
@@ -180,8 +189,18 @@ class VariationSerializer(serializers.ModelSerializer):
             'price',
             'discount_price',
             'item',
-            'is_available'
+            'is_available',
+            'is_in_stock',
+            'stock_count',
+            'item_stock'
         )
+
+    def get_is_in_stock(self, obj):
+        return obj.check_if_available()
+
+    # def get_in_order(self, obj):
+    #     # pass
+    #     return obj.get_in_order()
 
     # def get_item(self, obj):
     #     return ItemSerializer(obj.item).data

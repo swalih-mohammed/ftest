@@ -10,7 +10,9 @@ class AddVariation extends React.Component {
     name: "",
     price: "",
     discount_price: "",
-    is_available: true
+    is_available: true,
+    item_stock: false,
+    stock_count: ""
   };
 
   handleChange = e => {
@@ -23,12 +25,21 @@ class AddVariation extends React.Component {
   handleCreateVariation = e => {
     e.preventDefault();
     const item = this.props.item;
-    const { name, price, discount_price, is_available } = this.state;
+    const {
+      name,
+      price,
+      discount_price,
+      is_available,
+      stock_count,
+      item_stock
+    } = this.state;
     authAxios
       .post(shopAddProductVariationURL, {
         item: item,
         name: name,
         price: price,
+        stock_count: stock_count,
+        item_stock: item_stock,
         discount_price: discount_price,
         is_available: is_available
       })
@@ -47,7 +58,14 @@ class AddVariation extends React.Component {
   };
 
   render() {
-    const { name, price, discount_price, is_available } = this.state;
+    const {
+      name,
+      price,
+      discount_price,
+      stock_count,
+      is_available,
+      item_stock
+    } = this.state;
     // console.log(productForm);
     return (
       <Modal
@@ -78,7 +96,7 @@ class AddVariation extends React.Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
-              <Form.Group controlId="pric">
+              <Form.Group controlId="price">
                 <Form.Label>Price</Form.Label>
                 <Form.Control
                   type="text"
@@ -87,12 +105,30 @@ class AddVariation extends React.Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
+              <Form.Group controlId="price">
+                <Form.Label>Stock count</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="stock_count"
+                  value={stock_count || ""}
+                  onChange={this.handleChange}
+                />
+              </Form.Group>
               <Form.Group controlId="is_available">
                 <Form.Check
                   type="checkbox"
-                  name="vis_available"
+                  name="is_available"
                   label="In stock"
                   checked={is_available}
+                  onChange={this.handleCheckBox}
+                />
+              </Form.Group>
+              <Form.Group controlId="FromProductstock">
+                <Form.Check
+                  type="checkbox"
+                  name="item_stock"
+                  label="From Product stock"
+                  checked={item_stock}
                   onChange={this.handleCheckBox}
                 />
               </Form.Group>

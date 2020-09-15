@@ -32,7 +32,6 @@ class ProductStyleNine extends Component {
         let id = this.props.variations[0].id;
         let mrp = this.props.variations[0].price;
         let price = this.props.variations[0].discount_price;
-        // console.log(name, id);
         this.setState({
           selectedVariationName: name,
           selectedVariationID: id,
@@ -55,12 +54,13 @@ class ProductStyleNine extends Component {
         })
         .catch(err => {
           if (err.response) {
-            if (err.response.status === 400) {
+            if (err.response.status === 401) {
               this.setState({ loading: false });
-              toast.error("You have an active order from a different shop");
-            } else if (err.response.status === 401) {
+              toast.error("please login or refresh");
+            } else if (err.response.data) {
+              const error = err.response.data.message;
               this.setState({ loading: false });
-              toast.error(" please login or refresh");
+              toast.error(error);
             } else {
               this.setState({ loading: false });
               toast.error("Oops there was an error");
@@ -69,7 +69,7 @@ class ProductStyleNine extends Component {
         });
     } else {
       this.setState({ loading: false });
-      toast.error("Please login");
+      toast.error("Please login or refresh");
     }
   };
 

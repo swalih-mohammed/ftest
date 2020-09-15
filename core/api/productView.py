@@ -24,19 +24,7 @@ from .serializers import (ShopProductCategorySerializer, VariationSerializer, Pr
                           ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
                           ShopProductSerializer, UserProfileSerializer, PlaceSerializer, ServiceAreaSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
                           )
-from core.models import UserProfile, Role, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, UserProfile, Variation, FavoriteShops, FavoritePlaces, ServiceArea
-
-# class ProductofShopListView(g/enerics.ListAPIView):
-
-
-class ProductofShopListView(ListAPIView):
-    permission_classes = (IsAuthenticated, )
-    serializer_class = AddressSerializer
-
-    def get_queryset(self):
-        addresses = Address.objects.filter(
-            user=self.request.user).order_by('-create_date')
-        return addresses
+from core.models import ProductImage, UserProfile, Role, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, UserProfile, Variation, FavoriteShops, FavoritePlaces, ServiceArea
 
 # product list infinit scroll start
 
@@ -67,15 +55,15 @@ def is_there_more_data(request):
         if int(offset) > count:
             print("less")
             return False
-        print("not less")
+        # print("not less")
         return True
     else:
         count = Item.objects.filter(shop_id=int(
             shop), productategory_id=int(query), is_active=True).count()
         if int(offset) > count:
-            print("less")
+            # print("less")
             return False
-        print("not less")
+        # print("not less")
         return True
 
 
@@ -83,7 +71,7 @@ class shopProductListInfinitView(generics.ListAPIView):
     serializer_class = ShopProductSerializer
 
     def get_queryset(self):
-        print(self.request.data)
+        # print(self.request.data)
         qs = infinite_product_filter(self.request)
         return qs
 
@@ -152,21 +140,78 @@ class ShopProductListView(ListAPIView):
     def get_queryset(self):
         return Item.objects.filter(shop_id=self.kwargs['shop_id'])
 
+# product list infinit view for shops start
 
-class ProductListForShopView(ListAPIView):
-    permission_classes = (AllowAny,)
+
+def product_filter(request):
+    # print(request.data)
+    queryset = Item.objects.all()
+
+    limit = request.GET.get('limit')
+    offset = request.GET.get('offset')
+    query = request.GET.get('query')
+    owner = request.GET.get('owner')
+    OutOfStock = request.GET.get('outOfStock')
+    print(OutOfStock == True)
+    shop = Shop.objects.filter(owner=owner).first()
+
+    if OutOfStock == "true":
+        queryset = queryset.filter(v_is_available=False)
+        # v_is_available=False
+    queryset = queryset.filter(shop=shop)
+
+    if query == "all":
+        queryset = queryset.all()
+    else:
+        queryset = queryset.filter(productategory_id=int(query))
+
+    return queryset.all()[int(offset): int(offset) + int(limit)]
+
+
+def is_there_more_data(request):
+    queryset = Item.objects.all()
+    limit = request.GET.get('limit')
+    offset = request.GET.get('offset')
+    query = request.GET.get('query')
+    owner = request.GET.get('owner')
+
+    shop = Shop.objects.filter(owner=owner).first()
+    queryset = queryset.filter(shop=shop)
+
+    if query == "all":
+        count = queryset.all().count()
+        if int(offset) > count:
+            # print(count)
+            return False
+        # print(count)
+        return True
+    else:
+        count = queryset.filter(productategory_id=int(query)).count()
+        if int(offset) > count:
+            # print(count)
+            return False
+        # print(count)
+        return True
+
+
+class ProductListInfinitForShopView(generics.ListAPIView):
     serializer_class = ShopProductSerializer
+    permission_classes = (AllowAny,)
 
     def get_queryset(self):
-        user = self.request.user
-        # print(user)
-        shop = get_object_or_404(Shop, owner=user)
-        # user = User.objects.get_object_or_404(id=)
-        # shop = Shop.objects.filter(owner_id=self.kwargs['owner_id'] ).first()
-        if shop is None:
-            return Response({"message": "No shop found"}, status=HTTP_400_BAD_REQUEST)
-        # print(shop)
-        return Item.objects.filter(shop=shop)
+        print(self.request.data)
+        qs = product_filter(self.request)
+        return qs
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response({
+            "products": serializer.data,
+            "has_more": is_there_more_data(request)
+        })
+
+# infinti product shop view end
 
 
 class ItemDetailView(RetrieveAPIView):
@@ -196,7 +241,6 @@ class ProductImageListView(ListAPIView):
 class ShopProductCategoryForCustomerListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ShopProductCategorySerializer
-    # queryset = Item.objects.all()
 
     def get_queryset(self):
         shop = get_object_or_404(Shop, id=self.kwargs['shop_id'])
@@ -207,7 +251,6 @@ class ShopProductCategoryForCustomerListView(ListAPIView):
 class ShopProductCategoryListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ShopProductCategorySerializer
-    # queryset = Item.objects.all()
 
     def get_queryset(self):
         shop = Shop.objects.filter(owner=self.kwargs['owner_id']).first()

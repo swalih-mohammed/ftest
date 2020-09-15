@@ -99,7 +99,7 @@ class Homepage extends Component {
             />
           )}
         </section>
-        {Newlocalities && <FeautredLocality Newlocalities={Newlocalities} />}
+        {/* {Newlocalities && <FeautredLocality Newlocalities={Newlocalities} />} */}
         <FeautredShops featuredShops={featuredShops} />
 
         <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">

@@ -29,9 +29,7 @@ class AddProduct extends Component {
   state = {
     title: "",
     title_local: "",
-    // item_quantity: "",
-    // price: "",
-    // discount_price: "",
+    stock_count: null,
     product_image: "",
     productategory: "",
     is_available: false,
@@ -115,9 +113,7 @@ class AddProduct extends Component {
     const {
       title,
       title_local,
-      //   item_quantity,
-      //   price,
-      //   discount_price,
+      stock_count,
       productategory,
       product_image,
       is_available,
@@ -129,9 +125,7 @@ class AddProduct extends Component {
         userID,
         title,
         title_local,
-        // item_quantity,
-        // price,
-        // discount_price,
+        stock_count,
         productategory,
         product_image,
         is_available,
@@ -159,9 +153,7 @@ class AddProduct extends Component {
       id,
       title,
       title_local,
-      //   item_quantity,
-      //   price,
-      //   discount_price,
+      stock_count,
       is_available,
       is_on_sale,
       is_featured,
@@ -198,35 +190,16 @@ class AddProduct extends Component {
               onChange={this.handleChange}
             />
           </Form.Group>
+          <Form.Group controlId="stock_count">
+            <Form.Label>Stock Count</Form.Label>
+            <Form.Control
+              type="text"
+              name="stock_count"
+              value={stock_count || ""}
+              onChange={this.handleChange}
+            />
+          </Form.Group>
 
-          {/* <Form.Group controlId="quantity">
-            <Form.Label>Quantity</Form.Label>
-            <Form.Control
-              type="text"
-              // placeholder="Quantity"
-              name="item_quantity"
-              value={item_quantity || ""}
-              onChange={this.handleChange}
-            />
-          </Form.Group> */}
-          {/* <Form.Group controlId="formBasicPassword">
-            <Form.Label>MRP</Form.Label>
-            <Form.Control
-              type="text"
-              name="price"
-              value={price || ""}
-              onChange={this.handleChange}
-            />
-          </Form.Group> */}
-          {/* <Form.Group controlId="formBasicPassword">
-            <Form.Label>Price after Discount</Form.Label>
-            <Form.Control
-              type="text"
-              name="discount_price"
-              value={discount_price || ""}
-              onChange={this.handleChange}
-            />
-          </Form.Group> */}
           <div>
             <Select
               className="mb-3"

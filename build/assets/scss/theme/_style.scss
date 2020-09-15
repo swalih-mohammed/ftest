@@ -1,11 +1,5 @@
 /*-----------------------------------------------------------------------------------
 
-    Template Name:Multikart
-    Template URI: themes.pixelstrap.com/multikart
-    Description: This is E-commerce website
-    Author: Pixelstrap
-    Author URI: https://themeforest.net/user/pixelstrap
-
 ----------------------------------------------------------------------------------- */
 /* 1. General CSS
    1.1. Button CSS
@@ -59,7 +53,7 @@ body {
   letter-spacing: 0.8px;
 }
 h1 {
-  font-size: 60px;
+  font-size: 50px;
   color: $dark-font;
   font-weight: 700;
   text-transform: uppercase;
@@ -70,10 +64,10 @@ h1 {
   }
 }
 h2 {
-  font-size: 36px;
-  color: $dark-font;
+  font-size: 20px;
+  color: $dark-font; 
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 100;
   line-height: 1;
   letter-spacing: 0.02em;
 }
@@ -2451,21 +2445,21 @@ header {
     }
     .product-box {
       .product-detail {
-        opacity: 0;
-        position: absolute;
-        background-color: $white;
-        padding: 10px;
-        transition: all 0.5s ease;
-        width: 65%;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        bottom: -10px;
-        text-align: center;
+        // opacity: 0;
+        // position: absolute;
+        // background-color: $white;
+        // padding: 10px;
+        // transition: all 0.5s ease;
+        // width: 65%;
+        // left: 0;
+        // right: 0;
+        // margin: 0 auto;
+        // bottom: -10px;
+        // text-align: center;
         h6 {
-          color: #525252;
-          padding-top: 0;
-          margin-top: -2px;
+          // color: #525252;
+          // padding-top: 0;
+          // margin-top: -2px;
         }
         h4 {
           font-weight: 400;
@@ -2503,9 +2497,9 @@ header {
       }
       &:hover {
         .product-detail {
-          opacity: 1;
-          transition: all 0.5s ease;
-          bottom: 15px;
+          // opacity: 1;
+          // transition: all 0.5s ease;
+          // bottom: 15px;
         }
         .cart-wrap {
           button {
@@ -12538,8 +12532,9 @@ body {
           h4 {
             color: $white-3;
           }
-          h6 {
+          h2 {
             color: $white-5;
+            font-weight: 100
           }
         }
         .cart-wrap {
@@ -14015,12 +14010,12 @@ body {
     }
     .product-box {
       .product-detail {
-        opacity: 0;
+        opacity: 1;
         position: absolute;
         background-color: $white;
         padding: 10px;
         transition: all 0.5s ease;
-        width: 65%;
+        width: 90%;
         left: 0;
         right: 0;
         margin: 0 auto;
@@ -14030,10 +14025,20 @@ body {
           color: #525252;
           padding-top: 0;
           margin-top: -2px;
+          font-weight: 200;
+          font-size: 20px;
+          text-transform: uppercase;
         }
         h4 {
-          font-weight: 400;
+          font-weight: 300;
           color: $black;
+          font-size: 20px;
+          text-transform: uppercase;
+        }
+        h2 {
+          font-weight: 300;
+          color: $black;
+          font-size: 24px;
         }
       }
       .cart-wrap {

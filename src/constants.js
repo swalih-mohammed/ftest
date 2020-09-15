@@ -42,6 +42,7 @@ export const productListURL = `${endpoint}/products/`;
 
 //product - shop
 export const shopProductListURL = id => `${endpoint}/producstsofashop/${id}/`;
+export const ShopProductInfinitURL = `${endpoint}/infinitproductforshops/`;
 export const addProductURL = `${endpoint}/add-product/`;
 export const shopProductDetailURL = `${endpoint}/shop-product-detail/`;
 
@@ -67,6 +68,8 @@ export const shopFilterURL = `${endpoint}/shops-filter/`;
 // export const ShopProductListURL = id => `${endpoint}/shops/${id}/products`;
 
 export const ShopProductListInfinitURL = `${endpoint}/shop-product-list/`;
+export const ShopProductListForShopsInfinitURL = `${endpoint}/shop-product-list-for-shops/`;
+
 export const shopSearchURL = `${endpoint}/shop-search/`;
 export const addToCartURL = `${endpoint}/add-to-cart/`;
 export const orderSummaryURL = `${endpoint}/order-summary/`;

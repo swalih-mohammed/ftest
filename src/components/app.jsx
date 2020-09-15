@@ -47,9 +47,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 // export default withTranslate(App);
-export default withTranslate(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(App)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

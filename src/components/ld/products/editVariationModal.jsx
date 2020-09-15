@@ -12,7 +12,9 @@ class EditVariation extends React.Component {
       name: "",
       price: "",
       discount_price: "",
-      is_available: true
+      is_available: false,
+      item_stock: false,
+      stock_count: ""
     }
   };
   componentDidMount() {
@@ -34,6 +36,7 @@ class EditVariation extends React.Component {
   };
 
   handlecheckBox = e => {
+    // console.log("firing");
     const { variationForm } = this.state;
     const updatedFormdata = {
       ...variationForm,
@@ -55,10 +58,12 @@ class EditVariation extends React.Component {
       })
       .then(res => {
         this.setState({
-          saving: false,
-          success: true
+          loading: false
+          // saving: false,
+          // success: true
           //   productForm: { default: false }
         });
+        this.props.fetchProductDetails();
         this.props.hideEdit();
         // toast.success("Your edit is successful");
       })
@@ -69,8 +74,8 @@ class EditVariation extends React.Component {
 
   render() {
     const { variationForm } = this.state;
-
-    // console.log(this.state.variationForm);
+    // console.log(variationForm.item_stock);
+    // console.log(variationForm);
     return (
       <Modal
         show={this.props.show}
@@ -87,7 +92,7 @@ class EditVariation extends React.Component {
                 <Form.Control
                   type="text"
                   name="name"
-                  value={variationForm.name || ""}
+                  value={variationForm.name}
                   onChange={this.handleChange}
                 />
               </Form.Group>
@@ -96,7 +101,7 @@ class EditVariation extends React.Component {
                 <Form.Control
                   type="text"
                   name="price"
-                  value={variationForm.price || ""}
+                  value={variationForm.price}
                   onChange={this.handleChange}
                 />
               </Form.Group>
@@ -105,17 +110,36 @@ class EditVariation extends React.Component {
                 <Form.Control
                   type="text"
                   name="discount_price"
-                  value={variationForm.discount_price || ""}
+                  value={variationForm.discount_price}
                   onChange={this.handleChange}
                 />
               </Form.Group>
-              <Form.Group controlId="in-stock">
+              <Form.Group controlId="stock_count">
+                <Form.Label>Stock count</Form.Label>
+                <Form.Control
+                  type="text"
+                  label="Stock Count"
+                  name="stock_count"
+                  value={variationForm.stock_count}
+                  onChange={this.handleChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="formBasicCheckbox">
                 <Form.Check
                   type="checkbox"
+                  label="In Stock"
                   name="is_available"
-                  label="In stock"
                   checked={variationForm.is_available}
-                  onChange={this.handleCheckBox}
+                  onChange={this.handlecheckBox}
+                />
+              </Form.Group>
+              <Form.Group controlId="formBasicCheckbox">
+                <Form.Check
+                  type="checkbox"
+                  label="Product stock"
+                  name="item_stock"
+                  checked={variationForm.item_stock}
+                  onChange={this.handlecheckBox}
                 />
               </Form.Group>
             </Form>

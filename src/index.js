@@ -287,7 +287,6 @@ class Root extends React.Component {
                     path={`${process.env.PUBLIC_URL}/add-complaint`}
                     component={AddComplaint}
                   />
-                  {/* </Suspense> */}
                 </Layout>
               </Switch>
             </Suspense>

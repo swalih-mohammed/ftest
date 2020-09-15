@@ -135,7 +135,7 @@ class Shop extends Component {
       ShopProductCategory,
       filteredProduct
     } = this.state;
-    // console.log(products);
+    console.log(123);
 
     return (
       <div>

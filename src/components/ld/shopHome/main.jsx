@@ -2,21 +2,16 @@ import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import "../../common/index.scss";
-// import Slider from "react-slick";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Offer from "./offer";
-// import { Link } from "react-router-dom";
 import axios from "axios";
 import { fetchCart } from "../../../actions/cart";
-// import Image from "react-bootstrap/Image";
-// import InfiniteScroll from "react-infinite-scroll-component";
 
 import Shipping from "./shipping";
 import Trending from "./trending";
 import ProductList from "./product-list";
 import ShopImage from "./shopImage";
 import Productcategory from "../products/productCategory";
-// import ProductList from "./product-test";
 
 import {
   ShopProductListInfinitURL,
@@ -175,7 +170,7 @@ class Shop extends Component {
       data
     } = this.state;
 
-    // console.log(featuredProducts);
+    console.log(products);
     return (
       <div>
         <Helmet>

@@ -13,7 +13,6 @@ from rest_framework.generics import (
     ListAPIView, RetrieveAPIView, CreateAPIView,
     UpdateAPIView, DestroyAPIView, GenericAPIView
 )
-
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -24,9 +23,9 @@ from rest_framework.decorators import api_view
 from core.models import Item, OrderItem, Order, AppInfo
 
 from .serializers import (VariationSerializer, ShopProductCategorySerializer, ProductImageSerializer, ModeOfPayment, OrderStatusUpdateserializer, AppInfoSerializer,
-    ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
-    ShopProductSerializer, UserProfileSerializer, PlaceSerializer, ServiceAreaSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
-)
+                          ShopSerializer, ItemSerializer, OrderSerializer, ItemDetailSerializer, AddressSerializer,
+                          ShopProductSerializer, UserProfileSerializer, PlaceSerializer, ServiceAreaSerializer, FavoritePlacesSerializer, FavoriteShopsSerializer
+                          )
 from core.models import ProductImage, ProductCategory, UserProfile, Place, Area, Shop, Item, OrderItem, Order, Address, Coupon, UserProfile, Variation, FavoriteShops, FavoritePlaces, ServiceArea
 
 
@@ -37,18 +36,6 @@ class AppInfoView(ListAPIView):
     def get_queryset(self):
         appInfo = AppInfo.objects.all()
         return appInfo
-
-
-class ShopDashDetailView(RetrieveAPIView):
-    serializer_class = ShopSerializer
-    permission_classes = (IsAuthenticated,)
-
-    def get_object(self):
-        try:
-            shop = Shop.objects.filter(owner=self.request.user).first()
-            return shop
-        except ObjectDoesNotExist:
-            raise Http404("shop not found")
 
 
 class ShopDashOrderView(APIView):
@@ -63,22 +50,6 @@ class ShopDashOrderView(APIView):
                 shop=shop, ordered=True, ).count()
             item = Item.objects.filter(shop=shop).count()
             return Response({'pendingOrders': pendingOrders, 'totalOrders': totalOrders, 'item': item}, status=HTTP_200_OK)
-
-
-@api_view(['GET', 'PUT', ])
-def ShopDashOpenStatusView(request, pk):
-    try:
-        # shop = Shop.objects.filter(owner=self.request.user).first()
-        shop = Shop.objects.get(pk=pk)
-    except shop.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'PUT':
-        serializer = ShopSerializer(shop, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
 
 
 class UserTypeView(RetrieveAPIView):
@@ -97,56 +68,14 @@ class UserIDView(APIView):
     def get(self, request, *args, **kwargs):
         return Response({'userID': request.user.id, }, status=HTTP_200_OK)
 
-class ServiceAreaView(ListAPIView):
-    permission_classes = (AllowAny, )
-    serializer_class = ServiceAreaSerializer
-
-    def get_queryset(self):
-        serviceArea = ServiceArea.objects.filter(user=self.request.user)
-        return serviceArea
 
 class orderAddressView(RetrieveAPIView):
     permission_classes = (AllowAny, )
     serializer_class = AddressSerializer
     queryset = Address.objects.all()
 
-
 # infinit scroll for places start
 
-class NewPlaces(ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = PlaceSerializer
-    queryset = Place.objects.all().order_by('-create_date')[:3]
-
-
-class PlaceShopListView(ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = ShopSerializer
-
-    def get_queryset(self):
-        #  place = get_object_or_404(Place, id=self.kwargs['place_id'])
-        return Shop.objects.filter(place_id=self.kwargs['place_id'])
-
-class FeaturedShopsInPlace(ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = ShopSerializer
-
-    def get_queryset(self):
-        qs =Shop.objects.filter(service_localities__id=self.kwargs['place_id'])
-        # return Shop.objects.filter(place_id=self.kwargs['place_id'], is_featured=True)
-        return qs
-
-class FeaturedShops(ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = ShopSerializer
-
-    def get_queryset(self):
-        return Shop.objects.filter(is_featured=True).order_by('-create_date')[:3]
-
-class ShopListView(ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = ShopSerializer
-    queryset = Shop.objects.all() 
 
 class OrderQuantityUpdateView(APIView):
     def post(self, request, *args, **kwargs):
@@ -189,14 +118,47 @@ class OrderItemDeleteView(DestroyAPIView):
 
 class AddToCartView(APIView):
     def post(self, request, *args, **kwargs):
-        print(request.data)
+        # print(request.data)
         shop = request.data.get('shop', None)
         id = request.data.get('id', None)
         v = request.data.get('variation', None)
-        # variations = request.data.get('variations', [])
+
         item = get_object_or_404(Item, id=id)
         variation = get_object_or_404(Variation, id=v)
-        # print(variation)
+
+        # item controls the stock
+        if variation.item_stock:
+            stock_count = 'stock_count'
+            item_count = getattr(item, stock_count)
+
+            if item_count < 1:
+                print("item count less tahn 1 ")
+                serializer = ItemSerializer(
+                    item,  data={'is_available': False, 'v_is_available': False}, partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({"message": "Out of stock"}, status=HTTP_400_BAD_REQUEST)
+            item.stock_count -= 1
+            item.save()
+
+        # variation controls the stock
+        stock_count = 'stock_count'
+        v_count = getattr(variation, stock_count)
+        if v_count < 1:
+            # print("item_count less than one")
+            serializer = VariationSerializer(
+                variation,  data={'is_available': False}, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+            serializer = ItemSerializer(
+                item,  data={'v_is_available': False}, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": "Out of stock"}, status=HTTP_400_BAD_REQUEST)
+            # return Response({"message": "Out of stock"}, status=HTTP_400_BAD_REQUEST)
+        variation.stock_count -= 1
+        variation.save()
+
         shop = get_object_or_404(Shop, id=shop)
         # print(shop)
         place_id = shop.place_id
@@ -252,13 +214,15 @@ class AddToCartView(APIView):
 
             return Response(status=HTTP_200_OK)
 
+
 class OrderDetailView(RetrieveAPIView):
     serializer_class = OrderSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
         try:
-            order = Order.objects.filter(user=self.request.user, ordered=False).last()
+            order = Order.objects.filter(
+                user=self.request.user, ordered=False).last()
             return order
         except ObjectDoesNotExist:
             raise Http404("You do not have an active order")
@@ -275,14 +239,13 @@ class OrderConfirmView(APIView):
         paymentmodeID = request.data.get('selectedModeofPayment')
         modeOfPayment = ModeOfPayment.objects.get(id=paymentmodeID)
         # print(modeOfPayment)
-        
-        
+
         # print(address)
         if address is None:
             return Response({"message": "Address is required"}, status=HTTP_400_BAD_REQUEST)
         order = Order.objects.get(user=self.request.user, ordered=False)
         userprofile = UserProfile.objects.get(user=self.request.user)
-        
+
         order_items = order.items.all()
         shop_qs1 = order_items.first()
         shop_id = shop_qs1.shop_id
@@ -304,20 +267,22 @@ class OrderConfirmView(APIView):
         return Response(status=HTTP_200_OK)
 
 
-@api_view(['GET', 'PUT',])
+@api_view(['GET', 'PUT', ])
 def OrderStatusUpdateView(request, pk):
-   
+
     try:
         order = Order.objects.get(pk=pk)
     except Order.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-  
+
     if request.method == 'PUT':
-        serializer = OrderStatusUpdateserializer(order, data=request.data, partial=True)
+        serializer = OrderStatusUpdateserializer(
+            order, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+
 
 class AddCouponView(APIView):
     def post(self, request, *args, **kwargs):
@@ -338,7 +303,8 @@ class AddCouponView(APIView):
             print("amount is not eligible ")
             return Response({"message": "This order is not eligible for the offer"}, status=HTTP_400_BAD_REQUEST)
         if coupon.is_only_once_per_user:
-            checkOrder = Order.objects.filter(ordered=True, coupon=coupon, user=self.request.user)
+            checkOrder = Order.objects.filter(
+                ordered=True, coupon=coupon, user=self.request.user)
             if checkOrder.exists():
                 print("not firths order")
                 return Response({"message": "This coupon is valid once per user"}, status=HTTP_400_BAD_REQUEST)
@@ -363,7 +329,7 @@ class AddCouponView(APIView):
             print("valid")
             order.coupon = coupon
             order.save()
-            return Response({"message": offer },status=HTTP_200_OK)
+            return Response({"message": offer}, status=HTTP_200_OK)
         else:
             print("old")
             return Response({"message": "Invalid coupon"}, status=HTTP_400_BAD_REQUEST)
@@ -371,6 +337,7 @@ class AddCouponView(APIView):
 # class CountryListView(APIView):
 #     def get(self, request, *args, **kwargs):
 #         return Response(countries, status=HTTP_200_OK)
+
 
 class AddressListView(ListAPIView):
     permission_classes = (IsAuthenticated, )
@@ -382,10 +349,12 @@ class AddressListView(ListAPIView):
         # print(addresses)
         return addresses
 
+
 class AddressCreateView(CreateAPIView):
     permission_classes = (AllowAny, )
     serializer_class = AddressSerializer
     queryset = Address.objects.all()
+
 
 class AddressUpdateView(UpdateAPIView):
     permission_classes = (IsAuthenticated, )
@@ -419,40 +388,49 @@ class OrderListView(ListAPIView):
     serializer_class = OrderSerializer
 
     def get_queryset(self):
-        order = Order.objects.filter(user=self.request.user, ordered=True).order_by('-start_date')
+        order = Order.objects.filter(
+            user=self.request.user, ordered=True).order_by('-start_date')
         return order
+
 
 class OrderItemDetailView(RetrieveAPIView):
     permission_classes = (AllowAny, )
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
 
+
 class FavoriteShopsView(ListAPIView):
     permission_classes = (IsAuthenticated, )
     serializer_class = FavoriteShopsSerializer
 
     def get_queryset(self):
-        favoriteShops = FavoriteShops.objects.filter(user=self.request.user, is_active = True)
+        favoriteShops = FavoriteShops.objects.filter(
+            user=self.request.user, is_active=True)
         return favoriteShops
+
 
 class FavoritePlacesView(ListAPIView):
     permission_classes = (IsAuthenticated, )
     serializer_class = FavoritePlacesSerializer
 
     def get_queryset(self):
-        favoritePlaces = FavoritePlaces.objects.filter(user=self.request.user, is_active = True)
+        favoritePlaces = FavoritePlaces.objects.filter(
+            user=self.request.user, is_active=True)
         return favoritePlaces
+
 
 class AddToFavoritePlacesView(APIView):
     def post(self, request, *args, **kwargs):
         place = request.data.get('place', None)
         place = get_object_or_404(Place, id=place)
-        
-        wish_list_qs = FavoritePlaces.objects.filter(user=request.user,place=place, is_active=True)
+
+        wish_list_qs = FavoritePlaces.objects.filter(
+            user=request.user, place=place, is_active=True)
         if wish_list_qs.exists():
             # print("alredy exist")
             return Response({"message": "This shop already exists in your favorite list "}, status=HTTP_400_BAD_REQUEST)
-        wish_list_qs_2 = FavoritePlaces.objects.filter(user=request.user,place=place, is_active=False)
+        wish_list_qs_2 = FavoritePlaces.objects.filter(
+            user=request.user, place=place, is_active=False)
         if wish_list_qs_2.exists():
             test = wish_list_qs_2[0]
             test.is_active = True
@@ -461,21 +439,24 @@ class AddToFavoritePlacesView(APIView):
             return Response(status=HTTP_200_OK)
         else:
             wish_list_qs_3 = FavoritePlaces.objects.create(
-                user=request.user, place=place, is_active = True)
+                user=request.user, place=place, is_active=True)
             wish_list_qs_3.save()
             print("new added")
             return Response(status=HTTP_200_OK)
+
 
 class AddToFavoriteShopsView(APIView):
     def post(self, request, *args, **kwargs):
         shop = request.data.get('shop', None)
         shop = get_object_or_404(Shop, id=shop)
-        
-        wish_list_qs = FavoriteShops.objects.filter(user=request.user,shop=shop, is_active=True)
+
+        wish_list_qs = FavoriteShops.objects.filter(
+            user=request.user, shop=shop, is_active=True)
         if wish_list_qs.exists():
             print("alredy exist")
             return Response({"message": "This shop already exists in your favorite list "}, status=HTTP_400_BAD_REQUEST)
-        wish_list_qs_2 = FavoriteShops.objects.filter(user=request.user,shop=shop, is_active=False)
+        wish_list_qs_2 = FavoriteShops.objects.filter(
+            user=request.user, shop=shop, is_active=False)
         if wish_list_qs_2.exists():
             test = wish_list_qs_2[0]
             test.is_active = True
@@ -484,10 +465,11 @@ class AddToFavoriteShopsView(APIView):
             return Response(status=HTTP_200_OK)
         else:
             wish_list_qs_3 = FavoriteShops.objects.create(
-                user=request.user, shop=shop, is_active = True)
+                user=request.user, shop=shop, is_active=True)
             wish_list_qs_3.save()
             print("new added")
             return Response(status=HTTP_200_OK)
+
 
 class RemoveFromFavoriteShopsView(GenericAPIView, UpdateModelMixin):
     permission_classes = (IsAuthenticated, )
@@ -496,6 +478,8 @@ class RemoveFromFavoriteShopsView(GenericAPIView, UpdateModelMixin):
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+
 class RemoveFromFavoritePlacesView(GenericAPIView, UpdateModelMixin):
     permission_classes = (IsAuthenticated, )
     serializer_class = FavoritePlacesSerializer
@@ -503,5 +487,3 @@ class RemoveFromFavoritePlacesView(GenericAPIView, UpdateModelMixin):
 
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
-
-

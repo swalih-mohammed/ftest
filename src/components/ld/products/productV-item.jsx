@@ -37,7 +37,7 @@ class VaritaionItem extends React.Component {
   };
   render() {
     const { variation, item } = this.props;
-    // console.log(this.state.editMode);
+    // console.log(variation);
     return (
       <div>
         {this.state.editMode ? (
@@ -46,25 +46,23 @@ class VaritaionItem extends React.Component {
             variation={variation}
             item={item}
             hideEdit={this.hideEdit}
+            fetchProductDetails={this.props.fetchProductDetails}
           />
         ) : null}
-        <Card
-          bg={"Light"}
-          text={"light"}
-          style={{ width: "18rem" }}
-          className="mb-2"
-        >
-          <Card.Body>
-            <Card.Text>
-              <ListGroup className="list-group-flush">
-                <ListGroupItem>Name: {variation.name}</ListGroupItem>
-                <ListGroupItem>MRP: {variation.price}</ListGroupItem>
-                <ListGroupItem>Price: {variation.discount_price}</ListGroupItem>
-                <ListGroupItem>
-                  In Stock: {variation.is_available ? "Yes" : "No"}
-                </ListGroupItem>
-              </ListGroup>
-            </Card.Text>
+        <br></br>
+        <Card style={{ width: "18rem" }}>
+          <Card.Header>Name: {variation.name}</Card.Header>
+          <ListGroup variant="flush">
+            {/* <ListGroupItem>Name: {variation.name}</ListGroupItem> */}
+
+            <ListGroupItem>MRP: {variation.price}</ListGroupItem>
+            <ListGroupItem>Price: {variation.discount_price}</ListGroupItem>
+            <ListGroupItem>
+              In Stock: {variation.is_available ? "Yes" : "No"}
+            </ListGroupItem>
+          </ListGroup>
+
+          <ListGroupItem>
             <Button onClick={this.showEdit} variant="outline-primary" size="sm">
               edit
             </Button>{" "}
@@ -75,7 +73,7 @@ class VaritaionItem extends React.Component {
             >
               Delete
             </Button>{" "}
-          </Card.Body>
+          </ListGroupItem>
         </Card>
       </div>
     );

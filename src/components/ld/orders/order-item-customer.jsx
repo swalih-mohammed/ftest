@@ -113,7 +113,7 @@ class OrderItem extends Component {
 
     const { userType } = this.props;
     // console.log(this.state.shopOrderStatus, userType);
-    // console.log(shopOrderStatus);
+    // console.log(orderItems);
 
     if (CustomerSuccess) {
       return <Redirect to="/orders" />;
@@ -156,10 +156,13 @@ class OrderItem extends Component {
                             <h6>Status: {order.orderStatus}</h6>
                             <h6>Mod of Payment: {order.mode_of_payment}</h6>
                           </div>
+                          <br></br>
 
                           <Button
                             type="submit"
-                            variant="info"
+                            // variant="info"
+                            variant="outline-danger"
+                            size="sm"
                             // onClick={() => this.orderCancelCustoemr}
                             onClick={this.orderCancelCustoemr}
                           >
@@ -225,7 +228,10 @@ class OrderItem extends Component {
                             {orderItems.map((item, index) => {
                               return (
                                 <li key={index}>
-                                  {item.item.title} × {item.quantity}{" "}
+                                  {item.itemLocalName
+                                    ? item.itemLocalName
+                                    : item.itemName}{" "}
+                                  × {item.quantity}{" "}
                                   <span>Rs: {item.final_price}</span>
                                 </li>
                               );

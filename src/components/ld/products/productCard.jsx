@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { ListGroup, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 class ProductCard extends Component {
   state = {
@@ -39,11 +41,18 @@ class ProductCard extends Component {
               );
             })}
             <ListGroup.Item>
-              <Card.Link
-                href={`${process.env.PUBLIC_URL}/shop-product-detail/${item.id}`}
+              {/* <Card.Link
+                to={`${process.env.PUBLIC_URL}/shop-product-detail/${item.id}`}
               >
                 View More
-              </Card.Link>
+              </Card.Link> */}
+              <Link
+                to={`${process.env.PUBLIC_URL}/shop-product-detail/${item.id}`}
+              >
+                <Button variant="outline-primary" size="sm">
+                  View More
+                </Button>
+              </Link>
             </ListGroup.Item>
           </ListGroup>
         </Card>

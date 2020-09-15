@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
+import { Button } from "react-bootstrap";
 import { addressListURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 
@@ -55,7 +56,7 @@ class Address extends Component {
 
               {addressList.map(address => (
                 <div key={address.id} className="row">
-                  <div className="col-lg-3">
+                  {/* <div className="col-lg-3">
                     <div className="dashboard-left">
                       <div className="collection-mobile-back">
                         <span className="filter-back">
@@ -67,7 +68,7 @@ class Address extends Component {
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="col-lg-9">
                     <div className="dashboard-right">
                       <div className="dashboard">
@@ -90,11 +91,15 @@ class Address extends Component {
                                   <h6>District: {address.districtName}</h6>
                                   <h6>Phone: {address.phone_number}</h6>
                                   <br></br>
-                                  <a
-                                    href={`${process.env.PUBLIC_URL}/editaddress/${address.id}`}
+
+                                  <Link
+                                    style={{ color: "#FFF" }}
+                                    to={`${process.env.PUBLIC_URL}/editaddress/${address.id}`}
                                   >
-                                    Edit
-                                  </a>
+                                    <Button variant="outline-primary" size="sm">
+                                      Edit
+                                    </Button>
+                                  </Link>
                                 </div>
                               </div>
                             </div>

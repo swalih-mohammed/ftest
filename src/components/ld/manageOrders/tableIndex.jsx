@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
-import Breadcrumb from "../common/breadcrumb";
+// import { Link, Redirect } from "react-router-dom";
+// import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
-import InfiniteScroll from "react-infinite-scroll-component";
+// import InfiniteScroll from "react-infinite-scroll-component";
 import Form from "./tableSearchForm";
 
 import { serviceAreaURL } from "../../../constants";

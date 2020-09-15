@@ -3,10 +3,11 @@ import { Link, Redirect } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Button } from "react-bootstrap";
 
 import { orderListURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
-import { fetchUser } from "../../../actions/user";
+// import { fetchUser } from "../../../actions/user";
 
 class Orders extends Component {
   constructor(props) {
@@ -134,9 +135,15 @@ class Orders extends Component {
                                       <h6>Date: {order.start_date}</h6>
                                       <h6>Status: {order.orderStatus}</h6>
                                       <br></br>
-                                      <a href={`customer-order/${order.id}`}>
-                                        View More
-                                      </a>
+
+                                      <Link to={`customer-order/${order.id}`}>
+                                        <Button
+                                          variant="outline-primary"
+                                          size="sm"
+                                        >
+                                          View More
+                                        </Button>
+                                      </Link>
                                     </div>
                                   </div>
                                 </div>

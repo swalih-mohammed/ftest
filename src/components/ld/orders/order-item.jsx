@@ -180,7 +180,7 @@ class OrderItem extends Component {
     const { order, orderAddress, orderItems, success } = this.state;
 
     const { user } = this.props;
-    // console.log(user);
+    // console.log(orderItems);
 
     if (success) {
       if (user.user.is_staff_user) {
@@ -316,7 +316,9 @@ class OrderItem extends Component {
                               {user.user.is_customer ? (
                                 <Button
                                   type="submit"
-                                  variant="info"
+                                  // variant="info"
+                                  variant="outline-danger"
+                                  size="sm"
                                   // onClick={() => this.orderCancelCustoemr}
                                   onClick={this.orderCancelCustoemr}
                                 >
@@ -353,7 +355,7 @@ class OrderItem extends Component {
                           <td>{orderAddress.district}</td>
                           <td>{orderAddress.state}</td>
                         </tr> */}
-
+                        <br></br>
                         <tr>
                           <td>
                             {" "}
@@ -385,7 +387,7 @@ class OrderItem extends Component {
                             {orderItems.map((item, index) => {
                               return (
                                 <li key={index}>
-                                  {item.item.title} × {item.quantity}{" "}
+                                  {item.title} × {item.quantity}{" "}
                                   <span>Rs: {item.final_price}</span>
                                 </li>
                               );

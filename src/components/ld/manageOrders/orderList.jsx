@@ -10,7 +10,7 @@ import { fetchUser } from "../../../actions/user";
 
 class Orders extends Component {
   render() {
-    console.log(this.props.orders);
+    // console.log(this.props.orders);
     return (
       <div>
         {this.props.orders && (

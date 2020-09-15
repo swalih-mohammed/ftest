@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
-// import InfiniteScroll from "react-infinite-scroll-component";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import { Button, Form } from "react-bootstrap";
 
 import {
   ShopDashboardDetialURL,
@@ -86,110 +84,58 @@ class Orders extends Component {
     return (
       <div>
         <Breadcrumb title={"Shop Details"} />
-        <div>
-          <section className="section-b-space">
-            {this.state.loading && <div className="loading-cls"></div>}
-            <div className="container">
-              {/* <div className="account-sidebar"></div> */}
-              <div className="row">
-                <div className="col-lg-3">
-                  <div className="dashboard-left">
-                    <div className="collection-mobile-back">
-                      <span className="filter-back">
-                        <i className="fa fa-angle-left" aria-hidden="true"></i>{" "}
-                        back
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-9">
-                  <div className="dashboard-right">
-                    <div className="dashboard">
-                      <div className="box-account box-info">
-                        <div className="box-head">
-                          <h3>{ShopDetail.name}</h3>
-                        </div>
-                        <div className="row">
-                          <div className="col-sm-6">
-                            <div className="box">
-                              <div className="box-title">
-                                {/* <h4>Order ID: {order.id}</h4> */}
-                              </div>
-                              <div className="box-content">
-                                <h6>{ShopDetail.place}</h6>
-                                <h6>Phone: {ShopDetail.phone_number}</h6>
-                                <br />
-                                <h4>
-                                  {ShopDetail.is_accepting_orders
-                                    ? "Your Shop is open"
-                                    : "Your Shop is closed"}
-                                </h4>
-                                <br></br>
-                                <>
-                                  <Button
-                                    onClick={() => {
-                                      this.shopOpenStatus(
-                                        !ShopDetail.is_accepting_orders,
-                                        ShopDetail.id
-                                      );
-                                    }}
-                                    variant="primary"
-                                    // size="lg"
-                                    // block
-                                  >
-                                    {ShopDetail.is_accepting_orders
-                                      ? "Close shop"
-                                      : "Open shop"}
-                                  </Button>
-                                </>
-                              </div>
+        {this.state.loading ? (
+          <div className="loading-cls"></div>
+        ) : (
+          <React.Fragment>
+            <div>
+              <section className="section-b-space">
+                <div className="container">
+                  {/* <div className="account-sidebar"></div> */}
+                  <div className="row">
+                    <div className="col-lg-9">
+                      <div className="dashboard-right">
+                        <div className="dashboard">
+                          <div className="box-account box-info">
+                            <div className="box-head">
+                              <h3>{ShopDetail.name}</h3>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* pending orders  */}
-
-              {orders ? (
-                <div className="row">
-                  <div className="col-lg-3">
-                    <div className="dashboard-left">
-                      <div className="collection-mobile-back">
-                        <span className="filter-back">
-                          <i
-                            className="fa fa-angle-left"
-                            aria-hidden="true"
-                          ></i>{" "}
-                          back
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-9">
-                    <div className="dashboard-right">
-                      <div className="dashboard">
-                        <div className="box-account box-info">
-                          <div className="box-head">
-                            <h3>
-                              {this.state.orders.pendingOrders} Pending Orders
-                            </h3>
-                          </div>
-                          <div className="row">
-                            <div className="col-sm-6">
-                              <div className="box">
-                                <div className="box-title">
-                                  {/* <h4>Order ID: {order.id}</h4> */}
-                                </div>
-                                <div className="box-content">
-                                  <a href="/shop-order-table">
-                                    <Button variant="primary">
-                                      Go to orders
-                                    </Button>{" "}
-                                  </a>
+                            <div className="row">
+                              <div className="col-sm-6">
+                                <div className="box">
+                                  <div className="box-title">
+                                    {/* <h4>Order ID: {order.id}</h4> */}
+                                  </div>
+                                  <div className="box-content">
+                                    <h6>{ShopDetail.place}</h6>
+                                    <h6>Phone: {ShopDetail.phone_number}</h6>
+                                    <br />
+                                    <h4>
+                                      {ShopDetail.is_accepting_orders
+                                        ? "Your Shop is open"
+                                        : "Your Shop is closed"}
+                                    </h4>
+                                    <br></br>
+                                    <>
+                                      <Button
+                                        onClick={() => {
+                                          this.shopOpenStatus(
+                                            !ShopDetail.is_accepting_orders,
+                                            ShopDetail.id
+                                          );
+                                        }}
+                                        variant={
+                                          ShopDetail.is_accepting_orders
+                                            ? "outline-danger"
+                                            : "outline-success"
+                                        }
+                                      >
+                                        {ShopDetail.is_accepting_orders
+                                          ? "Close shop"
+                                          : "Open shop"}
+                                      </Button>
+                                    </>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -198,85 +144,30 @@ class Orders extends Component {
                       </div>
                     </div>
                   </div>
-                </div>
-              ) : null}
-              {orders ? (
-                <div className="row">
-                  <div className="col-lg-3">
-                    <div className="dashboard-left">
-                      <div className="collection-mobile-back">
-                        <span className="filter-back">
-                          <i
-                            className="fa fa-angle-left"
-                            aria-hidden="true"
-                          ></i>{" "}
-                          back
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-9">
-                    <div className="dashboard-right">
-                      <div className="dashboard">
-                        <div className="box-account box-info">
-                          <div className="box-head">
-                            <h3>
-                              {this.state.orders.totalOrders} Total Orders
-                            </h3>
-                          </div>
-                          <div className="row">
-                            <div className="col-sm-6">
-                              <div className="box">
-                                <div className="box-title">
-                                  {/* <h4>Order ID: {order.id}</h4> */}
-                                </div>
-                                {/* <div className="box-content"></div> */}
+                  {orders ? (
+                    <div className="row">
+                      <div className="col-lg-9">
+                        <div className="dashboard-right">
+                          <div className="dashboard">
+                            <div className="box-account box-info">
+                              <div className="box-head">
+                                <h3>
+                                  {this.state.orders.pendingOrders} Pending
+                                  Orders
+                                </h3>
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : null}
-              {orders ? (
-                <div className="row">
-                  <div className="col-lg-3">
-                    <div className="dashboard-left">
-                      <div className="collection-mobile-back">
-                        <span className="filter-back">
-                          <i
-                            className="fa fa-angle-left"
-                            aria-hidden="true"
-                          ></i>{" "}
-                          back
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-9">
-                    <div className="dashboard-right">
-                      <div className="dashboard">
-                        <div className="box-account box-info">
-                          <div className="box-head">
-                            <h3>
-                              {this.state.orders.item} Products in your shop
-                            </h3>
-                          </div>
-                          <div className="row">
-                            <div className="col-sm-6">
-                              <div className="box">
-                                <div className="box-title">
-                                  {/* <h4>Order ID: {order.id}</h4> */}
-                                </div>
-                                <div className="box-content">
-                                  <a href="/shop-product-list">
-                                    {" "}
-                                    <Button variant="primary">
-                                      Go to products
-                                    </Button>{" "}
-                                  </a>
+                              <div className="row">
+                                <div className="col-sm-6">
+                                  <div className="box">
+                                    <div className="box-title"></div>
+                                    <div className="box-content">
+                                      <Link to="/shop-order-table">
+                                        <Button variant="outline-primary">
+                                          Go to orders
+                                        </Button>
+                                      </Link>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -284,12 +175,100 @@ class Orders extends Component {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  ) : null}
+                  {orders ? (
+                    <div className="row">
+                      <div className="col-lg-3">
+                        <div className="dashboard-left">
+                          <div className="collection-mobile-back">
+                            <span className="filter-back">
+                              <i
+                                className="fa fa-angle-left"
+                                aria-hidden="true"
+                              ></i>{" "}
+                              back
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-9">
+                        <div className="dashboard-right">
+                          <div className="dashboard">
+                            <div className="box-account box-info">
+                              <div className="box-head">
+                                <h3>
+                                  {this.state.orders.totalOrders} Total Orders
+                                </h3>
+                              </div>
+                              <div className="row">
+                                <div className="col-sm-6">
+                                  <div className="box">
+                                    <div className="box-title">
+                                      {/* <h4>Order ID: {order.id}</h4> */}
+                                    </div>
+                                    {/* <div className="box-content"></div> */}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                  {orders ? (
+                    <div className="row">
+                      <div className="col-lg-3">
+                        <div className="dashboard-left">
+                          <div className="collection-mobile-back">
+                            <span className="filter-back">
+                              <i
+                                className="fa fa-angle-left"
+                                aria-hidden="true"
+                              ></i>{" "}
+                              back
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-9">
+                        <div className="dashboard-right">
+                          <div className="dashboard">
+                            <div className="box-account box-info">
+                              <div className="box-head">
+                                <h3>
+                                  {this.state.orders.item} Products in your shop
+                                </h3>
+                              </div>
+                              <div className="row">
+                                <div className="col-sm-6">
+                                  <div className="box">
+                                    <div className="box-title">
+                                      {/* <h4>Order ID: {order.id}</h4> */}
+                                    </div>
+                                    <div className="box-content">
+                                      {/* <a href="/shop-product-list"> */}{" "}
+                                      <Link to="/shop-product-list">
+                                        <Button variant="outline-primary">
+                                          Go to products
+                                        </Button>{" "}
+                                      </Link>
+                                      {/* </a> */}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+              </section>
             </div>
-          </section>
-        </div>
+          </React.Fragment>
+        )}
       </div>
     );
   }

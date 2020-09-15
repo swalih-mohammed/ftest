@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { authSignup } from "../../../actions/auth";
-import { Redirect } from "react-router-dom";
-import Breadcrumb from "../common/breadcrumb";
+// import { connect } from "react-redux";
+// import { authSignup } from "../../../actions/auth";
+import { Link } from "react-router-dom";
+// import Breadcrumb from "../common/breadcrumb";
 import { authAxios } from "../../../authAxios";
 import { orderFilterURL } from "../../../constants";
 import { useFormik, Field } from "formik";
-import * as Yup from "yup";
+// import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import setHours from "date-fns/setHours";
@@ -76,7 +76,16 @@ const Manage = props => {
     {
       Header: "ID",
       accessor: "id",
-      Cell: e => <a href={`order/${e.value}`}> {e.value} </a>
+      // Cell: e => <a href={`order/${e.value}`}> {e.value} </a>
+
+      Cell: cellInfo => (
+        <Link
+          to={`order/${cellInfo.value}`}
+          // id={cellInfo.row.linkName}
+        >
+          {cellInfo.value}
+        </Link>
+      )
     },
     {
       Header: "Area",
@@ -139,7 +148,7 @@ const Manage = props => {
                         </div>
                       </div>
                       <br></br>
-                      <div ClassName="form-inline">
+                      <div className="form-inline">
                         <div className="row check-out">
                           <div className="form-group col-md-1 col-sm-2 col-xs-1">
                             <DatePicker

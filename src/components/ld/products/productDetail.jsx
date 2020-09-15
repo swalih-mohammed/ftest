@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 // import { Link } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
-import { productDetailURL } from "../../../constants";
+import { productDetailURL, localhost } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { Button } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
@@ -107,7 +107,7 @@ class ProductDetail extends Component {
       editProductMode,
       productForm
     } = this.state;
-    // console.log(productForm);
+    console.log(product);
     return (
       <section className="section-b-space">
         <div className="container">
@@ -120,7 +120,7 @@ class ProductDetail extends Component {
             />
           ) : null}
           <Card style={{ width: "18rem" }}>
-            <Card.Img variant="top" src={product.image} />
+            <Card.Img variant="top" src={`${localhost}/${product.image}`} />
             <Card.Body>
               <Card.Title>{product.title}</Card.Title>
               <Card.Text>{product.title_local}</Card.Text>

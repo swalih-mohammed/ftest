@@ -85,30 +85,38 @@ class Locality extends Component {
         <Helmet>
           <title>Local Dukans</title>
         </Helmet>
-        {this.state.loading && <div className="loading-cls"></div>}
-
-        {/* <section className="p-0"> */}
-        <section className="ratio_asos metro-section portfolio-section ">
-          {placeDetail && <LocalityImage placeDetail={placeDetail} />}
-        </section>
-        {placeDetail && (
-          <div>
-            {/* {placeDetail.exicutive_phone_number !== "" ? (
+        {this.state.loading ? (
+          <div className="loading-cls"></div>
+        ) : (
+          <React.Fragment>
+            {/* <section className="p-0"> */}
+            <section className="ratio_asos metro-section portfolio-section ">
+              {placeDetail && <LocalityImage placeDetail={placeDetail} />}
+            </section>
+            {placeDetail && (
+              <div>
+                {/* {placeDetail.exicutive_phone_number !== "" ? (
               <Service message={placeDetail.exicutive_phone_number} />
             ) : null} */}
-            {placeDetail.offer_message !== "" ? (
-              <Offer message={placeDetail.offer_message} />
+                {placeDetail.offer_message !== "" ? (
+                  <Offer message={placeDetail.offer_message} />
+                ) : null}
+                {placeDetail.shipping_message !== "" ? (
+                  <Shipping message={placeDetail.shipping_message} />
+                ) : null}
+              </div>
+            )}
+            {featuredShops.length > 0 ? (
+              <FeautredShops featuredShops={featuredShops} />
             ) : null}
-            {placeDetail.shipping_message !== "" ? (
-              <Shipping message={placeDetail.shipping_message} />
-            ) : null}
-          </div>
+            {/* <Category /> */}
+            {shops.length > 0 ? (
+              <Shops shops={shops} />
+            ) : (
+              <p>No shops to show</p>
+            )}
+          </React.Fragment>
         )}
-        {featuredShops.length > 0 ? (
-          <FeautredShops featuredShops={featuredShops} />
-        ) : null}
-        {/* <Category /> */}
-        {shops.length > 0 ? <Shops shops={shops} /> : <p>No shops to show</p>}
       </div>
     );
   }

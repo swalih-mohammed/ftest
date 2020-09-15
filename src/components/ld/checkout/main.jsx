@@ -131,11 +131,11 @@ class checkOut extends Component {
     if (this.state.addressList) {
     }
     // const selectedAddress = this.state.addressList[0].id;
-    // console.log(selectedAddress);
+    // console.log(addressList);
     this.setState({ loading: true });
-    const { selectedModeofPayment } = this.state;
+    const { selectedModeofPayment, addressList } = this.state;
 
-    if (selectedModeofPayment !== null) {
+    if (selectedModeofPayment !== null && addressList.length > 0) {
       authAxios
         .post(checkoutURL, {
           // selectedAddress,
@@ -154,7 +154,7 @@ class checkOut extends Component {
           });
         });
     } else {
-      toast.error("Please select mode of payment");
+      toast.error("Please select mode of payment and create an address");
     }
   };
 
@@ -177,7 +177,7 @@ class checkOut extends Component {
     } = this.state;
 
     // console.log(this.state.offer);
-    // console.log(cart);
+    // console.log(addressList.length);
 
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
@@ -314,11 +314,15 @@ class checkOut extends Component {
                   </div>
                 </section>
               ) : (
-                <div>
-                  <Link style={{ color: "#FFF" }} to={`/create-address`}>
-                    Add Address
-                  </Link>
-                </div>
+                <section className="section-b-space">
+                  <div className="container">
+                    <div className="account-sidebar">
+                      <Link style={{ color: "#FFF" }} to={`/create-address`}>
+                        Add Address
+                      </Link>
+                    </div>
+                  </div>
+                </section>
               )}
 
               <section className="section-b-space">
@@ -387,6 +391,7 @@ class checkOut extends Component {
                     Place Order
                   </button>
                 </div>
+                <br /> <br />
               </section>
             </div>
           </div>

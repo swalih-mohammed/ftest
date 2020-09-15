@@ -332,7 +332,6 @@ class OrderItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     item_variation = models.ForeignKey(Variation, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(default=1)
-
     def __str__(self):
         return f"{self.quantity} of {self.item.title}"
 
@@ -341,6 +340,8 @@ class OrderItem(models.Model):
             return self.quantity * self.item_variation.discount_price
         else: 
             return 0
+    def item_image(self):
+        return self.item.product_image.image1.url
           
 
 class Address(models.Model):

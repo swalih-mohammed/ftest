@@ -69,14 +69,14 @@ class EditProductModal extends React.Component {
 
   render() {
     const { form } = this.state;
-    console.log(form);
+    // console.log(form);
 
     return (
       <Modal
         show={this.props.show}
         aria-labelledby="contained-modal-title-vcenter"
       >
-        <Modal.Header closeButton>
+        <Modal.Header closeButton onClick={this.props.hide}>
           <Modal.Title>Edit Item</Modal.Title>
         </Modal.Header>
         <Modal.Body>

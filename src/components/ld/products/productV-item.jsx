@@ -57,8 +57,12 @@ class VaritaionItem extends React.Component {
 
             <ListGroupItem>MRP: {variation.price}</ListGroupItem>
             <ListGroupItem>Price: {variation.discount_price}</ListGroupItem>
+            <ListGroupItem>Stcok Count: {variation.stock_count}</ListGroupItem>
             <ListGroupItem>
               In Stock: {variation.is_available ? "Yes" : "No"}
+            </ListGroupItem>
+            <ListGroupItem>
+              Product Stock: {variation.item_stock ? "Yes" : "No"}
             </ListGroupItem>
           </ListGroup>
 

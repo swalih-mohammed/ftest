@@ -79,7 +79,7 @@ class Locality extends Component {
 
   render() {
     const { featuredShops, placeDetail, shops } = this.state;
-    console.log(shops);
+    // console.log(shops);
     return (
       <div>
         <Helmet>

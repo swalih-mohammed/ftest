@@ -23,7 +23,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.decorators import api_view
 from .serializers import PlaceSerializer, StateSerializer, DistrictSerializer, ClusterSerializer, VillageSerializer, AreaSerializer, ServiceAreaSerializer
 
-from core.models import Shop, UserProfile, Area, Place, Village, Cluster, District, State
+from core.models import ServiceArea, Shop, UserProfile, Area, Place, Village, Cluster, District, State
 
 
 class ServiceAreaView(ListAPIView):

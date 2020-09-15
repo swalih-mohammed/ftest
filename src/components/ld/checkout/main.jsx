@@ -130,7 +130,7 @@ class checkOut extends Component {
 
     if (this.state.addressList) {
     }
-    // const selectedAddress = this.state.addressList[0].id;
+    const selectedAddress = this.state.addressList[0].id;
     // console.log(addressList);
     this.setState({ loading: true });
     const { selectedModeofPayment, addressList } = this.state;
@@ -138,7 +138,7 @@ class checkOut extends Component {
     if (selectedModeofPayment !== null && addressList.length > 0) {
       authAxios
         .post(checkoutURL, {
-          // selectedAddress,
+          selectedAddress,
           selectedModeofPayment
         })
         .then(res => {

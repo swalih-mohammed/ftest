@@ -31,9 +31,9 @@ class App extends Component {
       <div>
         <Header logoName={"logo.png"} />
         {this.props.children}
-        {/* <Suspense fallback={<Loader />}> */}
-        {/* <Footer logoName={"logo.png"} /> */}
-        {/* </Suspense> */}
+        <Suspense fallback={<Loader />}>
+          <Footer logoName={"logo.png"} />
+        </Suspense>
       </div>
     );
   }

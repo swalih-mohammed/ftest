@@ -107,7 +107,7 @@ class ProductDetail extends Component {
       editProductMode,
       productForm
     } = this.state;
-    console.log(product);
+    // console.log(product);
     return (
       <section className="section-b-space">
         <div className="container">

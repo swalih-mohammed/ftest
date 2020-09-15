@@ -95,7 +95,7 @@ const Manage = () => {
       accessor: "mode_of_payment"
     }
   ];
-  console.log(loading);
+  // console.log(loading);
 
   return (
     <div>
@@ -110,7 +110,7 @@ const Manage = () => {
                   <div className="checkout-form">
                     <div className="row check-out"></div>
                     <br></br>
-                    <div ClassName="form-inline">
+                    <div className="form-inline">
                       <div className="row check-out">
                         <div className="form-group col-md-8 col-sm-8 col-xs-8">
                           <DatePicker

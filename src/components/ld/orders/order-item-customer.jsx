@@ -113,7 +113,7 @@ class OrderItem extends Component {
 
     const { userType } = this.props;
     // console.log(this.state.shopOrderStatus, userType);
-    // console.log(orderItems);
+    console.log(orderItems);
 
     if (CustomerSuccess) {
       return <Redirect to="/orders" />;

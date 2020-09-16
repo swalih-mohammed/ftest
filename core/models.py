@@ -417,6 +417,12 @@ class Order(models.Model):
     def get_items_count(self):
         total_item = self.items.count
         return total_item
+    def get_order_status(self):
+        return self.order_status.name
+    def get_order_coupon_code(self):
+        return self.coupon.code
+    def get_order_coupon_offer(self):
+        return self.coupon.offer
 
 class FavoritePlaces(models.Model):
         user = models.ForeignKey(settings.AUTH_USER_MODEL,

@@ -246,6 +246,10 @@ class OrderItemSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     order_items = serializers.SerializerMethodField()
     total = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
+    coupon_code = serializers.SerializerMethodField()
+    coupon_offer = serializers.SerializerMethodField()
+
     # items_count = serializers.SerializerMethodField()
     # order_status = serializers.SerializerMethodField()
     # order_status = serializers.DateField(format="%Y-%m-%d %H:%M:%S")
@@ -269,9 +273,11 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'order_items',
-            # 'items_count',
+            'status',
+            'coupon_code',
+            'coupon_offer',
             'total',
-            # 'coupon',
+            'coupon',
             'shop_name',
             'shop_id',
             'shipping_message',
@@ -295,10 +301,18 @@ class OrderSerializer(serializers.ModelSerializer):
     def get_total(self, obj):
         return obj.get_total()
 
-    # def get_coupon(self, obj):
-    #     if obj.coupon is not None:
-    #         return CouponSerializer(obj.coupon).data
-    #     return None
+    def get_status(self, obj):
+        return obj.get_order_status()
+
+    def get_coupon_code(self, obj):
+        if obj.coupon:
+            return obj.get_order_coupon_code()
+        return None
+
+    def get_coupon_offer(self, obj):
+        if obj.coupon:
+            return obj.get_order_coupon_offer()
+        return None
 
 
 # class VariationSerializer(serializers.ModelSerializer):

@@ -21,6 +21,8 @@ class Area(models.Model):
     place = models.ForeignKey('Place', blank=True, null=True, related_name = 'place', max_length=100, on_delete=models.CASCADE)
     is_shipping = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ['name']
     def __str__(self):
         return self.name
 
@@ -35,6 +37,8 @@ class Place(models.Model):
     exicutive_phone_number = models.CharField(max_length=12 ,blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
+    class Meta:
+        ordering = ['name']
     def __str__(self):
         return self.name
 
@@ -49,6 +53,8 @@ class Village(models.Model):
     shipping_message = models.TextField(blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
+    class Meta:
+        ordering = ['name']
     def __str__(self):
         return self.name
 
@@ -59,6 +65,8 @@ class Cluster(models.Model):
     is_shipping = models.BooleanField(default=False)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
+    class Meta:
+        ordering = ['name']
     def __str__(self):
         return self.name
 
@@ -69,6 +77,8 @@ class District(models.Model):
     is_shipping = models.BooleanField(default=False)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
+    class Meta:
+        ordering = ['name']
     def __str__(self):
         return self.name
 
@@ -78,6 +88,8 @@ class State(models.Model):
     is_shipping = models.BooleanField(default=False)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
+    class Meta:
+        ordering = ['name']
     def __str__(self):
         return self.name
 
@@ -85,6 +97,9 @@ class ProductCategory(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='product-category',blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    
+    class Meta:
+        ordering = ['name']
     def __str__(self):
         return self.name
 
@@ -92,12 +107,17 @@ class ShopCategory(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='shop-category',blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    
+    class Meta:
+        ordering = ['name']
     def __str__(self):
         return self.name
 
 class ModeOfPayment(models.Model):
     name = models.CharField(max_length=100)
     # shop = models.ForeignKey(Shop, blank=True, null=True, on_delete=models.CASCADE)
+    class Meta:
+        ordering = ['name']
     def __str__(self):
         return self.name
 
@@ -141,6 +161,8 @@ class Shop(models.Model):
     service_localities = models.ManyToManyField(Place ,related_name="ShopServicePlaces")
     service_villages  = models.ManyToManyField(Village, related_name="ShopServiceVillages")
 
+    class Meta:
+        ordering = ['name']
     def __str__(self):
         return self.name
 
@@ -151,6 +173,9 @@ class Role(models.Model):
     name = models.CharField(max_length=100)
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering = ['name']
 
 class ServiceArea(models.Model):
     user = models.OneToOneField(
@@ -257,6 +282,9 @@ class ProductImage(models.Model):
     image1 = models.ImageField(upload_to='product',blank=True, null=True)
     image2 = models.ImageField(upload_to='product',blank=True, null=True)
     image3 = models.ImageField(upload_to='product',blank=True, null=True)
+    
+    class Meta:
+        ordering = ['name']
     def __str__(self):
         return self.name
 
@@ -278,7 +306,8 @@ class Item(models.Model):
     is_on_sale = models.BooleanField(default=False,  blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     is_active = models.BooleanField(default=True, null=True)
-
+    class Meta:
+        ordering = ['title']
     def __str__(self):
         return self.title
     def get_category(self):

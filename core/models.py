@@ -313,7 +313,9 @@ class Item(models.Model):
     def get_category(self):
         return self.productategory.name
     def get_image(self):
-        return self.product_image.image1.url
+        if self.product_image:
+            return self.product_image.image1.url
+        return None
     def get_shop(self):
         return self.shop.name
     
@@ -349,6 +351,13 @@ class Variation(models.Model):
         if self.stock_count > 1:
             return True
         return False
+    def v_shop(self):
+        return self.item.shop.id
+    # def check_in_order(self):
+    #     shop = self.v_shop()
+    #     print(self.order_set.all())
+    #     check = OrderItem.objects.filter(shop_id=shop)
+    #     return check.count()
     
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -370,9 +379,12 @@ class OrderItem(models.Model):
         else: 
             return 0
     def item_image(self):
-        return self.item.product_image.image1.url
+        if self.item.product_image:
+            return self.item.product_image.image1.url
+        return None
+    def order_status(self):
+        return self.order
           
-
 class Address(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)

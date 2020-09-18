@@ -143,10 +143,11 @@ class ShopSerializer(serializers.ModelSerializer):
 class ShopProductSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source='category.name')
     shop_name = serializers.ReadOnlyField(source='shop.name')
-    product_image = serializers.ReadOnlyField(
-        source='product_image.image1.url')
+    # product_image = serializers.ReadOnlyField(
+    #     source='product_image.image1.url')
     variations = serializers.SerializerMethodField()
     v_availability = serializers.SerializerMethodField()
+    product_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Item
@@ -176,10 +177,15 @@ class ShopProductSerializer(serializers.ModelSerializer):
                 return False
             return True
 
+    def get_product_image(self, obj):
+        return obj.get_image()
+
 
 class VariationSerializer(serializers.ModelSerializer):
     is_in_stock = serializers.SerializerMethodField()
-    # in_order = serializers.SerializerMethodField()
+    # v_in_order = serializers.SerializerMethodField()
+
+    shop = serializers.SerializerMethodField()
 
     class Meta:
         model = Variation
@@ -192,18 +198,20 @@ class VariationSerializer(serializers.ModelSerializer):
             'is_available',
             'is_in_stock',
             'stock_count',
-            'item_stock'
+            'item_stock',
+            'shop',
+            # 'v_in_order'
         )
 
     def get_is_in_stock(self, obj):
         return obj.check_if_available()
 
-    # def get_in_order(self, obj):
-    #     # pass
-    #     return obj.get_in_order()
+    def get_shop(self, obj):
+        # pass
+        return obj.v_shop()
 
-    # def get_item(self, obj):
-    #     return ItemSerializer(obj.item).data
+    # def get_v_in_order(self, obj):
+    #     return obj.check_in_order()
 
 
 class OrderStatusSerializer(serializers.ModelSerializer):
@@ -213,7 +221,7 @@ class OrderStatusSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    # item_variation = serializers.SerializerMethodField()
+    order_id = serializers.SerializerMethodField()
     final_price = serializers.SerializerMethodField()
     item_image = serializers.SerializerMethodField()
     shop_name = serializers.ReadOnlyField(source='shop.name')
@@ -241,6 +249,9 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
     def get_item_image(self, obj):
         return obj.item_image()
+
+    def get_order_id(self, obj):
+        return obj.order_number()
 
 
 class OrderSerializer(serializers.ModelSerializer):

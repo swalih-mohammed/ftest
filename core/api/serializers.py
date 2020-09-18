@@ -183,7 +183,7 @@ class ShopProductSerializer(serializers.ModelSerializer):
 
 class VariationSerializer(serializers.ModelSerializer):
     is_in_stock = serializers.SerializerMethodField()
-    # v_in_order = serializers.SerializerMethodField()
+    check_in_order = serializers.SerializerMethodField()
 
     shop = serializers.SerializerMethodField()
 
@@ -200,7 +200,7 @@ class VariationSerializer(serializers.ModelSerializer):
             'stock_count',
             'item_stock',
             'shop',
-            # 'v_in_order'
+            'check_in_order'
         )
 
     def get_is_in_stock(self, obj):
@@ -210,8 +210,8 @@ class VariationSerializer(serializers.ModelSerializer):
         # pass
         return obj.v_shop()
 
-    # def get_v_in_order(self, obj):
-    #     return obj.check_in_order()
+    def get_check_in_order(self, obj):
+        return obj.check_in_order()
 
 
 class OrderStatusSerializer(serializers.ModelSerializer):

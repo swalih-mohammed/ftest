@@ -357,11 +357,26 @@ class Variation(models.Model):
         return False
     def v_shop(self):
         return self.item.shop.id
-    # def check_in_order(self):
-    #     shop = self.v_shop()
-    #     print(self.order_set.all())
-    #     check = OrderItem.objects.filter(shop_id=shop)
-    #     return check.count()
+    def check_in_order(self):
+        shop = self.v_shop()
+        v = self.id
+        # print(v)
+        v_quantity = 0
+        orders = Order.objects.filter(shop=shop, order_status_id=1, items__item_variation=v)
+        for order in orders:
+            items = order.items.all()
+            for item in items:
+                # print (item.quantity)
+                # print(q)
+                v_quantity += item.quantity
+        return v_quantity
+                
+
+        # print (orders)
+        # return 0
+        # print(self.order_set.all())
+        # check = OrderItem.objects.filter(shop_id=shop)
+        # return check.count()
     
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,

@@ -314,7 +314,11 @@ class Item(models.Model):
         return self.productategory.name
     def get_image(self):
         if self.product_image:
-            return self.product_image.image1.url
+            if self.product_image.image1:
+                return self.product_image.image1.url
+            return None
+        return None
+            
         return None
     def get_shop(self):
         return self.shop.name

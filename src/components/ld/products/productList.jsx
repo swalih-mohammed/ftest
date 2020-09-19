@@ -133,7 +133,7 @@ class ProductList extends Component {
 
   render() {
     const { products, categories, hasMore } = this.state;
-    // console.log(products);
+    console.log(products);
 
     return (
       <div className="container">

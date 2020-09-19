@@ -225,7 +225,7 @@ class OrderStatusSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    order_id = serializers.SerializerMethodField()
+    # order_id = serializers.SerializerMethodField()
     final_price = serializers.SerializerMethodField()
     item_image = serializers.SerializerMethodField()
     shop_name = serializers.ReadOnlyField(source='shop.name')
@@ -254,8 +254,8 @@ class OrderItemSerializer(serializers.ModelSerializer):
     def get_item_image(self, obj):
         return obj.item_image()
 
-    def get_order_id(self, obj):
-        return obj.order_number()
+    # def get_order_id(self, obj):
+    #     return obj.order_number()
 
 
 class OrderSerializer(serializers.ModelSerializer):

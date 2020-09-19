@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { ListGroup, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
+import { ListGroup, Card, Button, Col, Container, Row } from "react-bootstrap";
 
 class ProductCard extends Component {
   state = {
@@ -12,18 +11,25 @@ class ProductCard extends Component {
   };
   render() {
     const { item } = this.props;
+    // console.log(123);
 
     return (
       <div>
         <Card
           border={item.v_availability ? "success" : "danger"}
-          style={{ width: "20rem" }}
+          // style={{ width: "20rem" }}
           onClick={() => {
             this.handleViewVariationDisply();
           }}
         >
           <Card.Header>
-            {item.title_local ? item.title_local : item.title}
+            <Row>
+              <Col xs={6}>
+                {item.title_local ? item.title_local : item.title}
+              </Col>
+              <Col xs={3}>{item.stock_count} </Col>
+              <Col xs={3}>{item.item_in_order}</Col>
+            </Row>
           </Card.Header>
           <ListGroup
             style={{ display: this.state.display ? "" : "none" }}
@@ -35,8 +41,15 @@ class ProductCard extends Component {
                   key={index}
                   variant={item.stock_count > 0 ? "success" : "danger"}
                 >
-                  {item.name} Stock:
-                  {item.stock_count > 0 ? item.stock_count : "Out of stock"}
+                  <Row>
+                    <Col xs={6}>{item.name} </Col>
+                    <Col xs={3}>
+                      {item.stock_count > 0 ? item.stock_count : "Out of stock"}
+                    </Col>
+                    <Col xs={3}>{item.check_in_order}</Col>
+                  </Row>
+                  {/* {item.name} Stock: */}
+                  {/* {item.stock_count > 0 ? item.stock_count : "Out of stock"} */}
                 </ListGroup.Item>
               );
             })}

@@ -13,7 +13,8 @@ import { authAxios } from "../../../authAxios";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "react-toastify/dist/ReactToastify.css";
 // import { ToastContainer, toast } from "react-toastify";
-import { Form } from "react-bootstrap";
+import { Form, Row, Col, Container, Card } from "react-bootstrap";
+
 import Productcategory from "./productCategory";
 import ProductCard from "./productCard";
 
@@ -137,71 +138,93 @@ class ProductList extends Component {
 
     return (
       <div className="container">
-        {/* <ToastContainer /> */}
-        <div className="account-sidebar">
-          <Link style={{ color: "#FFF" }} to={`/add-shop-product`}>
-            Add a product
-          </Link>
-        </div>
+        <Container>
+          {/* <ToastContainer /> */}
+          <div className="account-sidebar">
+            <Link style={{ color: "#FFF" }} to={`/add-shop-product`}>
+              Add a product
+            </Link>
+          </div>
 
-        {this.state.loading && <div className="loading-cls"></div>}
-        {categories.length > 1 ? (
-          <Productcategory
-            handleClearCategory={this.handleClearCategory}
-            handleChangeCategory={this.handleChangeCategory}
-            ShopProductCategory={categories}
-          />
-        ) : null}
-
-        <Form>
-          <div className="mb-3">
-            <Form.Check
-              onChange={this.handleOutofStock}
-              checked={this.state.outOfStock}
-              type="checkbox"
-              label="Search only out of stock"
+          {this.state.loading && <div className="loading-cls"></div>}
+          {categories.length > 1 ? (
+            <Productcategory
+              handleClearCategory={this.handleClearCategory}
+              handleChangeCategory={this.handleChangeCategory}
+              ShopProductCategory={categories}
             />
-          </div>
-        </Form>
-        {products.length > 0 ? (
-          <div>
-            <div className="row">
-              <div className="col-sm-12">
-                {products.map((item, index) => {
-                  return (
-                    <ProductCard
-                      item={item}
-                      key={index}
-                      fetchProducts={this.fetchProducts}
-                      hasMore={hasMore}
-                    />
-                  );
-                })}
-                {this.loading ? (
-                  <div className="loading-cls"></div>
-                ) : (
-                  <React.Fragment>
-                    {" "}
-                    {hasMore ? (
-                      <p
-                        onClick={this.fetchProducts}
-                        className="seen-cls seen-it-cls"
-                      >
-                        <b>Load More</b>
-                      </p>
-                    ) : (
-                      <p className="seen-cls seen-it-cls">
-                        <b>No more products</b>
-                      </p>
-                    )}
-                  </React.Fragment>
-                )}
-              </div>
+          ) : null}
+
+          <Form>
+            <div className="mb-3">
+              <Form.Check
+                onChange={this.handleOutofStock}
+                checked={this.state.outOfStock}
+                type="checkbox"
+                label="Search only out of stock"
+              />
             </div>
-          </div>
-        ) : (
-          <div>No products</div>
-        )}
+          </Form>
+          {/* <Container> */}
+          {products.length > 0 ? (
+            <div>
+              <div className="row">
+                <div className="col-sm-12">
+                  <Card bg={"secondary"} text={"light"}>
+                    <Card.Header as="h4">
+                      <Row>
+                        <Col xs={4}>Product</Col>
+                        <Col xs={4}> Stock </Col>
+                        <Col xs={4}>Orders</Col>
+                      </Row>
+                    </Card.Header>
+                  </Card>
+                </div>
+              </div>
+              <br></br>
+
+              {products.map((item, index) => {
+                return (
+                  <div key={index} className="row">
+                    <div className="col-sm-12">
+                      <ProductCard
+                        item={item}
+                        fetchProducts={this.fetchProducts}
+                        hasMore={hasMore}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+              {this.loading ? (
+                <div className="row">
+                  <div className="loading-cls"></div>
+                </div>
+              ) : (
+                <React.Fragment>
+                  <div className="row">
+                    <Col>
+                      {hasMore ? (
+                        <p
+                          onClick={this.fetchProducts}
+                          className="seen-cls seen-it-cls"
+                        >
+                          <b>Load More</b>
+                        </p>
+                      ) : (
+                        <p className="seen-cls seen-it-cls">
+                          <b>No more products</b>
+                        </p>
+                      )}
+                    </Col>
+                  </div>
+                </React.Fragment>
+              )}
+            </div>
+          ) : (
+            <div>No products</div>
+          )}
+        </Container>
       </div>
     );
   }

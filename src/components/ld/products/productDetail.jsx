@@ -119,7 +119,8 @@ class ProductDetail extends Component {
               fetchProduct={this.fetchProductDetails}
             />
           ) : null}
-          <Card style={{ width: "18rem" }}>
+          {/* <Card style={{ width: "18rem" }}> */}
+          <Card>
             <Card.Img variant="top" src={`${localhost}/${product.image}`} />
             <Card.Body>
               <Card.Title>{product.title}</Card.Title>

@@ -38,9 +38,9 @@ class AddVariation extends React.Component {
         item: item,
         name: name,
         price: price,
+        discount_price: discount_price,
         stock_count: stock_count,
         item_stock: item_stock,
-        discount_price: discount_price,
         is_available: is_available
       })
       .then(res => {
@@ -66,7 +66,7 @@ class AddVariation extends React.Component {
       is_available,
       item_stock
     } = this.state;
-    // console.log(productForm);
+    console.log(stock_count);
     return (
       <Modal
         show={this.props.show}

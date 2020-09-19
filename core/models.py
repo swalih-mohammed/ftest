@@ -330,6 +330,17 @@ class Item(models.Model):
                 return False
             return True
 
+    def item_in_order(self):    
+        shop = self.shop
+        item_id = self.id
+        item_quantity = 0
+        orders = Order.objects.filter(shop=shop, ordered=True, order_status_id=1, items__item=item_id)
+        for order in orders:
+            items = order.items.all()
+            for item in items:
+                item_quantity += item.quantity
+        return item_quantity
+
 class Variation(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
@@ -371,12 +382,6 @@ class Variation(models.Model):
                 v_quantity += item.quantity
         return v_quantity
                 
-
-        # print (orders)
-        # return 0
-        # print(self.order_set.all())
-        # check = OrderItem.objects.filter(shop_id=shop)
-        # return check.count()
     
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,

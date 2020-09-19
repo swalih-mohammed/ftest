@@ -148,6 +148,7 @@ class ShopProductSerializer(serializers.ModelSerializer):
     variations = serializers.SerializerMethodField()
     v_availability = serializers.SerializerMethodField()
     product_image = serializers.SerializerMethodField()
+    item_in_order = serializers.SerializerMethodField()
 
     class Meta:
         model = Item
@@ -179,6 +180,9 @@ class ShopProductSerializer(serializers.ModelSerializer):
 
     def get_product_image(self, obj):
         return obj.get_image()
+
+    def get_item_in_order(self, obj):
+        return obj.item_in_order()
 
 
 class VariationSerializer(serializers.ModelSerializer):

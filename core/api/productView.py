@@ -87,7 +87,7 @@ class shopProductListInfinitView(generics.ListAPIView):
 
 class AddProductVariationView(APIView):
     def post(self, request, *args, **kwargs):
-        # print(request.data)
+        print(request.data)
         item = request.data.get('item', None)
         name = request.data.get('name', None)
         price = request.data.get('price', None)
@@ -97,7 +97,7 @@ class AddProductVariationView(APIView):
         item_stock = request.data.get('item_stock', None)
         item = get_object_or_404(Item, id=item)
         varitation = Variation.objects.create(item=item, name=name,
-                                              price=price, discount_price=discount_price, is_available=is_available)
+                                              price=price, discount_price=discount_price, stock_count=stock_count, item_stock=item_stock, is_available=is_available)
         varitation.save()
         return Response(status=HTTP_200_OK)
 

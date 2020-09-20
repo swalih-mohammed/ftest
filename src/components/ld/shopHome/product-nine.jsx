@@ -86,108 +86,109 @@ class ProductStyleNine extends Component {
     // console.log(selectedVariationMRP);
 
     return (
-      <div className="product-box">
-        <ToastContainer />
-
-        {this.state.loading && <div className="loading-cls"></div>}
-        <div className="img-wrapper">
-          <div className="lable-block">
-            {product.is_featured == true ? (
-              <span className="lable3">new</span>
-            ) : (
-              ""
-            )}
-            {product.is_on_sale == true ? (
-              <span className="lable3">sale</span>
-            ) : (
-              ""
-            )}
-            {product.is_available !== true ? (
-              <span className="lable4">Out of stock</span>
-            ) : (
-              ""
-            )}
-          </div>
-          <div className="front">
-            {/* <Link
+      <div className="localdukan">
+        <div>
+          <ToastContainer />
+          {this.state.loading && <div className="loading-cls"></div>}
+          <div className="img-wrapper">
+            <div className="lable-block">
+              {product.is_featured == true ? (
+                <span className="lable3">new</span>
+              ) : (
+                ""
+              )}
+              {product.is_on_sale == true ? (
+                <span className="lable3">sale</span>
+              ) : (
+                ""
+              )}
+              {product.is_available !== true ? (
+                <span className="lable4">Out of stock</span>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="front">
+              {/* <Link
               to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}
             > */}
-            {/* <img
+              {/* <img
               src={`${localhost}${product.product_image}`}
               className="img-fluid"
               alt="product-image"
             /> */}
-            <Img
-              loading="lazy"
-              className="img-fluid lazyload bg-img"
-              // src={product.product_image}
-              src={`${localhost}${product.product_image}`}
-              loader={<div className="loading-cls"></div>}
-            />
-            {/* </Link> */}
+              <Img
+                loading="lazy"
+                className="img-fluid lazyload bg-img"
+                // src={product.product_image}
+                src={`${localhost}${product.product_image}`}
+                loader={<div className="loading-cls"></div>}
+              />
+              {/* </Link> */}
+            </div>
           </div>
-        </div>
-        <div className="product-detail">
-          <div>
-            {/* <div className="rating">{RatingStars}</div> */}
-            <div className="rating"> </div>
-            {/* <Link
+          <div className="product-detail">
+            <div>
+              {/* <div className="rating">{RatingStars}</div> */}
+              <div className="rating"> </div>
+              {/* <Link
               to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}
             > */}
-            {product.title_local ? (
-              <h6>{product.title_local}</h6>
-            ) : (
-              <h6>{product.title}</h6>
-            )}
+              {product.title_local ? (
+                <h6>{product.title_local}</h6>
+              ) : (
+                <h6>{product.title}</h6>
+              )}
 
-            <h4>
-              {"Rs: "} {this.state.selectedVariationPrice}{" "}
-              <del>
-                <span className="money">
-                  {"  MRP "}
-                  {this.state.selectedVariationMRP}
-                </span>
-              </del>
-            </h4>
-            <br />
+              <h4>
+                {"Rs: "} {this.state.selectedVariationPrice}{" "}
+                <del>
+                  <span className="money">
+                    {"  MRP "}
+                    {this.state.selectedVariationMRP}
+                  </span>
+                </del>
+              </h4>
+              <br />
 
-            {defaultOption ? (
-              <React.Fragment>
-                {defaultOption.name && (
-                  <Select
-                    options={variations}
-                    getOptionLabel={option => `${option.name}`}
-                    value={variations.filter(
-                      ({ name }) => name === this.state.selectedVariationName
-                    )}
-                    onChange={value => this.handleChangeVariation(value)}
-                    isSearchable={false}
-                  />
-                )}
-              </React.Fragment>
-            ) : null}
-
-            <div className="cart-bottom">
-              {product.is_available ? (
-                <button
-                  title="Add to cart"
-                  onClick={() =>
-                    this.handleAddToCart(
-                      product.id,
-                      product.shop,
-                      this.state.selectedVariationID
-                    )
-                  }
-                >
-                  <i>
-                    <FontAwesomeIcon
-                      icon={faShoppingCart}
-                      size={"lg"}
-                      color={"#ff4c3b"}
+              {defaultOption ? (
+                <React.Fragment>
+                  {defaultOption.name && (
+                    <Select
+                      options={variations}
+                      getOptionLabel={option => `${option.name}`}
+                      value={variations.filter(
+                        ({ name }) => name === this.state.selectedVariationName
+                      )}
+                      onChange={value => this.handleChangeVariation(value)}
+                      isSearchable={false}
                     />
-                  </i>
-                </button>
+                  )}
+                </React.Fragment>
               ) : null}
+
+              <div className="cart-bottom">
+                {product.is_available ? (
+                  <button
+                    title="Add to cart"
+                    onClick={() =>
+                      this.handleAddToCart(
+                        product.id,
+                        product.shop,
+                        this.state.selectedVariationID
+                      )
+                    }
+                  >
+                    <i>
+                      <FontAwesomeIcon
+                        icon={faShoppingCart}
+                        size={"lg"}
+                        color={"#ff4c3b"}
+                      />
+                    </i>
+                  </button>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>

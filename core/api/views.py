@@ -123,9 +123,33 @@ class AddToCartView(APIView):
         id = request.data.get('id', None)
         v = request.data.get('variation', None)
 
+        shop = get_object_or_404(Shop, id=shop)
         item = get_object_or_404(Item, id=id)
         variation = get_object_or_404(Variation, id=v)
+        place_id = shop.place_id
+        place = Place.objects.get(id=place_id)
 
+        address = Address.objects.filter(user=request.user)
+        userAddress = address[0]
+        userAddressArea = userAddress.area
+        userAddressPlace = userAddress.place
+        userAddressVillage = userAddress.village
+
+        if shop.cluster_shop:
+            shippingVillages = shop.service_villages.all()
+            village = shippingVillages.filter(id=userAddressVillage.id).first()
+            if village is None:
+                return Response({"message": "No delivery to your village"}, status=HTTP_400_BAD_REQUEST)
+        elif shop.village_shop:
+            shippingPlaces = shop.service_localities.all()
+            locality = shippingPlaces.filter(id=userAddressPlace.id).first()
+            if locality is None:
+                return Response({"message": "No delivery to your locality"}, status=HTTP_400_BAD_REQUEST)
+        else:
+            shippingAreas = shop.service_areas.all()
+            area = shippingAreas.filter(id=userAddressArea.id).first()
+            if area is None:
+                return Response({"message": "No delivery to your area"}, status=HTTP_400_BAD_REQUEST)
         # item controls the stock
         if variation.item_stock:
             stock_count = 'stock_count'
@@ -159,10 +183,8 @@ class AddToCartView(APIView):
         variation.stock_count -= 1
         variation.save()
 
-        shop = get_object_or_404(Shop, id=shop)
         # print(shop)
-        place_id = shop.place_id
-        place = Place.objects.get(id=place_id)
+
         order_item_qs = OrderItem.objects.filter(
             item=item,
             item_variation=variation,

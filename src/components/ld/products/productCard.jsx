@@ -16,7 +16,9 @@ class ProductCard extends Component {
     return (
       <div>
         <Card
-          border={item.v_is_available ? "success" : "danger"}
+          border={
+            item.is_available && item.v_is_available ? "success" : "danger"
+          }
           // style={{ width: "20rem" }}
           onClick={() => {
             this.handleViewVariationDisply();
@@ -27,26 +29,34 @@ class ProductCard extends Component {
               <Col xs={6}>
                 {item.title_local ? item.title_local : item.title}
               </Col>
-              <Col xs={3}>{item.stock_count} </Col>
-              <Col xs={3}>{item.item_in_order}</Col>
+              <Col xs={3}>
+                {item.item_stock ? item.stock_count : item.stock_of_varitations}
+              </Col>
+              <Col xs={3}>
+                {item.item_stock
+                  ? item.item_in_order
+                  : item.order_of_varitations}
+              </Col>
             </Row>
           </Card.Header>
           <ListGroup
             style={{ display: this.state.display ? "" : "none" }}
             variant="flush"
           >
-            {item.variations.map((item, index) => {
+            {item.variations.map((v, index) => {
               return (
                 <ListGroup.Item
                   key={index}
-                  variant={item.stock_count > 0 ? "success" : "danger"}
+                  variant={v.stock_count > 0 ? "success" : "danger"}
                 >
                   <Row>
-                    <Col xs={6}>{item.name} </Col>
+                    <Col xs={6}>{v.name} </Col>
                     <Col xs={3}>
-                      {item.stock_count > 0 ? item.stock_count : "Out of stock"}
+                      {item.item_stock ? item.stock_count : v.stock_count}
                     </Col>
-                    <Col xs={3}>{item.check_in_order}</Col>
+                    <Col xs={3}>
+                      {item.item_stock ? item.item_in_order : v.check_in_order}
+                    </Col>
                   </Row>
                   {/* {item.name} Stock: */}
                   {/* {item.stock_count > 0 ? item.stock_count : "Out of stock"} */}

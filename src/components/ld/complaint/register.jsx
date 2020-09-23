@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import { authAxios } from "../../../authAxios";
 import { registerComplaintURL } from "../../../constants";
+import Footer from "../common/footer";
 import { useFormik, Field } from "formik";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -127,6 +128,9 @@ const Register = props => {
                     />
                   </div>
                 </form>
+                {/* <Suspense fallback={<Loader />}> */}
+                <Footer logoName={"logo.png"} />
+                {/* </Suspense> */}
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { authSignup } from "../../../actions/auth";
-import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import { authAxios } from "../../../authAxios";
 import { orderFilterURL } from "../../../constants";
@@ -55,10 +55,14 @@ const Manage = () => {
     {
       Header: "ID",
       accessor: "id",
-      Cell: e => (
-        <a href={`${process.env.PUBLIC_URL}/order/${e.value}`}> {e.value} </a>
+      // Cell: e => (
+      //   <a href={`${process.env.PUBLIC_URL}/order/${e.value}`}> {e.value} </a>
+      // )
+      Cell: ({ row }) => (
+        <Link to={`${process.env.PUBLIC_URL}/order/${row.values.id}`}>
+          {row.values.id}
+        </Link>
       )
-      //  <Link to={`${process.env.PUBLIC_URL}/shops/${shop.id}`}>
     },
     {
       Header: "Customer",

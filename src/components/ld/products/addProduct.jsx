@@ -32,9 +32,10 @@ class AddProduct extends Component {
     stock_count: null,
     product_image: "",
     productategory: "",
-    is_available: false,
+    is_available: true,
     is_on_sale: false,
     is_featured: false,
+    item_stock: false,
 
     id: "",
     success: false,
@@ -118,7 +119,8 @@ class AddProduct extends Component {
       product_image,
       is_available,
       is_on_sale,
-      is_featured
+      is_featured,
+      item_stock
     } = this.state;
     authAxios
       .post(addProductURL, {
@@ -130,7 +132,8 @@ class AddProduct extends Component {
         product_image,
         is_available,
         is_on_sale,
-        is_featured
+        is_featured,
+        item_stock
       })
       .then(res => {
         this.setState({
@@ -146,6 +149,7 @@ class AddProduct extends Component {
   render() {
     // console.log(this.state.selectedImage);
     // console.log(this.props.userID);
+    // console.log(123);
     const {
       success,
       error,
@@ -157,6 +161,7 @@ class AddProduct extends Component {
       is_available,
       is_on_sale,
       is_featured,
+      item_stock,
       productategory
     } = this.state;
 
@@ -229,7 +234,17 @@ class AddProduct extends Component {
             </Col>
           ) : null}
 
-          <Form.Group controlId="formBasicCheckbox">
+          <Form.Group controlId="on_sale">
+            <Form.Check
+              type="checkbox"
+              label="On sale"
+              name="is_on_sale"
+              checked={is_on_sale}
+              onChange={this.handleChangeCheckBox}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="is_available">
             <Form.Check
               type="checkbox"
               name="is_available"
@@ -238,7 +253,7 @@ class AddProduct extends Component {
               onChange={this.handleChangeCheckBox}
             />
           </Form.Group>
-          <Form.Group controlId="formBasicCheckbox">
+          {/* <Form.Group controlId="is_feautured">
             <Form.Check
               type="checkbox"
               label="Feautured product"
@@ -246,13 +261,14 @@ class AddProduct extends Component {
               checked={is_featured}
               onChange={this.handleChangeCheckBox}
             />
-          </Form.Group>
-          <Form.Group controlId="formBasicCheckbox">
+          </Form.Group> */}
+
+          <Form.Group controlId="item_stock">
             <Form.Check
               type="checkbox"
-              label="On sale"
-              name="is_on_sale"
-              checked={is_on_sale}
+              label="Manage stock from product"
+              name="item_stock"
+              checked={item_stock}
               onChange={this.handleChangeCheckBox}
             />
           </Form.Group>

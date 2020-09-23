@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Alert } from "react-bootstrap";
 
 import {
   ShopDashboardDetialURL,
@@ -111,9 +111,15 @@ class Orders extends Component {
                                     <h6>Phone: {ShopDetail.phone_number}</h6>
                                     <br />
                                     <h4>
-                                      {ShopDetail.is_accepting_orders
-                                        ? "Your Shop is open"
-                                        : "Your Shop is closed"}
+                                      {ShopDetail.is_accepting_orders ? (
+                                        <Alert variant={"success"}>
+                                          Your shop is open
+                                        </Alert>
+                                      ) : (
+                                        <Alert variant={"danger"}>
+                                          Your shop is closed
+                                        </Alert>
+                                      )}
                                     </h4>
                                     <br></br>
                                     <>
@@ -176,61 +182,9 @@ class Orders extends Component {
                       </div>
                     </div>
                   ) : null}
+
                   {orders ? (
                     <div className="row">
-                      <div className="col-lg-3">
-                        <div className="dashboard-left">
-                          <div className="collection-mobile-back">
-                            <span className="filter-back">
-                              <i
-                                className="fa fa-angle-left"
-                                aria-hidden="true"
-                              ></i>{" "}
-                              back
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-9">
-                        <div className="dashboard-right">
-                          <div className="dashboard">
-                            <div className="box-account box-info">
-                              <div className="box-head">
-                                <h3>
-                                  {this.state.orders.totalOrders} Total Orders
-                                </h3>
-                              </div>
-                              <div className="row">
-                                <div className="col-sm-6">
-                                  <div className="box">
-                                    <div className="box-title">
-                                      {/* <h4>Order ID: {order.id}</h4> */}
-                                    </div>
-                                    {/* <div className="box-content"></div> */}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-                  {orders ? (
-                    <div className="row">
-                      <div className="col-lg-3">
-                        <div className="dashboard-left">
-                          <div className="collection-mobile-back">
-                            <span className="filter-back">
-                              <i
-                                className="fa fa-angle-left"
-                                aria-hidden="true"
-                              ></i>{" "}
-                              back
-                            </span>
-                          </div>
-                        </div>
-                      </div>
                       <div className="col-lg-9">
                         <div className="dashboard-right">
                           <div className="dashboard">
@@ -255,6 +209,30 @@ class Orders extends Component {
                                       </Link>
                                       {/* </a> */}
                                     </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                  {orders ? (
+                    <div className="row">
+                      <div className="col-lg-9">
+                        <div className="dashboard-right">
+                          <div className="dashboard">
+                            <div className="box-account box-info">
+                              <div className="box-head">
+                                <h3>
+                                  {this.state.orders.totalOrders} Total Orders
+                                </h3>
+                              </div>
+                              <div className="row">
+                                <div className="col-sm-6">
+                                  <div className="box">
+                                    <div className="box-title"></div>
                                   </div>
                                 </div>
                               </div>

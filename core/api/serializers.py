@@ -143,12 +143,14 @@ class ShopSerializer(serializers.ModelSerializer):
 class ShopProductSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source='category.name')
     shop_name = serializers.ReadOnlyField(source='shop.name')
-    # product_image = serializers.ReadOnlyField(
-    #     source='product_image.image1.url')
     variations = serializers.SerializerMethodField()
-    v_availability = serializers.SerializerMethodField()
+    # v_availability = serializers.SerializerMethodField()
     product_image = serializers.SerializerMethodField()
     item_in_order = serializers.SerializerMethodField()
+    update_v_availability = serializers.SerializerMethodField()
+    stock_of_varitations = serializers.SerializerMethodField()
+    order_of_varitations = serializers.SerializerMethodField()
+    v_availability = serializers.SerializerMethodField()
 
     class Meta:
         model = Item
@@ -166,23 +168,102 @@ class ShopProductSerializer(serializers.ModelSerializer):
         #     ''
         # )
 
-    # def get_image_url(self, obj):
-    #     return obj.product_image.image1.url
     def get_variations(self, obj):
+        # # print("tesing from getting vari")
+        # # variation = obj.get_v_availability()
+        # variations = obj.get_variations()
+        # item = Item.objects.get(id=obj.id)
+        # # print(item)
+
+        # test = False
+        # for v in variations:
+        #     if v.stock_count < 1:
+        #         test = True
+        # # test = test
+        # if test:
+        #     # print("No")
+        #     # print(item)
+        #     serializer = ItemSerializer(
+        #         item,  data={'v_is_available': False}, partial=True)
+        #     if serializer.is_valid():
+        #         serializer.save()
+        #     item.save()
+        #     print(item)
+        #     print(item.v_is_available)
+        #     item.save()
+        # else:
+        #     # print("Yes")
+        #     # print(item)
+        #     serializer = ItemSerializer(
+        #         item,  data={'v_is_available': True}, partial=True)
+        #     if serializer.is_valid():
+        #         serializer.save()
+        #         item.save()
+
         return VariationSerializer(obj.variation_set.all(), many=True).data
 
+    def get_update_v_availability(self, obj):
+        variations = obj.get_variations()
+        # print(variations)
+        for v in variations:
+            variation = Variation.objects.get(id=v.id)
+            # print(variation)
+            if variation.stock_count < 1:
+                # print("less than one")
+                serializer = VariationSerializer(
+                    variation,  data={'is_available': False}, partial=True)
+            else:
+                serializer = VariationSerializer(
+                    variation,  data={'is_available': True}, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+            variation.save()
+
+    # def item_available(self, obj):
+    #     item_is_available = obj.check_if_available()
+    #     if item_is_available:
+    #         print("item is available")
+    #         return None
+    #     else:
+    #         print("item is not available")
+    #         item = Item.objects.get(id=obj.id)
+    #         serializer = ItemSerializer(
+    #             item,  data={'is_available': False}, partial=True)
+    #         if serializer.is_valid():
+    #             serializer.save()
+    #         item.save()
+
     def get_v_availability(self, obj):
-        Variation = obj.variation_set.all()
-        for v in Variation:
-            if v.stock_count < 1:
-                return False
-            return True
+        test = obj.get_v_availability()
+        item = Item.objects.get(id=obj.id)
+        if test:
+
+            serializer = ItemSerializer(
+                item,  data={'v_is_available': True}, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                item.save()
+        else:
+
+            serializer = ItemSerializer(
+                item,  data={'v_is_available': False}, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+            item.save()
 
     def get_product_image(self, obj):
         return obj.get_image()
 
     def get_item_in_order(self, obj):
         return obj.item_in_order()
+
+    def get_stock_of_varitations(self, obj):
+        return obj.stock_of_varitations()
+
+    # def get_order_of_variations(self, obj):
+    #     test = obj.get_variations()
+    def get_order_of_varitations(self, obj):
+        return obj.order_of_varitations()
 
 
 class VariationSerializer(serializers.ModelSerializer):

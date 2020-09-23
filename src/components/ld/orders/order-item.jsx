@@ -9,7 +9,7 @@ import Select from "react-select";
 import { Redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Button from "react-bootstrap/Button";
+import { Button } from "react-bootstrap";
 
 import {
   orderDetailURL,
@@ -180,7 +180,7 @@ class OrderItem extends Component {
     const { order, orderAddress, orderItems, success } = this.state;
 
     const { user } = this.props;
-    // console.log(orderItems);
+    // console.log(123);
 
     if (success) {
       if (user.user.is_staff_user) {
@@ -198,9 +198,9 @@ class OrderItem extends Component {
         <Breadcrumb title={"Order Details"} />
         <section className="section-b-space">
           <div className="container padding-cls">
-            <a href="/orders">
-              <div className="account-sidebar">Back to Orders</div>
-            </a>
+            <Link to={"/shop-order-table"}>
+              <Button variant="outline-danger">Back to orders</Button>{" "}
+            </Link>
 
             {user.user.is_customer ? (
               <div className="checkout-page">
@@ -208,6 +208,7 @@ class OrderItem extends Component {
                   <div className="checkout-form">
                     <div className="row check-out">
                       <div className="form-group col-md-6 col-sm-6 col-xs-12">
+                        <br></br>
                         <div className="field-label">Update order status</div>
 
                         <Select
@@ -241,13 +242,13 @@ class OrderItem extends Component {
             ) : (
               ""
             )}
-
             {user.user.is_staff_user ? (
               <div className="checkout-page">
                 <form onSubmit={this.updateOrderStatus}>
                   <div className="checkout-form">
                     <div className="row check-out">
                       <div className="form-group col-md-6 col-sm-6 col-xs-12">
+                        <br></br>
                         <div className="field-label">Update order status</div>
 
                         <Select
@@ -256,10 +257,10 @@ class OrderItem extends Component {
                           getOptionLabel={option => `${option.name}`}
                           getOptionValue={option => `${option}`}
                           options={this.state.staffOrderStatus}
-                          isSearchable={true}
+                          // isSearchable={true}
                           //   filterOption={this.customFilter}
                           onInputChange={this.handleInputChange}
-                          noOptionsMessage={() => null}
+                          // noOptionsMessage={() => null}
                           placeholder={"Select order status"}
                           // autoFocus={true}
                           menuIsOpen={this.state.menuOpen}
@@ -271,7 +272,7 @@ class OrderItem extends Component {
                       type="submit"
                       className="btn btn-solid"
                       id="submit"
-                      placeholder="Submit"
+                      placeholder="Update"
                       required=""
                     />
                   </div>
@@ -281,18 +282,7 @@ class OrderItem extends Component {
             ) : (
               ""
             )}
-
             <div className="row">
-              <div className="col-lg-3">
-                <div className="dashboard-left">
-                  <div className="collection-mobile-back">
-                    <span className="filter-back">
-                      <i className="fa fa-angle-left" aria-hidden="true"></i>{" "}
-                      back
-                    </span>
-                  </div>
-                </div>
-              </div>
               <div className="col-lg-9">
                 <div className="dashboard-right">
                   <div className="dashboard">
@@ -334,7 +324,6 @@ class OrderItem extends Component {
                 </div>
               </div>
             </div>
-
             <div className="row section-t-space">
               <div className="col-lg-6">
                 <div className="stripe-section">
@@ -355,7 +344,7 @@ class OrderItem extends Component {
                           <td>{orderAddress.district}</td>
                           <td>{orderAddress.state}</td>
                         </tr> */}
-                        <br></br>
+                        {/* <br></br> */}
                         <tr>
                           <td>
                             {" "}

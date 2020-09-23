@@ -30,6 +30,7 @@ class checkOut extends Component {
     ShopModeOfPayment: [],
     selectedModeofPayment: null,
     coupon: "",
+    Coupondisplay: false,
     offer: "",
     error: ""
   };
@@ -39,7 +40,9 @@ class checkOut extends Component {
     // this.props.refreshCart();
     this.handleFetchOrder();
   }
-
+  handleDisplyCoupon = () => {
+    this.setState({ Coupondisplay: !this.state.Coupondisplay });
+  };
   handleFetchOrder = () => {
     this.setState({ loading: true });
     authAxios
@@ -290,20 +293,6 @@ class checkOut extends Component {
                 </div>
               </div>
 
-              {ShopModeOfPayment ? (
-                <section className="section-b-space">
-                  <div className="container">
-                    <Navbar bg="dark">
-                      <h4 style={{ color: "white" }}>Select Payment Method</h4>
-                    </Navbar>
-                    <ModeOfPayment
-                      handleModeOfPayment={this.handleModeOfPayment}
-                      options={ShopModeOfPayment}
-                    />
-                  </div>
-                </section>
-              ) : null}
-
               {addressList.length > 0 ? (
                 <section className="section-b-space">
                   <div className="container">
@@ -325,9 +314,34 @@ class checkOut extends Component {
                 </section>
               )}
 
+              {ShopModeOfPayment ? (
+                <section className="section-b-space">
+                  <div className="container">
+                    <Navbar bg="dark">
+                      <h4 style={{ color: "white" }}>Select Payment Method</h4>
+                    </Navbar>
+                    <ModeOfPayment
+                      handleModeOfPayment={this.handleModeOfPayment}
+                      options={ShopModeOfPayment}
+                    />
+                  </div>
+                </section>
+              ) : null}
+
               <section className="section-b-space">
                 <div className="container">
-                  <div className="row">
+                  <Alert
+                    onClick={() => {
+                      this.handleDisplyCoupon();
+                    }}
+                    variant={"success"}
+                  >
+                    Have a coupon ?
+                  </Alert>
+                  <div
+                    className="row"
+                    style={{ display: this.state.Coupondisplay ? "" : "none" }}
+                  >
                     <div className="col-lg-6">
                       <div className="theme-card">
                         <form

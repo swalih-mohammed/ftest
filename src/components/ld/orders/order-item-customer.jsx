@@ -9,7 +9,7 @@ import Select from "react-select";
 import { Redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Button from "react-bootstrap/Button";
+import { Button, Alert } from "react-bootstrap";
 
 import {
   orderDetailURL,
@@ -113,7 +113,8 @@ class OrderItem extends Component {
 
     const { userType } = this.props;
     // console.log(this.state.shopOrderStatus, userType);
-    console.log(orderItems);
+
+    console.log(123);
 
     if (CustomerSuccess) {
       return <Redirect to="/orders" />;
@@ -125,20 +126,11 @@ class OrderItem extends Component {
         <Breadcrumb title={"Order Details"} />
         <section className="section-b-space">
           <div className="container padding-cls">
-            <a href="/orders">
-              <div className="account-sidebar">Back to Orders</div>
-            </a>
+            <Link to={"/orders"}>
+              <Button variant="outline-info">Back to orders</Button>{" "}
+            </Link>
+            <br></br>
             <div className="row">
-              <div className="col-lg-3">
-                <div className="dashboard-left">
-                  <div className="collection-mobile-back">
-                    <span className="filter-back">
-                      <i className="fa fa-angle-left" aria-hidden="true"></i>{" "}
-                      back
-                    </span>
-                  </div>
-                </div>
-              </div>
               <div className="col-lg-9">
                 <div className="dashboard-right">
                   <div className="dashboard">
@@ -157,17 +149,20 @@ class OrderItem extends Component {
                             <h6>Mod of Payment: {order.mode_of_payment}</h6>
                           </div>
                           <br></br>
-
-                          <Button
-                            type="submit"
-                            // variant="info"
-                            variant="outline-danger"
-                            size="sm"
-                            // onClick={() => this.orderCancelCustoemr}
-                            onClick={this.orderCancelCustoemr}
-                          >
-                            Cancel order
-                          </Button>
+                          {order.orderStatus !== "Cancelled by customer" ? (
+                            <Button
+                              type="submit"
+                              variant="outline-danger"
+                              size="sm"
+                              onClick={this.orderCancelCustoemr}
+                            >
+                              Cancel order
+                            </Button>
+                          ) : (
+                            <Alert variant={"danger"}>
+                              Order has been cancelled
+                            </Alert>
+                          )}
                         </div>
                       </div>
                     </div>

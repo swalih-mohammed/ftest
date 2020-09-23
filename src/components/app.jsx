@@ -14,11 +14,11 @@ import Loader from "./ld/common/loader";
 
 // const Header = lazy(() => import("./ld/common/header"));
 
-const Footer = lazy(() => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(import("./ld/common/footer")), 3000);
-  });
-});
+// const Footer = lazy(() => {
+//   return new Promise(resolve => {
+//     setTimeout(() => resolve(import("./ld/common/footer")), 3000);
+//   });
+// });
 
 class App extends Component {
   componentDidMount() {
@@ -31,9 +31,10 @@ class App extends Component {
       <div>
         <Header logoName={"logo.png"} />
         {this.props.children}
-        <Suspense fallback={<Loader />}>
+        <br></br> <br />
+        {/* <Suspense fallback={<Loader />}>
           <Footer logoName={"logo.png"} />
-        </Suspense>
+        </Suspense> */}
       </div>
     );
   }

@@ -123,7 +123,7 @@ class AddVariation extends React.Component {
                   onChange={this.handleCheckBox}
                 />
               </Form.Group>
-              <Form.Group controlId="FromProductstock">
+              {/* <Form.Group controlId="FromProductstock">
                 <Form.Check
                   type="checkbox"
                   name="item_stock"
@@ -131,7 +131,7 @@ class AddVariation extends React.Component {
                   checked={item_stock}
                   onChange={this.handleCheckBox}
                 />
-              </Form.Group>
+              </Form.Group> */}
             </Form>
           </Container>
         </Modal.Body>

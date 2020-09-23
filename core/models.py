@@ -300,12 +300,14 @@ class Item(models.Model):
     productategory = models.ForeignKey(ProductCategory,
                                  on_delete=models.CASCADE, blank=True, null=True)                           
     is_available = models.BooleanField(default=True, null=True)
+    item_stock = models.BooleanField(default=False, null=True)
     v_is_available = models.BooleanField(default=True, null=True)
     stock_count = models.IntegerField(default=0,blank=True, null=True)
     is_featured = models.BooleanField(default=False,  blank=True, null=True)
     is_on_sale = models.BooleanField(default=False,  blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     is_active = models.BooleanField(default=True, null=True)
+
     class Meta:
         ordering = ['title']
     def __str__(self):
@@ -319,16 +321,48 @@ class Item(models.Model):
             return None
         return None
             
-        return None
+    def save(self, *args, **kwargs):  
+        if self.stock_count < 1:   
+            self.is_available = False
+        super().save(*args, **kwargs)
+    
     def get_shop(self):
         return self.shop.name
     
     def get_v_availability(self):
-        Variation = self.variation_set.all()
+        Variation = self.variation_set.all() 
         for v in Variation:
+            test = False
             if v.stock_count < 1:
-                return False
-            return True
+                test = True 
+                return test
+        return test
+      
+    def stock_of_varitations(self):
+        Variation = self.variation_set.all()
+        count = 0
+        for v in Variation:
+            count += v.stock_count
+        return count
+    
+    def order_of_varitations(self):
+        variation = self.variation_set.all()
+        v_quantity = 0
+        for v in variation:
+            shop = self.shop
+            v_id = v.id
+            orders = Order.objects.filter(shop=shop, order_status_id=1, items__item_variation=v_id)
+            for order in orders:
+                items = order.items.all()
+                for item in items:
+                    v_quantity += item.quantity
+        return v_quantity
+
+    def check_if_available(self):
+        pass
+    def get_variations(self):
+        variations = self.variation_set.all()
+        return variations
 
     def item_in_order(self):    
         shop = self.shop
@@ -348,7 +382,7 @@ class Variation(models.Model):
     discount_price = models.FloatField(blank=True, null=True) 
     is_available = models.BooleanField(default=False, null=True)
     item_stock = models.BooleanField(default=False, null=True) 
-    stock_count = models.IntegerField(default=0,blank=True, null=True)
+    stock_count = models.IntegerField(default=1,blank=True, null=True)
 
     class Meta:
         unique_together = (
@@ -357,6 +391,11 @@ class Variation(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if self.stock_count < 1:
+            self.is_available = False
+        super().save(*args, **kwargs)
     
     def check_if_available(self):
         if self.item_stock:
@@ -368,6 +407,7 @@ class Variation(models.Model):
         return False
     def v_shop(self):
         return self.item.shop.id
+
     def check_in_order(self):
         shop = self.v_shop()
         v = self.id
@@ -377,11 +417,9 @@ class Variation(models.Model):
         for order in orders:
             items = order.items.all()
             for item in items:
-                # print (item.quantity)
-                # print(q)
                 v_quantity += item.quantity
         return v_quantity
-                
+               
     
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 // import Breadcrumb from "../common/breadcrumb";
 import {
   ShopProductCategoryURL,
@@ -136,6 +136,10 @@ class ProductList extends Component {
     const { products, categories, hasMore } = this.state;
     console.log(products);
 
+    if (!this.props.token) {
+      return <Redirect to="/login" />;
+    }
+
     return (
       <div className="container">
         <Container>
@@ -231,7 +235,8 @@ class ProductList extends Component {
 }
 const mapStateToProps = state => ({
   cartItems: state.cart.shoppingCart,
-  user: state.user
+  user: state.user,
+  token: state.auth.token
 });
 
 export default connect(mapStateToProps)(ProductList);

@@ -50,7 +50,7 @@ class VaritaionItem extends React.Component {
           />
         ) : null}
         <br></br>
-        <Card style={{ width: "18rem" }}>
+        <Card>
           <Card.Header>Name: {variation.name}</Card.Header>
           <ListGroup variant="flush">
             {/* <ListGroupItem>Name: {variation.name}</ListGroupItem> */}

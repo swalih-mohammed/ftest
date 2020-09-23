@@ -72,6 +72,7 @@ class shopProductListInfinitView(generics.ListAPIView):
 
     def get_queryset(self):
         # print(self.request.data)
+        print("this way")
         qs = infinite_product_filter(self.request)
         return qs
 
@@ -154,7 +155,7 @@ def product_filter(request):
     query = request.GET.get('query')
     owner = request.GET.get('owner')
     OutOfStock = request.GET.get('outOfStock')
-    print(OutOfStock == True)
+    # print(OutOfStock == True)
     shop = Shop.objects.filter(owner=owner).first()
 
     if OutOfStock == "true":
@@ -172,6 +173,7 @@ def product_filter(request):
 
 def is_there_more_data(request):
     queryset = Item.objects.all()
+
     limit = request.GET.get('limit')
     offset = request.GET.get('offset')
     query = request.GET.get('query')
@@ -201,7 +203,6 @@ class ProductListInfinitForShopView(generics.ListAPIView):
     permission_classes = (AllowAny,)
 
     def get_queryset(self):
-        print(self.request.data)
         qs = product_filter(self.request)
         return qs
 
@@ -212,6 +213,7 @@ class ProductListInfinitForShopView(generics.ListAPIView):
             "products": serializer.data,
             "has_more": is_there_more_data(request)
         })
+
 
 # infinti product shop view end
 

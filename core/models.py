@@ -336,7 +336,7 @@ class Item(models.Model):
             if v.stock_count < 1:
                 test = True 
                 return test
-        return test
+            return test
       
     def stock_of_varitations(self):
         Variation = self.variation_set.all()
@@ -383,6 +383,7 @@ class Variation(models.Model):
     is_available = models.BooleanField(default=False, null=True)
     item_stock = models.BooleanField(default=False, null=True) 
     stock_count = models.IntegerField(default=1,blank=True, null=True)
+    stock_weight = models.FloatField(default=1,blank=True, null=True)
 
     class Meta:
         unique_together = (

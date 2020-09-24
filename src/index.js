@@ -34,6 +34,7 @@ import Layout from "./components/app";
 // import Register from "./components/ld/pages/register";
 // import Logout from "./components/ld/pages/logout";
 // import PassworReset from "./components/ld/pages/forgetPassword";
+
 import Wishlist from "./components/ld/wishlist/main";
 import Checkout from "./components/ld/checkout/main";
 import OrderSummary from "./components/ld/checkout/or";

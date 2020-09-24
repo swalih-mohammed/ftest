@@ -171,7 +171,7 @@ class AddToCartView(APIView):
             else:
                 print("item les than one else")
                 # print(item.stock_count)
-                item.stock_count -= 1
+                item.stock_count -= variation.stock_weight
                 item.save()
                 # print(item.stock_count)
                 if item.stock_count <= 0:

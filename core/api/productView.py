@@ -88,14 +88,38 @@ class shopProductListInfinitView(generics.ListAPIView):
 
 class AddProductVariationView(APIView):
     def post(self, request, *args, **kwargs):
-        print(request.data)
+        # print(request.data)
         item = request.data.get('item', None)
         name = request.data.get('name', None)
         price = request.data.get('price', None)
         discount_price = request.data.get('discount_price', None)
         stock_count = request.data.get('stock_count', None)
+        stock_count = int(stock_count)
         is_available = request.data.get('is_available', None)
         item_stock = request.data.get('item_stock', None)
+        stock_weight = request.data.get('stock_weight', None)
+        stock_weight = float(stock_weight)
+
+        # if stock_weight == "250gm":
+        #     stock_weight = .25
+        # elif stock_weight == "500gm":
+        #     stock_weight = .5
+        # elif stock_weight == "750gm":
+        #     stock_weight = .75
+        # elif stock_weight == "1kg":
+        #     stock_weight = 1
+        # elif stock_weight == "2kg":
+        #     stock_weight = 2
+        # elif stock_weight == "5kg":
+        #     stock_weight = 5
+        # elif stock_weight == "10kg":
+        #     stock_weight = 10
+        # elif stock_weight == "15kg":
+        #     stock_weight = 15
+        # else:
+        #     stock_weight = 1
+        # print(stock_weight)
+
         item = get_object_or_404(Item, id=item)
         varitation = Variation.objects.create(item=item, name=name,
                                               price=price, discount_price=discount_price, stock_count=stock_count, item_stock=item_stock, is_available=is_available)

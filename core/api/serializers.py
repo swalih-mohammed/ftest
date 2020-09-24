@@ -169,37 +169,6 @@ class ShopProductSerializer(serializers.ModelSerializer):
         # )
 
     def get_variations(self, obj):
-        # # print("tesing from getting vari")
-        # # variation = obj.get_v_availability()
-        # variations = obj.get_variations()
-        # item = Item.objects.get(id=obj.id)
-        # # print(item)
-
-        # test = False
-        # for v in variations:
-        #     if v.stock_count < 1:
-        #         test = True
-        # # test = test
-        # if test:
-        #     # print("No")
-        #     # print(item)
-        #     serializer = ItemSerializer(
-        #         item,  data={'v_is_available': False}, partial=True)
-        #     if serializer.is_valid():
-        #         serializer.save()
-        #     item.save()
-        #     print(item)
-        #     print(item.v_is_available)
-        #     item.save()
-        # else:
-        #     # print("Yes")
-        #     # print(item)
-        #     serializer = ItemSerializer(
-        #         item,  data={'v_is_available': True}, partial=True)
-        #     if serializer.is_valid():
-        #         serializer.save()
-        #         item.save()
-
         return VariationSerializer(obj.variation_set.all(), many=True).data
 
     def get_update_v_availability(self, obj):
@@ -285,7 +254,8 @@ class VariationSerializer(serializers.ModelSerializer):
             'stock_count',
             'item_stock',
             'shop',
-            'check_in_order'
+            'check_in_order',
+            'stock_weight'
         )
 
     def get_is_in_stock(self, obj):

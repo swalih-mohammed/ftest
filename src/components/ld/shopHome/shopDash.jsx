@@ -24,7 +24,7 @@ class Orders extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchUserType();
 
     this.setState({ loading: true }, () => {
@@ -83,19 +83,6 @@ class Orders extends Component {
               <div className="container">
                 {/* <div className="account-sidebar"></div> */}
                 <div className="row">
-                  <div className="col-lg-3">
-                    <div className="dashboard-left">
-                      <div className="collection-mobile-back">
-                        <span className="filter-back">
-                          <i
-                            className="fa fa-angle-left"
-                            aria-hidden="true"
-                          ></i>{" "}
-                          back
-                        </span>
-                      </div>
-                    </div>
-                  </div>
                   <div className="col-lg-9">
                     <div className="dashboard-right">
                       <div className="dashboard">

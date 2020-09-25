@@ -34,10 +34,9 @@ import Layout from "./components/app";
 // import Register from "./components/ld/pages/register";
 // import Logout from "./components/ld/pages/logout";
 // import PassworReset from "./components/ld/pages/forgetPassword";
-
-import Wishlist from "./components/ld/wishlist/main";
-import Checkout from "./components/ld/checkout/main";
-import OrderSummary from "./components/ld/checkout/or";
+// import Wishlist from "./components/ld/wishlist/main";
+// import Checkout from "./components/ld/checkout/main";
+// import OrderSummary from "./components/ld/checkout/or";
 
 //shop products
 // import ShopProducts from "./components/ld/products/productList";
@@ -45,20 +44,20 @@ import OrderSummary from "./components/ld/checkout/or";
 // import AddShopProduct from "./components/ld/products/addProduct";
 
 //address
-import Address from "./components/ld/address/main";
-import CreateAddress from "./components/ld/address/add";
-import EditAddress from "./components/ld/address/edit";
+// import Address from "./components/ld/address/main";
+// import CreateAddress from "./components/ld/address/add";
+// import EditAddress from "./components/ld/address/edit";
 
 //orders
-import Orders from "./components/ld/orders/main";
-import ManageOrderFilter from "./components/ld/manageOrders/index";
-import ManageOrderSearch from "./components/ld/manageOrders/searchOrder";
-import ShopOrderManage from "./components/ld/shopManagement/test";
-import OrderTable from "./components/ld/manageOrders/tableIndex";
-import ShopOrderTable from "./components/ld/manageOrders/shopOrderTable";
-import ShopDashboard from "./components/ld/manageShops/shopDash";
-import OrderItem from "./components/ld/orders/order-item";
-import OrderItemCustomer from "./components/ld/orders/order-item-customer";
+// import Orders from "./components/ld/orders/main";
+// import ManageOrderFilter from "./components/ld/manageOrders/index";
+// import ManageOrderSearch from "./components/ld/manageOrders/searchOrder";
+// import ShopOrderManage from "./components/ld/shopManagement/test";
+// import OrderTable from "./components/ld/manageOrders/tableIndex";
+// import ShopOrderTable from "./components/ld/manageOrders/shopOrderTable";
+// import ShopDashboard from "./components/ld/manageShops/shopDash";
+// import OrderItem from "./components/ld/orders/order-item";
+// import OrderItemCustomer from "./components/ld/orders/order-item-customer";
 
 // //shop manage
 // import AddShop from "./components/ld/manageShops/addShop";
@@ -84,9 +83,9 @@ const Login = lazy(() => import("./components/ld/pages/login"));
 const Register = lazy(() => import("./components/ld/pages/register"));
 const Logout = lazy(() => import("./components/ld/pages/logout"));
 const PassworReset = lazy(() => import("./components/ld/pages/forgetPassword"));
-// const Wishlist = lazy(() => import("./components/ld/wishlist/main"));
-// const Checkout = lazy(() => import("./components/ld/checkout/main"));
-// const OrderSummary = lazy(() => import("./components/ld/checkout/or"));
+const Wishlist = lazy(() => import("./components/ld/wishlist/main"));
+const Checkout = lazy(() => import("./components/ld/checkout/main"));
+const OrderSummary = lazy(() => import("./components/ld/checkout/or"));
 
 //shop products
 const ShopProducts = lazy(() => import("./components/ld/products/productList"));
@@ -102,23 +101,35 @@ const AddShopProduct = lazy(() =>
 );
 
 //address
-// const Address = lazy(() => import("./components/ld/address/main"));
-// const CreateAddress = lazy(() => import("./components/ld/address/add"));
-// const EditAddress = lazy(() => import("./components/ld/address/edit"));
+const Address = lazy(() => import("./components/ld/address/main"));
+const CreateAddress = lazy(() => import("./components/ld/address/add"));
+const EditAddress = lazy(() => import("./components/ld/address/edit"));
 
-// const Layout = lazy(() => import("./components/app"));
-// const Orders = lazy(() => import("./components/ld/orders/main"));
-// const ManageOrderFilter = lazy(() => import("./components/ld/manageOrders/index"));
-// const ManageOrderSearch = lazy(() => import("./components/ld/manageOrders/searchOrder"));
-// const ShopOrderManage = lazy(() => import("./components/ld/shopManagement/test"));
-// const OrderTable = lazy(() => import("./components/ld/manageOrders/tableIndex"));
-// const ShopOrderTable = lazy(() => import("./components/ld/manageOrders/shopOrderTable"));
-// const ShopDashboard = lazy(() => import("./components/ld/manageShops/shopDash"));
+// orders
+const Orders = lazy(() => import("./components/ld/orders/main"));
+const ManageOrderFilter = lazy(() =>
+  import("./components/ld/manageOrders/index")
+);
+const ManageOrderSearch = lazy(() =>
+  import("./components/ld/manageOrders/searchOrder")
+);
+const ShopOrderManage = lazy(() =>
+  import("./components/ld/shopManagement/test")
+);
+const OrderTable = lazy(() =>
+  import("./components/ld/manageOrders/tableIndex")
+);
+const ShopOrderTable = lazy(() =>
+  import("./components/ld/manageOrders/shopOrderTable")
+);
+const ShopDashboard = lazy(() =>
+  import("./components/ld/manageShops/shopDash")
+);
 
-// const OrderItem = lazy(() => import("./components/ld/orders/order-item"));
-// const OrderItemCustomer = lazy(() =>
-//   import("./components/ld/orders/order-item-customer")
-// );
+const OrderItem = lazy(() => import("./components/ld/orders/order-item"));
+const OrderItemCustomer = lazy(() =>
+  import("./components/ld/orders/order-item-customer")
+);
 
 const AddShop = lazy(() => import("./components/ld/manageShops/addShop"));
 const ManageShopFilter = lazy(() =>
@@ -131,10 +142,6 @@ const AddCandidate = lazy(() => import("./components/ld/career/register"));
 const AddComplaint = lazy(() => import("./components/ld/complaint/register"));
 
 class Root extends React.Component {
-  // componentDidMount() {
-  // this.props.onTryAutoSignup();
-  //   console.log("hi");
-  // }
   render() {
     return (
       <Provider store={store}>

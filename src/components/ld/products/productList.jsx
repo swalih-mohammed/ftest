@@ -142,6 +142,7 @@ class ProductList extends Component {
 
     return (
       <div className="container">
+        {this.state.loading ? <div className="loading-cls"></div> : null}
         <Container>
           {/* <ToastContainer /> */}
           <div className="account-sidebar">
@@ -156,6 +157,7 @@ class ProductList extends Component {
               handleClearCategory={this.handleClearCategory}
               handleChangeCategory={this.handleChangeCategory}
               ShopProductCategory={categories}
+              loading={this.state.loading}
             />
           ) : null}
 
@@ -195,6 +197,7 @@ class ProductList extends Component {
                         item={item}
                         fetchProducts={this.fetchProducts}
                         hasMore={hasMore}
+                        loading={this.state.loading}
                       />
                     </div>
                   </div>

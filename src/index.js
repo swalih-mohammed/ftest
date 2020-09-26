@@ -30,13 +30,13 @@ import Layout from "./components/app";
 // import ShopHome from "./components/ld/shopHome/main";
 
 //pages
-// import Login from "./components/ld/pages/login";
-// import Register from "./components/ld/pages/register";
-// import Logout from "./components/ld/pages/logout";
-// import PassworReset from "./components/ld/pages/forgetPassword";
-// import Wishlist from "./components/ld/wishlist/main";
-// import Checkout from "./components/ld/checkout/main";
-// import OrderSummary from "./components/ld/checkout/or";
+import Login from "./components/ld/pages/login";
+import Register from "./components/ld/pages/register";
+import Logout from "./components/ld/pages/logout";
+import PassworReset from "./components/ld/pages/forgetPassword";
+import Wishlist from "./components/ld/wishlist/main";
+import Checkout from "./components/ld/checkout/main";
+import OrderSummary from "./components/ld/checkout/or";
 
 //shop products
 // import ShopProducts from "./components/ld/products/productList";
@@ -79,13 +79,13 @@ const LocalityList = lazy(() => import("./components/ld/localityList/main"));
 const ShopHome = lazy(() => import("./components/ld/shopHome/main"));
 
 // pages
-const Login = lazy(() => import("./components/ld/pages/login"));
-const Register = lazy(() => import("./components/ld/pages/register"));
-const Logout = lazy(() => import("./components/ld/pages/logout"));
-const PassworReset = lazy(() => import("./components/ld/pages/forgetPassword"));
-const Wishlist = lazy(() => import("./components/ld/wishlist/main"));
-const Checkout = lazy(() => import("./components/ld/checkout/main"));
-const OrderSummary = lazy(() => import("./components/ld/checkout/or"));
+// const Login = lazy(() => import("./components/ld/pages/login"));
+// const Register = lazy(() => import("./components/ld/pages/register"));
+// const Logout = lazy(() => import("./components/ld/pages/logout"));
+// const PassworReset = lazy(() => import("./components/ld/pages/forgetPassword"));
+// const Wishlist = lazy(() => import("./components/ld/wishlist/main"));
+// const Checkout = lazy(() => import("./components/ld/checkout/main"));
+// const OrderSummary = lazy(() => import("./components/ld/checkout/or"));
 
 //shop products
 const ShopProducts = lazy(() => import("./components/ld/products/productList"));

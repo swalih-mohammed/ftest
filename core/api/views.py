@@ -214,20 +214,20 @@ class AddToCartView(APIView):
                 variation.save()
 
         # chane status of v_availability
-            variation_is_out_of_stock = item.get_v_availability()
-            if variation_is_out_of_stock:
-                serializer = ItemSerializer(
-                    item,  data={'v_is_available': False}, partial=True)
-                if serializer.is_valid():
-                    print("valid")
-                    serializer.save()
-                    print(item.v_is_available)
-            else:
-                serializer = ItemSerializer(
-                    item,  data={'v_is_available': True}, partial=True)
-                if serializer.is_valid():
-                    serializer.save()
-                    item.save()
+        variation_is_out_of_stock = item.get_v_availability()
+        if variation_is_out_of_stock:
+            serializer = ItemSerializer(
+                item,  data={'v_is_available': False}, partial=True)
+            if serializer.is_valid():
+                print("valid")
+                serializer.save()
+                print(item.v_is_available)
+        else:
+            serializer = ItemSerializer(
+                item,  data={'v_is_available': True}, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+        item.save()
 
         order_item_qs = OrderItem.objects.filter(
             item=item,

@@ -42,6 +42,23 @@ def infinite_product_filter(request):
     else:
         queryset = Item.objects.filter(
             shop_id=int(shop), productategory_id=int(query), is_active=True)
+
+    for q in queryset:
+        variation_is_out_of_stock = q.get_v_availability()
+        if variation_is_out_of_stock:
+            serializer = ItemSerializer(
+                q,  data={'v_is_available': False}, partial=True)
+            if serializer.is_valid():
+                print("valid")
+                serializer.save()
+                q.save()
+        else:
+            serializer = ItemSerializer(
+                q,  data={'v_is_available': True}, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                q.save()
+
     return queryset.all()[int(offset): int(offset) + int(limit)]
 
 
@@ -99,26 +116,6 @@ class AddProductVariationView(APIView):
         item_stock = request.data.get('item_stock', None)
         stock_weight = request.data.get('stock_weight', None)
         stock_weight = float(stock_weight)
-
-        # if stock_weight == "250gm":
-        #     stock_weight = .25
-        # elif stock_weight == "500gm":
-        #     stock_weight = .5
-        # elif stock_weight == "750gm":
-        #     stock_weight = .75
-        # elif stock_weight == "1kg":
-        #     stock_weight = 1
-        # elif stock_weight == "2kg":
-        #     stock_weight = 2
-        # elif stock_weight == "5kg":
-        #     stock_weight = 5
-        # elif stock_weight == "10kg":
-        #     stock_weight = 10
-        # elif stock_weight == "15kg":
-        #     stock_weight = 15
-        # else:
-        #     stock_weight = 1
-        # print(stock_weight)
 
         item = get_object_or_404(Item, id=item)
         varitation = Variation.objects.create(item=item, name=name,

@@ -12,7 +12,8 @@ class EditProductModal extends React.Component {
       title_local: "",
       is_available: true,
       is_featured: true,
-      is_on_sale: true
+      is_on_sale: true,
+      item_stock: false
     }
   };
   componentDidMount() {
@@ -69,7 +70,8 @@ class EditProductModal extends React.Component {
 
   render() {
     const { form } = this.state;
-    // console.log(form);
+    console.log(form);
+    console.log(this.props.productForm);
 
     return (
       <Modal
@@ -100,12 +102,23 @@ class EditProductModal extends React.Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
+
               <Form.Group controlId="formBasicCheckbox">
                 <Form.Check
                   type="checkbox"
                   name="is_available"
                   label="In stock"
                   checked={form.is_available}
+                  onChange={this.handlecheckBox}
+                />
+              </Form.Group>
+
+              <Form.Group controlId="formBasicCheckbox">
+                <Form.Check
+                  type="checkbox"
+                  label="On sale"
+                  name="is_on_sale"
+                  checked={form.is_on_sale}
                   onChange={this.handlecheckBox}
                 />
               </Form.Group>
@@ -119,12 +132,12 @@ class EditProductModal extends React.Component {
                   onChange={this.handlecheckBox}
                 />
               </Form.Group>
-              <Form.Group controlId="formBasicCheckbox">
+              <Form.Group controlId="item_stock">
                 <Form.Check
                   type="checkbox"
-                  label="On sale"
-                  name="is_on_sale"
-                  checked={form.is_on_sale}
+                  label="Manage stock from product"
+                  name="item_stocke"
+                  checked={form.item_stock}
                   onChange={this.handlecheckBox}
                 />
               </Form.Group>

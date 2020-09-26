@@ -302,7 +302,7 @@ class Item(models.Model):
     is_available = models.BooleanField(default=True, null=True)
     item_stock = models.BooleanField(default=False, null=True)
     v_is_available = models.BooleanField(default=True, null=True)
-    stock_count = models.IntegerField(default=0,blank=True, null=True)
+    stock_count = models.FloatField(default=0,blank=True, null=True)
     is_featured = models.BooleanField(default=False,  blank=True, null=True)
     is_on_sale = models.BooleanField(default=False,  blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -382,7 +382,7 @@ class Variation(models.Model):
     discount_price = models.FloatField(blank=True, null=True) 
     is_available = models.BooleanField(default=False, null=True)
     item_stock = models.BooleanField(default=False, null=True) 
-    stock_count = models.IntegerField(default=1,blank=True, null=True)
+    stock_count = models.FloatField(default=1,blank=True, null=True)
     stock_weight = models.FloatField(default=1,blank=True, null=True)
 
     class Meta:

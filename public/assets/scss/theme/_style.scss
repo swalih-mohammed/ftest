@@ -2234,12 +2234,16 @@ header {
   }
   .localdukan {
     width: 100%;
+
     display: inline-block;
     padding-bottom: 10px;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     .img-wrapper {
-      border-radius: 5px 5px 0 0 ;
+      // border-radius: 5px 5px 0 0 ;
+      // max-height: 50 px
+      height: 160px;
+      width: 160px;
     }
     .product-detail {
       text-align: center;

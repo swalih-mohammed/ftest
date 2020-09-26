@@ -4,6 +4,7 @@ import { shopAddProductVariationURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import Select from "react-select";
 
 class AddVariation extends React.Component {
   state = {
@@ -79,6 +80,12 @@ class AddVariation extends React.Component {
       });
   };
 
+  handleChangeStock = v => {
+    this.setState({
+      stock_weight: v.value
+    });
+  };
+
   render() {
     const {
       name,
@@ -86,10 +93,25 @@ class AddVariation extends React.Component {
       discount_price,
       stock_count,
       is_available,
-      item_stock,
+      // item_stock,
       stock_weight
     } = this.state;
-    console.log(stock_weight);
+    // console.log(this.state.stock_weight);
+
+    const options = [
+      { value: 0.25, label: "250 Gram" },
+      { value: 0.5, label: "500 Gram" },
+      { value: 0.75, label: "750 Gram" },
+      { value: 1, label: "1 KG/No" },
+      { value: 1.5, label: "1.5 KG/Ltr" },
+      { value: 2, label: "2 KG/No" },
+      { value: 5, label: "5 KG/No" },
+      { value: 10, label: "10 KG/No" },
+      { value: 12, label: "12 KG/No" },
+      { value: 15, label: "15 KG/No" },
+      { value: 20, label: "20 KG/No" },
+      { value: 30, label: "30 KG/No" }
+    ];
     return (
       <Modal
         show={this.props.show}
@@ -128,7 +150,12 @@ class AddVariation extends React.Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
-              <Form.Group controlId="price">
+              <Form.Group
+                controlId="price"
+                style={{
+                  display: this.props.item_stock ? "none" : ""
+                }}
+              >
                 <Form.Label>Stock count</Form.Label>
                 <Form.Control
                   type="text"
@@ -137,7 +164,12 @@ class AddVariation extends React.Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
-              <Form.Group controlId="is_available">
+              <Form.Group
+                controlId="is_available"
+                style={{
+                  display: this.props.item_stock ? "none" : "flex"
+                }}
+              >
                 <Form.Check
                   type="checkbox"
                   name="is_available"
@@ -146,116 +178,22 @@ class AddVariation extends React.Component {
                   onChange={this.handleCheckBox}
                 />
               </Form.Group>
-              <Form.Group controlId="FromProductstock">
-                <Form.Check
-                  type="checkbox"
-                  name="item_stock"
-                  label="From Product stock"
-                  checked={item_stock}
-                  onChange={this.handleItemStock}
-                />
-              </Form.Group>
 
-              <Row
-                style={{ display: this.state.weightdisplay ? "flex" : "none" }}
-              >
-                <Col sx={12}>
-                  <Form.Group controlId="v_weight">
-                    <Form.Check
-                      type="radio"
-                      name="stock_weight"
-                      label="250 Gram"
-                      checked={stock_weight == 0.25}
-                      value={0.25}
-                      onChange={this.handleStockWeight}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col sx={12}>
-                  <Form.Group controlId="v_weight">
-                    <Form.Check
-                      type="radio"
-                      name="stock_weight"
-                      label="500 Gram"
-                      value={0.5}
-                      checked={stock_weight == 0.5}
-                      onChange={this.handleStockWeight}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col sx={12}>
-                  <Form.Group controlId="v_weight">
-                    <Form.Check
-                      type="radio"
-                      name="stock_weight"
-                      label="750 Gram"
-                      value={0.75}
-                      checked={stock_weight == 0.75}
-                      onChange={this.handleStockWeight}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col sx={12}>
-                  <Form.Group controlId="v_weight">
-                    <Form.Check
-                      type="radio"
-                      name="stock_weight"
-                      label="1 KG"
-                      value={1}
-                      checked={stock_weight == 1}
-                      onChange={this.handleStockWeight}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col sx={12}>
-                  <Form.Group controlId="v_weight">
-                    <Form.Check
-                      type="radio"
-                      name="stock_weight"
-                      label="2 KG"
-                      value={2}
-                      checked={stock_weight == 2}
-                      onChange={this.handleStockWeight}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col sx={12}>
-                  <Form.Group controlId="v_weight">
-                    <Form.Check
-                      type="radio"
-                      name="stock_weight"
-                      label="5 KG"
-                      value={5}
-                      checked={stock_weight == 5}
-                      onChange={this.handleStockWeight}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col sx={12}>
-                  <Form.Group controlId="v_weight">
-                    <Form.Check
-                      type="radio"
-                      name="stock_weight"
-                      label="10 KG"
-                      value={10}
-                      checked={stock_weight == 10}
-                      onChange={this.handleStockWeight}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col sx={12}>
-                  <Form.Group controlId="v_weight">
-                    <Form.Check
-                      type="radio"
-                      name="stock_weight"
-                      label="15 KG"
-                      value={15}
-                      checked={stock_weight == 15}
-                      onChange={this.handleStockWeight}
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
+              {this.props.item_stock ? (
+                <React.Fragment>
+                  <Row>
+                    <Col sx={12}>
+                      <Select
+                        // name="item_stock"
+                        onChange={this.handleChangeStock}
+                        // onClick={() => this.setState({ item_stock: value })}
+                        options={options}
+                        placeholder={"Deduct from product stock"}
+                      />
+                    </Col>
+                  </Row>
+                </React.Fragment>
+              ) : null}
             </Form>
           </Container>
         </Modal.Body>

@@ -20,7 +20,8 @@ class ProductDetail extends Component {
       title_local: "",
       is_in_stock: false,
       is_featured: false,
-      is_on_sale: false
+      is_on_sale: false,
+      item_stock: false
     },
     editProductMode: false,
     addVariationModal: false,
@@ -107,7 +108,7 @@ class ProductDetail extends Component {
       editProductMode,
       productForm
     } = this.state;
-    // console.log(product);
+    // console.log(productForm);
     return (
       <section className="section-b-space">
         <div className="container">
@@ -117,6 +118,7 @@ class ProductDetail extends Component {
               productForm={productForm}
               hide={this.editModalHide}
               fetchProduct={this.fetchProductDetails}
+              item_stock={productForm.item_stock}
             />
           ) : null}
           {/* <Card style={{ width: "18rem" }}> */}
@@ -162,6 +164,7 @@ class ProductDetail extends Component {
               // handleChange={this.handleChange}
               // handleChangeCheckBox={this.handleChangeCheckBox}
               fetchProductDetails={this.fetchProductDetails}
+              item_stock={productForm.item_stock}
             />
           ) : null}
           {product.variations ? (

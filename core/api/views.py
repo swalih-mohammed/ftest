@@ -125,7 +125,10 @@ class AddToCartView(APIView):
 
         shop = get_object_or_404(Shop, id=shop)
         item = get_object_or_404(Item, id=id)
+        num_item_in_stock = item.stock_count
         variation = get_object_or_404(Variation, id=v)
+        variation_weight = variation.stock_weight
+        num_item_in_variation = variation.stock_count
         place_id = shop.place_id
         place = Place.objects.get(id=place_id)
 
@@ -158,7 +161,7 @@ class AddToCartView(APIView):
             item_count = getattr(item, stock_count)
             print(item_count)
             # count is less than one
-            if item_count < 1:
+            if item_count < variation_weight:
                 print("item count less tahn 1 ")
                 serializer = ItemSerializer(
                     item,  data={'is_available': False, 'v_is_available': False}, partial=True)
@@ -170,8 +173,9 @@ class AddToCartView(APIView):
             # count is more than one
             else:
                 print("item les than one else")
-                # print(item.stock_count)
-                item.stock_count -= variation.stock_weight
+                print(item.stock_count)
+                item.stock_count -= variation_weight
+                print(item.stock_count)
                 item.save()
                 # print(item.stock_count)
                 if item.stock_count <= 0:
@@ -220,7 +224,7 @@ class AddToCartView(APIView):
                     print(item.v_is_available)
             else:
                 serializer = ItemSerializer(
-                    item,  data={'v_is_available': False}, partial=True)
+                    item,  data={'v_is_available': True}, partial=True)
                 if serializer.is_valid():
                     serializer.save()
                     item.save()

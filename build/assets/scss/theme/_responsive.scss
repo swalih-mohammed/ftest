@@ -5408,20 +5408,21 @@
       //   flex: 0 0 50%;
       // }
     }
-  
   }
   .no-slider {
     .localdukan {
-      flex: 0 0 50%;
+      // flex: 0 0 50%;
       max-width: calc(50% - 11px);
       margin: 0 5px 5px !important;
       // &:nth-last-child(-n + 2) {
       //   margin: 0 5px 0 !important;
       // }
     }
-    .img-wrapper{
-      width: 165
-
+    .img-wrapper {
+      width: 165;
+      // height:165;
+      height:165;
+      // max-height: calc(50% - 11px);
     }
   }
   .full-banner {
@@ -5792,7 +5793,7 @@
   }
   .category-button {
     .col {
-      flex-basis: 0; 
+      flex-basis: 0;
       padding: 1px 2px 1px;
       margin: 1px 2px 1px;
       // flex-basis: 1; local dukan

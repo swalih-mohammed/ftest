@@ -330,12 +330,19 @@ class Item(models.Model):
         return self.shop.name
     
     def get_v_availability(self):
-        Variation = self.variation_set.all() 
-        for v in Variation:
+        if self.item_stock:
+            if self.stock_count <= 0: 
+                # print(self.title)
+                return True
+            return False
+        else:
+            variation = self.variation_set.all()
             test = False
-            if v.stock_count < 1:
-                test = True 
-                return test
+            for v in variation:
+                if v.stock_count <= 0:
+                    test = True
+                    # print(v)
+                    break 
             return test
       
     def stock_of_varitations(self):

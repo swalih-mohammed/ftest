@@ -44,6 +44,7 @@ def infinite_product_filter(request):
             shop_id=int(shop), productategory_id=int(query), is_active=True)
 
     for q in queryset:
+        print(q)
         variation_is_out_of_stock = q.get_v_availability()
         if variation_is_out_of_stock:
             serializer = ItemSerializer(
@@ -178,15 +179,37 @@ def product_filter(request):
     OutOfStock = request.GET.get('outOfStock')
     # print(OutOfStock == True)
     shop = Shop.objects.filter(owner=owner).first()
-
-    if OutOfStock == "true":
-        queryset = queryset.filter(v_is_available=False)
-        # v_is_available=False
     queryset = queryset.filter(shop=shop)
 
+    # update v availablity
+
+    for q in queryset:
+        variation_is_out_of_stock = q.get_v_availability()
+        if variation_is_out_of_stock:
+            # print(q)
+            # print(variation_is_out_of_stock)
+            serializer = ItemSerializer(
+                q,  data={'v_is_available': False}, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                q.save()
+        else:
+            # print(q)
+            # print(print(variation_is_out_of_stock))
+            serializer = ItemSerializer(
+                q,  data={'v_is_available': True}, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                q.save()
+    if OutOfStock == "true":
+        print("s out of ")
+        queryset = queryset.filter(v_is_available=False)
+
     if query == "all":
+
         queryset = queryset.all()
     else:
+        print("not all")
         queryset = queryset.filter(productategory_id=int(query))
 
     return queryset.all()[int(offset): int(offset) + int(limit)]
@@ -234,7 +257,6 @@ class ProductListInfinitForShopView(generics.ListAPIView):
             "products": serializer.data,
             "has_more": is_there_more_data(request)
         })
-
 
 # infinti product shop view end
 

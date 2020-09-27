@@ -19,9 +19,7 @@ class ProductCard extends Component {
           <div className="loading-cls"></div>
         ) : (
           <Card
-            border={
-              item.is_available && item.v_is_available ? "success" : "danger"
-            }
+            border={item.v_is_available ? "success" : "danger"}
             // style={{ width: "20rem" }}
             onClick={() => {
               this.handleViewVariationDisply();

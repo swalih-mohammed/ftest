@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
-import { Button, Form, Alert } from "react-bootstrap";
+import { Button, Form, Alert, Row, Col, Container } from "react-bootstrap";
 
 import {
   ShopDashboardDetialURL,
@@ -70,6 +70,11 @@ class Orders extends Component {
         this.setState({ error: err });
         this.setState({ loading: false });
       });
+  };
+
+  refreshpage = () => {
+    console.log("hi");
+    window.location.reload();
   };
 
   render() {
@@ -243,6 +248,19 @@ class Orders extends Component {
                     </div>
                   ) : null}
                 </div>
+                {/* <Container>
+                  <Row>
+                    <Col sx={4}>
+                      <Button
+                        type="submit"
+                        onClick={this.refreshPage}
+                        variant="outline-danger"
+                      >
+                        Refresh
+                      </Button>{" "}
+                    </Col>
+                  </Row>
+                </Container> */}
               </section>
             </div>
           </React.Fragment>

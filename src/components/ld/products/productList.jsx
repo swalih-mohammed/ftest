@@ -134,7 +134,7 @@ class ProductList extends Component {
 
   render() {
     const { products, categories, hasMore } = this.state;
-    console.log(products);
+    // console.log(products);
 
     if (!this.props.token) {
       return <Redirect to="/login" />;

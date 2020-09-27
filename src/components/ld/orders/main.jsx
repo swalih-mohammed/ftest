@@ -104,19 +104,6 @@ class Orders extends Component {
                   </div>
                   {orders.map((order, index) => (
                     <div key={index} className="row">
-                      <div className="col-lg-3">
-                        <div className="dashboard-left">
-                          <div className="collection-mobile-back">
-                            <span className="filter-back">
-                              <i
-                                className="fa fa-angle-left"
-                                aria-hidden="true"
-                              ></i>{" "}
-                              back
-                            </span>
-                          </div>
-                        </div>
-                      </div>
                       <div className="col-lg-9">
                         <div className="dashboard-right">
                           <div className="dashboard">
@@ -133,7 +120,15 @@ class Orders extends Component {
 
                                     <div className="box-content">
                                       <h6>Date: {order.start_date}</h6>
-                                      <h6>Status: {order.orderStatus}</h6>
+                                      <h6
+                                        className={
+                                          order.status === "Pending"
+                                            ? "text-danger"
+                                            : ""
+                                        }
+                                      >
+                                        Status: {order.orderStatus}
+                                      </h6>
                                       <br></br>
 
                                       <Link to={`customer-order/${order.id}`}>

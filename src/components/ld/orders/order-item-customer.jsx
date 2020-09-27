@@ -9,7 +9,7 @@ import Select from "react-select";
 import { Redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Button, Alert } from "react-bootstrap";
+import { Button, Alert, Row, Col } from "react-bootstrap";
 
 import {
   orderDetailURL,
@@ -111,10 +111,10 @@ class OrderItem extends Component {
       CustomerSuccess
     } = this.state;
 
-    const { userType } = this.props;
+    // const { userType } = this.props;
     // console.log(this.state.shopOrderStatus, userType);
 
-    console.log(123);
+    // console.log(order);
 
     if (CustomerSuccess) {
       return <Redirect to="/orders" />;
@@ -145,7 +145,13 @@ class OrderItem extends Component {
                               <h4>Order No: {order.id}</h4>
                             </div>
                             <h6>Date: {order.start_date}</h6>
-                            <h6>Status: {order.orderStatus}</h6>
+                            <h6
+                              className={
+                                order.status === "Pending" ? "text-danger" : ""
+                              }
+                            >
+                              Status: {order.orderStatus}
+                            </h6>
                             <h6>Mod of Payment: {order.mode_of_payment}</h6>
                           </div>
                           <br></br>
@@ -171,6 +177,72 @@ class OrderItem extends Component {
               </div>
             </div>
 
+            {order.coupon ? (
+              <Row>
+                <Col>
+                  <Alert variant={"success"}>
+                    {" "}
+                    {order.coupon_code} coupon Applied !!{order.coupon_offer}
+                  </Alert>
+                </Col>
+              </Row>
+            ) : null}
+
+            {order ? (
+              <div className="row section-t-space">
+                <div className="col-lg-6">
+                  <div className="stripe-section">
+                    <div className="col-lg-6 col-sm-12 col-xs-12">
+                      <div className="checkout-details">
+                        <div className="order-box">
+                          <div className="title-box">
+                            {/* <div>
+                              Product <span> Total</span>
+                            </div> */}
+                            <Row>
+                              <Col xs={8}>
+                                {" "}
+                                <h4>Product</h4>{" "}
+                              </Col>
+                              <Col xs={4}>
+                                {" "}
+                                <h4>Total</h4>{" "}
+                              </Col>
+                            </Row>
+                          </div>
+                          <ul className="qty">
+                            {orderItems.map((item, index) => {
+                              return (
+                                <Row>
+                                  <Col xs={8}>
+                                    {" "}
+                                    {item.itemLocalName
+                                      ? item.itemLocalName
+                                      : item.itemName}{" "}
+                                    [{item.vname}] × {item.quantity}{" "}
+                                  </Col>
+                                  <Col xs={4}>Rs: {item.final_price}</Col>
+                                </Row>
+                              );
+                            })}
+                          </ul>
+
+                          <ul className="total">
+                            <li>
+                              Total{" "}
+                              <span className="count">Rs: {order.total}</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+
             <div className="row section-t-space">
               <div className="col-lg-6">
                 <div className="stripe-section">
@@ -187,10 +259,6 @@ class OrderItem extends Component {
                           <td>{orderAddress.districtName}</td>
                           <td>{orderAddress.vilalgeName}</td>
                         </tr>
-                        {/* <tr>
-                          <td>{orderAddress.district}</td>
-                          <td>{orderAddress.state}</td>
-                        </tr> */}
 
                         <tr>
                           <td>
@@ -206,47 +274,6 @@ class OrderItem extends Component {
                 </div>
               </div>
             </div>
-            {order ? (
-              <div className="row section-t-space">
-                <div className="col-lg-6">
-                  <div className="stripe-section">
-                    <div className="col-lg-6 col-sm-12 col-xs-12">
-                      <div className="checkout-details">
-                        <div className="order-box">
-                          <div className="title-box">
-                            <div>
-                              Product <span> Total</span>
-                            </div>
-                          </div>
-                          <ul className="qty">
-                            {/* {orderItems.map(order_item => ( */}
-                            {orderItems.map((item, index) => {
-                              return (
-                                <li key={index}>
-                                  {item.itemLocalName
-                                    ? item.itemLocalName
-                                    : item.itemName}{" "}
-                                  × {item.quantity}{" "}
-                                  <span>Rs: {item.final_price}</span>
-                                </li>
-                              );
-                            })}
-                          </ul>
-
-                          <ul className="total">
-                            <li>
-                              Total <span className="count">{order.total}</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
           </div>
         </section>
       </div>

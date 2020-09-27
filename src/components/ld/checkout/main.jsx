@@ -5,8 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import SimpleReactValidator from "simple-react-validator";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { Button, Navbar } from "react-bootstrap";
-import Alert from "react-bootstrap/Alert";
+import { Button, Navbar, Alert, Col, Row } from "react-bootstrap";
 import {
   addressListURL,
   checkoutURL,
@@ -231,42 +230,72 @@ class checkOut extends Component {
                   <div className="checkout-details">
                     <div className="order-box">
                       <div className="title-box">
-                        <div>
+                        {/* <div>
                           Product <span> Total</span>
-                        </div>
+                        </div> */}
+                        <Row>
+                          <Col xs={8}>
+                            <h4>Product</h4>
+                          </Col>
+
+                          <Col xs={4}>
+                            {" "}
+                            <h4>Total</h4>{" "}
+                          </Col>
+                        </Row>
                       </div>
                       <ul className="qty">
                         {cart.order_items.map((item, index) => {
                           return (
-                            <li key={index}>
-                              {item.itemLocalName ? (
-                                <React.Fragment>
-                                  {item.itemLocalName} [{item.vname}] {" x "}{" "}
-                                  {item.quantity}
-                                </React.Fragment>
-                              ) : (
-                                <React.Fragment>
-                                  {item.itemName} [{item.vname}] {" x "}{" "}
-                                  {item.quantity}
-                                </React.Fragment>
-                              )}
+                            // <li key={index}>
+                            //   {item.itemLocalName ? (
+                            //     <React.Fragment>
+                            //       {item.itemLocalName} [{item.vname}] {" x "}{" "}
+                            //       {item.quantity}
+                            //     </React.Fragment>
+                            //   ) : (
+                            //     <React.Fragment>
+                            //       {item.itemName} [{item.vname}] {" x "}{" "}
+                            //       {item.quantity}
+                            //     </React.Fragment>
+                            //   )}
 
-                              <span>
-                                {/* {symbol} */}
-                                {item.final_price}
-                              </span>
-                            </li>
+                            //   <span>
+                            //     {/* {symbol} */}
+                            //     {item.final_price}
+                            //   </span>
+                            // </li>
+                            <Row>
+                              <Col xs={8}>
+                                {" "}
+                                {item.itemLocalName
+                                  ? item.itemLocalName
+                                  : item.itemName}{" "}
+                                [{item.vname}] × {item.quantity}{" "}
+                              </Col>
+                              <Col xs={4}>Rs: {item.final_price}</Col>
+                            </Row>
                           );
                         })}
                       </ul>
                       <ul className="sub-total">
-                        <li>
+                        {/* <li>
                           Total{" "}
                           <span className="count">
-                            {/* {symbol} */}
+                           
                             {cart.total}
                           </span>
-                        </li>
+                        </li> */}
+                        <Row>
+                          <Col xs={8}>
+                            <h4 className="text-danger">Total</h4>
+                          </Col>
+
+                          <Col xs={4}>
+                            {" "}
+                            <h4 className="text-danger">{cart.total}</h4>{" "}
+                          </Col>
+                        </Row>
                         {/* <li>
                           Shipping{" "}
                           <span className="count">{this.state.shipping}</span>

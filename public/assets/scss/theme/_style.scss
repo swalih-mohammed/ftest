@@ -2234,11 +2234,11 @@ header {
   }
   .localdukan {
     width: 100%;
-
+    border: 1px solid #c8e5e6;
     display: inline-block;
     padding-bottom: 10px;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    border-radius: 10px;
     .img-wrapper {
       // border-radius: 5px 5px 0 0 ;
       // max-height: 50 px

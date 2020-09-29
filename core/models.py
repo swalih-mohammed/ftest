@@ -97,7 +97,7 @@ class ProductCategory(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='product-category',blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    
+
     class Meta:
         ordering = ['name']
     def __str__(self):
@@ -107,7 +107,7 @@ class ShopCategory(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='shop-category',blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    
+
     class Meta:
         ordering = ['name']
     def __str__(self):
@@ -173,7 +173,7 @@ class Role(models.Model):
     name = models.CharField(max_length=100)
     def __str__(self):
         return self.name
-    
+
     class Meta:
         ordering = ['name']
 
@@ -282,7 +282,7 @@ class ProductImage(models.Model):
     image1 = models.ImageField(upload_to='product',blank=True, null=True)
     image2 = models.ImageField(upload_to='product',blank=True, null=True)
     image3 = models.ImageField(upload_to='product',blank=True, null=True)
-    
+
     class Meta:
         ordering = ['name']
     def __str__(self):
@@ -298,7 +298,7 @@ class Item(models.Model):
                              on_delete=models.CASCADE)
     description = models.CharField(max_length=200, blank=True, null=True)
     productategory = models.ForeignKey(ProductCategory,
-                                 on_delete=models.CASCADE, blank=True, null=True)                           
+                                 on_delete=models.CASCADE, blank=True, null=True)
     is_available = models.BooleanField(default=True, null=True)
     item_stock = models.BooleanField(default=False, null=True)
     v_is_available = models.BooleanField(default=True, null=True)
@@ -320,18 +320,30 @@ class Item(models.Model):
                 return self.product_image.image1.url
             return None
         return None
-            
-    def save(self, *args, **kwargs):  
-        if self.stock_count < 1:   
+
+    def do_not_disply_when_not_available(self):
+        if self.item_stock:
+            if self.stock_count <= 0:
+                return False
+        else:
+            variation = self.variation_set.all()
+            my_list = []
+            for v in variation:
+                    av = v.is_available
+                    my_list.append(av)
+            return all(my_list)
+
+    def save(self, *args, **kwargs):
+        if self.stock_count < 1:
             self.is_available = False
         super().save(*args, **kwargs)
-    
+
     def get_shop(self):
         return self.shop.name
-    
+
     def get_v_availability(self):
         if self.item_stock:
-            if self.stock_count <= 0: 
+            if self.stock_count <= 0:
                 # print(self.title)
                 return True
             return False
@@ -342,16 +354,16 @@ class Item(models.Model):
                 if v.stock_count <= 0:
                     test = True
                     # print(v)
-                    break 
+                    break
             return test
-      
+
     def stock_of_varitations(self):
         Variation = self.variation_set.all()
         count = 0
         for v in Variation:
             count += v.stock_count
         return count
-    
+
     def order_of_varitations(self):
         variation = self.variation_set.all()
         v_quantity = 0
@@ -371,7 +383,7 @@ class Item(models.Model):
         variations = self.variation_set.all()
         return variations
 
-    def item_in_order(self):    
+    def item_in_order(self):
         shop = self.shop
         item_id = self.id
         item_quantity = 0
@@ -386,9 +398,9 @@ class Variation(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     price = models.FloatField(blank=True, null=True)
-    discount_price = models.FloatField(blank=True, null=True) 
+    discount_price = models.FloatField(blank=True, null=True)
     is_available = models.BooleanField(default=False, null=True)
-    item_stock = models.BooleanField(default=False, null=True) 
+    item_stock = models.BooleanField(default=False, null=True)
     stock_count = models.FloatField(default=1,blank=True, null=True)
     stock_weight = models.FloatField(default=1,blank=True, null=True)
 
@@ -399,12 +411,12 @@ class Variation(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def save(self, *args, **kwargs):
         if self.stock_count < 1:
             self.is_available = False
         super().save(*args, **kwargs)
-    
+
     def check_if_available(self):
         if self.item_stock:
             if self.item.stock_count > 1:
@@ -427,8 +439,8 @@ class Variation(models.Model):
             for item in items:
                 v_quantity += item.quantity
         return v_quantity
-               
-    
+
+
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
@@ -446,7 +458,7 @@ class OrderItem(models.Model):
     def final_price(self):
         if self.item_variation:
             return self.quantity * self.item_variation.discount_price
-        else: 
+        else:
             return 0
     def item_image(self):
         if self.item.product_image:
@@ -454,7 +466,7 @@ class OrderItem(models.Model):
         return None
     def order_status(self):
         return self.order
-          
+
 class Address(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
@@ -474,7 +486,7 @@ class Address(models.Model):
     state = models.ForeignKey(State, blank=True, null=True, on_delete=models.CASCADE)
     full_address = models.TextField(max_length=250, blank=True, null=True)
     phone_number = models.CharField(max_length=10, blank=True, null=True)
-    
+
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     is_active = models.BooleanField(default=True, null=True)
     def __str__(self):
@@ -518,7 +530,7 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.username
-    
+
     def get_total(self):
         total = 0
         for order_item in self.items.all():

@@ -58,7 +58,7 @@ class OrderSummary extends Component {
   };
 
   handleAddToCart2 = (id, shop, variation) => {
-    console.log(id, shop, variation);
+    // console.log(id, shop, variation);
     this.setState({ loading: true });
     authAxios
       .post(addToCartURL, { id, shop, variation })
@@ -74,6 +74,7 @@ class OrderSummary extends Component {
   };
 
   handleRemoveQuantityFromCart = (id, q) => {
+    console.log(q);
     authAxios
       .post(orderItemUpdateQuantityURL, { id })
       .then(res => {
@@ -96,7 +97,7 @@ class OrderSummary extends Component {
   };
 
   hanldeDeleteOrder = id => {
-    console.log(id);
+    // console.log(id);
     // console.log("delete");
     authAxios
       .delete(orderDeleteURL(id))
@@ -116,7 +117,7 @@ class OrderSummary extends Component {
   render() {
     // const { cartItems } = this.state;
     const { cartItems } = this.props;
-    // console.log(cartItems);
+    console.log(cartItems);
 
     return (
       <div>

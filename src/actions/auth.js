@@ -83,6 +83,35 @@ export const authLogin = (username, password) => {
   };
 };
 
+// passwrod reset
+export const confirmPasswordReset = (uid, token, password1, password2) => {
+  // console.log(store.auth.token);
+  return dispatch => {
+    dispatch(authStart());
+    axios
+      // .post(login, {
+      .post("https://www.localdukans.com/rest-auth/password/reset/confirm/", {
+        // .post("http://127.0.0.1:8000/rest-auth/password/reset/confirm/", {
+        new_password1: password1,
+        new_password2: password2,
+        uid: uid,
+        token: token
+      })
+      .then(res => {
+        const test = res.data;
+        // const expirationDate = new Date(new Date().getTime() + 2628288 * 1000);
+        // localStorage.setItem("token", token);
+        // localStorage.setItem("expirationDate", expirationDate);
+        // dispatch(authSuccess(token));
+        // dispatch(fetchUser(token));
+        // dispatch(checkAuthTimeout(604800));
+      })
+      .catch(err => {
+        dispatch(authFail(err));
+      });
+  };
+};
+
 export const authSignup = (username, email, password1, password2) => {
   return dispatch => {
     dispatch(authStart());

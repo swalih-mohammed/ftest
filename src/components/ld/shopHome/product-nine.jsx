@@ -97,13 +97,14 @@ class ProductStyleNine extends Component {
               ) : (
                 ""
               )}
-              {product.is_on_sale == true ? (
-                <span className="lable3">sale</span>
+
+              {product.do_not_disply_when_not_available !== true ? (
+                <span className="lable4">Out of stock</span>
               ) : (
                 ""
               )}
-              {product.is_available !== true ? (
-                <span className="lable4">Out of stock</span>
+              {product.is_on_sale == true ? (
+                <span className="lable3">sale</span>
               ) : (
                 ""
               )}
@@ -168,7 +169,7 @@ class ProductStyleNine extends Component {
               ) : null}
 
               <div className="cart-bottom">
-                {product.is_available ? (
+                {product.do_not_disply_when_not_available ? (
                   <button
                     title="Add to cart"
                     onClick={() =>

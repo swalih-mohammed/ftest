@@ -108,10 +108,11 @@ class Login extends Component {
                 </div>
               </div>
               <div className="col-lg-6 right-login">
-                {/* <h3>Forgot Password?</h3> */}
                 <div className="theme-card authentication-right">
                   <h6 className="title-font">Forgot Password?</h6>
-                  Call us please....
+                  <Link className="btn btn-solid" to="/reset-password">
+                    Reset password
+                  </Link>
                 </div>
               </div>
               <div className="col-lg-6 right-login">
@@ -121,17 +122,19 @@ class Login extends Component {
 
                   <p>
                     Sign up for a free account at our store. Registration is
-                    quick and easy. It allows you to be able to order from our
-                    shop. To start shopping click register. <br></br> <br></br>{" "}
-                    Local Dukans does deal with shops's billing, but just a
-                    platform for small localities to survive in the time of this
-                    pandemic, Covid-19. For any billing or product related
-                    issues, please contact the shop owners. By signing up, you
-                    agree to this terms and condditions.
+                    quick and easy. It allows you to order from our from the
+                    port from the shops of your locality. To start shopping
+                    click register. <br></br> <br></br> Local Dukans does deal
+                    with shops's billing, but just a platform for small
+                    localities to survive in the time of this pandemic,
+                    Covid-19. For any billing or product related issues, please
+                    contact the shop owners. By signing up, you agree to this
+                    terms and condditions.
                   </p>
-                  <a href="/pages/register" className="btn btn-solid">
-                    Create an Account
-                  </a>
+
+                  <Link className="btn btn-solid" to="/pages/register">
+                    Reset password
+                  </Link>
                 </div>
               </div>
             </div>

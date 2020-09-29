@@ -6,19 +6,26 @@ from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from .views import index
 from django.contrib import admin
+from allauth.account.views import ConfirmEmailView
+
+from rest_auth.views import (
+    LoginView, LogoutView, UserDetailsView, PasswordChangeView,
+    PasswordResetView, PasswordResetConfirmView
+)
+
 
 # from .pwaViews import views as pwa_views
 from .pwaViews import ServiceWorkerView
 
 urlpatterns = [
+
     path('', include('frontend.urls')),
-    # path('./serviceworker.js', include('frontend.urls')),
+    path('password/reset/confirm/<uidb64>/<token>',
+         TemplateView.as_view(), name='password_reset_confirm'),
     path('api-auth/', include('rest_framework.urls')),
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
-    path('rest-auth/password/reset', include('rest_auth.registration.urls')),
-    path('rest-auth/password/reset/confirm/',
-         include('rest_auth.registration.urls')),
+    path('rest-auth/password/reset/', include('rest_auth.registration.urls')),
     path('admin/', admin.site.urls),
     path('api/', include('core.api.urls')),
 

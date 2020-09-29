@@ -34,6 +34,9 @@ import Login from "./components/ld/pages/login";
 import Register from "./components/ld/pages/register";
 import Logout from "./components/ld/pages/logout";
 import PassworReset from "./components/ld/pages/forgetPassword";
+import ConfirmPassword from "./components/ld/pages/confirm-reset-password";
+import PassworResetSuccess from "./components/ld/pages/password-changed";
+
 import Wishlist from "./components/ld/wishlist/main";
 import Checkout from "./components/ld/checkout/main";
 import OrderSummary from "./components/ld/checkout/or";
@@ -155,8 +158,16 @@ class Root extends React.Component {
                     path={`${process.env.PUBLIC_URL}/reset-password`}
                     component={PassworReset}
                   />
+                  <Route
+                    path={`${process.env.PUBLIC_URL}/reset-password-success`}
+                    component={PassworResetSuccess}
+                  />
 
-                  {/* <Suspense fallback={<div>Loading</div>}> */}
+                  <Route
+                    path={`${process.env.PUBLIC_URL}/password/reset/confirm/:uid/:token`}
+                    component={ConfirmPassword}
+                  />
+
                   <Route
                     path={`${process.env.PUBLIC_URL}/login`}
                     component={Login}

@@ -151,6 +151,7 @@ class ShopProductSerializer(serializers.ModelSerializer):
     stock_of_varitations = serializers.SerializerMethodField()
     order_of_varitations = serializers.SerializerMethodField()
     v_availability = serializers.SerializerMethodField()
+    do_not_disply_when_not_available = serializers.SerializerMethodField()
 
     class Meta:
         model = Item
@@ -233,6 +234,9 @@ class ShopProductSerializer(serializers.ModelSerializer):
     #     test = obj.get_variations()
     def get_order_of_varitations(self, obj):
         return obj.order_of_varitations()
+
+    def get_do_not_disply_when_not_available(self, obj):
+        return obj.do_not_disply_when_not_available()
 
 
 class VariationSerializer(serializers.ModelSerializer):

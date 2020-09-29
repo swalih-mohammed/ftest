@@ -43,22 +43,26 @@ def infinite_product_filter(request):
         queryset = Item.objects.filter(
             shop_id=int(shop), productategory_id=int(query), is_active=True)
 
-    for q in queryset:
-        print(q)
-        variation_is_out_of_stock = q.get_v_availability()
-        if variation_is_out_of_stock:
-            serializer = ItemSerializer(
-                q,  data={'v_is_available': False}, partial=True)
-            if serializer.is_valid():
-                print("valid")
-                serializer.save()
-                q.save()
-        else:
-            serializer = ItemSerializer(
-                q,  data={'v_is_available': True}, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                q.save()
+    # for q in queryset:
+    #     testing = q.do_not_disply_when_not_available()
+    #     print(testing)
+
+    # for q in queryset:
+    #     print(q)
+    #     variation_is_out_of_stock = q.get_v_availability()
+    #     if variation_is_out_of_stock:
+    #         serializer = ItemSerializer(
+    #             q,  data={'v_is_available': False}, partial=True)
+    #         if serializer.is_valid():
+    #             print("valid")
+    #             serializer.save()
+    #             q.save()
+    #     else:
+    #         serializer = ItemSerializer(
+    #             q,  data={'v_is_available': True}, partial=True)
+    #         if serializer.is_valid():
+    #             serializer.save()
+    #             q.save()
 
     return queryset.all()[int(offset): int(offset) + int(limit)]
 

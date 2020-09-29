@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { confirmPasswordReset } from "../../../actions/auth";
-import { fetchUser } from "../../../actions/user";
+// import { resetConfirm } from "../../../actions/auth";
+
+import { resetConfirm } from "../../../constants";
 import axios from "axios";
 import { Redirect, Link } from "react-router-dom";
 // import createHistory from "history/createBrowserHistory";
@@ -36,8 +36,9 @@ class ConfirmResetpassword extends Component {
     const password2 = this.state.password2;
 
     axios
-      .post("https://www.localdukans.com/rest-auth/password/reset/confirm/", {
-        // .post("http://127.0.0.1:8000/rest-auth/password/reset/confirm/", {
+      // .post("https://www.localdukans.com/rest-auth/password/reset/confirm/", {
+      // .post("http://127.0.0.1:8000/rest-auth/password/reset/confirm/", {
+      .post(resetConfirm, {
         new_password1: password1,
         new_password2: password2,
         uid: uid,

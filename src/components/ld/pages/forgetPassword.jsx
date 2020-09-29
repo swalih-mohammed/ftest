@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
-import { resetPassword } from "../../../actions/auth";
+import { resetRequest } from "../../../constants";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 
@@ -22,8 +22,9 @@ class ForgetPassword extends Component {
     console.log("resetting");
     const email = this.state.email;
     axios
-      .post("https://www.localdukans.com/rest-auth/password/reset/", {
-        // .post("http://127.0.0.1:8000/rest-auth/password/reset/", {
+      // .post("https://www.localdukans.com/rest-auth/password/reset/", {
+      // .post("http://127.0.0.1:8000/rest-auth/password/reset/", {
+      .post(resetRequest, {
         email: email
       })
       .then(res => {
@@ -93,23 +94,7 @@ class ForgetPassword extends Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return {
-    loading: state.auth.loading,
-    error: state.auth.error,
-    token: state.auth.token
-  };
-};
 
-const mapDispatchToProps = dispatch => {
-  return {
-    resetPassword: email => dispatch(resetPassword(email))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ForgetPassword);
+export default ForgetPassword;
 
 // export default ForgetPassword;

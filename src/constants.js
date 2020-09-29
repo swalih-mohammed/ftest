@@ -2,14 +2,17 @@
 
 export const localhost = "https://www.localdukans.com";
 
+//rest auth
+export const signUp = `${localhost}/rest-auth/registration/`;
+export const login = `${localhost}/rest-auth/login/`;
+export const resetRequest = `${localhost}/rest-auth/password/reset/`;
+export const resetConfirm = `${localhost}/rest-auth/password/reset/confirm/`;
+
 const apiURL = "/api";
 
 export const endpoint = `${localhost}${apiURL}`;
 
 export const appInfoURL = `${endpoint}/app-info/`;
-export const signUp = `${endpoint}/rest-auth/registration/`;
-export const login = `${endpoint}/rest-auth/login/`;
-
 export const candidateAddURL = `${endpoint}/candidate-add/`;
 export const registerComplaintURL = `${endpoint}/complaint-add/`;
 

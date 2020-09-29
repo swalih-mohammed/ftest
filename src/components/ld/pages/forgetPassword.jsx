@@ -43,8 +43,9 @@ class ForgetPassword extends Component {
 
   render() {
     // console.log(this.state.success);
+    const { success, loading } = this.state;
 
-    if (this.state.success) {
+    if (success) {
       return <Redirect to="/reset-password-success" />;
     }
     return (
@@ -52,36 +53,40 @@ class ForgetPassword extends Component {
         <Breadcrumb title={"forget password"} />
         <section className="pwd-page section-b-space">
           <div className="container">
-            <div className="row">
-              <div className="col-lg-6 offset-lg-3">
-                <h2>Forgot Your Password?</h2>
-                <form className="theme-form">
-                  <div className="form-row">
-                    <div className="col-md-12">
+            {loading ? (
+              <div className="loading-cls"></div>
+            ) : (
+              <div className="row">
+                <div className="col-lg-6 offset-lg-3">
+                  <h2>Forgot Your Password?</h2>
+                  <form className="theme-form">
+                    <div className="form-row">
+                      <div className="col-md-12">
+                        <input
+                          name="email"
+                          type="text"
+                          className="form-control"
+                          id="email"
+                          placeholder="Enter Your Email"
+                          required=""
+                          value={this.state.email}
+                          onChange={this.handleChange}
+                        />
+                      </div>
+
                       <input
-                        name="email"
-                        type="text"
-                        className="form-control"
-                        id="email"
-                        placeholder="Enter Your Email"
+                        // type="submit"
+                        className="btn btn-solid"
+                        id="submit"
+                        placeholder="Submit"
                         required=""
-                        value={this.state.email}
-                        onChange={this.handleChange}
+                        onClick={this.resetPassword}
                       />
                     </div>
-
-                    <input
-                      // type="submit"
-                      className="btn btn-solid"
-                      id="submit"
-                      placeholder="Submit"
-                      required=""
-                      onClick={this.resetPassword}
-                    />
-                  </div>
-                </form>
+                  </form>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </section>
       </div>

@@ -5,7 +5,7 @@ import { fetchUser } from "../../../actions/user";
 import axios from "axios";
 import { Redirect, Link } from "react-router-dom";
 // import createHistory from "history/createBrowserHistory";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Breadcrumb from "../common/breadcrumb";
@@ -62,6 +62,10 @@ class ConfirmResetpassword extends Component {
     // const { error,  } = this.props;
     const { password1, password2, success, loading } = this.state;
     // console.log(success);
+
+    if (this.state.success) {
+      return <Redirect to="/login" />;
+    }
 
     return (
       <div>

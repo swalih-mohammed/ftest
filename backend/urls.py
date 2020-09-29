@@ -20,7 +20,7 @@ from .pwaViews import ServiceWorkerView
 urlpatterns = [
 
     path('', include('frontend.urls')),
-    path('password/reset/confirm/<uidb64>/<token>',
+    path('password/reset/confirm/<uidb64>/<token>/',
          TemplateView.as_view(), name='password_reset_confirm'),
     path('api-auth/', include('rest_framework.urls')),
     path('rest-auth/', include('rest_auth.urls')),

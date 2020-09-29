@@ -22,7 +22,8 @@ class ForgetPassword extends Component {
     console.log("resetting");
     const email = this.state.email;
     axios
-      .post("http://127.0.0.1:8000/rest-auth/password/reset/", {
+      .post("https://www.localdukans.com/rest-auth/password/reset/", {
+        // .post("http://127.0.0.1:8000/rest-auth/password/reset/", {
         email: email
       })
       .then(res => {

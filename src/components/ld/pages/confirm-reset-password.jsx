@@ -37,7 +37,7 @@ class ConfirmResetpassword extends Component {
 
     axios
       .post("https://www.localdukans.com/rest-auth/password/reset/confirm/", {
-        //   .post("http://127.0.0.1:8000/rest-auth/password/reset/confirm/", {
+        // .post("http://127.0.0.1:8000/rest-auth/password/reset/confirm/", {
         new_password1: password1,
         new_password2: password2,
         uid: uid,

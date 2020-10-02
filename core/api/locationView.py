@@ -38,7 +38,8 @@ class ServiceAreaView(ListAPIView):
 class NewPlaces(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = PlaceSerializer
-    queryset = Place.objects.all().order_by('-create_date')[:3]
+    queryset = Place.objects.filter(
+        is_active=True).order_by('-create_date')[:3]
 
 
 class StateListView(ListAPIView):
@@ -177,15 +178,17 @@ def infinite_place_filter(request):
     limit = request.GET.get('limit')
     offset = request.GET.get('offset')
     query = request.GET.get('q')
-    # print(query == "all")
+    queryset = Place.objects.filter(is_active=True)
+    print("dei")
     if query != "all":
         # print("not all")
         print(query)
         queryset = Place.objects.filter(Q(name__icontains=query)).distinct()
-        return queryset.all()[int(offset): int(offset) + int(limit)]
+        queryset = queryset.all()[int(offset): int(offset) + int(limit)]
     else:
-        print("all")
-        return Place.objects.all()[int(offset): int(offset) + int(limit)]
+        # print("all")
+        queryset = queryset.all()[int(offset): int(offset) + int(limit)]
+    return queryset
 
 
 def is_there_more_data_place(request):

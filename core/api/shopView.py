@@ -34,7 +34,7 @@ class FeaturedShopsInPlace(ListAPIView):
 
     def get_queryset(self):
         qs = Shop.objects.filter(
-            service_localities__id=self.kwargs['place_id'])
+            service_localities__id=self.kwargs['place_id'], is_active=True)
         # return Shop.objects.filter(place_id=self.kwargs['place_id'], is_featured=True)
         return qs
 
@@ -44,7 +44,7 @@ class FeaturedShops(ListAPIView):
     serializer_class = ShopSerializer
 
     def get_queryset(self):
-        return Shop.objects.filter(is_featured=True).order_by('-create_date')[:3]
+        return Shop.objects.filter(is_featured=True, is_active=True).order_by('-create_date')[:3]
 
 
 class ShopListView(ListAPIView):
@@ -59,7 +59,7 @@ class PlaceShopListView(ListAPIView):
 
     def get_queryset(self):
         #  place = get_object_or_404(Place, id=self.kwargs['place_id'])
-        return Shop.objects.filter(place_id=self.kwargs['place_id'])
+        return Shop.objects.filter(place_id=self.kwargs['place_id'], is_active=True)
 
 
 @api_view(['GET', 'PUT', ])

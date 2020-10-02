@@ -234,12 +234,12 @@ class Sidebar extends Component {
                   <span className="sub-arrow"></span>
                 </Link>
               </li> */}
-              <li>
+              {/* <li>
                 <Link to="/add-complaint" onClick={this.closeNav}>
                   Contact Us
                   <span className="sub-arrow"></span>
                 </Link>
-              </li>
+              </li> */}
               {this.props.token ? (
                 <li onClick={this.logOut}>
                   <Link to="/">Logout</Link>

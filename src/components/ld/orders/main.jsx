@@ -31,10 +31,9 @@ class Orders extends Component {
     this.setState({ loading: true }, () => {
       const { offset, limit, query } = this.state;
       authAxios
-        // .get(orderListURL)
         .get(orderListURL + `?limit=${limit}&offset=${offset}`)
         .then(res => {
-          this.setState({ orders: res.data.orders });
+          this.setState({ orders: res.data.orders, loading: false });
         })
         .catch(err => {
           this.setState({
@@ -54,7 +53,7 @@ class Orders extends Component {
         // .get(orderListURL)
         .then(res => {
           this.setState({ orders: this.state.orders.concat(res.data.orders) });
-          this.setState({ hasMore: res.data.hasMore });
+          this.setState({ hasMore: res.data.hasMore, loading: false });
         })
         .catch(err => {
           this.setState({
@@ -66,9 +65,9 @@ class Orders extends Component {
   };
 
   render() {
-    const { orders, hasMore, query, limit } = this.state;
-    const { userType, token } = this.props;
-    // console.log(123);
+    const { orders, loading, hasMore, query, limit } = this.state;
+    const { token } = this.props;
+    // console.log(this.state.loading);
 
     if (!token) {
       return <Redirect to="/login" />;
@@ -77,68 +76,75 @@ class Orders extends Component {
     return (
       <div>
         <Breadcrumb title={"My Orders"} />
+        {loading ? (
+          <div className="loading-cls"></div>
+        ) : (
+          <React.Fragment>
+            {orders && (
+              <div>
+                <InfiniteScroll
+                  dataLength={this.state.orders.length} //This is important field to render the next data
+                  next={this.handleFetchOrdersScroll}
+                  hasMore={this.state.hasMore}
+                  // loader={<div className="loading-cls"></div>}
+                  endMessage={
+                    <p className="seen-cls seen-it-cls">
+                      <b>No more order to show</b>
+                    </p>
+                  }
+                >
+                  <section className="section-b-space">
+                    <div className="container">
+                      <div className="account-sidebar">
+                        <Link
+                          style={{ color: "#FFF" }}
+                          to={`/orders`}
+                          onClick={this.handleFetchOrders}
+                        >
+                          My Orders
+                        </Link>
+                      </div>
+                      {orders.map((order, index) => (
+                        <div key={index} className="row">
+                          <div className="col-lg-9">
+                            <div className="dashboard-right">
+                              <div className="dashboard">
+                                <div className="box-account box-info">
+                                  <div className="box-head">
+                                    <h3>{order.shop_name}</h3>
+                                  </div>
+                                  <div className="row">
+                                    <div className="col-sm-6">
+                                      <div className="box">
+                                        <div className="box-title">
+                                          <h4>Order ID: {order.id}</h4>
+                                        </div>
 
-        {orders && (
-          <div>
-            <InfiniteScroll
-              dataLength={this.state.orders.length} //This is important field to render the next data
-              next={this.handleFetchOrdersScroll}
-              hasMore={this.state.hasMore}
-              loader={<div className="loading-cls"></div>}
-              endMessage={
-                <p className="seen-cls seen-it-cls">
-                  <b>No more order to show</b>
-                </p>
-              }
-            >
-              <section className="section-b-space">
-                <div className="container">
-                  <div className="account-sidebar">
-                    <Link
-                      style={{ color: "#FFF" }}
-                      to={`/orders`}
-                      onClick={this.handleFetchOrders}
-                    >
-                      My Orders
-                    </Link>
-                  </div>
-                  {orders.map((order, index) => (
-                    <div key={index} className="row">
-                      <div className="col-lg-9">
-                        <div className="dashboard-right">
-                          <div className="dashboard">
-                            <div className="box-account box-info">
-                              <div className="box-head">
-                                <h3>{order.shop_name}</h3>
-                              </div>
-                              <div className="row">
-                                <div className="col-sm-6">
-                                  <div className="box">
-                                    <div className="box-title">
-                                      <h4>Order ID: {order.id}</h4>
-                                    </div>
+                                        <div className="box-content">
+                                          <h6>Date: {order.start_date}</h6>
+                                          <h6
+                                            className={
+                                              order.status === "Pending"
+                                                ? "text-danger"
+                                                : ""
+                                            }
+                                          >
+                                            Status: {order.orderStatus}
+                                          </h6>
+                                          <br></br>
 
-                                    <div className="box-content">
-                                      <h6>Date: {order.start_date}</h6>
-                                      <h6
-                                        className={
-                                          order.status === "Pending"
-                                            ? "text-danger"
-                                            : ""
-                                        }
-                                      >
-                                        Status: {order.orderStatus}
-                                      </h6>
-                                      <br></br>
-
-                                      <Link to={`customer-order/${order.id}`}>
-                                        <Button
-                                          variant="outline-primary"
-                                          size="sm"
-                                        >
-                                          View More
-                                        </Button>
-                                      </Link>
+                                          <Link
+                                            to={`customer-order/${order.id}`}
+                                          >
+                                            <Button
+                                              variant="outline-primary"
+                                              size="sm"
+                                            >
+                                              View More
+                                            </Button>
+                                          </Link>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -146,13 +152,13 @@ class Orders extends Component {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </section>
-            </InfiniteScroll>
-          </div>
+                  </section>
+                </InfiniteScroll>
+              </div>
+            )}
+          </React.Fragment>
         )}
       </div>
     );

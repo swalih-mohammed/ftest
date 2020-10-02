@@ -251,120 +251,123 @@ class AddAddress extends Component {
       selectedState
     } = this.state;
 
-    // console.log(this.state.selectedArea);
-
     if (success) {
       return <Redirect to="/addresses" />;
     }
 
-    // console.log(this.props.user.user.id);
     return (
       <div>
-        {loading && <div className="loading-cls"></div>}
-        <Card ClassName="h-100 shadow-sm bg-white rounded">
-          <Card.Body ClassName="d-flex felx-column">
-            <div ClassName="a-flex mb-2 justify-content-between">
-              <Select
-                className="mb-3"
-                onChange={this.handleChangeState}
-                getOptionLabel={option => `${option.name}`}
-                getOptionValue={option => `${option}`}
-                options={states}
-                isSearchable={true}
-                filterOption={this.customFilter}
-                onInputChange={this.handleInputChange}
-                noOptionsMessage={() => null}
-                placeholder={"Select state"}
-                autoFocus={true}
-                menuIsOpen={this.state.menuOpen}
-                isSearchable={false}
-              />
-              <Select
-                className="mb-3"
-                onChange={this.handleChangeDistrict}
-                getOptionLabel={option => `${option.name}`}
-                getOptionValue={option => `${option}`}
-                options={districts}
-                isSearchable={true}
-                filterOption={this.customFilter}
-                onInputChange={this.handleInputChange}
-                noOptionsMessage={() => null}
-                placeholder={"Select district"}
-                menuIsOpen={this.state.menuOpen}
-                isSearchable={false}
-              />
-              <Select
-                className="mb-3"
-                onChange={this.handleChangeVillage}
-                getOptionLabel={option => `${option.name}`}
-                getOptionValue={option => `${option}`}
-                options={villages}
-                isSearchable={true}
-                filterOption={this.customFilter}
-                onInputChange={this.handleInputChange}
-                noOptionsMessage={() => null}
-                placeholder={"Select village"}
-                menuIsOpen={this.state.menuOpen}
-              />
-              <Select
-                className="mb-3"
-                onChange={this.handleChangePlaces}
-                getOptionLabel={option => `${option.name}`}
-                getOptionValue={option => `${option}`}
-                options={places}
-                isSearchable={true}
-                filterOption={this.customFilter}
-                onInputChange={this.handleInputChange}
-                noOptionsMessage={() => null}
-                placeholder={"Select your locality"}
-                menuIsOpen={this.state.menuOpen}
-              />
-              <Select
-                className="mb-3"
-                onChange={this.handleChangeArea}
-                getOptionLabel={option => `${option.name}`}
-                getOptionValue={option => `${option}`}
-                options={aeras}
-                isSearchable={true}
-                filterOption={this.customFilter}
-                onInputChange={this.handleInputChange}
-                noOptionsMessage={() => null}
-                placeholder={"Select area"}
-                menuIsOpen={this.state.menuOpen}
-              />
-              <Form>
-                <Form.Group controlId="formGridAddress1">
-                  <Form.Control
-                    type="text"
-                    name="phone_number"
-                    placeholder="Phone Number"
-                    ClassName="mb-3"
-                    defaultValue={this.state.phone_number}
-                    onChange={this.handleChangeB.bind(this)}
+        {loading ? (
+          <div className="loading-cls"></div>
+        ) : (
+          <React.Fragment>
+            <ToastContainer />
+            <Card ClassName="h-100 shadow-sm bg-white rounded">
+              <Card.Body ClassName="d-flex felx-column">
+                <div ClassName="a-flex mb-2 justify-content-between">
+                  <Select
+                    className="mb-3"
+                    onChange={this.handleChangeState}
+                    getOptionLabel={option => `${option.name}`}
+                    getOptionValue={option => `${option}`}
+                    options={states}
+                    // isSearchable={true}
+                    filterOption={this.customFilter}
+                    onInputChange={this.handleInputChange}
+                    noOptionsMessage={() => null}
+                    placeholder={"Select state"}
+                    // autoFocus={true}
+                    menuIsOpen={this.state.menuOpen}
+                    isSearchable={false}
                   />
-                </Form.Group>
-                <Form.Group controlId="exampleForm.ControlTextarea1">
-                  <Form.Control
-                    as="textarea"
-                    type="text"
-                    name="full_address"
-                    placeholder="Road, House Name ..."
-                    ClassName="mb-3"
-                    defaultValue={this.state.form.full_address}
-                    onChange={this.handleChangeB.bind(this)}
+                  <Select
+                    className="mb-3"
+                    onChange={this.handleChangeDistrict}
+                    getOptionLabel={option => `${option.name}`}
+                    getOptionValue={option => `${option}`}
+                    options={districts}
+                    isSearchable={true}
+                    filterOption={this.customFilter}
+                    onInputChange={this.handleInputChange}
+                    noOptionsMessage={() => null}
+                    placeholder={"Select district"}
+                    menuIsOpen={this.state.menuOpen}
+                    isSearchable={false}
                   />
-                </Form.Group>
-                <Button
-                  variant="primary"
-                  type="submit"
-                  onClick={this.handleCreateAddress}
-                >
-                  Submit
-                </Button>
-              </Form>
-            </div>
-          </Card.Body>
-        </Card>
+                  <Select
+                    className="mb-3"
+                    onChange={this.handleChangeVillage}
+                    getOptionLabel={option => `${option.name}`}
+                    getOptionValue={option => `${option}`}
+                    options={villages}
+                    isSearchable={true}
+                    filterOption={this.customFilter}
+                    onInputChange={this.handleInputChange}
+                    noOptionsMessage={() => null}
+                    placeholder={"Select village"}
+                    menuIsOpen={this.state.menuOpen}
+                  />
+                  <Select
+                    className="mb-3"
+                    onChange={this.handleChangePlaces}
+                    getOptionLabel={option => `${option.name}`}
+                    getOptionValue={option => `${option}`}
+                    options={places}
+                    isSearchable={true}
+                    filterOption={this.customFilter}
+                    onInputChange={this.handleInputChange}
+                    noOptionsMessage={() => null}
+                    placeholder={"Select your locality"}
+                    menuIsOpen={this.state.menuOpen}
+                  />
+                  <Select
+                    className="mb-3"
+                    onChange={this.handleChangeArea}
+                    getOptionLabel={option => `${option.name}`}
+                    getOptionValue={option => `${option}`}
+                    options={aeras}
+                    isSearchable={true}
+                    filterOption={this.customFilter}
+                    onInputChange={this.handleInputChange}
+                    noOptionsMessage={() => null}
+                    placeholder={"Select area"}
+                    menuIsOpen={this.state.menuOpen}
+                  />
+                  <Form>
+                    <Form.Group controlId="formGridAddress1">
+                      <Form.Control
+                        type="text"
+                        name="phone_number"
+                        placeholder="Phone Number"
+                        ClassName="mb-3"
+                        defaultValue={this.state.phone_number}
+                        onChange={this.handleChangeB.bind(this)}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="exampleForm.ControlTextarea1">
+                      <Form.Control
+                        as="textarea"
+                        type="text"
+                        name="full_address"
+                        placeholder="Road, House Name ..."
+                        ClassName="mb-3"
+                        defaultValue={this.state.form.full_address}
+                        onChange={this.handleChangeB.bind(this)}
+                      />
+                    </Form.Group>
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      onClick={this.handleCreateAddress}
+                    >
+                      Submit
+                    </Button>
+                  </Form>
+                </div>
+              </Card.Body>
+            </Card>
+          </React.Fragment>
+        )}
       </div>
     );
   }

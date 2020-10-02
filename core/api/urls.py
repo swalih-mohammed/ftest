@@ -153,7 +153,7 @@ urlpatterns = [
          AddComplaintView.as_view(), name='complaint-add'),
 
     # //location urls
-    path('places-list/', PlaceListView.as_view(), name='area-list'),
+    path('places-list/', PlaceListView.as_view(), name='place-list'),
     path('areas-filter/', AreaFilterView.as_view(), name='area-filter'),
     path('places-filter/', PlaceFilterView.as_view(), name='place-filter'),
     path('placess-filter/', PlaceFilterView.as_view(), name='places-filter'),

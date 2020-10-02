@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
-import axios from "axios";
+// import axios from "axios";
 import { authAxios } from "../../../authAxios";
-import { fetchUser } from "../../../actions/user";
+// import { fetchUser } from "../../../actions/user";
 import Select from "react-select";
 import { Redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Button } from "react-bootstrap";
+import { Button, Row, Col } from "react-bootstrap";
 
 import {
   orderDetailURL,
@@ -180,7 +180,7 @@ class OrderItem extends Component {
     const { order, orderAddress, orderItems, success } = this.state;
 
     const { user } = this.props;
-    // console.log(123);
+    // console.log(loading);
 
     if (success) {
       if (user.user.is_staff_user) {
@@ -202,7 +202,7 @@ class OrderItem extends Component {
               <Button variant="outline-danger">Back to orders</Button>{" "}
             </Link>
 
-            {user.user.is_customer ? (
+            {/* {user.user.is_customer ? (
               <div className="checkout-page">
                 <form onSubmit={this.updateOrderStatus}>
                   <div className="checkout-form">
@@ -217,12 +217,8 @@ class OrderItem extends Component {
                           getOptionLabel={option => `${option.name}`}
                           getOptionValue={option => `${option}`}
                           options={this.state.shopOrderStatus}
-                          isSearchable={true}
-                          //   filterOption={this.customFilter}
                           onInputChange={this.handleInputChange}
-                          noOptionsMessage={() => null}
                           placeholder={"Select order status"}
-                          // autoFocus={true}
                           menuIsOpen={this.state.menuOpen}
                         />
                       </div>
@@ -241,7 +237,7 @@ class OrderItem extends Component {
               </div>
             ) : (
               ""
-            )}
+            )} */}
             {user.user.is_staff_user ? (
               <div className="checkout-page">
                 <form onSubmit={this.updateOrderStatus}>
@@ -257,12 +253,8 @@ class OrderItem extends Component {
                           getOptionLabel={option => `${option.name}`}
                           getOptionValue={option => `${option}`}
                           options={this.state.staffOrderStatus}
-                          // isSearchable={true}
-                          //   filterOption={this.customFilter}
                           onInputChange={this.handleInputChange}
-                          // noOptionsMessage={() => null}
                           placeholder={"Select order status"}
-                          // autoFocus={true}
                           menuIsOpen={this.state.menuOpen}
                         />
                       </div>
@@ -375,10 +367,20 @@ class OrderItem extends Component {
                             {/* {orderItems.map(order_item => ( */}
                             {orderItems.map((item, index) => {
                               return (
-                                <li key={index}>
-                                  {item.title} × {item.quantity}{" "}
-                                  <span>Rs: {item.final_price}</span>
-                                </li>
+                                // <li key={index}>
+                                //   {item.title} × {item.quantity}{" "}
+                                //   <span>Rs: {item.final_price}</span>
+                                // </li>
+                                <Row>
+                                  <Col xs={8}>
+                                    {" "}
+                                    {item.itemLocalName
+                                      ? item.itemLocalName
+                                      : item.itemName}{" "}
+                                    [{item.vname}] × {item.quantity}{" "}
+                                  </Col>
+                                  <Col xs={4}>Rs: {item.final_price}</Col>
+                                </Row>
                               );
                             })}
                           </ul>

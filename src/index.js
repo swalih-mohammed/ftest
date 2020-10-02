@@ -30,8 +30,8 @@ import Layout from "./components/app";
 // import ShopHome from "./components/ld/shopHome/main";
 
 //pages
-import Login from "./components/ld/pages/login";
-import Register from "./components/ld/pages/register";
+import Login from "./components/ld/pages/login2";
+import Register from "./components/ld/pages/register1";
 import Logout from "./components/ld/pages/logout";
 import PassworReset from "./components/ld/pages/forgetPassword";
 import ConfirmPassword from "./components/ld/pages/confirm-reset-password";

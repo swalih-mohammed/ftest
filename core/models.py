@@ -32,6 +32,7 @@ class Place(models.Model):
     village = models.ForeignKey('Village', related_name = 'village', blank=True, null=True,max_length=100, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='place', default='/place/default_place.jpg',blank=True, null=True)
     is_shipping = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
     shipping_message = models.TextField(max_length=200, blank=True, null=True)
     offer_message = models.TextField(max_length=200, blank=True, null=True)
     exicutive_phone_number = models.CharField(max_length=12 ,blank=True, null=True)

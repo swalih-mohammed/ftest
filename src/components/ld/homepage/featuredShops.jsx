@@ -52,36 +52,47 @@ class FeautredShops extends Component {
         {/*Blog Section*/}
         {/* <ToastContainer /> */}
 
-        {this.state.loading && <div className="loading-cls"></div>}
-        <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">
-          <div className="container">
-            <div className="row">
-              <div className="col">
-                <div className="title4">
-                  <br></br>
-                  <h2 className="title-inner4"> Premium Shop</h2>
-                  <div className="line">
-                    <span></span>
+        {this.state.loading ? (
+          <div className="loading-cls"></div>
+        ) : (
+          <React.Fragment>
+            <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">
+              <div className="container">
+                <div className="row">
+                  <div className="col">
+                    <div className="title4">
+                      <br></br>
+                      <h2 className="title-inner4"> Premium Shops</h2>
+                      <div className="line">
+                        <span></span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <div className="container">
-            <div className="row">
-              <div className="col">
-                <Slider {...Product4} className="product-4 product-m no-arrow">
-                  {featuredShops.map((shop, index) => (
-                    <div key={index} className="col-xl-3 col-md-6 col-grid-box">
-                      <FshopItem shop={shop} />
-                    </div>
-                  ))}
-                </Slider>
+              <div className="container">
+                <div className="row">
+                  <div className="col">
+                    <Slider
+                      {...Product4}
+                      className="product-4 product-m no-arrow"
+                    >
+                      {featuredShops.map((shop, index) => (
+                        <div
+                          key={index}
+                          className="col-xl-3 col-md-6 col-grid-box"
+                        >
+                          <FshopItem shop={shop} />
+                        </div>
+                      ))}
+                    </Slider>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </section>
+            </section>
+          </React.Fragment>
+        )}
       </div>
     );
   }

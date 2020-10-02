@@ -9,7 +9,7 @@ import Select from "react-select";
 import { Redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Button, Row, Col } from "react-bootstrap";
+import { Button, Row, Col, Alert } from "react-bootstrap";
 
 import {
   orderDetailURL,
@@ -289,7 +289,14 @@ class OrderItem extends Component {
                               <h4>Order No: {order.id}</h4>
                             </div>
                             <h6>Date: {order.start_date}</h6>
-                            <h6>Status: {order.orderStatus}</h6>
+                            {/* <h6>Status: {order.orderStatus}</h6> */}
+                            <h6
+                              className={
+                                order.status === "Pending" ? "text-danger" : ""
+                              }
+                            >
+                              Status: {order.orderStatus}
+                            </h6>
                             <h6>Mod of Payment: {order.mode_of_payment}</h6>
                           </div>
 
@@ -316,6 +323,17 @@ class OrderItem extends Component {
                 </div>
               </div>
             </div>
+
+            {order.coupon ? (
+              <Row>
+                <Col>
+                  <Alert variant={"success"}>
+                    {" "}
+                    {order.coupon_code} coupon Applied !!{order.coupon_offer}
+                  </Alert>
+                </Col>
+              </Row>
+            ) : null}
             <div className="row section-t-space">
               <div className="col-lg-6">
                 <div className="stripe-section">

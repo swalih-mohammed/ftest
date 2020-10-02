@@ -100,7 +100,9 @@ class Homepage extends Component {
           )}
         </section>
         {/* {Newlocalities && <FeautredLocality Newlocalities={Newlocalities} />} */}
-        <FeautredShops featuredShops={featuredShops} />
+        {featuredShops.length > 0 && (
+          <FeautredShops featuredShops={featuredShops} />
+        )}
 
         <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">
           <div className="container">
@@ -116,7 +118,7 @@ class Homepage extends Component {
                   <Card.Body>
                     {/* <Card.Title>{"primary"} Card Title </Card.Title> */}
                     <Card.Text style={{ color: "white" }}>
-                      To find personalized result, add your address
+                      To find shops of your locality, please add your address
                     </Card.Text>
                     <Link style={{ color: "#FFF" }} to={`/create-address`}>
                       <Button variant="Primary" size="lg">

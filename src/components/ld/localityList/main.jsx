@@ -126,7 +126,7 @@ class LocalityList extends React.PureComponent {
         <ToastContainer />
         {this.state.loading && <div className="loading-cls"></div>}
         {/* <HeaderTwo logoName={"logo.png"} /> */}
-        <Search />
+        {/* <Search /> */}
 
         {localities && (
           <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">

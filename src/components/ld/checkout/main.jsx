@@ -153,9 +153,11 @@ class checkOut extends Component {
           this.setState({ loading: false, error: err }, () => {
             // this.redirectToOrders();
             toast.success("There was an error");
+            this.setState({ loading: false });
           });
         });
     } else {
+      this.setState({ loading: false });
       toast.error("Please select mode of payment and create an address");
     }
   };

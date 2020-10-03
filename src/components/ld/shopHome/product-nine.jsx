@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 class ProductStyleNine extends Component {
   state = {
-    loading: false,
+    isAdding: false,
     selectedVariationID: "",
     selectedVariationName: "",
     selectedVariationMRP: "",
@@ -44,31 +44,31 @@ class ProductStyleNine extends Component {
 
   handleAddToCart = (id, shop, variation) => {
     if (this.props.token !== null) {
-      this.setState({ loading: true });
+      this.setState({ isAdding: true });
       authAxios
         .post(addToCartURL, { id, shop, variation })
         .then(res => {
           toast.success("item added to cart");
           this.props.refreshCart();
-          this.setState({ loading: false });
+          this.setState({ isAdding: false });
         })
         .catch(err => {
           if (err.response) {
             if (err.response.status === 401) {
-              this.setState({ loading: false });
+              this.setState({ isAdding: false });
               toast.error("please login or refresh");
             } else if (err.response.data) {
               const error = err.response.data.message;
-              this.setState({ loading: false });
+              this.setState({ isAdding: false });
               toast.error(error);
             } else {
-              this.setState({ loading: false });
+              this.setState({ isAdding: false });
               toast.error("Oops there was an error");
             }
           }
         });
     } else {
-      this.setState({ loading: false });
+      this.setState({ isAdding: false });
       toast.error("Please login or refresh");
     }
   };
@@ -81,9 +81,9 @@ class ProductStyleNine extends Component {
   }
 
   render() {
-    const { product, variations, defaultOption } = this.props;
-    // const { selectedVariationMRP } = this.state;
-    // console.log(selectedVariationMRP);
+    const { product, variations, defaultOption, loading } = this.props;
+    const { isAdding } = this.state;
+    // console.log(product);
 
     return (
       <div className="localdukan">
@@ -98,11 +98,12 @@ class ProductStyleNine extends Component {
                 ""
               )}
 
-              {product.do_not_disply_when_not_available !== true ? (
-                <span className="lable4">Out of stock</span>
-              ) : (
-                ""
+              {product.do_not_disply_when_not_available ? null : (
+                <React.Fragment>
+                  <span style={{ color: "red" }}>Out of stock</span>
+                </React.Fragment>
               )}
+
               {product.is_on_sale == true ? (
                 <span className="lable3">sale</span>
               ) : (
@@ -110,37 +111,22 @@ class ProductStyleNine extends Component {
               )}
             </div>
             <div className="front">
-              {/* <Link
-              to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}
-            > */}
-              {/* <img
-              src={`${localhost}${product.product_image}`}
-              className="img-fluid"
-              alt="product-image"
-            /> */}
               <Img
                 loading="lazy"
                 className="img-fluid lazyload bg-img"
-                // src={product.product_image}
                 src={`${localhost}${product.product_image}`}
                 loader={<div className="loading-cls"></div>}
               />
-              {/* </Link> */}
             </div>
           </div>
           <div className="product-detail">
             <div>
-              {/* <div className="rating">{RatingStars}</div> */}
               <div className="rating"> </div>
-              {/* <Link
-              to={`${process.env.PUBLIC_URL}/left-sidebar/product/${product.id}`}
-            > */}
               {product.title_local ? (
                 <h6>{product.title_local}</h6>
               ) : (
                 <h6>{product.title}</h6>
               )}
-
               <h4>
                 {"Rs: "} {this.state.selectedVariationPrice}{" "}
                 <del>
@@ -151,7 +137,6 @@ class ProductStyleNine extends Component {
                 </del>
               </h4>
               <br />
-
               {defaultOption ? (
                 <React.Fragment>
                   {defaultOption.name && (
@@ -167,29 +152,33 @@ class ProductStyleNine extends Component {
                   )}
                 </React.Fragment>
               ) : null}
-
-              <div className="cart-bottom">
-                {product.do_not_disply_when_not_available ? (
-                  <button
-                    title="Add to cart"
-                    onClick={() =>
-                      this.handleAddToCart(
-                        product.id,
-                        product.shop,
-                        this.state.selectedVariationID
-                      )
-                    }
-                  >
-                    <i>
-                      <FontAwesomeIcon
-                        icon={faShoppingCart}
-                        size={"lg"}
-                        color={"#ff4c3b"}
-                      />
-                    </i>
-                  </button>
-                ) : null}
-              </div>
+              {product.variations.length > 0 ? (
+                <React.Fragment>
+                  <div className="cart-bottom">
+                    {product.do_not_disply_when_not_available ? (
+                      <button
+                        disabled={isAdding}
+                        title="Add to cart"
+                        onClick={() =>
+                          this.handleAddToCart(
+                            product.id,
+                            product.shop,
+                            this.state.selectedVariationID
+                          )
+                        }
+                      >
+                        <i>
+                          <FontAwesomeIcon
+                            icon={faShoppingCart}
+                            size={"lg"}
+                            color={"#ff4c3b"}
+                          />
+                        </i>
+                      </button>
+                    ) : null}
+                  </div>
+                </React.Fragment>
+              ) : null}
             </div>
           </div>
         </div>
@@ -208,5 +197,3 @@ export default connect(
   null,
   mapDispatchToProps
 )(ProductStyleNine);
-
-// export default ProductStyleNine;

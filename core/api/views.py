@@ -329,7 +329,6 @@ class OrderConfirmView(APIView):
             item.save()
         order.ordered = True
         order.save()
-
         return Response(status=HTTP_200_OK)
 
 
@@ -354,7 +353,7 @@ class AddCouponView(APIView):
     def post(self, request, *args, **kwargs):
         code = request.data.get('code', None)
         if code is None:
-            return Response({"message": "Invalid data received"}, status=HTTP_400_BAD_REQUEST)
+            return Response({"message": "Invalid coupon received"}, status=HTTP_400_BAD_REQUEST)
         coupon = get_object_or_404(Coupon, code=code)
         if coupon.is_valid == False:
             print("not valid")

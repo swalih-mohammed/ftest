@@ -4,6 +4,9 @@ from django.db import models
 from django.db.models import Sum
 from django.shortcuts import reverse
 from django_countries.fields import CountryField
+from django.core.mail import send_mail
+from django.db.models.signals import post_save, pre_save
+# from django.dispatch import receiver
 
 
 
@@ -280,7 +283,7 @@ class ProductImage(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)
     productCategory = models.ForeignKey(ProductCategory, blank=True, null=True,
                              on_delete=models.CASCADE)
-    image1 = models.ImageField(upload_to='product',blank=True, null=True)
+    image1 = models.ImageField(upload_to='product', default='/product/no_image.png',blank=True, null=True)
     image2 = models.ImageField(upload_to='product',blank=True, null=True)
     image3 = models.ImageField(upload_to='product',blank=True, null=True)
 
@@ -319,8 +322,10 @@ class Item(models.Model):
         if self.product_image:
             if self.product_image.image1:
                 return self.product_image.image1.url
-            return None
-        return None
+            else:
+                return None
+    
+      
 
     def do_not_disply_when_not_available(self):
         if self.item_stock:
@@ -547,6 +552,24 @@ class Order(models.Model):
         return self.coupon.code
     def get_order_coupon_offer(self):
         return self.coupon.offer
+
+
+def save_order(sender, instance, **kwargs):
+    order = instance
+    shop_email = order.shop.owner.email
+    order_id = order.id
+    order_user = order.user.username
+    send_mail(
+    'New Order recieved order ID:' + str(order_id ),
+    'Order recieved from' + str(order_user),
+    'localdukans@gmail.com',
+    [shop_email],
+    fail_silently=False,
+)
+post_save.connect(save_order,sender=Order)
+# pre_save.connect(save_order,sender=Order)
+
+    
 
 class FavoritePlaces(models.Model):
         user = models.ForeignKey(settings.AUTH_USER_MODEL,

@@ -11,7 +11,7 @@ class ProductCard extends Component {
   };
   render() {
     const { item } = this.props;
-    // console.log(123);
+    console.log(item);
 
     return (
       <div>

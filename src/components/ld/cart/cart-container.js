@@ -3,11 +3,15 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchCart, clearKart } from "../../../actions/cart";
 import CartHeader from "./cart-header";
-import cart from "./cart";
+// import cart from "./cart";
 // import { authAxios } from "../authAxios";
 import { authAxios } from "../../../authAxios";
 // import { orderSummaryURL } from "../constants";
-import { orderSummaryURL, localhost } from "../../../constants";
+import {
+  orderSummaryURL,
+  localhost,
+  orderItemDeleteURL
+} from "../../../constants";
 
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,7 +24,12 @@ class CartContainer extends Component {
     display: true
   };
 
-  // componentWillMount() {}
+  componentDidMount() {
+    this.props.fetchCart();
+    if (this.props.cart) {
+      // console.log(this.props.cart.order_items.length);
+    }
+  }
 
   handleFetchOrder = () => {
     this.setState({ loading: true });
@@ -40,12 +49,25 @@ class CartContainer extends Component {
     this.setState({ display: !this.state.display });
   };
 
+  handleRemoveItemFromCart = id => {
+    console.log(id);
+    this.setState({ loading: true });
+    authAxios
+      .delete(orderItemDeleteURL(id))
+      .then(res => {
+        this.props.refreshCart();
+        this.setState({ loading: false });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
+  };
+
   render() {
     // const { cart } = this.state;
-
     const { cart } = this.props;
     const { display } = this.state;
-    // console.log(display);
+    // console.log(cart);
 
     return (
       <div>
@@ -82,7 +104,13 @@ class CartContainer extends Component {
                   {cart.order_items ? (
                     <div>
                       {cart.order_items.map(item => (
-                        <CartHeader key={item.id} item={item} />
+                        <CartHeader
+                          handleRemoveItemFromCart={
+                            this.handleRemoveItemFromCart
+                          }
+                          key={item.id}
+                          item={item}
+                        />
                       ))}
                     </div>
                   ) : null}

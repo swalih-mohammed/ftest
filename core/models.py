@@ -556,16 +556,17 @@ class Order(models.Model):
 
 def save_order(sender, instance, **kwargs):
     order = instance
-    shop_email = order.shop.owner.email
-    order_id = order.id
-    order_user = order.user.username
-    send_mail(
-    'New Order recieved order ID:' + str(order_id ),
-    'Order recieved from' + str(order_user),
-    'localdukans@gmail.com',
-    [shop_email],
-    fail_silently=False,
-)
+    if order.ordered == True:
+        shop_email = order.shop.owner.email
+        order_id = order.id
+        order_user = order.user.username
+        send_mail(
+        'New Order recieved order ID:' + str(order_id ),
+        'Order recieved from' + str(order_user),
+        'localdukans@gmail.com',
+        [shop_email],
+        fail_silently=False,
+    )
 post_save.connect(save_order,sender=Order)
 # pre_save.connect(save_order,sender=Order)
 

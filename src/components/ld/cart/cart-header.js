@@ -6,24 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { authAxios } from "../../../authAxios";
 import { orderItemDeleteURL } from "../../../constants";
 import { fetchCart } from "../../../actions/cart";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 class CartHeader extends Component {
-  handleRemoveItemFromCart = id => {
-    // console.log(id);
-    // console.log("removing");
-    // toast.error("Item removed from your cart");
-    authAxios
-      .delete(orderItemDeleteURL(id))
-      .then(res => {
-        this.refreshCart();
-        // toast.error("Item removed from your cart");
-      })
-      .catch(err => {
-        this.setState({ error: err });
-      });
+  state = {
+    loading: false
   };
+
   render() {
     const { item } = this.props;
     // console.log(item);
@@ -32,9 +21,9 @@ class CartHeader extends Component {
       <li>
         {/* <ToastContainer /> */}
         <div className="media">
-          <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>
-            {/* <img alt="" className="mr-3" src={`${item.pictures[0]}`} /> */}
-          </Link>
+          {/* <Link to={`${process.env.PUBLIC_URL}/product/${item.id}`}>
+            <img alt="" className="mr-3" src={`${item.pictures[0]}`} />
+          </Link> */}
           <div className="media-body">
             <h4>
               <span>
@@ -49,7 +38,7 @@ class CartHeader extends Component {
         <div className="close-circle">
           <a href={null}>
             {/* <i className="fa fa-times" aria-hidden="true"></i> */}
-            <i onClick={() => this.handleRemoveItemFromCart(item.id)}>
+            <i onClick={() => this.props.handleRemoveItemFromCart(item.id)}>
               <FontAwesomeIcon icon={faTimes} color={"#ff4c3b"} />
             </i>
           </a>

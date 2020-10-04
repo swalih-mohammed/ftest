@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import SimpleReactValidator from "simple-react-validator";
 import "react-toastify/dist/ReactToastify.css";
+import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import { Button, Navbar, Alert, Col, Row } from "react-bootstrap";
 import {
@@ -17,6 +18,22 @@ import { authAxios } from "../../../authAxios";
 import { fetchCart, clearKart } from "../../../actions/cart";
 import ModeOfPayment from "./modeOfPayment";
 import OrderAddress from "./orderAddress";
+
+const NAVBAR = styled(Navbar)`
+  background: #ff4c3b;
+  border: none;
+`;
+
+const BUTTON = styled(Button)`
+  background: #ff4c3b;
+  border: none;
+  font-size: 1.2em;
+  font-weight: 400;
+
+  &:hover {
+    background: #1d3461;
+  }
+`;
 
 class checkOut extends Component {
   state = {
@@ -180,7 +197,7 @@ class checkOut extends Component {
       error
     } = this.state;
 
-    console.log(this.state.cart);
+    // console.log(this.state.cart);
     // console.log(addressList.length);
 
     if (!isAuthenticated) {
@@ -199,9 +216,9 @@ class checkOut extends Component {
               <div className="checkout-form">
                 <section className="section-b-space">
                   <div className="container">
-                    <Navbar bg="dark">
+                    <NAVBAR>
                       <h4 style={{ color: "white" }}>Shop details</h4>
-                    </Navbar>
+                    </NAVBAR>
 
                     <div className="row">
                       <div className="col-lg-9">
@@ -227,9 +244,9 @@ class checkOut extends Component {
                 </section>
                 {/* end of shop detail  */}
                 <div className="col-lg-6 col-sm-8 col-xs-12">
-                  <Navbar bg="dark">
+                  <NAVBAR>
                     <h4 style={{ color: "white" }}>Product details</h4>
-                  </Navbar>
+                  </NAVBAR>
                   <div className="checkout-details">
                     <div className="order-box">
                       <div className="title-box">
@@ -317,9 +334,7 @@ class checkOut extends Component {
                     </div>
 
                     <Link style={{ color: "#FFF" }} to={`/order-summary`}>
-                      <button type="button" className="btn btn-secondary">
-                        Edit Order
-                      </button>
+                      <BUTTON type="button">Edit Order</BUTTON>
                     </Link>
                   </div>
                 </div>
@@ -328,9 +343,9 @@ class checkOut extends Component {
               {addressList.length > 0 ? (
                 <section className="section-b-space">
                   <div className="container">
-                    <Navbar bg="dark">
+                    <NAVBAR>
                       <h4 style={{ color: "white" }}>Delivery Address</h4>
-                    </Navbar>
+                    </NAVBAR>
                     <OrderAddress address={addressList[0]} />
                   </div>
                 </section>
@@ -349,9 +364,9 @@ class checkOut extends Component {
               {ShopModeOfPayment ? (
                 <section className="section-b-space">
                   <div className="container">
-                    <Navbar bg="dark">
+                    <NAVBAR>
                       <h4 style={{ color: "white" }}>Select Payment Method</h4>
-                    </Navbar>
+                    </NAVBAR>
                     <ModeOfPayment
                       handleModeOfPayment={this.handleModeOfPayment}
                       options={ShopModeOfPayment}
@@ -383,11 +398,11 @@ class checkOut extends Component {
                           // onSubmit={this.handleCouponSubmit}
                         >
                           <div className="form-group">
-                            <Navbar bg="dark">
+                            <NAVBAR>
                               <h4 style={{ color: "white" }}>
                                 Enter Coupon code
                               </h4>
-                            </Navbar>
+                            </NAVBAR>
                             <br></br>
                             {/* <label htmlFor="coupon">Enter Coupon code</label> */}
                             <input

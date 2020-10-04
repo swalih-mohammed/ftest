@@ -130,12 +130,12 @@ class OrderSummary extends Component {
   render() {
     const { loading } = this.state;
     const { cartItems } = this.props;
-    console.log(loading);
+    // console.log(loading);
 
     return (
       <div>
         <ToastContainer />
-        {this.state.loading && <div className="loading-cls"></div>}
+        {/* {this.state.loading && <div className="loading-cls"></div>} */}
         {cartItems.order_items ? (
           <section className="cart-section section-b-space">
             <div className="container">
@@ -192,8 +192,6 @@ class OrderSummary extends Component {
                                             disabled={loading}
                                             type="button"
                                             className="btn quantity-left-minus"
-                                            // onClick={this.minusQty}
-
                                             onClick={() =>
                                               this.handleRemoveQuantityFromCart(
                                                 item.item_variation
@@ -214,6 +212,7 @@ class OrderSummary extends Component {
                                             {cartItems.order_items.length <
                                             2 ? (
                                               <button
+                                                disabled={loading}
                                                 type="button"
                                                 className="btn quantity-left-minus"
                                                 // onClick={this.minusQty}
@@ -234,6 +233,7 @@ class OrderSummary extends Component {
                                             ) : (
                                               // otherwise
                                               <button
+                                                disabled={loading}
                                                 type="button"
                                                 className="btn quantity-left-minus"
                                                 // onClick={this.minusQty}
@@ -259,16 +259,14 @@ class OrderSummary extends Component {
                                         type="text"
                                         name="quantity"
                                         value={item.quantity}
-                                        // defaultValue={0}
                                         onChange={this.testOnchange}
-                                        // onChange={null}
                                         className="form-control input-number"
                                       />
                                       <span className="input-group-prepend">
                                         <button
+                                          disabled={loading}
                                           type="button"
                                           className="btn quantity-right-plus"
-                                          // onClick={this.handleAddToCart2}
                                           onClick={() =>
                                             this.handleAddToCart2(
                                               item.item,
@@ -291,15 +289,11 @@ class OrderSummary extends Component {
                                   </div>
                                 </div>
                                 <div className="col-xs-4">
-                                  <h2 className="td-color">
-                                    {/* {symbol} */}
-                                    {/* {item.final_price} */}
-                                  </h2>
+                                  <h2 className="td-color"></h2>
                                 </div>
                                 <div className="col-xs-4">
                                   <h2 className="td-color">
                                     <a
-                                      //   href="#"
                                       className="icon"
                                       onClick={() =>
                                         this.handleRemoveItemFromCart(item.id)

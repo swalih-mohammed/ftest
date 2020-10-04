@@ -5,7 +5,13 @@ import { SlideUpDown } from "../../../services/script";
 import LogoImage from "./logo";
 
 class Footer extends Component {
+  state = {
+    visible: false
+  };
   componentDidMount() {
+    setTimeout(() => {
+      this.makeVisible();
+    }, 5000);
     var contentwidth = window.innerWidth;
     if (contentwidth < 750) {
       SlideUpDown("footer-title");
@@ -18,9 +24,17 @@ class Footer extends Component {
     }
   }
 
+  makeVisible = () => {
+    console.log("Hello, World!");
+    this.setState({ visible: true });
+  };
+
   render() {
     return (
-      <footer className="footer-light">
+      <footer
+        className="footer-light"
+        style={{ display: this.state.visible ? "" : "none" }}
+      >
         <div className="light-layout">
           <div className="container">
             <section className="small-section border-section border-top-0">

@@ -102,14 +102,14 @@ workbox.routing.registerRoute(
 );
 
 // 3. cache home page
-workbox.routing.registerRoute(
-  new RegExp("https://www.localdukans.com/"),
-  workbox.strategies.staleWhileRevalidate({
-    cacheName: "home-page",
-    cacheExpiration: {
-      maxAgeSeconds: 60 * 60 //cache the news content for 30mn
-    }
-  })
-);
+// workbox.routing.registerRoute(
+//   new RegExp("https://www.localdukans.com/"),
+//   workbox.strategies.staleWhileRevalidate({
+//     cacheName: "home-page",
+//     cacheExpiration: {
+//       maxAgeSeconds: 60 * 60 //cache the news content for 30mn
+//     }
+//   })
+// );
 
 workbox.precaching.precacheAndRoute([]);

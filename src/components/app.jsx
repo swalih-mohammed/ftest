@@ -8,7 +8,7 @@ import Loader from "./ld/common/loader";
 // const Footer = lazy(() => import("./ld/common/footer"));
 const Footer = lazy(() => {
   return new Promise(resolve => {
-    setTimeout(() => resolve(import("./ld/common/footer")), 3000);
+    setTimeout(() => resolve(import("./ld/common/footer")), 1000);
   });
 });
 

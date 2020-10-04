@@ -254,6 +254,9 @@ class AddAddress extends Component {
     if (success) {
       return <Redirect to="/addresses" />;
     }
+    if (!this.props.token) {
+      return <Redirect to="/login" />;
+    }
 
     return (
       <div>

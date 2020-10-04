@@ -1,13 +1,26 @@
 import React, { Component } from "react";
 import "../../common/index.scss";
 import Slider from "react-slick";
-import { Link } from "react-router-dom";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { Link } from "react-router-dom";
+// import { faHeart } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Product4 } from "../../../services/script";
 import FshopItem from "./fshopItem";
-import { Slider3 } from "../../../services/script";
+// import { Slider3 } from "../../../services/script";
 import { ToastContainer } from "react-toastify";
+import styled from "styled-components";
+
+const Test = styled.div`
+  @media (min-width: 320px) {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding-right: 25px;
+    margin-right: -15px;
+    margin-left: -15px;
+    width: 350px;
+  }
+`;
 
 class FeautredShops extends Component {
   componentDidMount() {
@@ -39,10 +52,13 @@ class FeautredShops extends Component {
           <div className="container">
             <div className="row">
               <div className="col">
-                <Slider {...Product4} className="product-4 product-m no-arrow">
+                <Slider {...Product4}>
+                  {/* <Slider {...Product4} className="product-4 product-m no-arrow"> */}
                   {featuredShops.map((shop, index) => (
                     <div key={index} className="col-xl-3 col-md-6 col-grid-box">
-                      <FshopItem shop={shop} />
+                      <Test>
+                        <FshopItem shop={shop} />
+                      </Test>
                     </div>
                   ))}
                 </Slider>

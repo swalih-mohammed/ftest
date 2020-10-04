@@ -1,8 +1,18 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 import { SlideUpDown } from "../../../services/script";
 import LogoImage from "./logo";
+
+const Title = styled.h4`
+  color: $grey-dark;
+  font-weight: 200;
+  margin-bottom: 0;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  line-height: 1.6;
+`;
 
 class Footer extends Component {
   state = {
@@ -25,7 +35,7 @@ class Footer extends Component {
   }
 
   makeVisible = () => {
-    console.log("Hello, World!");
+    // console.log("Hello, World!");
     this.setState({ visible: true });
   };
 
@@ -54,13 +64,19 @@ class Footer extends Component {
                     <LogoImage logo={this.props.logoName} />
                   </div>
                   <p>
-                    Local Dukans makes you able to sell your product to your own
-                    pleople.
+                    For Product and billing related queries, please contact
+                    respective shop owners. Local Dukans does not deal with
+                    product quality or shop billing.
                   </p>
                   <br></br>
-                  <h4>
-                    <a href="tel: 720 772 41 91">Call us: 720 772 41 91</a>
-                  </h4>
+                  <Title>
+                    <a href="tel: 720 772 41 91">720 772 41 91</a>
+                  </Title>
+                  <Title>
+                    <a href="mailto: localdukans@gmail.com">
+                      localdukans@gmail.com
+                    </a>
+                  </Title>
 
                   <div className="footer-social">
                     <ul>

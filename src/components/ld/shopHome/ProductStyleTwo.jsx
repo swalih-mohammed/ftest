@@ -45,32 +45,63 @@ class ProductStyleEleven extends Component {
   };
 
   handleAddToCart = (id, shop, variation) => {
-    console.log(variation);
     if (this.props.token !== null) {
-      this.setState({ loading: true });
+      this.setState({ isAdding: true });
       authAxios
         .post(addToCartURL, { id, shop, variation })
         .then(res => {
           toast.success("item added to cart");
           this.props.refreshCart();
-          this.setState({ loading: false });
+          this.setState({ isAdding: false });
         })
         .catch(err => {
-          if (err.response.status === 400) {
-            this.setState({ error: err, loading: false });
-            toast.error("You have an active order from a different shop");
-          } else if (err.response.status === 401) {
-            toast.error("Please login");
-          } else {
-            this.setState({ error: err, loading: false });
-            toast.error("Oops there was an error");
+          if (err.response) {
+            if (err.response.status === 401) {
+              this.setState({ isAdding: false });
+              toast.error("please login or refresh");
+            } else if (err.response.data) {
+              const error = err.response.data.message;
+              this.setState({ isAdding: false });
+              toast.error(error);
+            } else {
+              this.setState({ isAdding: false });
+              toast.error("Oops there was an error");
+            }
           }
         });
     } else {
-      this.setState({ loading: false });
-      toast.error("To add item into your cart, please login");
+      this.setState({ isAdding: false });
+      toast.error("Please login or refresh");
     }
   };
+
+  // handleAddToCart = (id, shop, variation) => {
+  //   console.log(variation);
+  //   if (this.props.token !== null) {
+  //     this.setState({ loading: true });
+  //     authAxios
+  //       .post(addToCartURL, { id, shop, variation })
+  //       .then(res => {
+  //         toast.success("item added to cart");
+  //         this.props.refreshCart();
+  //         this.setState({ loading: false });
+  //       })
+  //       .catch(err => {
+  //         if (err.response.status === 400) {
+  //           this.setState({ error: err, loading: false });
+  //           toast.error("You have an active order from a different shop");
+  //         } else if (err.response.status === 401) {
+  //           toast.error("Please login");
+  //         } else {
+  //           this.setState({ error: err, loading: false });
+  //           toast.error("Oops there was an error");
+  //         }
+  //       });
+  //   } else {
+  //     this.setState({ loading: false });
+  //     toast.error("To add item into your cart, please login");
+  //   }
+  // };
 
   render() {
     const { product, variations, defaultOption } = this.props;

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import "../../common/index.scss";
-import FeautredLocality from "./featuredLocality";
+// import FeautredLocality from "./featuredLocality";
 // import Search from "../localityList/search";
 import { connect } from "react-redux";
 import Localities from "../localityList/main";
@@ -10,10 +10,42 @@ import FeautredShops from "./featuredShops";
 import { Img } from "react-image";
 import { Redirect, Link } from "react-router-dom";
 import { Card, Container, Button } from "react-bootstrap";
+import styled from "styled-components";
 
 import { newPlacesURL, feautredShopsURL, appInfoURL } from "../../../constants";
 // import { userFail } from "../../../actions/auth";
 // import { id } from "date-fns/esm/locale";
+
+const CARD = styled(Card)`
+  background: #ff4c3b;
+  font-size: 1.2em;
+  font-weight: 300;
+  border-radius: 10px;
+`;
+
+const BUTTON = styled(Button)`
+  background: #1d3461;
+  font-size: 1em;
+  font-weight: 400;
+  padding-right: 1em;
+  padding-left: 1em;
+  border-radius: 15px;
+  border-style: none
+
+  &:hover {
+    color: $grey-dark;
+  }
+`;
+
+const Title = styled.h4`
+  text-transform: uppercase;
+  color: $grey-dark;
+  font-weight: 700;
+  margin-bottom: 0;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  line-height: 1.6;
+`;
 
 class Homepage extends Component {
   state = {
@@ -100,33 +132,33 @@ class Homepage extends Component {
           )}
         </section>
         {/* {Newlocalities && <FeautredLocality Newlocalities={Newlocalities} />} */}
-        {featuredShops.length > 0 && (
+        {featuredShops.length > 0 ? (
           <FeautredShops featuredShops={featuredShops} />
-        )}
-
+        ) : null}
         <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">
           <div className="container">
             <Container>
               <div className="row">
-                <Card
-                  bg={"primary"}
-                  text={"dark"}
+                <CARD
+                  // bg={"primary"}
+                  // text={"dark"}
                   style={{ width: "25rem" }}
                   className="mb-2"
                 >
                   {/* <Card.Header>Header</Card.Header> */}
                   <Card.Body>
                     {/* <Card.Title>{"primary"} Card Title </Card.Title> */}
-                    <Card.Text style={{ color: "white" }}>
+                    {/* <Card.Text style={{ color: "white" }}> */}
+                    <Title>
                       To find shops of your locality, please add your address
-                    </Card.Text>
-                    <Link style={{ color: "#FFF" }} to={`/create-address`}>
-                      <Button variant="Primary" size="lg">
-                        Add address
-                      </Button>
+                    </Title>
+
+                    {/* </Card.Text> */}
+                    <Link to={`/create-address`}>
+                      <BUTTON>Add address</BUTTON>
                     </Link>
                   </Card.Body>
-                </Card>
+                </CARD>
               </div>
             </Container>
           </div>

@@ -74,9 +74,12 @@ class ProductStyleNine extends Component {
   };
 
   handleChangeVariation(value) {
+    // console.log(value);
     this.setState({
       selectedVariationID: value.id,
-      selectedVariationName: value.name
+      selectedVariationName: value.name,
+      selectedVariationMRP: value.price,
+      selectedVariationPrice: value.discount_price
     });
   }
 
@@ -89,7 +92,7 @@ class ProductStyleNine extends Component {
       <div className="localdukan">
         <div>
           <ToastContainer />
-          {this.state.loading && <div className="loading-cls"></div>}
+          {loading && <div className="loading-cls"></div>}
           <div className="img-wrapper">
             <div className="lable-block">
               {product.is_featured == true ? (
@@ -104,11 +107,7 @@ class ProductStyleNine extends Component {
                 </React.Fragment>
               )}
 
-              {product.is_on_sale == true ? (
-                <span className="lable3">sale</span>
-              ) : (
-                ""
-              )}
+              {product.is_on_sale ? <span className="lable3">sale</span> : ""}
             </div>
             <div className="front">
               <Img

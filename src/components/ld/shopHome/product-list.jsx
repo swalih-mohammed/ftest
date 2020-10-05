@@ -16,11 +16,12 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 class ProductList extends Component {
   render() {
-    const { products } = this.props;
+    const { products, loading } = this.props;
     // console.log(products);
 
     return (
       <div>
+        {loading && <div className="loading-cls"></div>}
         <section className="ratio_asos absolute-product section-b-space">
           <div className="title4">
             <h2 className="title-inner4">Products</h2>
@@ -42,6 +43,7 @@ class ProductList extends Component {
                         key={product.id}
                         variations={variations}
                         defaultOption={defaultOption}
+                        loading={loading}
                       />
                     );
                   })}

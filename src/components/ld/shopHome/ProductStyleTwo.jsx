@@ -33,7 +33,6 @@ class ProductStyleEleven extends Component {
         let id = this.props.variations[0].id;
         let mrp = this.props.variations[0].price;
         let price = this.props.variations[0].discount_price;
-        // console.log(name, id);
         this.setState({
           selectedVariationName: name,
           selectedVariationID: id,
@@ -75,33 +74,15 @@ class ProductStyleEleven extends Component {
     }
   };
 
-  // handleAddToCart = (id, shop, variation) => {
-  //   console.log(variation);
-  //   if (this.props.token !== null) {
-  //     this.setState({ loading: true });
-  //     authAxios
-  //       .post(addToCartURL, { id, shop, variation })
-  //       .then(res => {
-  //         toast.success("item added to cart");
-  //         this.props.refreshCart();
-  //         this.setState({ loading: false });
-  //       })
-  //       .catch(err => {
-  //         if (err.response.status === 400) {
-  //           this.setState({ error: err, loading: false });
-  //           toast.error("You have an active order from a different shop");
-  //         } else if (err.response.status === 401) {
-  //           toast.error("Please login");
-  //         } else {
-  //           this.setState({ error: err, loading: false });
-  //           toast.error("Oops there was an error");
-  //         }
-  //       });
-  //   } else {
-  //     this.setState({ loading: false });
-  //     toast.error("To add item into your cart, please login");
-  //   }
-  // };
+  handleChangeVariation(value) {
+    console.log(value);
+    this.setState({
+      selectedVariationID: value.id,
+      selectedVariationName: value.name,
+      selectedVariationMRP: value.price,
+      selectedVariationPrice: value.discount_price
+    });
+  }
 
   render() {
     const { product, variations, defaultOption } = this.props;
@@ -112,12 +93,12 @@ class ProductStyleEleven extends Component {
         {this.state.loading && <div className="loading-cls"></div>}
         <div className="img-wrapper">
           <div className="lable-block">
-            {product.is_featured == true ? (
+            {product.is_featured == true && product.is_available ? (
               <span className="lable3">new</span>
             ) : (
               ""
             )}
-            {product.is_on_sale == true ? (
+            {product.is_on_sale == true && product.is_available ? (
               <span className="lable3">sale</span>
             ) : (
               ""
@@ -169,7 +150,7 @@ class ProductStyleEleven extends Component {
             )}
 
             <h4>
-              {"Rs: "} {this.state.selectedVariationPrice}{" "}
+              {"Rs: "} {this.state.selectedVariationMRP}{" "}
               <del>
                 <span className="money">
                   {"  MRP "}

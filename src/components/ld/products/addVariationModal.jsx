@@ -5,6 +5,26 @@ import { authAxios } from "../../../authAxios";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import Select from "react-select";
+import styled from "styled-components";
+
+const MYFORM = styled(Form)`
+  width: 90%;
+  text-align: left;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+
+  @media (min-width: 786px) {
+    width: 80%;
+  }
+
+  @media (min-width: 320px) {
+    width: 95%;
+  }
+`;
 
 class AddVariation extends React.Component {
   state = {
@@ -117,12 +137,12 @@ class AddVariation extends React.Component {
         show={this.props.show}
         aria-labelledby="contained-modal-title-vcenter"
       >
-        <Modal.Header closeButton>
+        <Modal.Header closeButton onClick={this.props.HideAddVariationModal}>
           <Modal.Title>Add a Variation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
-            <Form>
+            <MYFORM>
               <Form.Group controlId="name">
                 <Form.Label>Name (KG|Color|Size)</Form.Label>
                 <Form.Control
@@ -150,34 +170,6 @@ class AddVariation extends React.Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
-              <Form.Group
-                controlId="price"
-                style={{
-                  display: this.props.item_stock ? "none" : ""
-                }}
-              >
-                <Form.Label>Stock count</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="stock_count"
-                  value={stock_count || ""}
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-              <Form.Group
-                controlId="is_available"
-                style={{
-                  display: this.props.item_stock ? "none" : "flex"
-                }}
-              >
-                <Form.Check
-                  type="checkbox"
-                  name="is_available"
-                  label="In stock"
-                  checked={is_available}
-                  onChange={this.handleCheckBox}
-                />
-              </Form.Group>
 
               {this.props.item_stock ? (
                 <React.Fragment>
@@ -193,8 +185,29 @@ class AddVariation extends React.Component {
                     </Col>
                   </Row>
                 </React.Fragment>
-              ) : null}
-            </Form>
+              ) : (
+                <React.Fragment>
+                  <Form.Group controlId="price">
+                    <Form.Label>Stock count</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="stock_count"
+                      value={stock_count || ""}
+                      onChange={this.handleChange}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="is_available">
+                    <Form.Check
+                      type="checkbox"
+                      name="is_available"
+                      label="In stock"
+                      checked={is_available}
+                      onChange={this.handleCheckBox}
+                    />
+                  </Form.Group>
+                </React.Fragment>
+              )}
+            </MYFORM>
           </Container>
         </Modal.Body>
         <Modal.Footer>

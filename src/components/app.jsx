@@ -5,12 +5,12 @@ import Header from "./ld/common/header";
 import { connect } from "react-redux";
 import { authCheckState } from "../actions/auth";
 import Loader from "./ld/common/loader";
-// const Footer = lazy(() => import("./ld/common/footer"));
-const Footer = lazy(() => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(import("./ld/common/footer")), 1000);
-  });
-});
+const Footer = lazy(() => import("./ld/common/footer"));
+// const Footer = lazy(() => {
+//   return new Promise(resolve => {
+//     setTimeout(() => resolve(import("./ld/common/footer")), 1000);
+//   });
+// });
 
 // const Header = lazy(() => import("./ld/common/header"));
 

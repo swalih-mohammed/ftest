@@ -14,9 +14,19 @@ import { authAxios } from "../../../authAxios";
 import "react-toastify/dist/ReactToastify.css";
 // import { ToastContainer, toast } from "react-toastify";
 import { Form, Row, Col, Container, Card } from "react-bootstrap";
+import styled from "styled-components";
 
 import Productcategory from "./productCategory";
 import ProductCard from "./productCard";
+
+const FORM = styled(Form)`
+  font-size: 1.2em;
+  font-weight: 300;
+  border-radius: 5px;
+  margin-top: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+`;
 
 class ProductList extends Component {
   state = {
@@ -161,7 +171,7 @@ class ProductList extends Component {
             />
           ) : null}
 
-          <Form>
+          <FORM>
             <div className="mb-3">
               <Form.Check
                 onChange={this.handleOutofStock}
@@ -170,7 +180,7 @@ class ProductList extends Component {
                 label="Search only out of stock"
               />
             </div>
-          </Form>
+          </FORM>
           {/* <Container> */}
           {products.length > 0 ? (
             <div>

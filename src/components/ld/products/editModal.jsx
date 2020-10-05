@@ -3,6 +3,26 @@ import { Modal, Button, Form, Container } from "react-bootstrap";
 import { ShopProductUpdateURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { toast } from "react-toastify";
+import styled from "styled-components";
+
+const MYFORM = styled(Form)`
+  width: 90%;
+  text-align: left;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+
+  @media (min-width: 786px) {
+    width: 80%;
+  }
+
+  @media (min-width: 320px) {
+    width: 95%;
+  }
+`;
 
 class EditProductModal extends React.Component {
   state = {
@@ -10,6 +30,7 @@ class EditProductModal extends React.Component {
       id: "",
       title: "",
       title_local: "",
+      stock_count: "",
       is_available: true,
       is_featured: true,
       is_on_sale: true,
@@ -70,8 +91,8 @@ class EditProductModal extends React.Component {
 
   render() {
     const { form } = this.state;
-    console.log(form);
-    console.log(this.props.productForm);
+    // console.log(form);
+    // console.log(this.props.productForm);
 
     return (
       <Modal
@@ -79,13 +100,13 @@ class EditProductModal extends React.Component {
         aria-labelledby="contained-modal-title-vcenter"
       >
         <Modal.Header closeButton onClick={this.props.hide}>
-          <Modal.Title>Edit Item</Modal.Title>
+          <Modal.Title>Edit Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
-            <Form>
+            <MYFORM>
               <Form.Group controlId="title">
-                <Form.Label>Item Name</Form.Label>
+                <Form.Label>Product Name</Form.Label>
                 <Form.Control
                   type="text"
                   name="title"
@@ -102,6 +123,19 @@ class EditProductModal extends React.Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
+
+              {form.item_stock ? (
+                <Form.Group controlId="stock_count">
+                  <Form.Label>Stock Count</Form.Label>
+                  <Form.Control
+                    type="text"
+                    label="Stock Count"
+                    name="stock_count"
+                    checked={form.stock_count}
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
+              ) : null}
 
               <Form.Group controlId="formBasicCheckbox">
                 <Form.Check
@@ -136,12 +170,12 @@ class EditProductModal extends React.Component {
                 <Form.Check
                   type="checkbox"
                   label="Manage stock from product"
-                  name="item_stocke"
+                  name="item_stock"
                   checked={form.item_stock}
                   onChange={this.handlecheckBox}
                 />
               </Form.Group>
-            </Form>
+            </MYFORM>
           </Container>
         </Modal.Body>
         <Modal.Footer>

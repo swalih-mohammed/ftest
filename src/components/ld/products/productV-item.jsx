@@ -36,7 +36,7 @@ class VaritaionItem extends React.Component {
       });
   };
   render() {
-    const { variation, item } = this.props;
+    const { variation, item, item_stock } = this.props;
     // console.log(variation);
     return (
       <div>
@@ -53,17 +53,22 @@ class VaritaionItem extends React.Component {
         <Card>
           <Card.Header>Name: {variation.name}</Card.Header>
           <ListGroup variant="flush">
-            {/* <ListGroupItem>Name: {variation.name}</ListGroupItem> */}
-
             <ListGroupItem>MRP: {variation.price}</ListGroupItem>
             <ListGroupItem>Price: {variation.discount_price}</ListGroupItem>
-            <ListGroupItem>Stcok Count: {variation.stock_count}</ListGroupItem>
-            <ListGroupItem>
-              In Stock: {variation.is_available ? "Yes" : "No"}
-            </ListGroupItem>
-            <ListGroupItem>
-              Product Stock: {variation.item_stock ? "Yes" : "No"}
-            </ListGroupItem>
+            {item_stock ? (
+              <ListGroupItem>
+                Variation Weight: {variation.stock_weight}
+              </ListGroupItem>
+            ) : (
+              <React.Fragment>
+                <ListGroupItem>
+                  In Stock: {variation.is_available ? "Yes" : "No"}
+                </ListGroupItem>
+                <ListGroupItem>
+                  Stock Count: {variation.stock_count}
+                </ListGroupItem>
+              </React.Fragment>
+            )}
           </ListGroup>
 
           <ListGroupItem>

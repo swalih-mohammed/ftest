@@ -19,9 +19,9 @@ class Footer extends Component {
     visible: false
   };
   componentDidMount() {
-    setTimeout(() => {
-      this.makeVisible();
-    }, 5000);
+    // setTimeout(() => {
+    //   this.makeVisible();
+    // }, 5000);
     var contentwidth = window.innerWidth;
     if (contentwidth < 750) {
       SlideUpDown("footer-title");
@@ -34,16 +34,16 @@ class Footer extends Component {
     }
   }
 
-  makeVisible = () => {
-    // console.log("Hello, World!");
-    this.setState({ visible: true });
-  };
+  // makeVisible = () => {
+  //   // console.log("Hello, World!");
+  //   this.setState({ visible: true });
+  // };
 
   render() {
     return (
       <footer
         className="footer-light"
-        style={{ display: this.state.visible ? "" : "none" }}
+        // style={{ display: this.state.visible ? "" : "none" }}
       >
         <div className="light-layout">
           <div className="container">

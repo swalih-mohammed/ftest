@@ -29,6 +29,10 @@ class Sidebar extends Component {
     // this.props.clearUser();
     window.location.reload();
   };
+  refresh = () => {
+    this.closeNav();
+    window.location.reload();
+  };
 
   // handleSubmenu = event => {
   //   if (event.target.classList.contains("sub-arrow")) return;
@@ -241,9 +245,14 @@ class Sidebar extends Component {
                 </Link>
               </li> */}
               {this.props.token ? (
-                <li onClick={this.logOut}>
-                  <Link to="/">Logout</Link>
-                </li>
+                <React.Fragment>
+                  <li onClick={this.logOut}>
+                    <Link to="/">Logout</Link>
+                  </li>
+                  <li onClick={this.refresh}>
+                    <Link to="/">Refresh</Link>
+                  </li>
+                </React.Fragment>
               ) : (
                 <div>
                   <li>

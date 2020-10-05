@@ -3,6 +3,26 @@ import { Modal, Button, Form, Container, Row, Col } from "react-bootstrap";
 import { variationPlacements } from "@popperjs/core";
 import { authAxios } from "../../../authAxios";
 import { VariationUpdateURL } from "../../../constants";
+import styled from "styled-components";
+
+const MYFORM = styled(Form)`
+  width: 90%;
+  text-align: left;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+
+  @media (min-width: 786px) {
+    width: 80%;
+  }
+
+  @media (min-width: 320px) {
+    width: 95%;
+  }
+`;
 
 class EditVariation extends React.Component {
   state = {
@@ -81,12 +101,12 @@ class EditVariation extends React.Component {
         show={this.props.show}
         aria-labelledby="contained-modal-title-vcenter"
       >
-        <Modal.Header closeButton>
+        <Modal.Header closeButton onClick={this.props.hideEdit}>
           <Modal.Title>Edit Product Variation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
-            <Form>
+            <MYFORM>
               <Form.Group controlId="name">
                 <Form.Label>Name (KG|Color|Size)</Form.Label>
                 <Form.Control
@@ -142,7 +162,7 @@ class EditVariation extends React.Component {
                   onChange={this.handlecheckBox}
                 />
               </Form.Group>
-            </Form>
+            </MYFORM>
             <Row
               style={{ display: variationForm.item_stock ? "flex" : "none" }}
             >

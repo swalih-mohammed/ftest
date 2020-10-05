@@ -144,8 +144,16 @@ class ProductDetail extends Component {
                 Featured: {product.is_featured ? "Yes" : "No"}
               </ListGroupItem>
               <ListGroupItem>
-                Is on Sale: {product.is_on_sale ? "Yes" : "No"}
+                On Sale: {product.is_on_sale ? "Yes" : "No"}
               </ListGroupItem>
+              <ListGroupItem>
+                Manage stock from product: {product.item_stock ? "Yes" : "No"}
+              </ListGroupItem>
+              {product.item_stock ? (
+                <ListGroupItem>
+                  Stock Count: {product.stock_count}
+                </ListGroupItem>
+              ) : null}
             </ListGroup>
             <Card.Body>
               <Button
@@ -176,6 +184,7 @@ class ProductDetail extends Component {
                     key={index}
                     variation={variation}
                     fetchProductDetails={this.fetchProductDetails}
+                    item_stock={product.item_stock}
                   />
                 );
               })}

@@ -8,7 +8,7 @@ class ProductCategory extends Component {
 
   render() {
     const { ShopProductCategory, ShopDetail } = this.props;
-    console.log(ShopProductCategory);
+    // console.log(ShopProductCategory);
     return (
       <div>
         {/*Category Three*/}

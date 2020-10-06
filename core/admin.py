@@ -202,9 +202,10 @@ class AreaAdmin(admin.ModelAdmin):
 
 class ProductCategoryAdmin(admin.ModelAdmin):
     list_display = [
-        'name'
+        'name',
+        'local_name'
     ]
-    list_filter = ['name']
+    # list_filter = ['shop']
     search_fields = ['name']
 
 
@@ -267,12 +268,17 @@ class ModeOfPaymentAdmin(admin.ModelAdmin):
 class ProductImageAdmin(admin.ModelAdmin):
     list_display = [
         'name',
+        'local_name',
         'image1',
         'productCategory'
     ]
+    list_display_links = [
+        'name'
+
+    ]
     list_filter = ['productCategory']
-    list_editable = ['image1']
-    search_fields = ['name']
+
+    search_fields = ['name', 'local_name']
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -326,7 +332,7 @@ admin.site.register(ServiceArea)
 
 admin.site.register(Shop, ShopAdmin)
 admin.site.register(ShopCategory)
-admin.site.register(ProductCategory)
+admin.site.register(ProductCategory, ProductCategoryAdmin)
 # admin.site.register(Category)
 # admin.site.register(DeliveryStaff)
 admin.site.register(FavoritePlaces)

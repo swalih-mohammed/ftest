@@ -16,7 +16,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 class ProductList extends Component {
   render() {
-    const { products, loading } = this.props;
+    const { products, loading, ShopDetail } = this.props;
     // console.log(products);
 
     return (
@@ -44,6 +44,7 @@ class ProductList extends Component {
                         variations={variations}
                         defaultOption={defaultOption}
                         loading={loading}
+                        ShopDetail={ShopDetail}
                       />
                     );
                   })}

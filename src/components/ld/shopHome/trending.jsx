@@ -5,7 +5,7 @@ import ProductStyleTwo from "./ProductStyleTwo";
 
 class Tranding extends Component {
   render() {
-    const { fProducts } = this.props;
+    const { fProducts, ShopDetail } = this.props;
     // console.log(fProducts);
     return (
       <div>
@@ -33,6 +33,7 @@ class Tranding extends Component {
                           key={product.id}
                           variations={variations}
                           defaultOption={defaultOption}
+                          ShopDetail={ShopDetail}
                         />
                       </div>
                     );

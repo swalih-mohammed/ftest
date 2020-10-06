@@ -92,7 +92,7 @@ class ProductStyleNine extends Component {
       ShopDetail
     } = this.props;
     const { isAdding } = this.state;
-    // console.log(product);
+    // console.log(ShopDetail);
 
     return (
       <div className="localdukan">
@@ -135,11 +135,17 @@ class ProductStyleNine extends Component {
             <div>
               <div className="rating"> </div>
 
-              {ShopDetail.preferred_language === "Malayalam" ? (
-                <h6>{product.title_local}</h6>
-              ) : (
-                <h6>{product.title} </h6>
-              )}
+              {ShopDetail != undefined ? (
+                <React.Fragment>
+                  {" "}
+                  {ShopDetail.preferred_language === "Malayalam" ? (
+                    <h6>{product.title_local}</h6>
+                  ) : (
+                    <h6>{product.title} </h6>
+                  )}
+                </React.Fragment>
+              ) : null}
+
               <h4>
                 {"Rs: "} {this.state.selectedVariationPrice}{" "}
                 <del>

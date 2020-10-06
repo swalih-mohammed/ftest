@@ -170,7 +170,7 @@ class Shop extends Component {
       data
     } = this.state;
 
-    // console.log(products);
+    // console.log(ShopDetail);
     return (
       <div>
         <Helmet>
@@ -204,6 +204,7 @@ class Shop extends Component {
                       <Trending
                         fProducts={featuredProducts}
                         loading={this.state.loading}
+                        ShopDetail={ShopDetail}
                       />
                     ) : null}
                     {ShopProductCategory.length > 1 ? (
@@ -211,6 +212,7 @@ class Shop extends Component {
                         handleClearCategory={this.handleClearCategory}
                         handleChangeCategory={this.handleChangeCategory}
                         ShopProductCategory={ShopProductCategory}
+                        ShopDetail={ShopDetail}
                       />
                     ) : null}
                     {/* <Search /> */}
@@ -221,6 +223,7 @@ class Shop extends Component {
                         hasmore={this.state.hasMore}
                         products={products}
                         SelectedCategory={this.state.SelectedCategory}
+                        ShopDetail={ShopDetail}
                       />
                     )}
                   </div>

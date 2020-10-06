@@ -131,7 +131,7 @@ class ModeOfPayment(models.Model):
         return self.name
 
 class Shop(models.Model):
-    preferred_language = models.CharField(choices=SHOP_PREFERRED_LANGUAGE_CHOICES, max_length=1 ,blank=True, null=True)
+    preferred_language = models.CharField(choices=SHOP_PREFERRED_LANGUAGE_CHOICES, default="English", max_length=20 ,blank=True, null=True)
     name = models.CharField(max_length=100, blank=True, null=True)
     owner_name = models.CharField(max_length=100, blank=True, null=True)
     phone_number = models.CharField(max_length=100, blank=True, null=True)

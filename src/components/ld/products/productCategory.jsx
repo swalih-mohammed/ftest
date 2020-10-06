@@ -7,8 +7,8 @@ class ProductCategory extends Component {
   };
 
   render() {
-    const { ShopProductCategory } = this.props;
-    // console.log(ShopProductCategory);
+    const { ShopProductCategory, ShopDetail } = this.props;
+    console.log(ShopProductCategory);
     return (
       <div>
         {/*Category Three*/}
@@ -37,7 +37,12 @@ class ProductCategory extends Component {
                           className="btn btn-outline btn-block"
                           onClick={() => this.handleChangeCategory(cat.id)}
                         >
-                          {cat.name}
+                          {ShopDetail &&
+                          ShopDetail.preferred_language === "Malayalam" ? (
+                            <React.Fragment> {cat.local_name}</React.Fragment>
+                          ) : (
+                            <React.Fragment> {cat.name}</React.Fragment>
+                          )}
                         </a>
                       </div>
                     ))}

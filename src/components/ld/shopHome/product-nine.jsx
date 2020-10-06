@@ -84,7 +84,13 @@ class ProductStyleNine extends Component {
   }
 
   render() {
-    const { product, variations, defaultOption, loading } = this.props;
+    const {
+      product,
+      variations,
+      defaultOption,
+      loading,
+      ShopDetail
+    } = this.props;
     const { isAdding } = this.state;
     // console.log(product);
 
@@ -128,10 +134,11 @@ class ProductStyleNine extends Component {
           <div className="product-detail">
             <div>
               <div className="rating"> </div>
-              {product.title_local ? (
+
+              {ShopDetail.preferred_language === "Malayalam" ? (
                 <h6>{product.title_local}</h6>
               ) : (
-                <h6>{product.title}</h6>
+                <h6>{product.title} </h6>
               )}
               <h4>
                 {"Rs: "} {this.state.selectedVariationPrice}{" "}

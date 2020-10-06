@@ -85,7 +85,7 @@ class ProductStyleEleven extends Component {
   }
 
   render() {
-    const { product, variations, defaultOption } = this.props;
+    const { product, variations, defaultOption, ShopDetail } = this.props;
     // console.log(product);
 
     return (
@@ -143,10 +143,10 @@ class ProductStyleEleven extends Component {
           <div>
             <div className="rating">{""}</div>
 
-            {product.title_local ? (
+            {ShopDetail.preferred_language === "Malayalam" ? (
               <h6>{product.title_local}</h6>
             ) : (
-              <h6>{product.title}</h6>
+              <h6>{product.title} </h6>
             )}
 
             <h4>

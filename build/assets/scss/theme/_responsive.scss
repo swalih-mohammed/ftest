@@ -5414,6 +5414,9 @@
     .localdukan {
       // flex: 0 0 50%;
       max-width: calc(50% - 11px);
+      padding-top: 5px;
+      padding-left: 2px;
+      padding-right: 2px;
       margin: 0 5px 5px !important;
       // &:nth-last-child(-n + 2) {
       //   margin: 0 5px 0 !important;

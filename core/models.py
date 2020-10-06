@@ -8,7 +8,11 @@ from django.core.mail import send_mail
 from django.db.models.signals import post_save, pre_save
 # from django.dispatch import receiver
 
-
+SHOP_PREFERRED_LANGUAGE_CHOICES = (
+    ('English', 'English'),
+    ('Malayalam', 'Malayalam')
+  
+)
 
 class AppInfo(models.Model):
     coverPhoto1 = models.ImageField(upload_to='app_info',blank=True, null=True)
@@ -99,6 +103,7 @@ class State(models.Model):
 
 class ProductCategory(models.Model):
     name = models.CharField(max_length=100)
+    local_name = models.CharField(max_length=100, blank=True, null=True)
     image = models.ImageField(upload_to='product-category',blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
@@ -119,14 +124,14 @@ class ShopCategory(models.Model):
 
 class ModeOfPayment(models.Model):
     name = models.CharField(max_length=100)
-    # shop = models.ForeignKey(Shop, blank=True, null=True, on_delete=models.CASCADE)
+   
     class Meta:
         ordering = ['name']
     def __str__(self):
         return self.name
 
 class Shop(models.Model):
-
+    preferred_language = models.CharField(choices=SHOP_PREFERRED_LANGUAGE_CHOICES, max_length=1 ,blank=True, null=True)
     name = models.CharField(max_length=100, blank=True, null=True)
     owner_name = models.CharField(max_length=100, blank=True, null=True)
     phone_number = models.CharField(max_length=100, blank=True, null=True)
@@ -281,8 +286,9 @@ class Compliant(models.Model):
 
 class ProductImage(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)
-    productCategory = models.ForeignKey(ProductCategory, blank=True, null=True,
-                             on_delete=models.CASCADE)
+    local_name = models.CharField(max_length=100,blank=True, null=True)
+    productCategory = models.ForeignKey(ProductCategory, on_delete=models.SET_NULL, blank=True, null=True,
+                             )
     image1 = models.ImageField(upload_to='product', default='/product/no_image.png',blank=True, null=True)
     image2 = models.ImageField(upload_to='product',blank=True, null=True)
     image3 = models.ImageField(upload_to='product',blank=True, null=True)
@@ -299,10 +305,10 @@ class Item(models.Model):
     shop = models.ForeignKey(Shop,
                              on_delete=models.CASCADE)
     product_image = models.ForeignKey(ProductImage, blank=True, null=True,
-                             on_delete=models.CASCADE)
+                             on_delete=models.SET_NULL)
     description = models.CharField(max_length=200, blank=True, null=True)
     productategory = models.ForeignKey(ProductCategory,
-                                 on_delete=models.CASCADE, blank=True, null=True)
+                                 on_delete=models.SET_NULL, blank=True, null=True)
     is_available = models.BooleanField(default=True, null=True)
     item_stock = models.BooleanField(default=False, null=True)
     v_is_available = models.BooleanField(default=True, null=True)
@@ -479,16 +485,16 @@ class Address(models.Model):
     # completeAddress = models.CharField(max_length=250, blank=True, null=True)
 
     area = models.ForeignKey(Area, blank=True, null=True,
-                              on_delete=models.CASCADE)
+                              on_delete=models.SET_NULL)
 
     place = models.ForeignKey(Place, blank=True, null=True,
-                              on_delete=models.CASCADE)
+                              on_delete=models.SET_NULL)
     village = models.ForeignKey(Village, blank=True, null=True,
-                              on_delete=models.CASCADE)
+                              on_delete=models.SET_NULL)
     cluster = models.ForeignKey(Cluster,blank=True, null=True,
-                              on_delete=models.CASCADE)
+                              on_delete=models.SET_NULL)
     district = models.ForeignKey(District,blank=True, null=True,
-                              on_delete=models.CASCADE)
+                              on_delete=models.SET_NULL)
     state = models.ForeignKey(State, blank=True, null=True, on_delete=models.CASCADE)
     full_address = models.TextField(max_length=250, blank=True, null=True)
     phone_number = models.CharField(max_length=10, blank=True, null=True)

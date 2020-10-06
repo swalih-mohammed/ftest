@@ -95,19 +95,26 @@ class ProductStyleNine extends Component {
           {loading && <div className="loading-cls"></div>}
           <div className="img-wrapper">
             <div className="lable-block">
-              {product.is_featured == true ? (
-                <span className="lable3">new</span>
-              ) : (
-                ""
-              )}
+              {product.do_not_disply_when_not_available ? (
+                <React.Fragment>
+                  {product.is_featured == true ? (
+                    <span className="lable3">new</span>
+                  ) : (
+                    ""
+                  )}
+                  {product.is_on_sale ? (
+                    <span className="lable3">sale</span>
+                  ) : (
+                    ""
+                  )}
+                </React.Fragment>
+              ) : null}
 
               {product.do_not_disply_when_not_available ? null : (
                 <React.Fragment>
                   <span style={{ color: "red" }}>Out of stock</span>
                 </React.Fragment>
               )}
-
-              {product.is_on_sale ? <span className="lable3">sale</span> : ""}
             </div>
             <div className="front">
               <Img

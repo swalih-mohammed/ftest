@@ -117,27 +117,27 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # mysql
 
-DATABASES = {
-    'default': {
-        'ENGINE': config('DB_ENGINE'),
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': config('DB_ENGINE'),
+#         'NAME': config('DB_NAME'),
+#         'USER': config('DB_USER'),
+#         'PASSWORD': config('DB_PASSWORD'),
+#         'HOST': config('DB_HOST'),
+#     }
+# }
 
 # postgess
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': config('DB_ENGINE_PS'),
-#         'NAME': config('DB_NAME_PS'),
-#         'USER': config('DB_USER_PS'),
-#         'PASSWORD': config('DB_PASSWORD_PS'),
-#         'HOST': config('DB_HOST_PS')
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': config('DB_ENGINE_PS'),
+        'NAME': config('DB_NAME_PS'),
+        'USER': config('DB_USER_PS'),
+        'PASSWORD': config('DB_PASSWORD_PS'),
+        'HOST': config('DB_HOST_PS')
+    }
+}
 
 
 # Password validation

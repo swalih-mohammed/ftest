@@ -170,7 +170,7 @@ class Shop extends Component {
       data
     } = this.state;
 
-    // console.log(ShopDetail);
+    console.log(products);
     return (
       <div>
         <Helmet>

@@ -417,7 +417,8 @@ class ItemDetailSerializer(serializers.ModelSerializer):
             'is_on_sale',
             'image',
             'variations',
-            'item_stock'
+            'item_stock',
+            'stock_count'
         )
 
     def get_category(self, obj):

@@ -33,7 +33,7 @@ class AddVariation extends React.Component {
     discount_price: "",
     is_available: true,
     item_stock: false,
-    stock_count: "",
+    stock_count: 1,
     stock_weight: 1,
     weightdisplay: false
   };

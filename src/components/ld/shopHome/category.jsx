@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Slider from "react-slick";
+// import Slider from "react-slick";
 
-import Breadcrumb from "../../common/breadcrumb";
-import { Slider6, Slider4 } from "../../../services/script";
+// import Breadcrumb from "../../common/breadcrumb";
+// import { Slider6, Slider4 } from "../../../services/script";
 
 class Category extends Component {
   render() {

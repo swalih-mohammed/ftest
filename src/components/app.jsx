@@ -1,7 +1,7 @@
 import React, { Component, Suspense, lazy } from "react";
 // import { withTranslate } from "react-redux-multilingual";
 
-import Header from "./ld/common/header";
+import Header from "./ld/common/header1";
 import { connect } from "react-redux";
 import { authCheckState } from "../actions/auth";
 import Loader from "./ld/common/loader";

@@ -11,7 +11,7 @@ from django.db.models.signals import post_save, pre_save
 SHOP_PREFERRED_LANGUAGE_CHOICES = (
     ('English', 'English'),
     ('Malayalam', 'Malayalam')
-  
+
 )
 
 class AppInfo(models.Model):
@@ -110,7 +110,7 @@ class ProductCategory(models.Model):
     class Meta:
         ordering = ['name']
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 class ShopCategory(models.Model):
     name = models.CharField(max_length=100)
@@ -124,7 +124,7 @@ class ShopCategory(models.Model):
 
 class ModeOfPayment(models.Model):
     name = models.CharField(max_length=100)
-   
+
     class Meta:
         ordering = ['name']
     def __str__(self):
@@ -296,7 +296,7 @@ class ProductImage(models.Model):
     class Meta:
         ordering = ['name']
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 class Item(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
@@ -330,13 +330,14 @@ class Item(models.Model):
                 return self.product_image.image1.url
             else:
                 return None
-    
-      
+
+
 
     def do_not_disply_when_not_available(self):
         if self.item_stock:
             if self.stock_count <= 0:
                 return False
+            return True
         else:
             variation = self.variation_set.all()
             my_list = []
@@ -576,7 +577,7 @@ def save_order(sender, instance, **kwargs):
 post_save.connect(save_order,sender=Order)
 # pre_save.connect(save_order,sender=Order)
 
-    
+
 
 class FavoritePlaces(models.Model):
         user = models.ForeignKey(settings.AUTH_USER_MODEL,

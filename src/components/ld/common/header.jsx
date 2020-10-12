@@ -41,12 +41,6 @@ class Header extends Component {
     setTimeout(function() {
       document.querySelector(".loader-wrapper").style = "display: none";
     }, 2000);
-    // this.props.onTryAutoSignup();
-    // this.props.fetchCart();
-
-    // this.props.fetchUser();
-    // console.log(cart.props.cart);
-    // console.log(this.props);
   }
 
   componentWillMount() {
@@ -101,14 +95,16 @@ class Header extends Component {
     // console.log(this.props.cart);
     return (
       <div>
-        <header id="sticky" className="sticky">
+        <header>
+          {/* <header id="sticky" className="sticky"> */}
           {/* <header id="sticky" className="sticky header-2 header-6"> */}
           {this.state.isLoading ? <Pace color="#27ae60" /> : null}
           <div className="mobile-fix-option"></div>
           {/*Top Header Component*/}
-          <TopBar />
+          {/* <TopBar /> */}
 
-          <div className="container">
+          {/* <div className="container"> */}
+          <div className="container-fluid">
             <div className="row">
               <div className="col-sm-12">
                 {/* <div className="main-menu border-section border-top-0"> */}

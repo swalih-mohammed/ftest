@@ -21,7 +21,8 @@ class ProductDetail extends Component {
       is_in_stock: false,
       is_featured: false,
       is_on_sale: false,
-      item_stock: false
+      item_stock: false,
+      stock_count: 1
     },
     editProductMode: false,
     addVariationModal: false,
@@ -108,7 +109,7 @@ class ProductDetail extends Component {
       editProductMode,
       productForm
     } = this.state;
-    // console.log(productForm);
+    console.log(product);
     return (
       <section className="section-b-space">
         <div className="container">

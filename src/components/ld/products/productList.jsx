@@ -38,7 +38,8 @@ class ProductList extends Component {
     offset: 0,
     query: "all",
     hasMore: false,
-    outOfStock: false
+    outOfStock: false,
+    productLoading: false
   };
 
   componentDidMount() {
@@ -67,7 +68,7 @@ class ProductList extends Component {
   };
 
   fetchProducts = () => {
-    this.setState({ loading: true });
+    this.setState({ productLoading: true });
     const { limit, offset, query, outOfStock } = this.state;
     const owner = this.props.user.user.id;
     authAxios
@@ -85,18 +86,18 @@ class ProductList extends Component {
         const hasMore = res.data.has_more;
         this.setState({
           hasMore: hasMore,
-          loading: false,
+          productLoading: false,
           products: [...this.state.products, ...newProducts],
           offset: offset + limit
         });
       })
       .catch(err => {
-        this.setState({ error: err, loading: false });
+        this.setState({ error: err, productLoading: false });
       });
   };
 
   fetchFreshProducts = () => {
-    this.setState({ loading: true });
+    this.setState({ productLoading: true });
     const { limit, offset, query, outOfStock } = this.state;
     const owner = this.props.user.user.id;
     authAxios
@@ -112,14 +113,14 @@ class ProductList extends Component {
       .then(res => {
         this.setState({
           // products: res.data
-          loading: false,
+          productLoading: false,
           hasMore: res.data.has_more,
           products: res.data.products,
           offset: offset + limit
         });
       })
       .catch(err => {
-        this.setState({ error: err, loading: false });
+        this.setState({ error: err, productLoading: false });
       });
   };
 
@@ -182,6 +183,7 @@ class ProductList extends Component {
             </div>
           </FORM>
           {/* <Container> */}
+
           {products.length > 0 ? (
             <div>
               <div className="row">
@@ -198,21 +200,27 @@ class ProductList extends Component {
                 </div>
               </div>
               <br></br>
+              {this.state.productLoading ? (
+                <div className="loading-cls"></div>
+              ) : (
+                <React.Fragment>
+                  {products.map((item, index) => {
+                    return (
+                      <div key={index} className="row">
+                        <div className="col-sm-12">
+                          <ProductCard
+                            item={item}
+                            fetchProducts={this.fetchProducts}
+                            hasMore={hasMore}
+                            loading={this.state.loading}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </React.Fragment>
+              )}
 
-              {products.map((item, index) => {
-                return (
-                  <div key={index} className="row">
-                    <div className="col-sm-12">
-                      <ProductCard
-                        item={item}
-                        fetchProducts={this.fetchProducts}
-                        hasMore={hasMore}
-                        loading={this.state.loading}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
               {this.loading ? (
                 <div className="row">
                   <div className="loading-cls"></div>

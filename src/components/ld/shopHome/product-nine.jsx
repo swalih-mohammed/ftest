@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 // import Modal from "react-responsive-modal";
 import Select from "react-select";
-import { Img } from "react-image";
+// import { Img } from "react-image";
 import { addToCartURL, localhost } from "../../../constants";
 import { fetchCart, clearKart } from "../../../actions/cart";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
@@ -11,6 +11,88 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { authAxios } from "../../../authAxios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import styled from "styled-components";
+import { Row } from "react-bootstrap";
+import { LabelFour } from "../styled/productBox";
+
+const ProductCard = styled.div`
+  border: 1px solid transparent;
+  width: 325px;
+  height: 200px;
+  display: flex;
+  box-shadow: 0px 11px 46.44px 7.56px rgba(0, 0, 0, 0.44);
+  border-radius: 5px;
+  box-shadow: rgba(black, 0.66) 0 30px 60px 0, inset #333 0 0 0 5px,
+    inset rgba(white, 0.5) 0 0 0 6px;
+`;
+const ProductImgContainer = styled.div`
+  flex: 1;
+  height: 200px;
+  width: 200px;
+  overflow: hidden;
+  display: flex;
+  align-content: center;
+`;
+const ProductImg = styled.img`
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+`;
+const ProductContent = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 30px 20px;
+  width: 50%;
+`;
+
+const ProductTitle = styled.h2`
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #343a40;
+`;
+const PriceWrap = styled.div`
+  display: flex;
+`;
+const MRP = styled.h2`
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #343a40;
+  padding-right: 10px;
+`;
+const Discounted = styled.h2`
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #343a40;
+  /* margin-bottom: 50px; */
+`;
+const Mybutton = styled.button`
+  margin-top: 10px;
+  width: auto;
+  border: 1px solid #ff5722;
+  background: #fff;
+  padding: 7px 14px;
+  color: #ff5722;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  &:hover {
+    width: auto;
+    background: #ff5722;
+    color: #fff;
+    padding: 7px 14px;
+    cursor: pointer;
+  }
+`;
+const SelectWrap = styled.div`
+  padding: 5px 2px;
+`;
 
 class ProductStyleNine extends Component {
   state = {
@@ -92,72 +174,37 @@ class ProductStyleNine extends Component {
       ShopDetail
     } = this.props;
     const { isAdding } = this.state;
-    // console.log(ShopDetail);
+    console.log(product);
 
     return (
-      <div className="localdukan">
-        <div>
-          <ToastContainer />
-          {loading && <div className="loading-cls"></div>}
-          <div className="img-wrapper">
-            <div className="lable-block">
-              {product.do_not_disply_when_not_available ? (
-                <React.Fragment>
-                  {product.is_featured == true ? (
-                    <span className="lable3">new</span>
-                  ) : (
-                    ""
-                  )}
-                  {product.is_on_sale ? (
-                    <span className="lable3">sale</span>
-                  ) : (
-                    ""
-                  )}
-                </React.Fragment>
-              ) : null}
+      <>
+        <ProductCard>
+          <ProductImgContainer>
+            {/* <p style={{ display: "flex" }}> out of stock</p> */}
+            <ProductImg
+              src={`${localhost}${product.product_image}`}
+            ></ProductImg>
+          </ProductImgContainer>
+          <ProductContent>
+            {ShopDetail != undefined ? (
+              <>
+                {ShopDetail.preferred_language === "Malayalam" ? (
+                  <ProductTitle>{product.title}</ProductTitle>
+                ) : (
+                  <ProductTitle>{product.title}</ProductTitle>
+                )}
+              </>
+            ) : null}
 
-              {product.do_not_disply_when_not_available ? null : (
-                <React.Fragment>
-                  <span style={{ color: "red" }}>Out of stock</span>
-                </React.Fragment>
-              )}
-            </div>
-            <div className="front">
-              <Img
-                loading="lazy"
-                className="img-fluid lazyload bg-img"
-                src={`${localhost}${product.product_image}`}
-                loader={<div className="loading-cls"></div>}
-              />
-            </div>
-          </div>
-          <div className="product-detail">
-            <div>
-              <div className="rating"> </div>
-
-              {ShopDetail != undefined ? (
-                <React.Fragment>
-                  {" "}
-                  {ShopDetail.preferred_language === "Malayalam" ? (
-                    <h6>{product.title_local}</h6>
-                  ) : (
-                    <h6>{product.title} </h6>
-                  )}
-                </React.Fragment>
-              ) : null}
-
-              <h4>
-                {"Rs: "} {this.state.selectedVariationPrice}{" "}
-                <del>
-                  <span className="money">
-                    {"  MRP "}
-                    {this.state.selectedVariationMRP}
-                  </span>
-                </del>
-              </h4>
-              <br />
+            <PriceWrap>
+              <MRP>Rs: {this.state.selectedVariationPrice}</MRP>
+              <del>
+                <MRP>{this.state.selectedVariationMRP}</MRP>
+              </del>
+            </PriceWrap>
+            <SelectWrap>
               {defaultOption ? (
-                <React.Fragment>
+                <>
                   {defaultOption.name && (
                     <Select
                       options={variations}
@@ -169,39 +216,34 @@ class ProductStyleNine extends Component {
                       isSearchable={false}
                     />
                   )}
-                </React.Fragment>
+                </>
               ) : null}
-              {product.variations.length > 0 ? (
-                <React.Fragment>
-                  <div className="cart-bottom">
-                    {product.do_not_disply_when_not_available ? (
-                      <button
-                        disabled={isAdding}
-                        title="Add to cart"
-                        onClick={() =>
-                          this.handleAddToCart(
-                            product.id,
-                            product.shop,
-                            this.state.selectedVariationID
-                          )
-                        }
-                      >
-                        <i>
-                          <FontAwesomeIcon
-                            icon={faShoppingCart}
-                            size={"lg"}
-                            color={"#ff4c3b"}
-                          />
-                        </i>
-                      </button>
-                    ) : null}
-                  </div>
-                </React.Fragment>
-              ) : null}
-            </div>
-          </div>
-        </div>
-      </div>
+            </SelectWrap>
+
+            {product.variations.length > 0 ? (
+              <React.Fragment>
+                <div className="cart-bottom">
+                  {product.do_not_disply_when_not_available ? (
+                    <Mybutton
+                      disabled={isAdding}
+                      title="Add to cart"
+                      onClick={() =>
+                        this.handleAddToCart(
+                          product.id,
+                          product.shop,
+                          this.state.selectedVariationID
+                        )
+                      }
+                    >
+                      Add to cart
+                    </Mybutton>
+                  ) : null}
+                </div>
+              </React.Fragment>
+            ) : null}
+          </ProductContent>
+        </ProductCard>
+      </>
     );
   }
 }

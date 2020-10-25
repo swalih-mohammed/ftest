@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
 import { Button, Form, Alert, Row, Col, Container } from "react-bootstrap";
-
+import styled from "styled-components";
 import {
   ShopDashboardDetialURL,
   ShopDashProductsURL,
@@ -11,6 +11,52 @@ import {
   ShopDashOpenStatusURL
 } from "../../../constants";
 import { authAxios } from "../../../authAxios";
+
+const Wrapper = styled.div`
+  margin: 20px 2px 30px 2px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const SectionWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 20px 5px 30px 5px;
+  padding: 2px;
+`;
+
+export const Card = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin: 10px;
+`;
+
+const StyledButton = styled.button`
+  display: inline-block;
+  padding: 10px 30px;
+  cursor: pointer;
+  background: #ff4c3b;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  border: 1px #fff solid;
+  width: 150px;
+`;
+
+const CheckoutHeadingContainer = styled.div`
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 class Orders extends Component {
   constructor(props) {
@@ -87,185 +133,62 @@ class Orders extends Component {
     }
 
     return (
-      <div>
-        <Breadcrumb title={"Shop Details"} />
-        {this.state.loading ? (
-          <div className="loading-cls"></div>
-        ) : (
-          <React.Fragment>
-            <div>
-              <section className="section-b-space">
-                <div className="container">
-                  {/* <div className="account-sidebar"></div> */}
-                  <div className="row">
-                    <div className="col-lg-9">
-                      <div className="dashboard-right">
-                        <div className="dashboard">
-                          <div className="box-account box-info">
-                            <div className="box-head">
-                              <h3>{ShopDetail.name}</h3>
-                            </div>
-                            <div className="row">
-                              <div className="col-sm-6">
-                                <div className="box">
-                                  <div className="box-title">
-                                    {/* <h4>Order ID: {order.id}</h4> */}
-                                  </div>
-                                  <div className="box-content">
-                                    <h6>{ShopDetail.place}</h6>
-                                    <h6>Phone: {ShopDetail.phone_number}</h6>
-                                    <br />
-                                    <h4>
-                                      {ShopDetail.is_accepting_orders ? (
-                                        <Alert variant={"success"}>
-                                          Your shop is open
-                                        </Alert>
-                                      ) : (
-                                        <Alert variant={"danger"}>
-                                          Your shop is closed
-                                        </Alert>
-                                      )}
-                                    </h4>
-                                    <br></br>
-                                    <>
-                                      <Button
-                                        onClick={() => {
-                                          this.shopOpenStatus(
-                                            !ShopDetail.is_accepting_orders,
-                                            ShopDetail.id
-                                          );
-                                        }}
-                                        variant={
-                                          ShopDetail.is_accepting_orders
-                                            ? "outline-danger"
-                                            : "outline-success"
-                                        }
-                                      >
-                                        {ShopDetail.is_accepting_orders
-                                          ? "Close shop"
-                                          : "Open shop"}
-                                      </Button>
-                                    </>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {orders ? (
-                    <div className="row">
-                      <div className="col-lg-9">
-                        <div className="dashboard-right">
-                          <div className="dashboard">
-                            <div className="box-account box-info">
-                              <div className="box-head">
-                                <h3>
-                                  {this.state.orders.pendingOrders} Pending
-                                  Orders
-                                </h3>
-                              </div>
-                              <div className="row">
-                                <div className="col-sm-6">
-                                  <div className="box">
-                                    <div className="box-title"></div>
-                                    <div className="box-content">
-                                      <Link to="/shop-order-table">
-                                        <Button variant="outline-primary">
-                                          Go to orders
-                                        </Button>
-                                      </Link>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
+      <>
+        <Wrapper>
+          <Card>
+            {/* shop detail  */}
+            {ShopDetail ? (
+              <SectionWrap>
+                <h2>{ShopDetail.name}</h2>
+                <h6>{ShopDetail.place}</h6>
+                <h6>Phone: {ShopDetail.phone_number}</h6>
+                <h4>
+                  {ShopDetail.is_accepting_orders ? (
+                    <Alert variant={"success"}>Your shop is open</Alert>
+                  ) : (
+                    <Alert variant={"danger"}>Your shop is closed</Alert>
+                  )}
+                </h4>
+                <StyledButton
+                  onClick={() => {
+                    this.shopOpenStatus(
+                      !ShopDetail.is_accepting_orders,
+                      ShopDetail.id
+                    );
+                  }}
+                  variant={
+                    ShopDetail.is_accepting_orders
+                      ? "outline-danger"
+                      : "outline-success"
+                  }
+                >
+                  {ShopDetail.is_accepting_orders ? "Close shop" : "Open shop"}
+                </StyledButton>
+              </SectionWrap>
+            ) : null}
 
-                  {orders ? (
-                    <div className="row">
-                      <div className="col-lg-9">
-                        <div className="dashboard-right">
-                          <div className="dashboard">
-                            <div className="box-account box-info">
-                              <div className="box-head">
-                                <h3>
-                                  {this.state.orders.item} Products in your shop
-                                </h3>
-                              </div>
-                              <div className="row">
-                                <div className="col-sm-6">
-                                  <div className="box">
-                                    <div className="box-title">
-                                      {/* <h4>Order ID: {order.id}</h4> */}
-                                    </div>
-                                    <div className="box-content">
-                                      {/* <a href="/shop-product-list"> */}{" "}
-                                      <Link to="/shop-product-list">
-                                        <Button variant="outline-primary">
-                                          Go to products
-                                        </Button>{" "}
-                                      </Link>
-                                      {/* </a> */}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-                  {orders ? (
-                    <div className="row">
-                      <div className="col-lg-9">
-                        <div className="dashboard-right">
-                          <div className="dashboard">
-                            <div className="box-account box-info">
-                              <div className="box-head">
-                                <h3>
-                                  {this.state.orders.totalOrders} Total Orders
-                                </h3>
-                              </div>
-                              <div className="row">
-                                <div className="col-sm-6">
-                                  <div className="box">
-                                    <div className="box-title"></div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-                </div>
-                {/* <Container>
-                  <Row>
-                    <Col sx={4}>
-                      <Button
-                        type="submit"
-                        onClick={this.refreshPage}
-                        variant="outline-danger"
-                      >
-                        Refresh
-                      </Button>{" "}
-                    </Col>
-                  </Row>
-                </Container> */}
-              </section>
-            </div>
-          </React.Fragment>
-        )}
-      </div>
+            {/* orders  */}
+            {orders ? (
+              <SectionWrap>
+                <h3>{this.state.orders.pendingOrders} Pending Orders</h3>
+                <Link to="/shop-order-table">
+                  <StyledButton>Go to orders</StyledButton>
+                </Link>
+              </SectionWrap>
+            ) : null}
+
+            {/* products  */}
+            {orders ? (
+              <SectionWrap>
+                <h3>{this.state.orders.item} Products in your shop</h3>
+                <Link to="/shop-product-list">
+                  <StyledButton>Go to products</StyledButton>
+                </Link>
+              </SectionWrap>
+            ) : null}
+          </Card>
+        </Wrapper>
+      </>
     );
   }
 }

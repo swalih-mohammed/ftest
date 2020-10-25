@@ -13,6 +13,15 @@ import { Product4, Product5 } from "../../../services/script";
 import InfiniteScroll from "react-infinite-scroll-component";
 // import axios from "axios";
 // import { ShopProductListURL } from "../../../constants";
+import styled from "styled-components";
+
+const GridRow = styled.div`
+  display: flex;
+  /* justify-content: center; */
+  flex-wrap: wrap;
+  margin: 0 auto;
+  padding-top: 30px;
+`;
 
 class ProductList extends Component {
   render() {
@@ -38,14 +47,16 @@ class ProductList extends Component {
                     const defaultOption = product.variations[0];
 
                     return (
-                      <ProductStyleNine
-                        product={product}
-                        key={product.id}
-                        variations={variations}
-                        defaultOption={defaultOption}
-                        loading={loading}
-                        ShopDetail={ShopDetail}
-                      />
+                      <GridRow>
+                        <ProductStyleNine
+                          product={product}
+                          key={product.id}
+                          variations={variations}
+                          defaultOption={defaultOption}
+                          loading={loading}
+                          ShopDetail={ShopDetail}
+                        />
+                      </GridRow>
                     );
                   })}
                 </div>

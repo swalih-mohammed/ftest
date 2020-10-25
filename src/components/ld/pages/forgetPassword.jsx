@@ -4,7 +4,54 @@ import { connect } from "react-redux";
 import { resetRequest } from "../../../constants";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
+import { Form } from "react-bootstrap";
+import styled from "styled-components";
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* background: #f7f9fa; */
+  height: 250px;
+  width: 95%;
+  margin: 50px auto;
+  color: snow;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
+
+  @media (min-width: 786px) {
+    width: 60%;
+  }
+  @media (min-width: 320px) {
+    width: 95%;
+  }
+`;
+
+const SignupWrapper = styled.div`
+  margin: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+const Button = styled.button`
+  margin-top: 5px;
+  width: 200px;
+  border: 1px solid #ff5722;
+  background: #fff;
+  padding: 7px 14px;
+  color: #ff5722;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  &:hover {
+    /* width: auto; */
+    background: #ff5722;
+    color: #fff;
+    padding: 7px 14px;
+    cursor: pointer;
+  }
+`;
 class ForgetPassword extends Component {
   state = {
     email: "",
@@ -18,12 +65,10 @@ class ForgetPassword extends Component {
   };
 
   resetPassword = () => {
-    // e.preventDefault();
     console.log("resetting");
     const email = this.state.email;
     axios
-      // .post("https://www.localdukans.com/rest-auth/password/reset/", {
-      // .post("http://127.0.0.1:8000/rest-auth/password/reset/", {
+
       .post(resetRequest, {
         email: email
       })
@@ -50,47 +95,27 @@ class ForgetPassword extends Component {
       return <Redirect to="/reset-password-success" />;
     }
     return (
-      <div>
-        <Breadcrumb title={"forget password"} />
-        <section className="pwd-page section-b-space">
-          <div className="container">
-            {loading ? (
-              <div className="loading-cls"></div>
-            ) : (
-              <div className="row">
-                <div className="col-lg-6 offset-lg-3">
-                  <h2>Forgot Your Password?</h2>
-                  <form className="theme-form">
-                    <div className="form-row">
-                      <div className="col-md-12">
-                        <input
-                          name="email"
-                          type="text"
-                          className="form-control"
-                          id="email"
-                          placeholder="Enter Your Email"
-                          required=""
-                          value={this.state.email}
-                          onChange={this.handleChange}
-                        />
-                      </div>
-
-                      <input
-                        // type="submit"
-                        className="btn btn-solid"
-                        id="submit"
-                        placeholder="Submit"
-                        required=""
-                        onClick={this.resetPassword}
-                      />
-                    </div>
-                  </form>
-                </div>
-              </div>
-            )}
-          </div>
-        </section>
-      </div>
+      <>
+        <Container>
+          <SignupWrapper>
+            <h5>Forgot Your Password?</h5>
+            <form className="theme-form">
+              <Form.Group controlId="username">
+                <Form.Control
+                  name="email"
+                  type="text"
+                  id="email"
+                  placeholder="Enter Your Email"
+                  required=""
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                />
+              </Form.Group>
+              <Button onClick={this.resetPassword}>submit</Button>
+            </form>
+          </SignupWrapper>
+        </Container>
+      </>
     );
   }
 }

@@ -3,7 +3,10 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ScrollContext } from "react-router-scroll-4";
-import "./index.scss";
+
+// import "./index.scss";
+// import "../public/assets/scss/bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import store from "./store";
 
 // import React from "react";
@@ -20,6 +23,7 @@ import store from "./store";
 
 //common///////////////////
 
+import GlobalStyle from "./globalStyles";
 import Loader from "./components/ld/common/loader";
 import Layout from "./components/app";
 
@@ -30,7 +34,7 @@ import Layout from "./components/app";
 // import ShopHome from "./components/ld/shopHome/main";
 
 //pages
-import Login from "./components/ld/pages/login2";
+import Login from "./components/ld/pages/login";
 import Register from "./components/ld/pages/register1";
 import Logout from "./components/ld/pages/logout";
 import PassworReset from "./components/ld/pages/forgetPassword";
@@ -152,6 +156,7 @@ class Root extends React.Component {
         <BrowserRouter basename={"/"}>
           <ScrollContext>
             <Suspense fallback={<Loader />}>
+              <GlobalStyle />
               <Switch>
                 <Layout>
                   <Route

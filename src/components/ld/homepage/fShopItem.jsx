@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Modal from "react-responsive-modal";
-import { localhost } from "../../../constants";
+// import Modal from "react-responsive-modal";
+// import { localhost } from "../../../constants";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AddToFavoriteShopsURL } from "../../../constants";

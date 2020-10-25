@@ -1,7 +1,7 @@
 import React, { Component, Suspense, lazy } from "react";
 // import { withTranslate } from "react-redux-multilingual";
 
-import Header from "./ld/common/header1";
+import Header from "./ld/common/header";
 import { connect } from "react-redux";
 import { authCheckState } from "../actions/auth";
 import Loader from "./ld/common/loader";
@@ -28,14 +28,14 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <Header logoName={"logo.png"} />
         {this.props.children}
         {/* <br></br> <br></br> */}
         <Suspense fallback={<Loader />}>
-          <Footer logoName={"logo.png"} />
+          {/* <Footer logoName={"logo.png"} /> */}
         </Suspense>
-      </div>
+      </>
     );
   }
 }

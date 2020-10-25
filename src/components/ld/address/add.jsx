@@ -8,6 +8,7 @@ import axios from "axios";
 import { Form, Button, Card } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import styled from "styled-components";
 
 import {
   addressCreateURL,
@@ -18,6 +19,38 @@ import {
 } from "../../../constants";
 import { stateListURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
+
+const Wrapper = styled.div`
+  margin: 20px 30px auto auto;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin: 10px;
+`;
+
+const StyledButton = styled.button`
+  display: inline-block;
+  padding: 10px 30px;
+  cursor: pointer;
+  background: #ff4c3b;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  border: 1px #fff solid;
+  &:hover {
+    transform: scale(0.98);
+    color: #343a40;
+  }
+`;
 
 class AddAddress extends Component {
   constructor(props) {
@@ -259,119 +292,108 @@ class AddAddress extends Component {
     }
 
     return (
-      <div>
-        {loading ? (
-          <div className="loading-cls"></div>
-        ) : (
-          <React.Fragment>
-            <ToastContainer />
-            <Card ClassName="h-100 shadow-sm bg-white rounded">
-              <Card.Body ClassName="d-flex felx-column">
-                <div ClassName="a-flex mb-2 justify-content-between">
-                  <Select
-                    className="mb-3"
-                    onChange={this.handleChangeState}
-                    getOptionLabel={option => `${option.name}`}
-                    getOptionValue={option => `${option}`}
-                    options={states}
-                    // isSearchable={true}
-                    filterOption={this.customFilter}
-                    onInputChange={this.handleInputChange}
-                    noOptionsMessage={() => null}
-                    placeholder={"Select state"}
-                    // autoFocus={true}
-                    menuIsOpen={this.state.menuOpen}
-                    isSearchable={false}
-                  />
-                  <Select
-                    className="mb-3"
-                    onChange={this.handleChangeDistrict}
-                    getOptionLabel={option => `${option.name}`}
-                    getOptionValue={option => `${option}`}
-                    options={districts}
-                    isSearchable={true}
-                    filterOption={this.customFilter}
-                    onInputChange={this.handleInputChange}
-                    noOptionsMessage={() => null}
-                    placeholder={"Select district"}
-                    menuIsOpen={this.state.menuOpen}
-                    isSearchable={false}
-                  />
-                  <Select
-                    className="mb-3"
-                    onChange={this.handleChangeVillage}
-                    getOptionLabel={option => `${option.name}`}
-                    getOptionValue={option => `${option}`}
-                    options={villages}
-                    isSearchable={true}
-                    filterOption={this.customFilter}
-                    onInputChange={this.handleInputChange}
-                    noOptionsMessage={() => null}
-                    placeholder={"Select village"}
-                    menuIsOpen={this.state.menuOpen}
-                  />
-                  <Select
-                    className="mb-3"
-                    onChange={this.handleChangePlaces}
-                    getOptionLabel={option => `${option.name}`}
-                    getOptionValue={option => `${option}`}
-                    options={places}
-                    isSearchable={true}
-                    filterOption={this.customFilter}
-                    onInputChange={this.handleInputChange}
-                    noOptionsMessage={() => null}
-                    placeholder={"Select your locality"}
-                    menuIsOpen={this.state.menuOpen}
-                  />
-                  <Select
-                    className="mb-3"
-                    onChange={this.handleChangeArea}
-                    getOptionLabel={option => `${option.name}`}
-                    getOptionValue={option => `${option}`}
-                    options={aeras}
-                    isSearchable={true}
-                    filterOption={this.customFilter}
-                    onInputChange={this.handleInputChange}
-                    noOptionsMessage={() => null}
-                    placeholder={"Select area"}
-                    menuIsOpen={this.state.menuOpen}
-                  />
-                  <Form>
-                    <Form.Group controlId="formGridAddress1">
-                      <Form.Control
-                        type="text"
-                        name="phone_number"
-                        placeholder="Phone Number"
-                        ClassName="mb-3"
-                        defaultValue={this.state.phone_number}
-                        onChange={this.handleChangeB.bind(this)}
-                      />
-                    </Form.Group>
-                    <Form.Group controlId="exampleForm.ControlTextarea1">
-                      <Form.Control
-                        as="textarea"
-                        type="text"
-                        name="full_address"
-                        placeholder="Road, House Name ..."
-                        ClassName="mb-3"
-                        defaultValue={this.state.form.full_address}
-                        onChange={this.handleChangeB.bind(this)}
-                      />
-                    </Form.Group>
-                    <Button
-                      variant="primary"
-                      type="submit"
-                      onClick={this.handleCreateAddress}
-                    >
-                      Submit
-                    </Button>
-                  </Form>
-                </div>
-              </Card.Body>
-            </Card>
-          </React.Fragment>
-        )}
-      </div>
+      <Wrapper>
+        <StyledCard>
+          <Select
+            className="mb-3"
+            onChange={this.handleChangeState}
+            getOptionLabel={option => `${option.name}`}
+            getOptionValue={option => `${option}`}
+            options={states}
+            // isSearchable={true}
+            filterOption={this.customFilter}
+            onInputChange={this.handleInputChange}
+            noOptionsMessage={() => null}
+            placeholder={"Select state"}
+            // autoFocus={true}
+            menuIsOpen={this.state.menuOpen}
+            isSearchable={false}
+          />
+          <Select
+            className="mb-3"
+            onChange={this.handleChangeDistrict}
+            getOptionLabel={option => `${option.name}`}
+            getOptionValue={option => `${option}`}
+            options={districts}
+            isSearchable={true}
+            filterOption={this.customFilter}
+            onInputChange={this.handleInputChange}
+            noOptionsMessage={() => null}
+            placeholder={"Select district"}
+            menuIsOpen={this.state.menuOpen}
+            isSearchable={false}
+          />
+          <Select
+            className="mb-3"
+            onChange={this.handleChangeVillage}
+            getOptionLabel={option => `${option.name}`}
+            getOptionValue={option => `${option}`}
+            options={villages}
+            isSearchable={true}
+            filterOption={this.customFilter}
+            onInputChange={this.handleInputChange}
+            noOptionsMessage={() => null}
+            placeholder={"Select village"}
+            menuIsOpen={this.state.menuOpen}
+          />
+          <Select
+            className="mb-3"
+            onChange={this.handleChangePlaces}
+            getOptionLabel={option => `${option.name}`}
+            getOptionValue={option => `${option}`}
+            options={places}
+            isSearchable={true}
+            filterOption={this.customFilter}
+            onInputChange={this.handleInputChange}
+            noOptionsMessage={() => null}
+            placeholder={"Select your locality"}
+            menuIsOpen={this.state.menuOpen}
+          />
+          <Select
+            className="mb-3"
+            onChange={this.handleChangeArea}
+            getOptionLabel={option => `${option.name}`}
+            getOptionValue={option => `${option}`}
+            options={aeras}
+            isSearchable={true}
+            filterOption={this.customFilter}
+            onInputChange={this.handleInputChange}
+            noOptionsMessage={() => null}
+            placeholder={"Select area"}
+            menuIsOpen={this.state.menuOpen}
+          />
+          <Form>
+            <Form.Group controlId="formGridAddress1">
+              <Form.Control
+                type="text"
+                name="phone_number"
+                placeholder="Phone Number"
+                ClassName="mb-3"
+                defaultValue={this.state.phone_number}
+                onChange={this.handleChangeB.bind(this)}
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Control
+                as="textarea"
+                type="text"
+                name="full_address"
+                placeholder="Road, House Name ..."
+                ClassName="mb-3"
+                defaultValue={this.state.form.full_address}
+                onChange={this.handleChangeB.bind(this)}
+              />
+            </Form.Group>
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={this.handleCreateAddress}
+            >
+              Submit
+            </Button>
+          </Form>
+        </StyledCard>
+      </Wrapper>
     );
   }
 }

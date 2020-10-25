@@ -1,214 +1,148 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { IntlActions } from "react-redux-multilingual";
 import Pace from "react-pace-progress";
-
-// Import custom components
-import store from "../../../store";
 import { authCheckState, logout } from "../../../actions/auth";
 import { fetchCart, clearKart } from "../../../actions/cart";
-// import { fetchUser } from "../../../actions/user";
-// import NavBar from "./navbar";
-import SideBar from "./sidebar2";
-// import CartContainer from "./../../../containers/CartContainer";
-import CartContainer from "../cart/cart-container";
-import TopBar from "./topbar";
-import LogoImage from "./logo";
-// import { changeCurrency } from "../../../actions";
-import { connect } from "react-redux";
-import {
-  faBars,
-  faHome,
-  faCog,
-  faHeart
-} from "@fortawesome/free-solid-svg-icons";
+import { localhost } from "../../../constants";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import store from "../../../store";
+import SideBar from "./sidebar";
+import { connect } from "react-redux";
+import Navbar from "react-bootstrap/Navbar";
+import LogoImage from "./logo";
+import CartContainer from "../cart/cart-container";
+import styled from "styled-components";
+import Badge from "react-bootstrap/Badge";
+
+const StyledNavbar = styled(Navbar)`
+  display: flex;
+  align-items: center;
+  background: "#FFFAFA";
+  /* margin: 20 5px 10px 0; */
+  padding: 10px;
+  margin-bottom: 35px;
+
+  /* overflow-x: hidden; */
+  /* position: fixed; */
+  top: 0;
+  /* width: 100%; */
+  z-index: 1;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+`;
+
+const ImageContainer = styled.div`
+  padding-top: 0.25em;
+  padding-left: 0.5em;
+  @media (min-width: 320px) {
+    width: 135px;
+    height: auto;
+  }
+`;
+
+const StyledfaShoppingCart = styled.div`
+  display: flex;
+  margin-left: auto;
+`;
+
+const StyledfaMenuIcon = styled.div`
+  display: flex;
+  margin-right: 2px;
+  padding-right: 5px;
+`;
+
+const StyledCartlabel = styled.div`
+  /* position: absolute; */
+  /* background: "#ff4c3b"; */
+  width: 20px;
+  height: 20px;
+  color: #ff4c3b;
+  border-radius: 20px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 600;
+  /* top: 20%; */
+  right: -8px;
+  padding: 3px;
+  background-color: "#ff4c3b";
+`;
 
 class Header extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoading: false
+      isLoading: false,
+      sideBarIsOpen: false
     };
   }
 
-  /*=====================
-         Pre loader
-         ==========================*/
   componentDidMount() {
-    // this.props.clearKart();
     setTimeout(function() {
       document.querySelector(".loader-wrapper").style = "display: none";
     }, 2000);
   }
 
-  componentWillMount() {
-    window.addEventListener("scroll", this.handleScroll);
-  }
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
-  }
-
-  handleScroll = () => {
-    let number =
-      window.pageXOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-
-    if (number >= 300) {
-      if (window.innerWidth < 576) {
-        document.getElementById("sticky").classList.remove("fixed");
-      } else document.getElementById("sticky").classList.add("fixed");
-    } else {
-      document.getElementById("sticky").classList.remove("fixed");
-    }
+  openSidebar = () => {
+    this.setState({ sideBarIsOpen: true });
+    console.log(123);
   };
-  changeLanguage(lang) {
-    store.dispatch(IntlActions.setLocale(lang));
-  }
+  closeSidebar = () => {
+    this.setState({ sideBarIsOpen: false });
+    console.log("123");
+  };
 
   openNav() {
+    console.log("clikc");
     var openmyslide = document.getElementById("mySidenav");
     if (openmyslide) {
       openmyslide.classList.add("open-side");
     }
   }
-  openSearch() {
-    document.getElementById("search-overlay").style.display = "block";
-  }
-
-  closeSearch() {
-    document.getElementById("search-overlay").style.display = "none";
-  }
-
-  load = () => {
-    this.setState({ isLoading: true });
-    fetch().then(() => {
-      // deal with data fetched
-      this.setState({ isLoading: false });
-    });
-  };
 
   render() {
-    // console.log(this.props.cart);
+    console.log(this.state.sideBarIsOpen);
+    // console.log("testing");
+    const cart = this.props.cart;
     return (
-      <div>
-        <header>
-          {/* <header id="sticky" className="sticky"> */}
-          {/* <header id="sticky" className="sticky header-2 header-6"> */}
-          {this.state.isLoading ? <Pace color="#27ae60" /> : null}
-          <div className="mobile-fix-option"></div>
-          {/*Top Header Component*/}
-          {/* <TopBar /> */}
+      <>
+        <StyledNavbar>
+          <StyledfaMenuIcon>
+            <FontAwesomeIcon
+              icon={faBars}
+              size={"2x"}
+              color={"#606060"}
+              onClick={this.openSidebar}
+            />
+          </StyledfaMenuIcon>
 
-          {/* <div className="container"> */}
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-sm-12">
-                {/* <div className="main-menu border-section border-top-0"> */}
-                <div className="main-menu">
-                  <div className="menu-left">
-                    <div className="navbar">
-                      <a href="javascript:void(0)" onClick={this.openNav}>
-                        <div className="bar-style">
-                          {" "}
-                          {/* <i
-                            className="fa fa-bars sidebar-bar"
-                            aria-hidden="true"
-                          ></i> */}
-                          <FontAwesomeIcon
-                            icon={faBars}
-                            size={"2x"}
-                            color={"black"}
-                          />
-                        </div>
-                      </a>
-                      {/*SideBar Navigation Component*/}
-                      <SideBar />
-                    </div>
-                  </div>
-                  <div className="brand-logo layout4-logo">
-                    <LogoImage logo={"Local Dukans"} />
-                  </div>
-                  <div className="menu-right pull-right">
-                    {/* <div> */}
-                    <div>
-                      <div className="icon-nav">
-                        <ul>
-                          <li className="onhover-div mobile-search">
-                            <div>
-                              <Link to="/">
-                                <i>
-                                  <FontAwesomeIcon icon={faHome} />
-                                </i>
-                                <span className="sub-arrow"></span>
-                              </Link>
-                            </div>
-                          </li>
-                          <li className="onhover-div mobile-setting">
-                            <div>
-                              {this.props.userType === "is_staff_user" ? (
-                                <Link
-                                  to={`${process.env.PUBLIC_URL}/manage-order-delivery`}
-                                >
-                                  <i>
-                                    <FontAwesomeIcon
-                                      icon={faHeart}
-                                      size={"lg"}
-                                    />
-                                  </i>
-                                  wishlist
-                                </Link>
-                              ) : null}
-                              {this.props.userType == "ShopOwner" ? (
-                                <Link
-                                  to={`${process.env.PUBLIC_URL}/shop-order-table`}
-                                >
-                                  <i>
-                                    <FontAwesomeIcon icon={faHeart} />
-                                  </i>
-                                  wishlist
-                                </Link>
-                              ) : null}
-                              {this.props.userType == "Customer" ? (
-                                <Link to={`${process.env.PUBLIC_URL}/Wishlist`}>
-                                  <i>
-                                    <FontAwesomeIcon icon={faHeart} />
-                                  </i>
-                                  wishlist
-                                </Link>
-                              ) : null}
-                              {this.props.userType == undefined ? (
-                                <Link to={`${process.env.PUBLIC_URL}/Wishlist`}>
-                                  <i>
-                                    <FontAwesomeIcon icon={faHeart} />
-                                  </i>
-                                  wishlist
-                                </Link>
-                              ) : null}
-                            </div>
-                          </li>
-                          {/* Header Cart Component */}
-                          <CartContainer />
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* <div className="container">
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="main-nav-center"></div>
-              </div>
-            </div>
-          </div> */}
-        </header>
-      </div>
+          <SideBar open={this.state.sideBarIsOpen} close={this.closeSidebar} />
+
+          <Navbar.Brand href="/">
+            <LogoImage />
+          </Navbar.Brand>
+
+          <StyledfaShoppingCart>
+            <Link to="/order-summary">
+              <img
+                src={`${localhost}/media/cart/cart.png`}
+                className="img-fluid"
+                alt=""
+              />
+            </Link>
+            {cart ? (
+              <>
+                <h4>
+                  <Badge variant="danger">
+                    {cart.order_items ? cart.order_items.length : 0}
+                  </Badge>
+                </h4>
+              </>
+            ) : null}
+          </StyledfaShoppingCart>
+        </StyledNavbar>
+      </>
     );
   }
 }
@@ -217,7 +151,6 @@ const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token !== null,
     cart: state.cart.shoppingCart
-    // userType: state.user.user.UserType
   };
 };
 

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import { Table, Row, Col, Container } from "react-bootstrap";
+import styled from "styled-components";
 
 import {
   orderSummaryURL,
@@ -20,11 +21,134 @@ import {
   faPlus,
   faTrashAlt,
   faAngleRight,
-  faAngleLeft
+  faAngleLeft,
+  faTimes,
+  faEquals
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+const OrderSummaryContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 30px 10px auto auto;
+  /* background-color: #bbbbbc; */
+  /* padding-top: 30px; */
+`;
+
+const ProductCard = styled.div`
+  display: flex;
+  margin-bottom: 1px;
+  width: 300px;
+  height: 150px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+const OrderTotalCard = styled.div`
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 60% 40%;
+  padding: 10px;
+  grid-gap: 25px;
+`;
+
+const OrderTotalItem = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+`;
+
+const ProductImgContainer = styled.div`
+  flex: 1;
+  height: 150px;
+  width: 40%;
+  overflow: hidden;
+  display: flex;
+  align-content: center;
+`;
+const ProductImg = styled.img`
+  padding: 25px;
+  width: 100%;
+  /* height: auto; */
+  object-fit: contain;
+`;
+const ProductContent = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  /* padding: 100px 10px; */
+  width: 60%;
+`;
+
+const ProductTitle = styled.h2`
+  display: flex;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #343a40;
+`;
+const ProductSecondTitle = styled.h2`
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #343a40;
+`;
+const PriceWrap = styled.div`
+  display: flex;
+`;
+const MRP = styled.h2`
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #343a40;
+  padding-right: 10px;
+`;
+
+const QuantityBoxWrap = styled.div`
+  display: flex;
+  margin-top: 10px;
+`;
+
+const QuantityBoxItem = styled.div`
+  padding: 2px;
+  margin: 2px;
+`;
+const QuantityBox = styled.input`
+  /* margin-left: 5px; */
+  /* margin-right: 5px; */
+  display: flex;
+  border: none;
+  text-align: center;
+  width: 40px;
+  height: 100%;
+  padding: 1px;
+`;
+
+const Mybutton = styled.button`
+  margin-top: 10px;
+  min-width: 100px;
+  border: 1px solid #ff5722;
+  background: #fff;
+  padding: 7px 14px;
+  color: #ff5722;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  &:hover {
+    width: auto;
+    background: #ff5722;
+    color: #fff;
+    padding: 7px 14px;
+    cursor: pointer;
+  }
+`;
 
 class OrderSummary extends Component {
   state = {
@@ -130,332 +254,136 @@ class OrderSummary extends Component {
   render() {
     const { loading } = this.state;
     const { cartItems } = this.props;
-    // console.log(loading);
+    console.log(cartItems);
 
     return (
-      <div>
-        <ToastContainer />
-        {/* {this.state.loading && <div className="loading-cls"></div>} */}
-        {cartItems.order_items ? (
-          <section className="cart-section section-b-space">
-            <div className="container">
-              <div className="row">
-                <div className="col-sm-12">
-                  <table className="table cart-table table-responsive-xs">
-                    <thead>
-                      <tr className="table-head">
-                        <th scope="col">Image</th>
-                        <th scope="col">Detial</th>
-                        <th scope="col">price</th>
-                        <th scope="col">quantity</th>
-                        <th scope="col">action</th>
-                        <th scope="col">total</th>
-                      </tr>
-                    </thead>
-                    {/* {cartItems.map((item, index) => { */}
-                    {cartItems.order_items.map((item, index) => {
-                      return (
-                        <tbody key={index}>
-                          <tr>
-                            <td>
-                              <Link to={""}>
-                                <img
-                                  src={`${localhost}${item.item_image}`}
-                                  alt=""
+      <>
+        {cartItems ? (
+          <>
+            {cartItems.order_items ? (
+              <>
+                <OrderSummaryContainer>
+                  {cartItems.order_items.map((item, index) => (
+                    <ProductCard>
+                      <ProductImgContainer>
+                        <ProductImgContainer>
+                          <ProductImg
+                            src={`${localhost}${item.item_image}`}
+                          ></ProductImg>
+                        </ProductImgContainer>
+                        <ProductContent>
+                          <ProductTitle>{item.itemName}</ProductTitle>
+                          <ProductSecondTitle>{item.vname}</ProductSecondTitle>
+                          <PriceWrap>
+                            <MRP>{item.quantity}</MRP>
+                            <MRP>
+                              <FontAwesomeIcon
+                                icon={faTimes}
+                                style={{ color: "#ff4c3b" }}
+                              />
+                            </MRP>
+                            <MRP>{item.vdiscount_price}</MRP>
+                            <MRP>
+                              <FontAwesomeIcon
+                                icon={faEquals}
+                                style={{ color: "#ff4c3b" }}
+                              />
+                            </MRP>
+                            <MRP>{item.final_price}</MRP>
+                          </PriceWrap>
+                          <QuantityBoxWrap>
+                            <QuantityBoxItem>
+                              {item.quantity > 1 ? (
+                                <FontAwesomeIcon
+                                  icon={faMinus}
+                                  style={{ color: "#ff4c3b" }}
+                                  onClick={() =>
+                                    this.handleRemoveQuantityFromCart(
+                                      item.item_variation
+                                    )
+                                  }
                                 />
-                              </Link>
-                            </td>
-                            <td>
-                              <Link to={""}>
-                                {item.itemLocalName ? (
-                                  <React.Fragment>
-                                    {item.itemLocalName} [{item.vname}]
-                                  </React.Fragment>
-                                ) : (
-                                  <React.Fragment>
-                                    {item.itemName} [{item.vname}]
-                                  </React.Fragment>
-                                )}
-
-                                <p>
-                                  {"Rs: "}
-                                  {item.final_price}
-                                </p>
-                              </Link>
-                              <div className="mobile-cart-content row">
-                                <div className="col-xs-4">
-                                  <div className="qty-box">
-                                    <div className="input-group">
-                                      <span className="input-group-prepend">
-                                        {item.quantity > 1 ? (
-                                          <button
-                                            disabled={loading}
-                                            type="button"
-                                            className="btn quantity-left-minus"
-                                            onClick={() =>
-                                              this.handleRemoveQuantityFromCart(
-                                                item.item_variation
-                                              )
-                                            }
-                                            data-type="minus"
-                                            data-field=""
-                                          >
-                                            {/* <i className="fa fa-angle-left"></i> */}
-                                            <FontAwesomeIcon
-                                              icon={faMinus}
-                                              size={"lg"}
-                                              color={"#ff4c3b"}
-                                            />
-                                          </button>
-                                        ) : (
-                                          <div>
-                                            {cartItems.order_items.length <
-                                            2 ? (
-                                              <button
-                                                disabled={loading}
-                                                type="button"
-                                                className="btn quantity-left-minus"
-                                                // onClick={this.minusQty}
-                                                onClick={() =>
-                                                  this.hanldeDeleteOrder(
-                                                    cartItems.id
-                                                  )
-                                                }
-                                                data-type="minus"
-                                                data-field=""
-                                              >
-                                                <FontAwesomeIcon
-                                                  icon={faMinus}
-                                                  size={"lg"}
-                                                  color={"#ff4c3b"}
-                                                />
-                                              </button>
-                                            ) : (
-                                              // otherwise
-                                              <button
-                                                disabled={loading}
-                                                type="button"
-                                                className="btn quantity-left-minus"
-                                                // onClick={this.minusQty}
-                                                onClick={() =>
-                                                  this.handleRemoveItemFromCart(
-                                                    item.id
-                                                  )
-                                                }
-                                                data-type="minus"
-                                                data-field=""
-                                              >
-                                                <FontAwesomeIcon
-                                                  icon={faMinus}
-                                                  size={"lg"}
-                                                  color={"#ff4c3b"}
-                                                />
-                                              </button>
-                                            )}
-                                          </div>
-                                        )}
-                                      </span>
-                                      <input
-                                        type="text"
-                                        name="quantity"
-                                        value={item.quantity}
-                                        onChange={this.testOnchange}
-                                        className="form-control input-number"
-                                      />
-                                      <span className="input-group-prepend">
-                                        <button
-                                          disabled={loading}
-                                          type="button"
-                                          className="btn quantity-right-plus"
-                                          onClick={() =>
-                                            this.handleAddToCart2(
-                                              item.item,
-                                              item.shop,
-                                              item.item_variation
-                                            )
-                                          }
-                                          data-type="plus"
-                                          data-field=""
-                                        >
-                                          {/* <i className="fa fa-angle-right"></i> */}
-                                          <FontAwesomeIcon
-                                            icon={faPlus}
-                                            size={"lg"}
-                                            color={"#ff4c3b"}
-                                          />
-                                        </button>
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-xs-4">
-                                  <h2 className="td-color"></h2>
-                                </div>
-                                <div className="col-xs-4">
-                                  <h2 className="td-color">
-                                    <a
-                                      className="icon"
+                              ) : (
+                                <>
+                                  {cartItems.order_items.length < 2 ? (
+                                    <FontAwesomeIcon
+                                      icon={faMinus}
+                                      style={{ color: "#ff4c3b" }}
+                                      onClick={() =>
+                                        this.hanldeDeleteOrder(cartItems.id)
+                                      }
+                                    />
+                                  ) : (
+                                    <FontAwesomeIcon
+                                      icon={faMinus}
+                                      style={{ color: "#ff4c3b" }}
                                       onClick={() =>
                                         this.handleRemoveItemFromCart(item.id)
                                       }
-                                    >
-                                      <FontAwesomeIcon
-                                        icon={faTrashAlt}
-                                        size={"lg"}
-                                      />
-                                    </a>
-                                  </h2>
-                                </div>
-                              </div>
-                            </td>
-                            <td>
-                              <h4>{item.final_price}</h4>
-                            </td>
-                            <td>
-                              <div className="qty-box">
-                                <div className="input-group">
-                                  <span className="input-group-prepend">
-                                    <button
-                                      type="button"
-                                      className="btn quantity-left-minus"
-                                      // onClick={this.minusQty}
-                                      onClick={() =>
-                                        this.handleRemoveQuantityFromCart(
-                                          item.item.id
-                                        )
-                                      }
-                                      data-type="minus"
-                                      data-field=""
-                                    >
-                                      {/* <i className="fa fa-angle-left"></i> */}
-                                      <FontAwesomeIcon
-                                        icon={faMinus}
-                                        size={"lg"}
-                                        color={"#ff4c3b"}
-                                      />
-                                    </button>
-                                  </span>
-                                  <input
-                                    type="text"
-                                    name="quantity"
-                                    value={item.quantity}
-                                    // onChange={this.changeQty}
-                                    // onChange={this.changeQty}
-                                    className="form-control input-number"
-                                  />
-                                  <span className="input-group-prepend">
-                                    <button
-                                      type="button"
-                                      className="btn quantity-right-plus"
-                                      // onClick={this.handleAddToCart2}
-                                      onClick={() =>
-                                        this.handleAddToCart2(
-                                          item.item,
-                                          item.shop,
-                                          item.item_variation
-                                        )
-                                      }
-                                      data-type="plus"
-                                      data-field=""
-                                    >
-                                      {/* <i className="fa fa-angle-right"></i> */}
-                                      <FontAwesomeIcon
-                                        icon={faPlus}
-                                        size={"lg"}
-                                        color={"#ff4c3b"}
-                                      />
-                                    </button>
-                                  </span>
-                                </div>
-                              </div>
-                              {/* {item.qty >= item.stock ? "out of Stock" : ""} */}
-                            </td>
-                            <td>
-                              <a
-                                // href="#"
-                                className="icon"
-                                // onClick={() => this.props.removeFromCart(item)}
+                                    />
+                                  )}
+                                </>
+                              )}
+                            </QuantityBoxItem>
+                            <QuantityBox
+                              className="form-control"
+                              type="text"
+                              value={item.quantity}
+                            ></QuantityBox>
+
+                            <QuantityBoxItem>
+                              <FontAwesomeIcon
+                                icon={faPlus}
+                                style={{ color: "#ff4c3b" }}
+                                onClick={() =>
+                                  this.handleAddToCart2(
+                                    item.item,
+                                    item.shop,
+                                    item.item_variation
+                                  )
+                                }
+                              />
+                            </QuantityBoxItem>
+                            <QuantityBoxItem>
+                              <FontAwesomeIcon
+                                icon={faTrashAlt}
+                                style={{ color: "#ff4c3b", marginLeft: "15px" }}
                                 onClick={() =>
                                   this.handleRemoveItemFromCart(item.id)
                                 }
-                              >
-                                {/* <i className="fa fa-times"></i> */}
-                                <FontAwesomeIcon
-                                  icon={faTrashAlt}
-                                  size={"lg"}
-                                />
-                              </a>
-                            </td>
-                            <td>
-                              <h2 className="td-color">
-                                {/* {symbol} */}
-                                {item.final_price}
-                              </h2>
-                            </td>
-                          </tr>
-                        </tbody>
-                      );
-                    })}
-                  </table>
-                  <table className="table cart-table table-responsive-md">
-                    <tfoot>
-                      <tr>
-                        <td>total price :</td>
-                        <td>
-                          <h2>
-                            {/* {symbol}  */}
-                            {cartItems.total}{" "}
-                          </h2>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
-              <div className="row cart-buttons">
-                <div className="col-6">
-                  <Link
-                    // to={""}
-                    to={`${process.env.PUBLIC_URL}/shops/${cartItems.shop_id}`}
-                    className="btn btn-solid"
-                  >
-                    continue shopping
-                  </Link>
-                </div>
-                <div className="col-6">
-                  <Link
-                    to={`${process.env.PUBLIC_URL}/checkout`}
-                    className="btn btn-solid"
-                  >
-                    check out
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </section>
-        ) : (
-          <section className="cart-section section-b-space">
-            <div className="container">
-              <div className="row">
-                <div className="col-sm-12">
-                  <div>
-                    <div className="col-sm-12 empty-cart-cls text-center">
-                      <img
-                        src={`${process.env.PUBLIC_URL}/media/cart/icon-empty-cart.png`}
-                        className="img-fluid mb-4"
-                        alt=""
-                      />
-                      <h3>
-                        <strong>Your Cart is Empty</strong>
-                      </h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-      </div>
+                              />
+                            </QuantityBoxItem>
+                          </QuantityBoxWrap>
+                        </ProductContent>
+                      </ProductImgContainer>
+                    </ProductCard>
+                  ))}
+                </OrderSummaryContainer>
+                <OrderTotalCard>
+                  <OrderTotalItem>Total</OrderTotalItem>
+                  <OrderTotalItem>12</OrderTotalItem>
+                  <OrderTotalItem>
+                    <Link
+                      to={`${process.env.PUBLIC_URL}/shops/${cartItems.shop_id}`}
+                      // className="btn btn-solid"
+                    >
+                      <Mybutton>continue shopping</Mybutton>
+                    </Link>
+                  </OrderTotalItem>
+                  <OrderTotalItem>
+                    <Link
+                      to={`${process.env.PUBLIC_URL}/checkout`}
+                      // className="btn btn-solid"
+                    >
+                      <Mybutton> check out</Mybutton>
+                    </Link>
+                  </OrderTotalItem>
+                </OrderTotalCard>
+              </>
+            ) : null}
+          </>
+        ) : null}
+      </>
     );
   }
 }

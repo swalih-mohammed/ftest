@@ -139,18 +139,15 @@ class Shop extends Component {
 
     return (
       <div>
-        <Helmet>
-          <title>Local Dukans</title>
-        </Helmet>
         {/* <Header /> */}
         {this.state.loading && <div className="loading-cls"></div>}
 
         {/* <section className="p-0">
           {ShopDetail ? <Image src={ShopDetail.image} fluid /> : null}
         </section> */}
-        <section className="ratio_asos metro-section portfolio-section ">
+        {/* <section className="ratio_asos metro-section portfolio-section ">
           {ShopDetail && <ShopImage ShopDetail={ShopDetail} />}
-        </section>
+        </section> */}
 
         {ShopDetail && (
           <div>

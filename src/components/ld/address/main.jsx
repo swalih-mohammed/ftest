@@ -5,6 +5,39 @@ import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
 import { addressListURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  margin: 20px 30px auto auto;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin: 10px;
+`;
+
+const StyledButton = styled.button`
+  display: inline-block;
+  padding: 10px 30px;
+  cursor: pointer;
+  background: #ff4c3b;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  border: 1px #fff solid;
+  &:hover {
+    transform: scale(0.98);
+    color: #343a40;
+  }
+`;
 
 class Address extends Component {
   state = {
@@ -39,101 +72,36 @@ class Address extends Component {
       return <Redirect to="/login" />;
     }
     return (
-      <div>
-        <Breadcrumb title={"Address"} />
-        {this.state.loading && <div className="loading-cls"></div>}
-
-        {addressList && (
-          <section className="section-b-space">
-            <div className="container">
-              {addressList.length < 1 ? (
-                <div className="account-sidebar">
-                  <Link style={{ color: "#FFF" }} to={`/create-address`}>
-                    Add Address
-                  </Link>
-                </div>
-              ) : null}
-
-              {addressList.map(address => (
-                <div key={address.id} className="row">
-                  {/* <div className="col-lg-3">
-                    <div className="dashboard-left">
-                      <div className="collection-mobile-back">
-                        <span className="filter-back">
-                          <i
-                            className="fa fa-angle-left"
-                            aria-hidden="true"
-                          ></i>{" "}
-                          back
-                        </span>
-                      </div>
-                    </div>
-                  </div> */}
-                  <div className="col-lg-9">
-                    <div className="dashboard-right">
-                      <div className="dashboard">
-                        <div className="box-account box-info">
-                          <div className="box-head">
-                            <h2>{address.PlaceName}</h2>
-                          </div>
-                          <div className="row">
-                            <div className="col-sm-6">
-                              <div className="box">
-                                <div className="box-title">
-                                  <h3>{address.areaName}</h3>
-                                  {/* <a href={`editaddress/${address.id}`}>Edit</a> */}
-                                </div>
-
-                                <div className="box-content">
-                                  {/* <h6>House Name: {address.areaName}</h6> */}
-                                  <h6>{address.full_address}</h6>
-                                  <h6>Village: {address.vilalgeName}</h6>
-                                  <h6>District: {address.districtName}</h6>
-                                  <h6>Phone: {address.phone_number}</h6>
-                                  <br></br>
-
-                                  <Link
-                                    style={{ color: "#FFF" }}
-                                    to={`${process.env.PUBLIC_URL}/editaddress/${address.id}`}
-                                  >
-                                    <Button variant="outline-primary" size="sm">
-                                      Edit
-                                    </Button>
-                                  </Link>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
+      <Wrapper>
+        {addressList ? (
+          <>
+            {addressList.map(address => (
+              <StyledCard>
+                <h2>{address.PlaceName}</h2>
+                <h4>{address.areaName}</h4>
+                <h6>{address.full_address}</h6>
+                <h6>Village: {address.vilalgeName}</h6>
+                <h6>District: {address.districtName}</h6>
+                <h6>Phone: {address.phone_number}</h6>
+                <Link
+                  to={`${process.env.PUBLIC_URL}/editaddress/${address.id}`}
+                >
+                  <StyledButton>Edit</StyledButton>
+                </Link>
+              </StyledCard>
+            ))}
+          </>
+        ) : (
+          <StyledCard>
+            <Link to={`/create-address`}>
+              <StyledButton>Add your address</StyledButton>
+            </Link>
+          </StyledCard>
         )}
-      </div>
+      </Wrapper>
     );
   }
 }
-
-// const mapStateToProps = state => {
-//   return {
-//     userID: state.user.user.userID
-//   };
-// };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     fetchUser: () => dispatch(fetchUser())
-//   };
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(Address);
 
 const mapStateToProps = state => {
   return {

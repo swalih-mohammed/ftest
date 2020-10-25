@@ -1,26 +1,28 @@
 import React from "react";
 import { connect } from "react-redux";
+import { fetchUser } from "../../../actions/user";
 import styled from "styled-components";
 import { authLogin } from "../../../actions/auth";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { Formik, ErrorMessage } from "formik";
+import { Redirect, Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import * as Yup from "yup";
 
 const CONTAINER = styled.div`
   background: #f7f9fa;
-  height: auto;
-  width: 90%;
-  margin: 5em auto;
+  height: 500px;
+  width: 95%;
+  margin: 50px auto;
   color: snow;
-  -webkit-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.4);
-  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.4);
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
 
   @media (min-width: 786px) {
     width: 60%;
   }
   @media (min-width: 320px) {
-    width: 80%;
+    width: 95%;
   }
 
   label {
@@ -51,70 +53,133 @@ const CONTAINER = styled.div`
   }
 `;
 
+const SignupWrapper = styled.div`
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+const SignupContainer = styled.div`
+  margin-top: 30px;
+
+  display: flex;
+  flex-direction: column;
+
+  margin: 20px auto;
+
+  .outline-auto {
+    background-color: #dc3545;
+    outline: 50px auto lavender;
+  }
+`;
+
 const MYFORM = styled(Form)`
-  width: 90%;
+  width: 95%;
   text-align: left;
   padding-top: 2em;
   padding-bottom: 2em;
-
+  flex-direction: column;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
   @media (min-width: 786px) {
     width: 50%;
   }
-
   @media (min-width: 320px) {
-    width: 70%;
+    width: 100%;
   }
 `;
 
-const BUTTON = styled(Button)`
-  background: #1863ab;
-  border: none;
-  font-size: 1.2em;
-  font-weight: 400;
-
+const Button = styled.button`
+  margin-top: 5px;
+  width: 200px;
+  border: 1px solid #ff5722;
+  background: #fff;
+  padding: 7px 14px;
+  color: #ff5722;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  text-transform: uppercase;
   &:hover {
-    background: #1d3461;
+    /* width: auto; */
+    background: #ff5722;
+    color: #fff;
+    padding: 7px 14px;
+    cursor: pointer;
   }
 `;
 
-// // RegEx for phone number validation
-// const phoneRegExp = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
+const ForgotButton = styled.button`
+  margin-top: 50px;
+  width: 200px;
+  border: 1px solid #ff5722;
+  background: #fff;
+  padding: 7px 14px;
+  color: #ff5722;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  &:hover {
+    /* width: auto; */
+    background: #ff5722;
+    color: #fff;
+    padding: 7px 14px;
+    cursor: pointer;
+  }
+`;
 
-// Schema for yup
+const RegisterButton = styled.button`
+  margin-top: 25px;
+  width: 100px;
+  border: 1px solid #ff5722;
+  background: #fff;
+  padding: 7px 14px;
+  color: #ff5722;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  &:hover {
+    /* width: auto; */
+    background: #ff5722;
+    color: #fff;
+    padding: 7px 14px;
+    cursor: pointer;
+  }
+`;
+
 const LoginValidation = Yup.object().shape({
   username: Yup.string().required(),
   password: Yup.string()
     .min(8)
     .max(16)
-    // .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]$")
+
     .required()
 });
 
 const Login = props => {
+  console.log(props.token);
+  if (props.token) {
+    return <Redirect to="/" />;
+  }
   return (
     <CONTAINER>
-      //Sets initial values for form inputs
       <Formik
         initialValues={{ username: "", password: "" }}
         validationSchema={LoginValidation}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          // When button submits form and form is in the process of submitting, submit button is disabled
           setSubmitting(true);
-
-          // Simulate submitting to database, shows us values submitted, resets form
           setTimeout(() => {
-            // alert(JSON.stringify(values, null, 2));
-            // console.log(values.email);
             const username = values.username;
             const password = values.password;
-            // console.log(email);
             props.login(username, password);
             resetForm();
             setSubmitting(false);
           }, 500);
         }}
       >
-        {/* Callback function containing Formik state and helpers that handle common form actions */}
         {({
           values,
           errors,
@@ -125,9 +190,8 @@ const Login = props => {
           isSubmitting
         }) => (
           <MYFORM onSubmit={handleSubmit} className="mx-auto">
-            {/* {console.log(values)}> */}
             <Form.Group controlId="username">
-              <Form.Label>User Name :</Form.Label>
+              {/* <Form.Label>User Name :</Form.Label> */}
               <Form.Control
                 type="text"
                 name="username"
@@ -142,7 +206,7 @@ const Login = props => {
               ) : null}
             </Form.Group>
             <Form.Group controlId="password">
-              <Form.Label>Password :</Form.Label>
+              {/* <Form.Label>Password :</Form.Label> */}
               <Form.Control
                 type="password"
                 name="password"
@@ -156,9 +220,21 @@ const Login = props => {
                 <div className="error-message">{errors.password}</div>
               ) : null}
             </Form.Group>
-            <BUTTON variant="primary" type="submit" disabled={isSubmitting}>
-              Submit
-            </BUTTON>
+            <Button type="submit" disabled={isSubmitting}>
+              Login
+            </Button>
+            <br></br>
+            <Link to="/reset-password">
+              <ForgotButton type="submit">Forgot password</ForgotButton>
+            </Link>
+            <SignupWrapper>
+              <SignupContainer>
+                <p> Dont have an account?</p>
+                <Link to="/reset-password">
+                  <RegisterButton type="submit">Register</RegisterButton>
+                </Link>
+              </SignupContainer>
+            </SignupWrapper>
           </MYFORM>
         )}
       </Formik>
@@ -166,7 +242,14 @@ const Login = props => {
   );
 };
 
-// export default BasicForm;
+const mapStateToProps = state => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error,
+    token: state.auth.token
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     login: (username, password) => dispatch(authLogin(username, password)),
@@ -175,6 +258,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Login);

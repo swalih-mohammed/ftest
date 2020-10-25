@@ -80,23 +80,17 @@ const BUTTON = styled(Button)`
   }
 `;
 
-// // RegEx for phone number validation
-// const phoneRegExp = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
-
-// Schema for yup
 const LoginValidation = Yup.object().shape({
   username: Yup.string().required(),
   password: Yup.string()
     .min(6)
     .max(16)
-    // .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]$")
     .required()
 });
 
 const Login = props => {
   if (props.token) {
     props.fetchUser();
-    // console.log(props.token);
     return <Redirect to="/" />;
   }
 
@@ -111,10 +105,7 @@ const Login = props => {
         initialValues={{ username: "", password: "" }}
         validationSchema={LoginValidation}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          // When button submits form and form is in the process of submitting, submit button is disabled
           setSubmitting(true);
-
-          // Simulate submitting to database, shows us values submitted, resets form
           setTimeout(() => {
             const username = values.username;
             const password = values.password;
@@ -125,7 +116,6 @@ const Login = props => {
           }, 500);
         }}
       >
-        {/* Callback function containing Formik state and helpers that handle common form actions */}
         {({
           values,
           errors,

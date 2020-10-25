@@ -7,12 +7,57 @@ import { authAxios } from "../../../authAxios";
 import { orderFilterURL } from "../../../constants";
 import { useFormik, Field } from "formik";
 import DatePicker from "react-datepicker";
-import Card from "react-bootstrap/Card";
+import { Form, Card } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import Result from "./testTable";
+import styled from "styled-components";
 
+const Wrapper = styled.div`
+  margin: 20px 10px 30px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const DateWrapper = styled.div`
+  margin: 10px auto 10px auto;
+  margin: 10px;
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+  grid-template-rows: 1fr 1fr;
+  /* width: 250px; */
+  gap: 10px;
+  /* overflow: hidden; */
+  /* hight: 10px; */
+`;
+const StyledCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin: 10px;
+`;
+
+const StyledButton = styled.button`
+  display: inline-block;
+  padding: 10px 30px;
+  cursor: pointer;
+  background: #ff4c3b;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  border: 1px #fff solid;
+  &:hover {
+    transform: scale(0.98);
+    color: #343a40;
+  }
+`;
 const Manage = () => {
   const [orders, setOrders] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -55,9 +100,7 @@ const Manage = () => {
     {
       Header: "ID",
       accessor: "id",
-      // Cell: e => (
-      //   <a href={`${process.env.PUBLIC_URL}/order/${e.value}`}> {e.value} </a>
-      // )
+
       Cell: ({ row }) => (
         <Link to={`${process.env.PUBLIC_URL}/order/${row.values.id}`}>
           {row.values.id}
@@ -76,14 +119,6 @@ const Manage = () => {
     {
       Header: "Status",
       accessor: "orderStatus"
-      //   getProps: (state, rowInfo, column) => {
-      //     return {
-      //       style: {
-      //         color:
-      //           rowInfo && rowInfo.row.orderStatus !== "Pending" ? "red" : null
-      //       }
-      //     };
-      //   }
     },
     {
       Header: "Date",
@@ -102,100 +137,81 @@ const Manage = () => {
   // console.log(loading);
 
   return (
-    <div>
-      <section className="register-page section-b-space">
-        <div className="container">
-          {loading && <div className="loading-cls"></div>}
-          <div className="row">
-            <div className="col-lg-12">
-              <h4>Find Orders</h4>
-              <div className="theme-card">
-                <div className="checkout-page">
-                  <div className="checkout-form">
-                    <div className="row check-out"></div>
-                    <br></br>
-                    <div className="form-inline">
-                      <div className="row check-out">
-                        <div className="form-group col-md-8 col-sm-8 col-xs-8">
-                          <DatePicker
-                            selected={startDate}
-                            selectsStart
-                            // onChange={handleChangeStartDate}
-                            onChange={date => setStartDate(date)}
-                            dateFormat="dd/MMM/yy"
-                            // showTimeSelect
-                            onFocus={e => (e.target.readOnly = true)}
-                            popperModifiers={{
-                              preventOverflow: {
-                                enabled: true
-                              }
-                            }}
-                            timeFormat="HH:mm"
-                            injectTimes={[
-                              setHours(setMinutes(new Date(), 1), 0),
-                              setHours(setMinutes(new Date(), 5), 12),
-                              setHours(setMinutes(new Date(), 59), 23)
-                            ]}
-                          />
-                        </div>
-                        <div className="form-group col-md-8 col-sm-8 col-xs-8">
-                          <DatePicker
-                            selected={endDate}
-                            popperModifiers={{
-                              preventOverflow: {
-                                enabled: true
-                              }
-                            }}
-                            // onChange={handleChangeEndtDate}
-                            onChange={date => setEndDate(date)}
-                            onFocus={e => (e.target.readOnly = true)}
-                            // showTimeSelect
-                            dateFormat="dd/MMM/yy"
-                            timeFormat="HH:mm"
-                            injectTimes={[
-                              setHours(setMinutes(new Date(), 1), 0),
-                              setHours(setMinutes(new Date(), 5), 12),
-                              setHours(setMinutes(new Date(), 59), 23)
-                            ]}
-                          />
-                        </div>
-                      </div>
-                    </div>
+    <Wrapper>
+      <StyledCard>
+        <DateWrapper>
+          <h6>From</h6>
+          <h6>To</h6>
+          <DatePicker
+            selected={startDate}
+            selectsStart
+            // onChange={handleChangeStartDate}
+            onChange={date => setStartDate(date)}
+            dateFormat="dd/MMM/yy"
+            // showTimeSelect
+            onFocus={e => (e.target.readOnly = true)}
+            popperModifiers={{
+              preventOverflow: {
+                enabled: true
+              }
+            }}
+            timeFormat="HH:mm"
+            injectTimes={[
+              setHours(setMinutes(new Date(), 1), 0),
+              setHours(setMinutes(new Date(), 5), 12),
+              setHours(setMinutes(new Date(), 59), 23)
+            ]}
+          />
 
-                    <br></br>
-                    <input
-                      type="submit"
-                      className="btn btn-solid"
-                      id="submit"
-                      placeholder="search"
-                      onClick={fetchOrders}
-                      required=""
-                    />
-                  </div>
-                </div>
-                <br></br>
-                {orders ? (
-                  <div>
-                    <Card
-                      bg={"secondary"}
-                      style={{ width: "18rem" }}
-                      className="mb-2"
-                      text={"light"}
-                    >
-                      {/* <Card.Header>Order for today</Card.Header> */}
-                      <Card.Body>
-                        <Card.Title> {orders.length} Orders </Card.Title>
-                      </Card.Body>
-                    </Card>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          </div>
+          <DatePicker
+            className="form-group"
+            selected={endDate}
+            popperModifiers={{
+              preventOverflow: {
+                enabled: true
+              }
+            }}
+            // onChange={handleChangeEndtDate}
+            onChange={date => setEndDate(date)}
+            onFocus={e => (e.target.readOnly = true)}
+            // showTimeSelect
+            dateFormat="dd/MMM/yy"
+            timeFormat="HH:mm"
+            injectTimes={[
+              setHours(setMinutes(new Date(), 1), 0),
+              setHours(setMinutes(new Date(), 5), 12),
+              setHours(setMinutes(new Date(), 59), 23)
+            ]}
+          />
+        </DateWrapper>
+        <StyledButton
+          type="submit"
+          // className="btn btn-solid"
+          id="submit"
+          placeholder="search"
+          onClick={fetchOrders}
+          // required=""
+        >
+          Submit
+        </StyledButton>
+      </StyledCard>
+      {orders ? (
+        <div>
+          <Card
+            bg={"secondary"}
+            style={{ width: "18rem", marginTop: "20px", marginBottom: "20px" }}
+            className="mb-2"
+            text={"light"}
+          >
+            {/* <Card.Header>Order for today</Card.Header> */}
+            <Card.Body>
+              <Card.Title> {orders.length} Orders </Card.Title>
+            </Card.Body>
+          </Card>
         </div>
-      </section>
+      ) : null}
       {orders ? <Result data={orders} columns={columns} /> : null}
-    </div>
+    </Wrapper>
   );
 };
 

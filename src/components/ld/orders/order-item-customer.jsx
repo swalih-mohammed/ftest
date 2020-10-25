@@ -5,11 +5,13 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { authAxios } from "../../../authAxios";
 import { fetchUser } from "../../../actions/user";
-import Select from "react-select";
+// import Select from "react-select";
 import { Redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button, Alert, Row, Col } from "react-bootstrap";
+import styled from "styled-components";
+// import Card from "../styled.utils.js";
 
 import {
   orderDetailURL,
@@ -17,6 +19,50 @@ import {
   orderStatusUpdateURL,
   orderStatusListURL
 } from "../../../constants";
+
+const Wrapper = styled.div`
+  margin: 20px auto 30px auto;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Card = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin: 10px;
+`;
+
+const StyledButton = styled.button`
+  display: inline-block;
+  padding: 10px 30px;
+  cursor: pointer;
+  background: #ff4c3b;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  border: 1px #fff solid;
+  width: 150px;
+`;
+
+const ProductDetail = styled.div`
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  height: auto;
+`;
+
+const CheckoutHeadingContainer = styled.div`
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 class OrderItem extends Component {
   state = {
@@ -113,7 +159,6 @@ class OrderItem extends Component {
 
     // const { userType } = this.props;
     // console.log(this.state.shopOrderStatus, userType);
-
     // console.log(order);
 
     if (CustomerSuccess) {
@@ -121,162 +166,77 @@ class OrderItem extends Component {
     }
 
     return (
-      <div>
+      <Wrapper>
         <ToastContainer />
-        <Breadcrumb title={"Order Details"} />
-        <section className="section-b-space">
-          <div className="container padding-cls">
-            <Link to={"/orders"}>
-              <Button variant="outline-info">Back to orders</Button>{" "}
-            </Link>
-            <br></br>
-            <div className="row">
-              <div className="col-lg-9">
-                <div className="dashboard-right">
-                  <div className="dashboard">
-                    <div className="box-account box-info">
-                      <div className="box-head">
-                        <h3>{order.shop_name}</h3>
-                      </div>
-                      <div className="row">
-                        <div className="col-sm-6">
-                          <div className="box">
-                            <div className="box-title">
-                              <h4>Order No: {order.id}</h4>
-                            </div>
-                            <h6>Date: {order.start_date}</h6>
-                            <h6
-                              className={
-                                order.status === "Pending" ? "text-danger" : ""
-                              }
-                            >
-                              Status: {order.orderStatus}
-                            </h6>
-                            <h6>Mod of Payment: {order.mode_of_payment}</h6>
-                          </div>
-                          <br></br>
-                          {order.orderStatus !== "Cancelled by customer" ? (
-                            <Button
-                              type="submit"
-                              variant="outline-danger"
-                              size="sm"
-                              onClick={this.orderCancelCustoemr}
-                            >
-                              Cancel order
-                            </Button>
-                          ) : (
-                            <Alert variant={"danger"}>
-                              Order has been cancelled
-                            </Alert>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <Card>
+          {/* summary */}
+          <h3>{order.shop_name}</h3>
+          <h4>Order No: {order.id}</h4>
+          <h6>Date: {order.start_date}</h6>
+          <h6>Status: {order.orderStatus}</h6>
+          <h6>Mod of Payment: {order.mode_of_payment}</h6>
+          {order.orderStatus !== "Cancelled by customer" ? (
+            <StyledButton type="submit" onClick={this.orderCancelCustoemr}>
+              Cancel order
+            </StyledButton>
+          ) : (
+            <Alert variant={"danger"}>Order has been cancelled</Alert>
+          )}
 
-            {order.coupon ? (
-              <Row>
-                <Col>
-                  <Alert variant={"success"}>
-                    {" "}
-                    {order.coupon_code} coupon Applied !!{order.coupon_offer}
-                  </Alert>
-                </Col>
-              </Row>
-            ) : null}
+          {/* product detail  */}
 
-            {order ? (
-              <div className="row section-t-space">
-                <div className="col-lg-6">
-                  <div className="stripe-section">
-                    <div className="col-lg-6 col-sm-12 col-xs-12">
-                      <div className="checkout-details">
-                        <div className="order-box">
-                          <div className="title-box">
-                            {/* <div>
-                              Product <span> Total</span>
-                            </div> */}
-                            <Row>
-                              <Col xs={8}>
-                                {" "}
-                                <h4>Product</h4>{" "}
-                              </Col>
-                              <Col xs={4}>
-                                {" "}
-                                <h4>Total</h4>{" "}
-                              </Col>
-                            </Row>
-                          </div>
-                          <ul className="qty">
-                            {orderItems.map((item, index) => {
-                              return (
-                                <Row>
-                                  <Col xs={8}>
-                                    {" "}
-                                    {item.itemLocalName
-                                      ? item.itemLocalName
-                                      : item.itemName}{" "}
-                                    [{item.vname}] × {item.quantity}{" "}
-                                  </Col>
-                                  <Col xs={4}>Rs: {item.final_price}</Col>
-                                </Row>
-                              );
-                            })}
-                          </ul>
+          <CheckoutHeadingContainer>
+            <h2> Product details</h2>
+          </CheckoutHeadingContainer>
 
-                          <ul className="total">
-                            <li>
-                              Total{" "}
-                              <span className="count">Rs: {order.total}</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
+          <ProductDetail>
+            <h2>Product</h2>
+            <h4>Price</h4>
+          </ProductDetail>
 
-            <div className="row section-t-space">
-              <div className="col-lg-6">
-                <div className="stripe-section">
-                  <h5>Address</h5>
-                  <div>
-                    <h5 className="checkout_class">{orderAddress.PlaceName}</h5>
-                    <h6 className="checkout_class">{orderAddress.areaName}</h6>
-                    <table>
-                      <tbody>
-                        <tr>
-                          <td>{orderAddress.full_address}</td>
-                        </tr>
-                        <tr>
-                          <td>{orderAddress.districtName}</td>
-                          <td>{orderAddress.vilalgeName}</td>
-                        </tr>
+          {orderItems.map((item, index) => {
+            return (
+              <ProductDetail key={index}>
+                <h6>
+                  {item.itemLocalName ? item.itemLocalName : item.itemName} [
+                  {item.vname}] × {item.quantity}
+                </h6>
+                <h6>Rs: {item.final_price}</h6>
+              </ProductDetail>
+            );
+          })}
+          <ProductDetail>
+            <h4>Total</h4>
+            <h4> Rs: {order.total}</h4>
+          </ProductDetail>
 
-                        <tr>
-                          <td>
-                            {" "}
-                            <a href={"tel:" + orderAddress.phone_number}>
-                              {orderAddress.phone_number}
-                            </a>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+          {/* coupon */}
+
+          {order.coupon ? (
+            <Alert variant={"success"}>
+              {" "}
+              {order.coupon_code} coupon Applied !!{order.coupon_offer}
+            </Alert>
+          ) : null}
+
+          {/* ///address */}
+          <CheckoutHeadingContainer>
+            <h2> Order Address</h2>
+          </CheckoutHeadingContainer>
+          <>
+            <h2>{orderAddress.PlaceName}</h2>
+            <h4>{orderAddress.areaName}</h4>
+            <h5>{orderAddress.full_address}</h5>
+            <h5>Village: {orderAddress.vilalgeName}</h5>
+            <h5>District: {orderAddress.districtName}</h5>
+            <h5>Sate: {orderAddress.stateName}</h5>
+            <h5>Phone: {orderAddress.phone_number}</h5>
+            <a href={"tel:" + orderAddress.phone_number}>
+              {orderAddress.phone_number}
+            </a>
+          </>
+        </Card>
+      </Wrapper>
     );
   }
 }

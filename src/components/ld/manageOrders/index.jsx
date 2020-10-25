@@ -82,7 +82,7 @@ class Manage extends Component {
 
     return (
       <div>
-        <Breadcrumb title={"Manage"} />
+        {/* <Breadcrumb title={"Manage"} /> */}
         <Form
           areas={areas}
           places={places}

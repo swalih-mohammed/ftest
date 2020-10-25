@@ -1,22 +1,38 @@
 import React, { Component } from "react";
-import { Helmet } from "react-helmet";
-import "../../common/index.scss";
-// import { Link } from "react-router-dom";
+import { localhost } from "../../../constants";
 import axios from "axios";
 import Shipping from "./shipping";
-// import Service from "./service";
 import Offer from "./offer";
-import Image from "react-bootstrap/Image";
-import LocalityImage from "./localityImage";
 // import Category from "./category";
-import FeautredShops from "./featuredShops";
-import Shops from "./shops";
-
+import FeautredShopList from "./featured-shop-list";
+import ShopList from "./shop-list";
+import styled from "styled-components";
 import {
   placeShopListURL,
   feautredShopsInPlaceURL,
   placeDetailURL
 } from "../../../constants";
+import { CardInfo, CardTitle, StyledCover } from "../styled/jumbotron";
+
+export const TitleShops = styled.h1`
+  display: flex;
+  justify-content: center;
+  font-family: "Playfair Display";
+  color: #333333;
+  font-size: 30px;
+  font-weight: 800;
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+  text-shadow: rgba(black, 0.5) 0 10px 10px;
+`;
+
+const ShopListSection = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 5px;
+  padding-top: 20px;
+`;
 
 class Locality extends Component {
   state = {
@@ -79,39 +95,41 @@ class Locality extends Component {
 
   render() {
     const { featuredShops, placeDetail, shops } = this.state;
-    // console.log(shops);
+    console.log(placeDetail);
     return (
       <div>
-        <Helmet>
-          <title>Local Dukans</title>
-        </Helmet>
         {this.state.loading ? (
           <div className="loading-cls"></div>
         ) : (
           <React.Fragment>
-            {/* <section className="p-0"> */}
-            <section className="ratio_asos metro-section portfolio-section ">
-              {placeDetail && <LocalityImage placeDetail={placeDetail} />}
-            </section>
             {placeDetail && (
-              <div>
-                {/* {placeDetail.exicutive_phone_number !== "" ? (
-              <Service message={placeDetail.exicutive_phone_number} />
-            ) : null} */}
-                {placeDetail.offer_message !== "" ? (
-                  <Offer message={placeDetail.offer_message} />
-                ) : null}
-                {placeDetail.shipping_message !== "" ? (
-                  <Shipping message={placeDetail.shipping_message} />
-                ) : null}
-              </div>
+              <>
+                <StyledCover imgurl={placeDetail.image}>
+                  <CardInfo>
+                    <CardTitle>{placeDetail.name}</CardTitle>
+                  </CardInfo>
+                </StyledCover>
+                <div>
+                  {placeDetail.offer_message !== "" ? (
+                    <Offer message={placeDetail.offer_message} />
+                  ) : null}
+                  {placeDetail.shipping_message !== "" ? (
+                    <Shipping message={placeDetail.shipping_message} />
+                  ) : null}
+                </div>
+              </>
             )}
             {featuredShops.length > 0 ? (
-              <FeautredShops featuredShops={featuredShops} />
+              <FeautredShopList featuredShops={featuredShops} />
             ) : null}
-            {/* <Category /> */}
+
             {shops.length > 0 ? (
-              <Shops shops={shops} />
+              <>
+                <TitleShops>Shops</TitleShops>
+                <ShopListSection>
+                  <ShopList shops={shops} />
+                </ShopListSection>
+              </>
             ) : (
               <p>No shops to show</p>
             )}

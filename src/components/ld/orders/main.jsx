@@ -4,10 +4,43 @@ import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Button } from "react-bootstrap";
+import styled from "styled-components";
 
 import { orderListURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 // import { fetchUser } from "../../../actions/user";
+
+const Wrapper = styled.div`
+  margin: 20px 30px auto auto;
+  display: flex;
+  flex-direction: column;
+`;
+
+const OrderCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin: 10px;
+`;
+
+const StyledButton = styled.button`
+  display: inline-block;
+  padding: 10px 30px;
+  cursor: pointer;
+  background: #ff4c3b;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  border: 1px #fff solid;
+  &:hover {
+    transform: scale(0.98);
+    color: #343a40;
+  }
+`;
 
 class Orders extends Component {
   constructor(props) {
@@ -74,8 +107,7 @@ class Orders extends Component {
     }
 
     return (
-      <div>
-        <Breadcrumb title={"My Orders"} />
+      <Wrapper>
         {loading ? (
           <div className="loading-cls"></div>
         ) : (
@@ -83,84 +115,36 @@ class Orders extends Component {
             {orders && (
               <div>
                 <InfiniteScroll
-                  dataLength={this.state.orders.length} //This is important field to render the next data
+                  dataLength={this.state.orders.length}
                   next={this.handleFetchOrdersScroll}
                   hasMore={this.state.hasMore}
-                  // loader={<div className="loading-cls"></div>}
                   endMessage={
                     <p className="seen-cls seen-it-cls">
                       <b>No more order to show</b>
                     </p>
                   }
                 >
-                  <section className="section-b-space">
-                    <div className="container">
-                      <div className="account-sidebar">
-                        <Link
-                          style={{ color: "#FFF" }}
-                          to={`/orders`}
-                          onClick={this.handleFetchOrders}
-                        >
-                          My Orders
+                  {orders.map((order, index) => (
+                    <div key={index}>
+                      <OrderCard>
+                        <h2>{order.shop_name}</h2>
+                        <h6>Order ID: {order.id}</h6>
+                        <h6>Date: {order.start_date}</h6>
+                        <h6>Status: {order.orderStatus}</h6>
+                        <Link to={`customer-order/${order.id}`}>
+                          <StyledButton variant="outline-primary" size="sm">
+                            View More
+                          </StyledButton>
                         </Link>
-                      </div>
-                      {orders.map((order, index) => (
-                        <div key={index} className="row">
-                          <div className="col-lg-9">
-                            <div className="dashboard-right">
-                              <div className="dashboard">
-                                <div className="box-account box-info">
-                                  <div className="box-head">
-                                    <h3>{order.shop_name}</h3>
-                                  </div>
-                                  <div className="row">
-                                    <div className="col-sm-6">
-                                      <div className="box">
-                                        <div className="box-title">
-                                          <h4>Order ID: {order.id}</h4>
-                                        </div>
-
-                                        <div className="box-content">
-                                          <h6>Date: {order.start_date}</h6>
-                                          <h6
-                                            className={
-                                              order.status === "Pending"
-                                                ? "text-danger"
-                                                : ""
-                                            }
-                                          >
-                                            Status: {order.orderStatus}
-                                          </h6>
-                                          <br></br>
-
-                                          <Link
-                                            to={`customer-order/${order.id}`}
-                                          >
-                                            <Button
-                                              variant="outline-primary"
-                                              size="sm"
-                                            >
-                                              View More
-                                            </Button>
-                                          </Link>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                      </OrderCard>
                     </div>
-                  </section>
+                  ))}
                 </InfiniteScroll>
               </div>
             )}
           </React.Fragment>
         )}
-      </div>
+      </Wrapper>
     );
   }
 }

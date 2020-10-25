@@ -1,23 +1,20 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Helmet } from "react-helmet";
-import "../../common/index.scss";
-// import Slider from "react-slick";
-// import { Link } from "react-router-dom";
-// import { Slider3 } from "../../../services/script";
 import { AddToFavoritePlacesURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { faHeart } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { Img } from "react-image";
-import Locality from "./locality";
-// import { Product4, Product5 } from "../../../services/script";
+import Locality from "./locality-item";
+import { placeListURL } from "../../../constants";
+import styled from "styled-components";
 
-import Search from "./search";
-import { placeListURL, localhost } from "../../../constants";
-import { isTemplateExpression } from "typescript";
+const LocalityListSection = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 5px;
+  padding-top: 20px;
+`;
 
 class LocalityList extends React.PureComponent {
   constructor(props) {
@@ -29,7 +26,7 @@ class LocalityList extends React.PureComponent {
       // journals: [],
       hasMore: true,
       offset: 0,
-      limit: 2,
+      limit: 10,
       query: "all",
       newLocalities: []
     };
@@ -119,50 +116,17 @@ class LocalityList extends React.PureComponent {
     // console.log(localities);
 
     return (
-      <div>
-        <Helmet>
-          <title>Local Dukans</title>
-        </Helmet>
-        <ToastContainer />
-        {this.state.loading && <div className="loading-cls"></div>}
-        {/* <HeaderTwo logoName={"logo.png"} /> */}
-        {/* <Search /> */}
-
+      <>
         {localities && (
-          <section className="ratio_asos metro-section portfolio-section light-layout section-b-space">
-            <div className="container">
-              <div className="row">
-                <div className="col">
-                  <div className="title4">
-                    <br></br>
-                    <h2 className="title-inner4"> Localities</h2>
-                    <div className="line">
-                      <span></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="container">
-              <div className="row">
-                <div className="col">
-                  <div className="no-slider row">
-                    {/* <Slider
-                    {...Product4}
-                    className="product-4 product-m no-arrow"
-                  > */}
-                    {localities.map((locality, index) => (
-                      <Locality locality={locality} key={index} />
-                    ))}
-                    {/* </Slider> */}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+          <>
+            <LocalityListSection>
+              {localities.map((locality, index) => (
+                <Locality locality={locality} key={index} />
+              ))}
+            </LocalityListSection>
+          </>
         )}
-      </div>
+      </>
     );
   }
 }

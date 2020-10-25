@@ -179,9 +179,9 @@ class Shop extends Component {
 
         {this.state.loading && <div className="loading-cls"></div>}
 
-        <section className="ratio_asos metro-section portfolio-section ">
+        {/* <section className="ratio_asos metro-section portfolio-section ">
           {ShopDetail && <ShopImage ShopDetail={ShopDetail} />}
-        </section>
+        </section> */}
 
         {ShopDetail && (
           <div>
@@ -207,14 +207,14 @@ class Shop extends Component {
                         ShopDetail={ShopDetail}
                       />
                     ) : null}
-                    {ShopProductCategory.length > 1 ? (
+                    {/* {ShopProductCategory.length > 1 ? (
                       <Productcategory
                         handleClearCategory={this.handleClearCategory}
                         handleChangeCategory={this.handleChangeCategory}
                         ShopProductCategory={ShopProductCategory}
                         ShopDetail={ShopDetail}
                       />
-                    ) : null}
+                    ) : null} */}
                     {/* <Search /> */}
                     {products && (
                       <ProductList

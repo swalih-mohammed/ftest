@@ -17,15 +17,17 @@ const GlobalStyle = createGlobalStyle`
 		}
   }
   h1{
-  font-size: 50px;
+  font-size: 30px;
+  display:flex;
+  align-content:center;
+  align-items: center;
   color: $dark-font;
   font-weight: 700;
   text-transform: uppercase;
-  span {
-    font-size: 107px;
-    font-weight: 700;
-    color: $theme-deafult;
-  }
+  margin-right: auto;
+  padding-left: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
   }
   h2{
   font-size: 20px;

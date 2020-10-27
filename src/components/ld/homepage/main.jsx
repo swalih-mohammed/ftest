@@ -5,7 +5,17 @@ import { connect } from "react-redux";
 import { newPlacesURL, feautredShopsURL, appInfoURL } from "../../../constants";
 import Localities from "../localityList/main";
 import FeautredShops from "./featuredShops";
+import TopPic from "./topPic";
+import Wave from "./waive";
 import styled from "styled-components";
+import { css } from "@emotion/core";
+import ClipLoader from "react-spinners/ClipLoader";
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
 const StyledCover = styled.div`
   height: 40vh;
@@ -17,6 +27,69 @@ const StyledCover = styled.div`
   overflow: hidden;
 `;
 
+// const SVGWrap = styled.div`
+//   /* height: 4vh; */
+//   display: grid;
+//   /* height: 300px; */
+//   position: relative;
+//   overflow: overlay;
+//   grid-template-columns: 1fr 3fr 1fr;
+//   /* grid-template-rows: 200px 100px; */
+//   /* grid-gap: 1rem; */
+//   grid-template-areas:
+//     "svg svg svg"
+//     "wave wave wave";
+// `;
+
+const SVGWrap = styled.div`
+  /* height: 4vh; */
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  /* position: relative; */
+  /* overflow: overlay; */
+  overflow: visible;
+  /* z-index: 100; */
+`;
+
+const Svgs = styled.div`
+  position: relative;
+  overflow: visible;
+  /* display: flex; */
+  /* align-items: center; */
+`;
+
+const Card = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 30vh;
+  width: 80%;
+  margin: 0 auto 25px auto;
+  flex-direction: column;
+  background-color: #fff;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  padding: 5px 25px 5px 25px;
+`;
+const StyledButton = styled.button`
+  display: flex;
+  justify-content: centet;
+  /* display: inline-block; */
+  max-width: 150px;
+  padding: 10px 30px;
+  cursor: pointer;
+  background: #ff4c3b;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  border: 1px #fff solid;
+  margin-top: 20px;
+  &:hover {
+    transform: scale(0.98);
+    color: #343a40;
+  }
+`;
 export const CardTitle = styled.h1`
   display: flex;
   justify-content: center;
@@ -24,8 +97,8 @@ export const CardTitle = styled.h1`
   color: #333333;
   font-size: 30px;
   font-weight: 800;
-  margin-bottom: 3rem;
-  margin-top: 3rem;
+  /* margin-bottom: 3rem; */
+  /* margin-top: 3rem; */
   text-shadow: rgba(black, 0.5) 0 10px 10px;
 `;
 
@@ -131,20 +204,31 @@ class Homepage extends Component {
     }
     return (
       <>
-        {this.state.loading && <div className="loading-cls"></div>}
-
-        <StyledCover imgurl={appInfo.coverPhoto1}></StyledCover>
-
-        {featuredShops.length > 0 ? (
-          <FeautredShops featuredShops={featuredShops} />
+        {this.state.loading ? (
+          <ClipLoader
+            css={override}
+            size={100}
+            color={"#123abc"}
+            loading={this.state.loading}
+          />
         ) : null}
+        {/* <StyledCover imgurl={appInfo.coverPhoto1}></StyledCover> */}
 
-        <AddressAskSection>
-          <AddressAskContent>
-            To find customized result, please add your address.
-          </AddressAskContent>
-          <AddressButton>Button</AddressButton>
-        </AddressAskSection>
+        <SVGWrap>
+          <TopPic />
+        </SVGWrap>
+        {/* <Svgs> */}
+        <Wave />
+        <Card>
+          Local Dukans helps your locality comes online! To find your local
+          shops, please add your address.{" "}
+          <StyledButton>Add Address</StyledButton>
+        </Card>
+        {/* </Svgs> */}
+
+        {/* {featuredShops.length > 0 ? (
+          <FeautredShops featuredShops={featuredShops} />
+        ) : null} */}
         <CardTitle>Localities</CardTitle>
         <Localities />
       </>

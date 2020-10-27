@@ -21,7 +21,7 @@ export const TitleShops = styled.h1`
   color: #333333;
   font-size: 30px;
   font-weight: 800;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   margin-top: 3rem;
   text-shadow: rgba(black, 0.5) 0 10px 10px;
 `;
@@ -109,19 +109,19 @@ class Locality extends Component {
                     <CardTitle>{placeDetail.name}</CardTitle>
                   </CardInfo>
                 </StyledCover>
-                <div>
-                  {placeDetail.offer_message !== "" ? (
+                {/* <div> */}
+                {/* {placeDetail.offer_message !== "" ? (
                     <Offer message={placeDetail.offer_message} />
                   ) : null}
                   {placeDetail.shipping_message !== "" ? (
                     <Shipping message={placeDetail.shipping_message} />
-                  ) : null}
-                </div>
+                  ) : null} */}
+                {/* </div> */}
               </>
             )}
-            {featuredShops.length > 0 ? (
+            {/* {featuredShops.length > 0 ? (
               <FeautredShopList featuredShops={featuredShops} />
-            ) : null}
+            ) : null} */}
 
             {shops.length > 0 ? (
               <>

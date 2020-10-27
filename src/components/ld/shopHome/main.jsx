@@ -6,12 +6,14 @@ import Jumbotron from "react-bootstrap/Jumbotron";
 import Offer from "./offer";
 import axios from "axios";
 import { fetchCart } from "../../../actions/cart";
-
 import Shipping from "./shipping";
 import Trending from "./trending";
 import ProductList from "./product-list";
-import ShopImage from "./shopImage";
+// import ShopImage from "./shopImage";
 import Productcategory from "../products/productCategory";
+import { CardInfo, CardTitle, StyledCover } from "../styled/jumbotron";
+import { css } from "@emotion/core";
+import ClipLoader from "react-spinners/ClipLoader";
 
 import {
   ShopProductListInfinitURL,
@@ -19,6 +21,12 @@ import {
   ShopDetailURL,
   ShopProductCategoryForCustomerURL
 } from "../../../constants";
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
 class Shop extends Component {
   state = {
@@ -161,6 +169,7 @@ class Shop extends Component {
 
   render() {
     const {
+      loading,
       products,
       featuredProducts,
       ShopDetail,
@@ -170,44 +179,45 @@ class Shop extends Component {
       data
     } = this.state;
 
-    console.log(products);
+    console.log(loading);
+
     return (
       <div>
-        <Helmet>
-          <title>Local Dukans</title>
-        </Helmet>
-
-        {this.state.loading && <div className="loading-cls"></div>}
-
-        {/* <section className="ratio_asos metro-section portfolio-section ">
-          {ShopDetail && <ShopImage ShopDetail={ShopDetail} />}
-        </section> */}
-
+        <ClipLoader
+          css={override}
+          size={50}
+          color={"#123abc"}
+          loading={this.state.loading}
+        />
         {ShopDetail && (
           <div>
-            {ShopDetail.is_active ? (
-              <div>
-                {ShopDetail.is_accepting_orders ? (
-                  <div>
-                    {/* <Shipping /> */}
-                    {ShopDetail && (
-                      <div>
-                        {ShopDetail.shipping_message !== "" ? (
-                          <Shipping message={ShopDetail.shipping_message} />
-                        ) : null}
-                        {ShopDetail.offer_message !== "" ? (
-                          <Offer message={ShopDetail.offer_message} />
-                        ) : null}
-                      </div>
-                    )}
-                    {featuredProducts.length > 0 ? (
-                      <Trending
-                        fProducts={featuredProducts}
-                        loading={this.state.loading}
-                        ShopDetail={ShopDetail}
-                      />
-                    ) : null}
-                    {/* {ShopProductCategory.length > 1 ? (
+            <StyledCover imgurl={ShopDetail.image}>
+              <CardInfo>
+                <CardTitle>{ShopDetail.name}</CardTitle>
+              </CardInfo>
+            </StyledCover>
+            <div>
+              {ShopDetail.is_accepting_orders ? (
+                <div>
+                  {/* <Shipping /> */}
+                  {/* {ShopDetail && (
+                    <div>
+                      {ShopDetail.shipping_message !== "" ? (
+                        <Shipping message={ShopDetail.shipping_message} />
+                      ) : null}
+                      {ShopDetail.offer_message !== "" ? (
+                        <Offer message={ShopDetail.offer_message} />
+                      ) : null}
+                    </div>
+                  )} */}
+                  {/* {featuredProducts.length > 0 ? (
+                    <Trending
+                      fProducts={featuredProducts}
+                      loading={this.state.loading}
+                      ShopDetail={ShopDetail}
+                    />
+                  ) : null} */}
+                  {/* {ShopProductCategory.length > 1 ? (
                       <Productcategory
                         handleClearCategory={this.handleClearCategory}
                         handleChangeCategory={this.handleChangeCategory}
@@ -215,31 +225,25 @@ class Shop extends Component {
                         ShopDetail={ShopDetail}
                       />
                     ) : null} */}
-                    {/* <Search /> */}
-                    {products && (
-                      <ProductList
-                        loading={this.state.loading}
-                        fetchProducts={this.fetchProducts}
-                        hasmore={this.state.hasMore}
-                        products={products}
-                        SelectedCategory={this.state.SelectedCategory}
-                        ShopDetail={ShopDetail}
-                      />
-                    )}
-                  </div>
-                ) : (
-                  <Jumbotron>
-                    <h4>We are not accepting orders now</h4>
-                    <p>please check back later</p>
-                  </Jumbotron>
-                )}
-              </div>
-            ) : (
-              <Jumbotron>
-                <h4>This shop is currently not active</h4>
-                <p>please check back later</p>
-              </Jumbotron>
-            )}
+                  {/* <Search /> */}
+                  {products && (
+                    <ProductList
+                      loading={this.state.loading}
+                      fetchProducts={this.fetchProducts}
+                      hasmore={this.state.hasMore}
+                      products={products}
+                      SelectedCategory={this.state.SelectedCategory}
+                      ShopDetail={ShopDetail}
+                    />
+                  )}
+                </div>
+              ) : (
+                <Jumbotron>
+                  <h4>We are not accepting orders now</h4>
+                  <p>please check back later</p>
+                </Jumbotron>
+              )}
+            </div>
           </div>
         )}
       </div>

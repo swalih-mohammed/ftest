@@ -5,7 +5,7 @@ import { authAxios } from "../../../authAxios";
 import { ToastContainer, toast } from "react-toastify";
 import { Card, CardInfo, CardTitle } from "../styled/jumbotron";
 
-class ProductStyleFour extends Component {
+class ShopItem extends Component {
   addToWishList = shop => {
     this.setState({ loading: true });
     authAxios
@@ -28,7 +28,7 @@ class ProductStyleFour extends Component {
   };
   render() {
     const { shop } = this.props;
-    console.log(shop);
+    // console.log(shop);
 
     return (
       <>
@@ -44,4 +44,4 @@ class ProductStyleFour extends Component {
   }
 }
 
-export default ProductStyleFour;
+export default ShopItem;

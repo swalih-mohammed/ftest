@@ -24,7 +24,7 @@ export const Card = styled.div`
   background-color: #333;
   background-image: url(${props => props.imgurl});
   background-size: cover;
-  margin: 2rem 1rem;
+  margin: 0 5px 30px 5px;
   border-radius: 10px;
   box-shadow: rgba(black, 0.66) 0 30px 60px 0, inset #333 0 0 0 5px,
     inset rgba(white, 0.5) 0 0 0 6px;

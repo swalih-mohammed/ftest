@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import "../../common/index.scss";
-import Slider from "react-slick";
-import { Link } from "react-router-dom";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import Slider from "react-slick";
+// import { Link } from "react-router-dom";
+// import { faHeart } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AddToFavoriteShopsURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { ToastContainer, toast } from "react-toastify";
 import ShopItem from "./shop-item";
-import { Row, Col } from "react-bootstrap";
-import { placeListURL } from "../../../constants";
+// import { Row, Col } from "react-bootstrap";
+// import { placeListURL } from "../../../constants";
 import styled from "styled-components";
 
 const ShopListSection = styled.div`

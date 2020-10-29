@@ -12,8 +12,7 @@ import ProductList from "./product-list";
 // import ShopImage from "./shopImage";
 import Productcategory from "../products/productCategory";
 import { CardInfo, CardTitle, StyledCover } from "../styled/jumbotron";
-import { css } from "@emotion/core";
-import ClipLoader from "react-spinners/ClipLoader";
+import Loader from "../common/loader";
 
 import {
   ShopProductListInfinitURL,
@@ -22,15 +21,13 @@ import {
   ShopProductCategoryForCustomerURL
 } from "../../../constants";
 
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: red;
-`;
-
 class Shop extends Component {
   state = {
     loading: false,
+    loadingShopDetails: false,
+    loadingProducts: false,
+    loadingProductsLoadMore: false,
+    loadingProducts: false,
     error: null,
     products: [],
     featuredProducts: [],
@@ -46,24 +43,25 @@ class Shop extends Component {
   };
 
   componentDidMount() {
-    document.getElementById("color").setAttribute("href", `#`);
-    this.fetchProducts();
-    this.fetchfeaturedProducts();
+    // document.getElementById("color").setAttribute("href", `#`);
     this.fetchShopDetails();
-    this.fetchProductCategory();
+    this.fetchProducts();
+    // this.fetchFreshProducts();
+    // this.fetchfeaturedProducts();
+    // this.fetchProductCategory();
     // this.props.refreshCart();
   }
 
   handleChangeCategory = cat => {
     this.setState({ offset: 0, query: cat, hasMore: true }, () => {
-      this.fetchFreshProducts();
+      this.fetchProducts();
     });
   };
 
   handleClearCategory = () => {
     // window.scrollTo(0, 1300);
     this.setState({ offset: 0, query: "all", hasMore: true }, () => {
-      this.fetchFreshProducts();
+      this.fetchProducts();
     });
   };
 
@@ -71,7 +69,37 @@ class Shop extends Component {
     const {
       match: { params }
     } = this.props;
-    this.setState({ loading: true });
+    this.setState({ loadingProducts: true });
+    const { limit, offset, query } = this.state;
+    const shopID = params.shopID;
+    if (limit != null && offset != null && query != null) {
+      axios
+        .get(
+          ShopProductListInfinitURL +
+            `?limit=${limit}&offset=${offset}&query=${query}&shopID=${shopID}`
+        )
+        .then(res => {
+          this.setState({
+            data: res.data,
+            loadingProducts: false,
+            hasMore: res.data.has_more,
+            products: res.data.products,
+            offset: offset + limit
+          });
+        })
+        .catch(err => {
+          this.setState({ error: err, loadingProducts: false });
+        });
+    }
+  };
+
+  fetchMore = () => {
+    // console.log("test");
+    const {
+      match: { params }
+    } = this.props;
+    this.setState({ loadingProductsLoadMore: true });
+    // console.log(this.state.loading);
     const { limit, offset, query } = this.state;
     const shopID = params.shopID;
     // console.log(offset);
@@ -85,39 +113,13 @@ class Shop extends Component {
         const hasMore = res.data.has_more;
         this.setState({
           hasMore: hasMore,
-          loading: false,
+          loadingProductsLoadMore: false,
           products: [...this.state.products, ...newProducts],
           offset: offset + limit
         });
       })
       .catch(err => {
-        this.setState({ error: err, loading: false });
-      });
-  };
-
-  fetchFreshProducts = () => {
-    const {
-      match: { params }
-    } = this.props;
-    this.setState({ loading: true });
-    const { limit, offset, query } = this.state;
-    const shopID = params.shopID;
-    axios
-      .get(
-        ShopProductListInfinitURL +
-          `?limit=${limit}&offset=${offset}&query=${query}&shopID=${shopID}`
-      )
-      .then(res => {
-        this.setState({
-          data: res.data,
-          loading: false,
-          hasMore: res.data.has_more,
-          products: res.data.products,
-          offset: offset + limit
-        });
-      })
-      .catch(err => {
-        this.setState({ error: err, loading: false });
+        this.setState({ error: err, loadingProductsLoadMore: false });
       });
   };
 
@@ -125,14 +127,14 @@ class Shop extends Component {
     const {
       match: { params }
     } = this.props;
-    this.setState({ loading: true });
+    this.setState({ loadingShopDetails: true });
     axios
       .get(ShopDetailURL(params.shopID))
       .then(res => {
-        this.setState({ ShopDetail: res.data, loading: false });
+        this.setState({ ShopDetail: res.data, loadingShopDetails: false });
       })
       .catch(err => {
-        this.setState({ error: err, loading: false });
+        this.setState({ error: err, loadingShopDetails: false });
       });
   };
 
@@ -176,26 +178,28 @@ class Shop extends Component {
       ShopProductCategory,
       filteredProduct,
       hasMore,
-      data
+      data,
+      SelectedCategory
     } = this.state;
 
-    console.log(loading);
+    // console.log(this.state.loadingProductsLoadMore);
+    // console.log("test main");
 
     return (
       <div>
-        <ClipLoader
-          css={override}
-          size={50}
-          color={"#123abc"}
-          loading={this.state.loading}
-        />
+        {/* {this.state.loading ? <Loader loading={loading} /> : null} */}
         {ShopDetail && (
           <div>
-            <StyledCover imgurl={ShopDetail.image}>
-              <CardInfo>
-                <CardTitle>{ShopDetail.name}</CardTitle>
-              </CardInfo>
-            </StyledCover>
+            {this.state.loadingShopDetails ? (
+              <Loader loading={loading} />
+            ) : (
+              <StyledCover imgurl={ShopDetail.image}>
+                <CardInfo>
+                  <CardTitle>{ShopDetail.name}</CardTitle>
+                </CardInfo>
+              </StyledCover>
+            )}
+
             <div>
               {ShopDetail.is_accepting_orders ? (
                 <div>
@@ -228,11 +232,15 @@ class Shop extends Component {
                   {/* <Search /> */}
                   {products && (
                     <ProductList
-                      loading={this.state.loading}
-                      fetchProducts={this.fetchProducts}
-                      hasmore={this.state.hasMore}
+                      loading={loading}
+                      loadingProducts={this.state.loadingProducts}
+                      loadingProductsLoadMore={
+                        this.state.loadingProductsLoadMore
+                      }
+                      hasmore={hasMore}
                       products={products}
-                      SelectedCategory={this.state.SelectedCategory}
+                      fetchProducts={this.fetchMore}
+                      SelectedCategory={SelectedCategory}
                       ShopDetail={ShopDetail}
                     />
                   )}

@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Locality from "./locality-item";
 import { placeListURL } from "../../../constants";
 import styled from "styled-components";
+import Loader from "../common/loader";
 
 const LocalityListSection = styled.div`
   display: flex;
@@ -14,6 +15,30 @@ const LocalityListSection = styled.div`
   flex-wrap: wrap;
   margin: 5px;
   padding-top: 20px;
+`;
+
+const LoaderWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  position: absolute;
+  /* top: 0; */
+  left: 0;
+  /* bottom: 0; */
+  right: 0;
+`;
+
+export const CardTitle = styled.h1`
+  display: flex;
+  justify-content: center;
+  font-family: "Playfair Display";
+  color: #333333;
+  font-size: 30px;
+  font-weight: 800;
+  /* margin-bottom: 3rem; */
+  /* margin-top: 3rem; */
+  text-shadow: rgba(black, 0.5) 0 10px 10px;
 `;
 
 class LocalityList extends React.PureComponent {
@@ -117,6 +142,12 @@ class LocalityList extends React.PureComponent {
 
     return (
       <>
+        <CardTitle>Localities</CardTitle>
+        {this.state.loading ? (
+          <LoaderWrap>
+            <Loader loading={true} />
+          </LoaderWrap>
+        ) : null}
         {localities && (
           <>
             <LocalityListSection>

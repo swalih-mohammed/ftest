@@ -79,7 +79,7 @@ const SideBar = props => {
     window.location.reload();
   };
   const isOpen = props.open;
-  console.log(props.user);
+  // console.log(props.user);
   return (
     <>
       <StyledSideNav isOpen={isOpen}>

@@ -18,6 +18,7 @@ import styled from "styled-components";
 const ProductCard = styled.div`
   display: flex;
   border: 1px solid transparent;
+  background-color: #f8f9fa;
   /* max-width: 325px; */
   width: 350;
   height: 200px;
@@ -176,7 +177,7 @@ class ProductStyleNine extends Component {
       ShopDetail
     } = this.props;
     const { isAdding } = this.state;
-    // console.log(product);
+    // console.log(loading);
 
     return (
       <>

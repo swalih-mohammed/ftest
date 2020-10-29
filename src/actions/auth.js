@@ -40,7 +40,7 @@ export const userProfile = () => {
 };
 
 export const logout = () => {
-  console.log("loging out");
+  // console.log("loging out");
   localStorage.removeItem("token");
   localStorage.removeItem("expirationDate");
   return {

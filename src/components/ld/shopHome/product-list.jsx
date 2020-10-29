@@ -14,14 +14,7 @@ import ProductItem from "./product-list-item";
 // import axios from "axios";
 // import { ShopProductListURL } from "../../../constants";
 import styled from "styled-components";
-import { css } from "@emotion/core";
-import ClipLoader from "react-spinners/ClipLoader";
-
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: red;
-`;
+import Loader from "../common/loader";
 
 const GridRow = styled.div`
   display: flex;
@@ -29,6 +22,21 @@ const GridRow = styled.div`
   flex-wrap: wrap;
   /* margin: 10px auto; */
   padding-top: 30px;
+`;
+
+const LoadMore = styled.div`
+  background-color: #ff5722;
+  color: #343a40 !important;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 20px;
+  margin: 50px 0;
+  display: inline-block;
+  &:hover {
+    background-color: #fff;
+    color: #ff5722 !important;
+    text-decoration: none;
+  }
 `;
 
 const CardTitle = styled.h1`
@@ -45,14 +53,16 @@ const CardTitle = styled.h1`
 
 class ProductList extends Component {
   render() {
-    const { products, loading, ShopDetail } = this.props;
-    console.log(loading);
+    const { products, loading, ShopDetail, hasmore } = this.props;
+    // console.log(this.props.loadingProductsLoadMore);
 
     return (
       <>
         <>
           <CardTitle>Products</CardTitle>
+
           <GridRow>
+            {this.props.loadingProducts ? <Loader loading={true} /> : null}
             {products.map(product => {
               const variations = product.variations;
               const defaultOption = product.variations[0];
@@ -67,31 +77,26 @@ class ProductList extends Component {
                 />
               );
             })}
+
+            {this.props.loadingProducts ? null : (
+              <>
+                {this.props.hasmore ? (
+                  <>
+                    {this.props.loadingProductsLoadMore ? (
+                      <Loader loading={true} />
+                    ) : (
+                      <LoadMore onClick={this.props.fetchProducts}>
+                        Load more
+                      </LoadMore>
+                    )}
+                  </>
+                ) : (
+                  <LoadMore>No more products to show</LoadMore>
+                )}
+              </>
+            )}
           </GridRow>
         </>
-
-        {this.props.loading ? (
-          <>
-            <ClipLoader
-              css={override}
-              size={50}
-              color={"#123abc"}
-              loading={this.props.loading}
-            />
-          </>
-        ) : (
-          <>
-            {this.props.hasmore ? (
-              <p onClick={this.props.fetchProducts}>
-                <b>Load More</b>
-              </p>
-            ) : (
-              <p>
-                <b>No more products</b>
-              </p>
-            )}
-          </>
-        )}
       </>
     );
   }

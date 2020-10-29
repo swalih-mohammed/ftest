@@ -8,14 +8,7 @@ import FeautredShops from "./featuredShops";
 import TopPic from "./topPic";
 import Wave from "./waive";
 import styled from "styled-components";
-import { css } from "@emotion/core";
-import ClipLoader from "react-spinners/ClipLoader";
-
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: red;
-`;
+import Loader from "../common/loader";
 
 const StyledCover = styled.div`
   height: 40vh;
@@ -205,32 +198,27 @@ class Homepage extends Component {
     return (
       <>
         {this.state.loading ? (
-          <ClipLoader
-            css={override}
-            size={100}
-            color={"#123abc"}
-            loading={this.state.loading}
-          />
-        ) : null}
-        {/* <StyledCover imgurl={appInfo.coverPhoto1}></StyledCover> */}
-
-        <SVGWrap>
-          <TopPic />
-        </SVGWrap>
-        {/* <Svgs> */}
-        <Wave />
-        <Card>
-          Local Dukans helps your locality comes online! To find your local
-          shops, please add your address.{" "}
-          <StyledButton>Add Address</StyledButton>
-        </Card>
-        {/* </Svgs> */}
-
-        {/* {featuredShops.length > 0 ? (
+          <Loader loading={true} />
+        ) : (
+          <>
+            <SVGWrap>
+              <TopPic />
+            </SVGWrap>
+            {/* <Svgs> */}
+            <Wave />
+            <Card>
+              Local Dukans helps your locality comes online! To find your local
+              shops, please add your address.{" "}
+              <StyledButton>Add Address</StyledButton>
+            </Card>
+            {/* </Svgs> */}
+            {/* {featuredShops.length > 0 ? (
           <FeautredShops featuredShops={featuredShops} />
         ) : null} */}
-        <CardTitle>Localities</CardTitle>
-        <Localities />
+
+            <Localities />
+          </>
+        )}
       </>
     );
   }

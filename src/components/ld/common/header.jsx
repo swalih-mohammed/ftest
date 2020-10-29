@@ -78,11 +78,11 @@ class Header extends Component {
     };
   }
 
-  componentDidMount() {
-    setTimeout(function() {
-      document.querySelector(".loader-wrapper").style = "display: none";
-    }, 2000);
-  }
+  // componentDidMount() {
+  //   setTimeout(function() {
+  //     document.querySelector(".loader-wrapper").style = "display: none";
+  //   }, 2000);
+  // }
 
   openSidebar = () => {
     this.setState({ sideBarIsOpen: true });
@@ -102,7 +102,7 @@ class Header extends Component {
   }
 
   render() {
-    console.log(this.state.sideBarIsOpen);
+    // console.log(this.state.sideBarIsOpen);
     // console.log("testing");
     const cart = this.props.cart;
     return (

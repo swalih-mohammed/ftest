@@ -7,6 +7,8 @@ import Offer from "./offer";
 import FeautredShopList from "./featured-shop-list";
 import ShopList from "./shop-list";
 import styled from "styled-components";
+import Loader from "../common/loader";
+
 import {
   placeShopListURL,
   feautredShopsInPlaceURL,
@@ -43,10 +45,10 @@ class Locality extends Component {
     placeDetail: null
   };
   componentDidMount() {
-    document.getElementById("color").setAttribute("href", `#`);
-    this.fetchShopList();
-    this.fetchFeaturedShops();
+    // document.getElementById("color").setAttribute("href", `#`);
     this.fetchPlaceDetail();
+    this.fetchShopList();
+    // this.fetchFeaturedShops();
   }
 
   fetchShopList = () => {
@@ -94,12 +96,12 @@ class Locality extends Component {
   };
 
   render() {
-    const { featuredShops, placeDetail, shops } = this.state;
-    console.log(placeDetail);
+    const { featuredShops, placeDetail, shops, loading } = this.state;
+    // console.log(placeDetail);
     return (
       <div>
         {this.state.loading ? (
-          <div className="loading-cls"></div>
+          <Loader loading={true} />
         ) : (
           <React.Fragment>
             {placeDetail && (

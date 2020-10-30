@@ -3,150 +3,72 @@ import { connect } from "react-redux";
 import { fetchUser } from "../../../actions/user";
 import styled from "styled-components";
 import { authLogin } from "../../../actions/auth";
-import { Form } from "react-bootstrap";
+// import { Form } from "react-bootstrap";
 import { Formik, ErrorMessage } from "formik";
 import { Redirect, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import * as Yup from "yup";
 
-const CONTAINER = styled.div`
-  background: #f7f9fa;
-  height: 500px;
-  width: 95%;
-  margin: 50px auto;
-  color: snow;
-  border: 1px solid #ccc;
-  box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
-
-  @media (min-width: 786px) {
-    width: 60%;
-  }
-  @media (min-width: 320px) {
-    width: 95%;
-  }
-
-  label {
-    color: #24b9b6;
-    font-size: 1.2em;
-    font-weight: 400;
-  }
-
-  h1 {
-    color: #24b9b6;
-    padding-top: 0.5em;
-  }
-
-  .form-group {
-    margin-bottom: 2.5em;
-  }
-
-  .error {
-    border: 2px solid #ff6565;
-  }
-
-  .error-message {
-    color: #ff6565;
-    padding: 0.5em 0.2em;
-    height: 1em;
-    position: absolute;
-    font-size: 0.8em;
-  }
-`;
-
 const SignupWrapper = styled.div`
   margin: 10px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-const SignupContainer = styled.div`
-  margin-top: 30px;
-
-  display: flex;
-  flex-direction: column;
-
-  margin: 20px auto;
-
-  .outline-auto {
-    background-color: #dc3545;
-    outline: 50px auto lavender;
-  }
+  width: 90%;
 `;
 
-const MYFORM = styled(Form)`
-  width: 95%;
-  text-align: left;
-  padding-top: 2em;
-  padding-bottom: 2em;
-  flex-direction: column;
+const Form = styled.form`
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
   display: flex;
-  /* justify-content: center; */
+  flex-direction: column;
   align-items: center;
-  @media (min-width: 786px) {
-    width: 50%;
-  }
-  @media (min-width: 320px) {
-    width: 100%;
-  }
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+`;
+
+const StyledInput = styled.input`
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  position: relative;
+  width: 100%;
+  border: 0;
+  /* margin: 0 0 15px; */
+  margin: 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+`;
+const ErrorMsg = styled.div`
+  color: #ff6565;
+  /* padding: 1em; */
+  height: 1em;
+  position: absolute;
+  font-size: 0.8em;
+  margin: -18 0 5px 0;
 `;
 
 const Button = styled.button`
-  margin-top: 5px;
-  width: 200px;
-  border: 1px solid #ff5722;
-  background: #fff;
-  padding: 7px 14px;
-  color: #ff5722;
-  border-radius: 50px;
-  cursor: pointer;
-  font-size: 0.7rem;
+  font-family: "Roboto", sans-serif;
   text-transform: uppercase;
-  &:hover {
-    /* width: auto; */
-    background: #ff5722;
-    color: #fff;
-    padding: 7px 14px;
-    cursor: pointer;
-  }
-`;
-
-const ForgotButton = styled.button`
-  margin-top: 50px;
-  width: 200px;
-  border: 1px solid #ff5722;
-  background: #fff;
-  padding: 7px 14px;
-  color: #ff5722;
-  border-radius: 50px;
+  outline: 0;
+  background: #ff5722;
+  width: 90%;
+  border: 0;
+  padding: 15px;
+  color: #ffffff;
+  font-size: 14px;
+  margin-top: 20px;
+  margin-bottom: 35px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
   cursor: pointer;
-  font-size: 0.7rem;
-  text-transform: uppercase;
   &:hover {
-    /* width: auto; */
     background: #ff5722;
-    color: #fff;
-    padding: 7px 14px;
-    cursor: pointer;
-  }
-`;
-
-const RegisterButton = styled.button`
-  margin-top: 25px;
-  width: 100px;
-  border: 1px solid #ff5722;
-  background: #fff;
-  padding: 7px 14px;
-  color: #ff5722;
-  border-radius: 50px;
-  cursor: pointer;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  &:hover {
-    /* width: auto; */
-    background: #ff5722;
-    color: #fff;
-    padding: 7px 14px;
-    cursor: pointer;
+    color: #ffffff;
   }
 `;
 
@@ -165,7 +87,8 @@ const Login = props => {
     return <Redirect to="/" />;
   }
   return (
-    <CONTAINER>
+    <>
+      {/* <CONTAINER> */}
       <Formik
         initialValues={{ username: "", password: "" }}
         validationSchema={LoginValidation}
@@ -189,10 +112,11 @@ const Login = props => {
           handleSubmit,
           isSubmitting
         }) => (
-          <MYFORM onSubmit={handleSubmit} className="mx-auto">
-            <Form.Group controlId="username">
-              {/* <Form.Label>User Name :</Form.Label> */}
-              <Form.Control
+          <>
+            <Form onSubmit={handleSubmit} className="mx-auto">
+              {/* <Form.Group controlId="username"> */}
+              {/* <Form.Control */}
+              <StyledInput
                 type="text"
                 name="username"
                 placeholder="User Name"
@@ -200,14 +124,15 @@ const Login = props => {
                 onBlur={handleBlur}
                 value={values.username}
                 className={touched.username && errors.username ? "error" : null}
-              />
+              ></StyledInput>
+
               {touched.username && errors.username ? (
-                <div className="error-message">{errors.username}</div>
+                <ErrorMsg className="error-message">{errors.username}</ErrorMsg>
               ) : null}
-            </Form.Group>
-            <Form.Group controlId="password">
-              {/* <Form.Label>Password :</Form.Label> */}
-              <Form.Control
+              {/* </Form.Group> */}
+              {/* <Form.Group controlId="password"> */}
+              {/* <Form.Control */}
+              <StyledInput
                 type="password"
                 name="password"
                 placeholder="Password"
@@ -215,30 +140,30 @@ const Login = props => {
                 onBlur={handleBlur}
                 value={values.password}
                 className={touched.password && errors.password ? "error" : null}
-              />
+              ></StyledInput>
+
+              {/* /> */}
               {touched.password && errors.password ? (
-                <div className="error-message">{errors.password}</div>
+                <ErrorMsg className="error-message">{errors.password}</ErrorMsg>
               ) : null}
-            </Form.Group>
-            <Button type="submit" disabled={isSubmitting}>
-              Login
-            </Button>
-            <br></br>
-            <Link to="/reset-password">
-              <ForgotButton type="submit">Forgot password</ForgotButton>
-            </Link>
-            <SignupWrapper>
-              <SignupContainer>
-                <p> Dont have an account?</p>
-                <Link to="/reset-password">
-                  <RegisterButton type="submit">Register</RegisterButton>
+              {/* </Form.Group> */}
+              <Button type="submit" disabled={isSubmitting}>
+                Login
+              </Button>
+              <SignupWrapper>
+                <Link style={{ marginRight: "auto" }} to="/register">
+                  <h6>Register</h6>
                 </Link>
-              </SignupContainer>
-            </SignupWrapper>
-          </MYFORM>
+                <Link to="/reset-password">
+                  <h6>Forgot password?</h6>
+                </Link>
+              </SignupWrapper>
+            </Form>
+          </>
         )}
       </Formik>
-    </CONTAINER>
+      {/* </CONTAINER> */}
+    </>
   );
 };
 

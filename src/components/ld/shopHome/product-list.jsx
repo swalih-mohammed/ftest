@@ -14,7 +14,7 @@ import ProductItem from "./product-list-item";
 // import axios from "axios";
 // import { ShopProductListURL } from "../../../constants";
 import styled from "styled-components";
-import Loader from "../common/loader";
+import { Loader } from "../common/loader";
 
 const GridRow = styled.div`
   display: flex;

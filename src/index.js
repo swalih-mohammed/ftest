@@ -24,7 +24,7 @@ import store from "./store";
 //common///////////////////
 
 import GlobalStyle from "./globalStyles";
-import Loader from "./components/ld/common/loader";
+import { PageLoader } from "./components/ld/common/loader";
 import Layout from "./components/app";
 
 // home
@@ -155,7 +155,7 @@ class Root extends React.Component {
         {/* <IntlProvider translations={translations} locale="en"> */}
         <BrowserRouter basename={"/"}>
           <ScrollContext>
-            <Suspense fallback={<Loader />}>
+            <Suspense fallback={<PageLoader />}>
               <GlobalStyle />
               <Switch>
                 <Layout>

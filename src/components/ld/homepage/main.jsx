@@ -8,7 +8,7 @@ import FeautredShops from "./featuredShops";
 import TopPic from "./topPic";
 import Wave from "./waive";
 import styled from "styled-components";
-import Loader from "../common/loader";
+import { PageLoader } from "../common/loader";
 
 const StyledCover = styled.div`
   height: 40vh;
@@ -198,7 +198,7 @@ class Homepage extends Component {
     return (
       <>
         {this.state.loading ? (
-          <Loader loading={true} />
+          <PageLoader loading={true} />
         ) : (
           <>
             <SVGWrap>

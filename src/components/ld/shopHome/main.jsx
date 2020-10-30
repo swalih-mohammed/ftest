@@ -12,7 +12,7 @@ import ProductList from "./product-list";
 // import ShopImage from "./shopImage";
 import Productcategory from "../products/productCategory";
 import { CardInfo, CardTitle, StyledCover } from "../styled/jumbotron";
-import Loader from "../common/loader";
+import { PageLoader } from "../common/loader";
 
 import {
   ShopProductListInfinitURL,
@@ -191,7 +191,7 @@ class Shop extends Component {
         {ShopDetail && (
           <div>
             {this.state.loadingShopDetails ? (
-              <Loader loading={loading} />
+              <PageLoader loading={loading} />
             ) : (
               <StyledCover imgurl={ShopDetail.image}>
                 <CardInfo>

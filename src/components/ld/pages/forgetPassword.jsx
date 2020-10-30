@@ -7,50 +7,49 @@ import { Redirect } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import styled from "styled-components";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  /* background: #f7f9fa; */
-  height: 250px;
-  width: 95%;
-  margin: 50px auto;
-  color: snow;
-  border: 1px solid #ccc;
-  box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
-
-  @media (min-width: 786px) {
-    width: 60%;
-  }
-  @media (min-width: 320px) {
-    width: 95%;
-  }
-`;
-
 const SignupWrapper = styled.div`
   margin: 25px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  padding-top: 15px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 `;
+
 const Button = styled.button`
-  margin-top: 5px;
-  width: 200px;
-  border: 1px solid #ff5722;
-  background: #fff;
-  padding: 7px 14px;
-  color: #ff5722;
-  border-radius: 50px;
-  cursor: pointer;
-  font-size: 0.7rem;
+  font-family: "Roboto", sans-serif;
   text-transform: uppercase;
+  outline: 0;
+  background: #ff5722;
+  width: 90%;
+  border: 0;
+  padding: 15px;
+  color: #ffffff;
+  font-size: 14px;
+  margin-top: 20px;
+  margin-bottom: 35px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
   &:hover {
-    /* width: auto; */
-    background: #ff5722;
-    color: #fff;
-    padding: 7px 14px;
-    cursor: pointer;
+    background: #43a047;
   }
+`;
+
+const StyledInput = styled.input`
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  /* position: relative; */
+  /* width: 100%; */
+  border: 0;
+  /* margin: 0 0 15px; */
+  /* margin: 15px; */
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
 `;
 class ForgetPassword extends Component {
   state = {
@@ -96,25 +95,27 @@ class ForgetPassword extends Component {
     }
     return (
       <>
-        <Container>
-          <SignupWrapper>
-            <h5>Forgot Your Password?</h5>
-            <form className="theme-form">
-              <Form.Group controlId="username">
-                <Form.Control
-                  name="email"
-                  type="text"
-                  id="email"
-                  placeholder="Enter Your Email"
-                  required=""
-                  value={this.state.email}
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-              <Button onClick={this.resetPassword}>submit</Button>
-            </form>
-          </SignupWrapper>
-        </Container>
+        {/* <Container> */}
+        <SignupWrapper>
+          <h5>Forgot Your Password?</h5>
+          <form className="theme-form">
+            {/* <Form.Control */}
+            <StyledInput
+              name="email"
+              type="text"
+              id="email"
+              placeholder="Enter Your Email"
+              required=""
+              value={this.state.email}
+              onChange={this.handleChange}
+            ></StyledInput>
+
+            {/* /> */}
+            {/* </Form.Group> */}
+          </form>
+          <Button onClick={this.resetPassword}>submit</Button>
+        </SignupWrapper>
+        {/* </Container> */}
       </>
     );
   }

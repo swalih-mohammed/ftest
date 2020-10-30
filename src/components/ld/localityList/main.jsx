@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Locality from "./locality-item";
 import { placeListURL } from "../../../constants";
 import styled from "styled-components";
-import Loader from "../common/loader";
+import { PageLoader } from "../common/loader";
 
 const LocalityListSection = styled.div`
   display: flex;
@@ -145,7 +145,7 @@ class LocalityList extends React.PureComponent {
         <CardTitle>Localities</CardTitle>
         {this.state.loading ? (
           <LoaderWrap>
-            <Loader loading={true} />
+            <PageLoader loading={true} />
           </LoaderWrap>
         ) : null}
         {localities && (

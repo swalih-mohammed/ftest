@@ -7,7 +7,7 @@ import Offer from "./offer";
 import FeautredShopList from "./featured-shop-list";
 import ShopList from "./shop-list";
 import styled from "styled-components";
-import Loader from "../common/loader";
+import { PageLoader, Loader } from "../common/loader";
 
 import {
   placeShopListURL,
@@ -39,6 +39,7 @@ const ShopListSection = styled.div`
 class Locality extends Component {
   state = {
     loading: false,
+    shopsLoading: false,
     error: null,
     shops: [],
     featuredShops: [],
@@ -101,7 +102,7 @@ class Locality extends Component {
     return (
       <div>
         {this.state.loading ? (
-          <Loader loading={true} />
+          <PageLoader loading={true} />
         ) : (
           <React.Fragment>
             {placeDetail && (
@@ -128,6 +129,7 @@ class Locality extends Component {
             {shops.length > 0 ? (
               <>
                 <TitleShops>Shops</TitleShops>
+                {this.shopsLoading ? <Loader loading={true} /> : null}
                 <ShopListSection>
                   <ShopList shops={shops} />
                 </ShopListSection>

@@ -101,7 +101,7 @@ const SideBar = props => {
                 Address
               </StyledNavItem>
 
-              {props.user.user.is_shop_owner ? (
+              {props.user.is_shop_owner ? (
                 <StyledNavItem to="/shop-dashboard" onClick={props.close}>
                   My Shop
                 </StyledNavItem>

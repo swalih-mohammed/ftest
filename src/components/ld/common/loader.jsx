@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { css } from "@emotion/core";
 import BeatLoader from "react-spinners/BeatLoader";
 import styled from "styled-components";
@@ -8,7 +8,7 @@ const override = css`
   border-color: red;
 `;
 
-const LoaderWrap = styled.div`
+const PageLoaderWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,17 +19,45 @@ const LoaderWrap = styled.div`
   bottom: 0;
   right: 0;
 `;
+const LoaderWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  position: absolute;
+  /* top: 0; */
+  left: 0;
+  /* bottom: 0; */
+  right: 0;
+`;
 
-function Loader(props) {
-  return (
-    <LoaderWrap>
-      <BeatLoader
-        css={override}
-        size={20}
-        color={"#ff5722"}
-        loading={props.loading}
-      />
-    </LoaderWrap>
-  );
+class PageLoader extends Component {
+  render() {
+    return (
+      <PageLoaderWrap>
+        <BeatLoader
+          css={override}
+          size={20}
+          color={"#ff5722"}
+          loading={this.props.loading}
+        />
+      </PageLoaderWrap>
+    );
+  }
 }
-export default Loader;
+
+class Loader extends Component {
+  render() {
+    return (
+      <LoaderWrap>
+        <BeatLoader
+          css={override}
+          size={20}
+          color={"#ff5722"}
+          loading={this.props.loading}
+        />
+      </LoaderWrap>
+    );
+  }
+}
+export { PageLoader, Loader };

@@ -66,14 +66,7 @@ const MRP = styled.h2`
   color: #343a40;
   padding-right: 10px;
 `;
-const Discounted = styled.h2`
-  font-size: 14px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #343a40;
-  /* margin-bottom: 50px; */
-`;
+
 const Mybutton = styled.button`
   margin-top: 10px;
   width: auto;

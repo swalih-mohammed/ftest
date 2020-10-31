@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import { Helmet } from "react-helmet";
+// import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import SimpleReactValidator from "simple-react-validator";
+// import SimpleReactValidator from "simple-react-validator";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
-import { Navbar, Alert, Col, Row, Container } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Loader } from "../common/loader";
 
 import {
   addressListURL,
@@ -19,7 +20,7 @@ import {
 } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { fetchCart, clearKart } from "../../../actions/cart";
-import ModeOfPayment from "./modeOfPayment";
+// import ModeOfPayment from "./modeOfPayment";
 import OrderAddress from "./orderAddress";
 
 const PageContainer = styled.div`
@@ -41,6 +42,7 @@ const CheckOutWrapper = styled.div`
   margin-top: 5px;
   margin-bottom: 5px;
   border: 1px solid #ccc;
+  background-color: #ffff;
   box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
 `;
 
@@ -99,26 +101,31 @@ const ProductTotal = styled.div`
     font-weight: 700;
   }
 `;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 const Button = styled.button`
-  margin-top: 10px;
-  min-width: 100px;
-  border: 1px solid #ff5722;
-  background: #fff;
-  padding: 7px 14px;
-  color: #ff5722;
-  border-radius: 50px;
-  cursor: pointer;
-  font-size: 0.7rem;
+  font-family: "Roboto", sans-serif;
   text-transform: uppercase;
+  outline: 0;
+  background: #ff5722;
+  width: 250px;
+  border: 0;
+  padding: 15px;
+  color: #ffffff;
+  font-size: 14px;
+  margin-top: 20px;
+  margin-bottom: 35px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
   &:hover {
-    width: auto;
     background: #ff5722;
-    color: #fff;
-    padding: 7px 14px;
-    cursor: pointer;
+    color: #ffffff;
   }
 `;
-
 class checkOut extends Component {
   state = {
     loading: false,
@@ -228,15 +235,17 @@ class checkOut extends Component {
     this.setState({ selectedModeofPayment: mode });
     // console.log(mode);
   };
+
   submit = ev => {
     ev.preventDefault();
-
+    // console.log("test");
     if (this.state.addressList) {
     }
     const selectedAddress = this.state.addressList[0].id;
     // console.log(addressList);
     this.setState({ loading: true });
-    const { selectedModeofPayment, addressList } = this.state;
+    const { addressList } = this.state;
+    const selectedModeofPayment = 9;
 
     if (selectedModeofPayment !== null && addressList.length > 0) {
       authAxios
@@ -283,7 +292,7 @@ class checkOut extends Component {
     } = this.state;
 
     // console.log(this.state.cart);
-    // console.log(addressList.length);
+    // console.log(ShopModeOfPayment);
 
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
@@ -292,6 +301,7 @@ class checkOut extends Component {
       <PageContainer>
         {cart ? (
           <div>
+            {this.state.loading ? <Loader /> : null}
             <div>
               <CheckoutContainer>
                 <CheckOutWrapper>
@@ -346,15 +356,13 @@ class checkOut extends Component {
                 </CheckOutWrapper>
               </>
             ) : (
-              <section className="section-b-space">
-                <div className="container">
-                  <div className="account-sidebar">
-                    <Link style={{ color: "#FFF" }} to={`/create-address`}>
-                      Add Address
-                    </Link>
-                  </div>
-                </div>
-              </section>
+              <ButtonWrapper>
+                <Link to={`/create-address`}>
+                  <Button type="button" onClick={this.submit}>
+                    Add Address
+                  </Button>
+                </Link>
+              </ButtonWrapper>
             )}
 
             <CheckOutWrapper>
@@ -419,9 +427,9 @@ class checkOut extends Component {
                 </CouponContainer>
               </CheckOutWrapperContainer>
             </CheckOutWrapper>
-            <Button type="button" onClick={this.submit}>
-              Place Order
-            </Button>
+            <ButtonWrapper>
+              <Button onClick={this.submit}>Place Order</Button>
+            </ButtonWrapper>
           </div>
         ) : (
           <p>You dont have an active order</p>

@@ -17,7 +17,7 @@ const SignupWrapper = styled.div`
 
 const Form = styled.form`
   position: relative;
-  z-index: 1;
+  /* z-index: 1; */
   background: #ffffff;
   max-width: 360px;
   margin: 0 auto 100px;
@@ -46,9 +46,9 @@ const ErrorMsg = styled.div`
   color: #ff6565;
   /* padding: 1em; */
   height: 1em;
-  position: absolute;
+  /* position: absolute; */
   font-size: 0.8em;
-  margin: -18 0 5px 0;
+  margin-right: auto;
 `;
 
 const Button = styled.button`
@@ -144,7 +144,7 @@ const Login = props => {
 
               {/* /> */}
               {touched.password && errors.password ? (
-                <ErrorMsg className="error-message">{errors.password}</ErrorMsg>
+                <ErrorMsg>{errors.password}</ErrorMsg>
               ) : null}
               {/* </Form.Group> */}
               <Button type="submit" disabled={isSubmitting}>

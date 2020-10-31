@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import { Table, Row, Col, Container } from "react-bootstrap";
 import styled from "styled-components";
-
 import {
   orderSummaryURL,
   addToCartURL,
@@ -41,32 +40,27 @@ const OrderSummaryContainer = styled.div`
 
 const ProductCard = styled.div`
   display: flex;
-  margin-bottom: 1px;
-  width: 300px;
+  flex-direction: column;
+  /* width: 100%; */
   height: 150px;
-  margin-left: auto;
-  margin-right: auto;
+  background-color: #ffff;
+  margin: 2px auto;
+  padding: 15px 2px;
 `;
-const OrderTotalCard = styled.div`
+
+const OrderTotalWrap = styled.div`
   display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-rows: 60% 40%;
-  padding: 10px;
-  grid-gap: 25px;
+  grid-template-columns: 1fr 1fr;
 `;
 
 const OrderTotalItem = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  font-size: 30px;
-  text-align: center;
+  margin: 20px auto;
 `;
 
 const ProductImgContainer = styled.div`
   flex: 1;
   height: 150px;
-  width: 40%;
+  width: auto;
   overflow: hidden;
   display: flex;
   align-content: center;
@@ -119,6 +113,17 @@ const QuantityBoxItem = styled.div`
   padding: 2px;
   margin: 2px;
 `;
+
+const ContinueShopping = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+`;
+
+const CheckOutWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 const QuantityBox = styled.input`
   /* margin-left: 5px; */
   /* margin-right: 5px; */
@@ -130,26 +135,26 @@ const QuantityBox = styled.input`
   padding: 1px;
 `;
 
-const Mybutton = styled.button`
-  margin-top: 10px;
-  min-width: 100px;
-  border: 1px solid #ff5722;
-  background: #fff;
-  padding: 7px 14px;
-  color: #ff5722;
-  border-radius: 50px;
-  cursor: pointer;
-  font-size: 0.7rem;
+const Button = styled.button`
+  font-family: "Roboto", sans-serif;
   text-transform: uppercase;
+  outline: 0;
+  background: #ff5722;
+  width: 250px;
+  border: 0;
+  padding: 15px;
+  color: #ffffff;
+  font-size: 14px;
+  margin-top: 20px;
+  margin-bottom: 35px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
   &:hover {
-    width: auto;
     background: #ff5722;
-    color: #fff;
-    padding: 7px 14px;
-    cursor: pointer;
+    color: #ffffff;
   }
 `;
-
 class OrderSummary extends Component {
   state = {
     // cartItems: null,
@@ -254,7 +259,7 @@ class OrderSummary extends Component {
   render() {
     const { loading } = this.state;
     const { cartItems } = this.props;
-    console.log(cartItems);
+    // console.log(cartItems);
 
     return (
       <>
@@ -262,9 +267,12 @@ class OrderSummary extends Component {
           <>
             {cartItems.order_items ? (
               <>
+                <ContinueShopping>
+                  <h2>Order Summary</h2>
+                </ContinueShopping>
                 <OrderSummaryContainer>
                   {cartItems.order_items.map((item, index) => (
-                    <ProductCard>
+                    <ProductCard key={index}>
                       <ProductImgContainer>
                         <ProductImgContainer>
                           <ProductImg
@@ -359,26 +367,27 @@ class OrderSummary extends Component {
                     </ProductCard>
                   ))}
                 </OrderSummaryContainer>
-                <OrderTotalCard>
-                  <OrderTotalItem>Total</OrderTotalItem>
-                  <OrderTotalItem>12</OrderTotalItem>
+                <OrderTotalWrap>
                   <OrderTotalItem>
-                    <Link
-                      to={`${process.env.PUBLIC_URL}/shops/${cartItems.shop_id}`}
-                      // className="btn btn-solid"
-                    >
-                      <Mybutton>continue shopping</Mybutton>
-                    </Link>
+                    <h1>Total</h1>
                   </OrderTotalItem>
                   <OrderTotalItem>
-                    <Link
-                      to={`${process.env.PUBLIC_URL}/checkout`}
-                      // className="btn btn-solid"
-                    >
-                      <Mybutton> check out</Mybutton>
-                    </Link>
+                    <h1>3</h1>
                   </OrderTotalItem>
-                </OrderTotalCard>
+                </OrderTotalWrap>
+                <CheckOutWrapper>
+                  <Link to={`${process.env.PUBLIC_URL}/checkout`}>
+                    <Button> check out</Button>
+                  </Link>
+                </CheckOutWrapper>
+
+                <ContinueShopping>
+                  <Link
+                    to={`${process.env.PUBLIC_URL}/shops/${cartItems.shop_id}`}
+                  >
+                    Continue shopping
+                  </Link>
+                </ContinueShopping>
               </>
             ) : null}
           </>

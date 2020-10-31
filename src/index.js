@@ -182,13 +182,12 @@ class Root extends React.Component {
                     path={`${process.env.PUBLIC_URL}/register`}
                     component={Register}
                   />
-                  {/* <Suspense fallback={<Loader />}> */}
+
                   <Route
                     exact
                     path={`${process.env.PUBLIC_URL}/`}
                     component={homepage}
                   />
-                  {/* </Suspense> */}
 
                   <Route
                     path={`${process.env.PUBLIC_URL}/logout`}

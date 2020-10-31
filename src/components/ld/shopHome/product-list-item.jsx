@@ -20,7 +20,7 @@ const ProductCard = styled.div`
   border: 1px solid transparent;
   background-color: #f8f9fa;
   /* max-width: 325px; */
-  width: 350;
+  width: 100%;
   height: 200px;
   margin: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -31,7 +31,7 @@ const ProductCard = styled.div`
 const ProductImgContainer = styled.div`
   flex: 1;
   height: 200px;
-  width: 200px;
+  width: auto;
   overflow: hidden;
   display: flex;
   align-content: center;
@@ -218,7 +218,7 @@ class ProductStyleNine extends Component {
 
             {product.variations.length > 0 ? (
               <React.Fragment>
-                <div className="cart-bottom">
+                <div>
                   {product.do_not_disply_when_not_available ? (
                     <Mybutton
                       disabled={isAdding}

@@ -13,7 +13,7 @@ class OrderAddress extends Component {
     return (
       <>
         <CheckoutItem>
-          <h2>{address.PlaceName}</h2>
+          <h3>{address.PlaceName}</h3>
           <h4>{address.areaName}</h4>
           <h5>{address.full_address}</h5>
           <h5>Village: {address.vilalgeName}</h5>

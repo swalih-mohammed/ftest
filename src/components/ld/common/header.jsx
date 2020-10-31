@@ -22,7 +22,8 @@ const StyledNavbar = styled(Navbar)`
   /* margin: 20 5px 10px 0; */
   padding: 10px;
   margin-bottom: 35px;
-
+  /* overflow: hidden; */
+  /* position: fixed; */
   /* overflow-x: hidden; */
   /* position: fixed; */
   top: 0;
@@ -78,28 +79,26 @@ class Header extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   setTimeout(function() {
-  //     document.querySelector(".loader-wrapper").style = "display: none";
-  //   }, 2000);
-  // }
+  componentDidMount() {
+    this.props.fetchCart();
+  }
 
   openSidebar = () => {
     this.setState({ sideBarIsOpen: true });
-    console.log(123);
+    // console.log(123);
   };
   closeSidebar = () => {
     this.setState({ sideBarIsOpen: false });
-    console.log("123");
+    // console.log("123");
   };
 
-  openNav() {
-    console.log("clikc");
-    var openmyslide = document.getElementById("mySidenav");
-    if (openmyslide) {
-      openmyslide.classList.add("open-side");
-    }
-  }
+  // openNav() {
+  //   // console.log("clikc");
+  //   var openmyslide = document.getElementById("mySidenav");
+  //   if (openmyslide) {
+  //     openmyslide.classList.add("open-side");
+  //   }
+  // }
 
   render() {
     // console.log(this.state.sideBarIsOpen);
@@ -157,7 +156,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     logout: () => dispatch(logout()),
-    clearKart: () => dispatch(clearKart)
+    clearKart: () => dispatch(clearKart),
+    fetchCart: () => dispatch(fetchCart)
   };
 };
 

@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import Breadcrumb from "../common/breadcrumb";
+// import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 import styled from "styled-components";
+import { Loader } from "../common/loader";
 
 import { orderListURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 // import { fetchUser } from "../../../actions/user";
 
 const Wrapper = styled.div`
-  margin: 20px 30px auto auto;
+  margin: 20px auto;
   display: flex;
   flex-direction: column;
 `;
@@ -21,10 +22,11 @@ const OrderCard = styled.div`
   flex-direction: column;
   background-color: #fff;
   color: #333;
-  border-radius: 10px;
+  width: 100%;
+  /* border-radius: 10px; */
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  margin: 10px;
+  margin: 2px auto;
 `;
 
 const StyledButton = styled.button`
@@ -109,7 +111,7 @@ class Orders extends Component {
     return (
       <Wrapper>
         {loading ? (
-          <div className="loading-cls"></div>
+          <Loader />
         ) : (
           <React.Fragment>
             {orders && (
@@ -132,9 +134,7 @@ class Orders extends Component {
                         <h6>Date: {order.start_date}</h6>
                         <h6>Status: {order.orderStatus}</h6>
                         <Link to={`customer-order/${order.id}`}>
-                          <StyledButton variant="outline-primary" size="sm">
-                            View More
-                          </StyledButton>
+                          <StyledButton>View More</StyledButton>
                         </Link>
                       </OrderCard>
                     </div>

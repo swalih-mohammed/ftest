@@ -100,20 +100,29 @@ const SideBar = props => {
               <StyledNavItem to="/addresses" onClick={props.close}>
                 Address
               </StyledNavItem>
+              {props.user ? (
+                <>
+                  {props.user.user.is_shop_owner ? (
+                    <StyledNavItem to="/shop-dashboard" onClick={props.close}>
+                      My Shop
+                    </StyledNavItem>
+                  ) : null}
+                </>
+              ) : null}
 
-              {props.user.is_shop_owner ? (
-                <StyledNavItem to="/shop-dashboard" onClick={props.close}>
-                  My Shop
-                </StyledNavItem>
+              {props.user ? (
+                <>
+                  {props.user.user.is_staff_user ? (
+                    <StyledNavItem
+                      to="/manage-order-delivery"
+                      onClick={props.close}
+                    >
+                      Manage Delivery
+                    </StyledNavItem>
+                  ) : null}
+                </>
               ) : null}
-              {props.user.is_staff_user ? (
-                <StyledNavItem
-                  to="/manage-order-delivery"
-                  onClick={props.close}
-                >
-                  Manage Delivery
-                </StyledNavItem>
-              ) : null}
+
               <StyledNavItem to="/" onClick={logOut}>
                 Log out
               </StyledNavItem>

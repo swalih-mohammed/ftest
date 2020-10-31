@@ -38,7 +38,7 @@ const SignupWrapper = styled.div`
 
 const Form = styled.form`
   position: relative;
-  z-index: 1;
+  /* z-index: 1; */
   background: #ffffff;
   max-width: 360px;
   margin: 0 auto 100px;

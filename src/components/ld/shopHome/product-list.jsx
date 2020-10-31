@@ -17,11 +17,18 @@ import styled from "styled-components";
 import { Loader } from "../common/loader";
 
 const GridRow = styled.div`
+  grid-column-gap: 50px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  /* margin: 10px auto; */
-  padding-top: 30px;
+  margin: 5px;
+  padding-top: 20px;
+`;
+
+const LoadMoreWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 50px 0;
 `;
 
 const LoadMore = styled.div`
@@ -30,7 +37,6 @@ const LoadMore = styled.div`
   padding: 5px 10px;
   border-radius: 4px;
   font-size: 20px;
-  margin: 50px 0;
   display: inline-block;
   &:hover {
     background-color: #fff;
@@ -77,7 +83,9 @@ class ProductList extends Component {
                 />
               );
             })}
+          </GridRow>
 
+          <LoadMoreWrap>
             {this.props.loadingProducts ? null : (
               <>
                 {this.props.hasmore ? (
@@ -95,7 +103,7 @@ class ProductList extends Component {
                 )}
               </>
             )}
-          </GridRow>
+          </LoadMoreWrap>
         </>
       </>
     );

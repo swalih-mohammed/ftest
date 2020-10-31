@@ -6,23 +6,19 @@ const GlobalStyle = createGlobalStyle`
 *::before, *::after{ box-sizing: inherit; }
 
  body {
-   
     box-sizing: border-box;
     font-family: 'sans-serif';
     background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    /* height: 100%; */
     /* padding: 20px 20px; */
     overflow: scroll;
-
-		@media screen and (max-width: 800px) {
-			padding: 10px;
-		}
   }
   h1{
   font-size: 30px;
   display:flex;
   align-content:center;
   align-items: center;
-  color: $dark-font;
+  color: #343a40;
   font-weight: 700;
   text-transform: uppercase;
   margin-right: auto;
@@ -34,7 +30,7 @@ const GlobalStyle = createGlobalStyle`
   font-size: 20px;
   color: $dark-font; 
   text-transform: uppercase;
-  font-weight: 100;
+  font-weight: 600;
   line-height: 1;
   letter-spacing: 0.02em
   }

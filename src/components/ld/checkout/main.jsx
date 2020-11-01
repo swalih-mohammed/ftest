@@ -39,10 +39,11 @@ const CouponContainer = styled.div`
 `;
 
 const CheckOutWrapper = styled.div`
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin: 5px auto;
   border: 1px solid #ccc;
   background-color: #ffff;
+  width: 100%;
+  max-width: 800px;
   box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
 `;
 

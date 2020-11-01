@@ -23,9 +23,12 @@ const ProductCard = styled.div`
   width: 100%;
   height: 200px;
   margin: 5px;
+  max-width: 500px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border-radius: 5px;
   padding: 0px 25px;
+  border: #ff5722 0.5px solid;
+  overflow: hidden;
 `;
 
 const ProductImgContainer = styled.div`
@@ -71,17 +74,18 @@ const Mybutton = styled.button`
   margin-top: 10px;
   width: auto;
   border: 1px solid #ff5722;
-  background: #fff;
   padding: 7px 14px;
-  color: #ff5722;
-  border-radius: 50px;
+  background: #ff5722;
+  color: #fff;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 0.7rem;
   text-transform: uppercase;
   &:hover {
     width: auto;
-    background: #ff5722;
-    color: #fff;
+    background: #fff;
+    color: #ff5722;
+
     padding: 7px 14px;
     cursor: pointer;
   }

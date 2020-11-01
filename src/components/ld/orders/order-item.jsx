@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
-// import axios from "axios";
+import axios from "axios";
 import { authAxios } from "../../../authAxios";
 // import { fetchUser } from "../../../actions/user";
 import Select from "react-select";
@@ -34,6 +34,8 @@ const Card = styled.div`
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
   margin: 10px;
+  width: 100%;
+  max-width: 800px;
 `;
 
 const FormWrapper = styled.div`
@@ -258,28 +260,29 @@ class OrderItem extends Component {
         </Link>
         <Card>
           <ToastContainer />
+          {user.user ? (
+            <>
+              {user.user.is_staff_user ? (
+                <FormWrapper>
+                  <Form onSubmit={this.updateOrderStatus}>
+                    <h3>Update order status</h3>
+                    <Select
+                      className="mb-3"
+                      onChange={this.handleChangeOrderStatus}
+                      getOptionLabel={option => `${option.name}`}
+                      getOptionValue={option => `${option}`}
+                      options={this.state.staffOrderStatus}
+                      onInputChange={this.handleInputChange}
+                      placeholder={"Select order status"}
+                      menuIsOpen={this.state.menuOpen}
+                    />
 
-          {user.user.is_staff_user ? (
-            <FormWrapper>
-              <Form onSubmit={this.updateOrderStatus}>
-                <h3>Update order status</h3>
-                <Select
-                  className="mb-3"
-                  onChange={this.handleChangeOrderStatus}
-                  getOptionLabel={option => `${option.name}`}
-                  getOptionValue={option => `${option}`}
-                  options={this.state.staffOrderStatus}
-                  onInputChange={this.handleInputChange}
-                  placeholder={"Select order status"}
-                  menuIsOpen={this.state.menuOpen}
-                />
-
-                <StyledButton type="submit"> Submit</StyledButton>
-              </Form>
-            </FormWrapper>
+                    <StyledButton type="submit"> Submit</StyledButton>
+                  </Form>
+                </FormWrapper>
+              ) : null}
+            </>
           ) : null}
-
-          {/* product details  */}
 
           <CheckoutHeadingContainer>
             <h2> Product details</h2>
@@ -290,43 +293,51 @@ class OrderItem extends Component {
             <h4>Price</h4>
           </ProductDetail>
 
-          {orderItems.map((item, index) => {
-            return (
-              <ProductDetail key={index}>
-                <h6>
-                  {item.itemLocalName ? item.itemLocalName : item.itemName} [
-                  {item.vname}] × {item.quantity}
-                </h6>
-                <h6>Rs: {item.final_price}</h6>
+          {orderItems ? (
+            <>
+              {orderItems.map((item, index) => {
+                return (
+                  <ProductDetail key={index}>
+                    <h6>
+                      {item.itemLocalName ? item.itemLocalName : item.itemName}{" "}
+                      [{item.vname}] × {item.quantity}
+                    </h6>
+                    <h6>Rs: {item.final_price}</h6>
+                  </ProductDetail>
+                );
+              })}
+              <ProductDetail>
+                <h4>Total</h4>
+                <h4> Rs: {order.total}</h4>
               </ProductDetail>
-            );
-          })}
-          <ProductDetail>
-            <h4>Total</h4>
-            <h4> Rs: {order.total}</h4>
-          </ProductDetail>
-          {/* coupon  */}
+            </>
+          ) : null}
+
           {order.coupon ? (
             <Alert variant={"success"}>
               {order.coupon_code} coupon Applied !!{order.coupon_offer}
             </Alert>
           ) : null}
-          {/* address */}
-          <CheckoutHeadingContainer>
-            <h2> Order Address</h2>
-          </CheckoutHeadingContainer>
-          <>
-            <h2>{orderAddress.PlaceName}</h2>
-            <h4>{orderAddress.areaName}</h4>
-            <h5>{orderAddress.full_address}</h5>
-            <h5>Village: {orderAddress.vilalgeName}</h5>
-            <h5>District: {orderAddress.districtName}</h5>
-            <h5>Sate: {orderAddress.stateName}</h5>
-            <h5>Phone: {orderAddress.phone_number}</h5>
-            <a href={"tel:" + orderAddress.phone_number}>
-              {orderAddress.phone_number}
-            </a>
-          </>
+
+          {orderAddress ? (
+            <>
+              <CheckoutHeadingContainer>
+                <h2> Order Address</h2>
+              </CheckoutHeadingContainer>
+              <>
+                <h2>{orderAddress.PlaceName}</h2>
+                <h4>{orderAddress.areaName}</h4>
+                <h5>{orderAddress.full_address}</h5>
+                <h5>Village: {orderAddress.vilalgeName}</h5>
+                <h5>District: {orderAddress.districtName}</h5>
+                <h5>Sate: {orderAddress.stateName}</h5>
+                <h5>Phone: {orderAddress.phone_number}</h5>
+                <a href={"tel:" + orderAddress.phone_number}>
+                  {orderAddress.phone_number}
+                </a>
+              </>
+            </>
+          ) : null}
         </Card>
       </Wrapper>
     );

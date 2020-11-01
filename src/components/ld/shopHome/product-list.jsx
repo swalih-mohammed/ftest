@@ -42,6 +42,7 @@ const LoadMore = styled.div`
     background-color: #fff;
     color: #ff5722 !important;
     text-decoration: none;
+    border: #ff5722 0.5px solid;
   }
 `;
 

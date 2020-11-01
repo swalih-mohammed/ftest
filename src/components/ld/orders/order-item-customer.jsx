@@ -36,6 +36,8 @@ export const Card = styled.div`
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
   margin: 10px;
+  width: 100%;
+  max-width: 500px;
 `;
 
 const StyledButton = styled.button`
@@ -65,7 +67,7 @@ const CheckoutHeadingContainer = styled.div`
   align-items: center;
 `;
 
-class OrderItem extends Component {
+class OrderItemCustomer extends Component {
   state = {
     order: [],
     loading: false,
@@ -167,7 +169,6 @@ class OrderItem extends Component {
         <Wrapper>
           <ToastContainer />
           <Card>
-            {/* summary */}
             <h3>{order.shop_name}</h3>
             <h4>Order No: {order.id}</h4>
             <h6>Date: {order.start_date}</h6>
@@ -182,7 +183,6 @@ class OrderItem extends Component {
             )}
           </Card>
 
-          {/* product detail  */}
           <Card>
             <CheckoutHeadingContainer>
               <h2> Product details</h2>
@@ -224,8 +224,7 @@ class OrderItem extends Component {
               <h5>{orderAddress.full_address}</h5>
               <h5> {orderAddress.vilalgeName}</h5>
               <h5>{orderAddress.districtName}</h5>
-              {/* <h5>Sate: {orderAddress.stateName}</h5> */}
-              {/* <h5>Phone: {orderAddress.phone_number}</h5> */}
+
               <a href={"tel:" + orderAddress.phone_number}>
                 {orderAddress.phone_number}
               </a>
@@ -239,7 +238,7 @@ class OrderItem extends Component {
 
 const mapStateToProps = state => {
   return {
-    userType: state.user.user.UserType
+    userType: state.user
   };
 };
 
@@ -252,5 +251,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(OrderItem);
-// export default OrderItem;
+)(OrderItemCustomer);

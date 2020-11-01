@@ -41,7 +41,8 @@ const OrderSummaryContainer = styled.div`
 const ProductCard = styled.div`
   display: flex;
   flex-direction: column;
-  /* width: 100%; */
+  width: 100%;
+  max-width: 800px;
   height: 150px;
   background-color: #ffff;
   margin: 2px auto;

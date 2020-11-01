@@ -27,6 +27,7 @@ const OrderCard = styled.div`
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
   margin: 2px auto;
+  max-width: 800px;
 `;
 
 const StyledButton = styled.button`

@@ -8,7 +8,7 @@ import { fetchUser, clearUser } from "../../../actions/user";
 import { logout } from "../../../actions/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./sidebar.css";
+// import "./sidebar.css";
 
 const StyledSideNav = styled.div`
   background-color: #fffafa;
@@ -60,10 +60,11 @@ const StyledNavItemBox = styled.div`
 `;
 
 const StyledNavItem = styled(Link)`
-  padding-bottom: 0.5rem;
+  padding-bottom: 1.25rem;
   text-decoration: none;
   color: #111;
-  font-size: 1rem;
+  font-size: 15px;
+  text-transform: uppercase;
 `;
 
 const SideBar = props => {
@@ -94,8 +95,18 @@ const SideBar = props => {
         <StyledNavItemBox>
           {props.token ? (
             <>
+              {props.user.user ? (
+                <StyledNavItem
+                  to="/"
+                  onClick={props.close}
+                  style={{ paddingBottom: "40px", fontWeight: "700" }}
+                >
+                  Hello {props.user.user.userName}
+                </StyledNavItem>
+              ) : null}
+
               <StyledNavItem to="/orders" onClick={props.close}>
-                My Orders
+                My orders
               </StyledNavItem>
               <StyledNavItem to="/addresses" onClick={props.close}>
                 Address

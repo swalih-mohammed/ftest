@@ -10,6 +10,7 @@ import { Alert } from "react-bootstrap";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Loader, ButtonLoader } from "../common/loader";
+import { Container } from "../styled/utils";
 import {
   addressListURL,
   checkoutURL,
@@ -21,10 +22,6 @@ import { authAxios } from "../../../authAxios";
 import { fetchCart, clearKart } from "../../../actions/cart";
 // import ModeOfPayment from "./modeOfPayment";
 import OrderAddress from "./orderAddress";
-
-const PageContainer = styled.div`
-  margin-bottom: 50px;
-`;
 
 const CheckoutContainer = styled.div`
   display: grid;
@@ -284,7 +281,7 @@ class checkOut extends Component {
       return <Redirect to="/orders" />;
     }
     return (
-      <PageContainer>
+      <Container>
         {this.state.loading ? <Loader /> : null}
         {cart ? (
           <>
@@ -427,7 +424,7 @@ class checkOut extends Component {
         ) : (
           <h6>You do not have an active order</h6>
         )}
-      </PageContainer>
+      </Container>
     );
   }
 }

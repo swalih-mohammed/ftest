@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Breadcrumb from "../common/breadcrumb";
+// import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
-import axios from "axios";
+// import axios from "axios";
 import { authAxios } from "../../../authAxios";
 // import { fetchUser } from "../../../actions/user";
 import Select from "react-select";
 import { Redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Button, Row, Col, Alert } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 import styled from "styled-components";
+import { Container } from "../styled/utils";
 
 import {
   orderDetailURL,
@@ -18,19 +19,6 @@ import {
   orderStatusUpdateURL,
   orderStatusListURL
 } from "../../../constants";
-
-// const Wrapper = styled.div`
-//   margin: 20px auto 30px auto;
-//   display: flex;
-//   flex-direction: column;
-// `;
-
-const Wrapper = styled.div`
-  margin: 20px auto 30px auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const Card = styled.div`
   display: flex;
@@ -53,11 +41,6 @@ const FormWrapper = styled.div`
   /* background-color: #cccccc; */
 `;
 
-const BorderWrapper = styled.div`
-  border: 1px solid #6c757d;
-  margin: 2px;
-`;
-
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -65,6 +48,7 @@ export const Form = styled.form`
 
 const StyledButton = styled.button`
   display: inline-block;
+  width: 100%;
   padding: 10px 30px;
   cursor: pointer;
   background: #ff4c3b;
@@ -72,7 +56,7 @@ const StyledButton = styled.button`
   border: none;
   border-radius: 5px;
   border: 1px #fff solid;
-  width: 150px;
+  max-width: 250px;
 `;
 
 const ProductDetail = styled.div`
@@ -247,9 +231,8 @@ class OrderItem extends Component {
 
   render() {
     const { order, orderAddress, orderItems, success } = this.state;
-
     const { user } = this.props;
-    // console.log(loading);
+    // console.log(user);
 
     if (success) {
       if (user.user.is_staff_user) {
@@ -262,8 +245,11 @@ class OrderItem extends Component {
     }
 
     return (
-      <Wrapper>
-        <Link to={"/shop-order-table"}>
+      <Container>
+        <Link
+          style={{ marginRight: "auto", marginBottom: "20px" }}
+          to={"/shop-order-table"}
+        >
           <StyledButton>Back to orders</StyledButton>
         </Link>
         <Card>
@@ -280,6 +266,25 @@ class OrderItem extends Component {
                       getOptionLabel={option => `${option.name}`}
                       getOptionValue={option => `${option}`}
                       options={this.state.staffOrderStatus}
+                      onInputChange={this.handleInputChange}
+                      placeholder={"Select order status"}
+                      menuIsOpen={this.state.menuOpen}
+                    />
+
+                    <StyledButton type="submit"> Submit</StyledButton>
+                  </Form>
+                </FormWrapper>
+              ) : null}
+              {user.user.is_shop_owner ? (
+                <FormWrapper>
+                  <Form onSubmit={this.updateOrderStatus}>
+                    <h3>Update order status</h3>
+                    <Select
+                      className="mb-3"
+                      onChange={this.handleChangeOrderStatus}
+                      getOptionLabel={option => `${option.name}`}
+                      getOptionValue={option => `${option}`}
+                      options={this.state.shopOrderStatus}
                       onInputChange={this.handleInputChange}
                       placeholder={"Select order status"}
                       menuIsOpen={this.state.menuOpen}
@@ -347,7 +352,7 @@ class OrderItem extends Component {
             </>
           ) : null}
         </Card>
-      </Wrapper>
+      </Container>
     );
   }
 }

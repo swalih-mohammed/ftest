@@ -1,6 +1,24 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
+export const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1;
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 100px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 10px;
+  padding-left: 10px;
+  @media screen and (max-width: 991px) {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+`;
+
 export const Card = styled.div`
   display: flex;
   flex-direction: column;

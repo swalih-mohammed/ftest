@@ -167,8 +167,8 @@ class ProductList extends Component {
 
     return (
       <Wrapper>
-        <Loader />
-        {/* {loading ? <Loader /> : null} */}
+        {/* <Loader /> */}
+        {loading ? <Loader /> : null}
 
         <Link to={`/add-shop-product`}>
           <Button>Add a product</Button>

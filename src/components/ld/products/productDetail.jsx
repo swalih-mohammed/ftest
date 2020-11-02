@@ -11,6 +11,7 @@ import { Card, ListGroup, ListGroupItem, Form } from "react-bootstrap";
 import EditModal from "./editModal";
 import AddVariationModal from "./addVariationModal";
 import ProductVariationItem from "./productV-item";
+import { Container } from "../styled/utils";
 
 class ProductDetail extends Component {
   state = {
@@ -111,88 +112,85 @@ class ProductDetail extends Component {
     } = this.state;
     console.log(product);
     return (
-      <section className="section-b-space">
-        <div className="container">
-          {editProductMode ? (
-            <EditModal
-              show={editProductMode}
-              productForm={productForm}
-              hide={this.editModalHide}
-              fetchProduct={this.fetchProductDetails}
-              item_stock={productForm.item_stock}
-            />
-          ) : null}
-          {/* <Card style={{ width: "18rem" }}> */}
-          <Card>
-            <Card.Img variant="top" src={`${localhost}/${product.image}`} />
-            <Card.Body>
-              <Card.Title>{product.title}</Card.Title>
-              <Card.Text>{product.title_local}</Card.Text>
-              <Card.Text>Product ID:{product.id}</Card.Text>
-              <Button
-                onClick={this.editModalShow}
-                variant="outline-primary"
-                size="sm"
-              >
-                edit
-              </Button>{" "}
-            </Card.Body>
-            <ListGroup className="list-group-flush">
-              <ListGroupItem>
-                In Stock: {product.is_available ? "Yes" : "No"}
-              </ListGroupItem>
-              <ListGroupItem>
-                Featured: {product.is_featured ? "Yes" : "No"}
-              </ListGroupItem>
-              <ListGroupItem>
-                On Sale: {product.is_on_sale ? "Yes" : "No"}
-              </ListGroupItem>
-              <ListGroupItem>
-                Manage stock from product: {product.item_stock ? "Yes" : "No"}
-              </ListGroupItem>
-              {product.item_stock ? (
-                <ListGroupItem>
-                  Stock Count: {product.stock_count}
-                </ListGroupItem>
-              ) : null}
-            </ListGroup>
-            <Card.Body>
-              <Button
-                onClick={this.showAddVariationModal}
-                variant="outline-success"
-              >
-                Add a variation
-              </Button>{" "}
-            </Card.Body>
-          </Card>
-          {addVariationModal ? (
-            <AddVariationModal
-              item={product.id}
-              show={addVariationModal}
-              HideAddVariationModal={this.HideAddVariationModal}
-              // handleChange={this.handleChange}
-              // handleChangeCheckBox={this.handleChangeCheckBox}
-              fetchProductDetails={this.fetchProductDetails}
-              item_stock={productForm.item_stock}
-            />
-          ) : null}
-          {product.variations ? (
-            <React.Fragment>
-              {product.variations.map((variation, index) => {
-                return (
-                  <ProductVariationItem
-                    item={product.id}
-                    key={index}
-                    variation={variation}
-                    fetchProductDetails={this.fetchProductDetails}
-                    item_stock={product.item_stock}
-                  />
-                );
-              })}
-            </React.Fragment>
-          ) : null}
-        </div>
-      </section>
+      <Container>
+        {editProductMode ? (
+          <EditModal
+            show={editProductMode}
+            productForm={productForm}
+            hide={this.editModalHide}
+            fetchProduct={this.fetchProductDetails}
+            item_stock={productForm.item_stock}
+          />
+        ) : null}
+        {/* <Card style={{ width: "18rem" }}> */}
+        <Card>
+          <Card.Img variant="top" src={`${localhost}/${product.image}`} />
+          <Card.Body>
+            <Card.Title>{product.title}</Card.Title>
+            <Card.Text>{product.title_local}</Card.Text>
+            <Card.Text>Product ID:{product.id}</Card.Text>
+            <Button
+              onClick={this.editModalShow}
+              variant="outline-primary"
+              size="sm"
+            >
+              edit
+            </Button>{" "}
+          </Card.Body>
+          <ListGroup className="list-group-flush">
+            <ListGroupItem>
+              In Stock: {product.is_available ? "Yes" : "No"}
+            </ListGroupItem>
+            <ListGroupItem>
+              Featured: {product.is_featured ? "Yes" : "No"}
+            </ListGroupItem>
+            <ListGroupItem>
+              On Sale: {product.is_on_sale ? "Yes" : "No"}
+            </ListGroupItem>
+            <ListGroupItem>
+              Manage stock from product: {product.item_stock ? "Yes" : "No"}
+            </ListGroupItem>
+            {product.item_stock ? (
+              <ListGroupItem>Stock Count: {product.stock_count}</ListGroupItem>
+            ) : null}
+          </ListGroup>
+          <Card.Body>
+            <Button
+              onClick={this.showAddVariationModal}
+              variant="outline-success"
+            >
+              Add a variation
+            </Button>{" "}
+          </Card.Body>
+        </Card>
+
+        {addVariationModal ? (
+          <AddVariationModal
+            item={product.id}
+            show={addVariationModal}
+            HideAddVariationModal={this.HideAddVariationModal}
+            // handleChange={this.handleChange}
+            // handleChangeCheckBox={this.handleChangeCheckBox}
+            fetchProductDetails={this.fetchProductDetails}
+            item_stock={productForm.item_stock}
+          />
+        ) : null}
+        {product.variations ? (
+          <React.Fragment>
+            {product.variations.map((variation, index) => {
+              return (
+                <ProductVariationItem
+                  item={product.id}
+                  key={index}
+                  variation={variation}
+                  fetchProductDetails={this.fetchProductDetails}
+                  item_stock={product.item_stock}
+                />
+              );
+            })}
+          </React.Fragment>
+        ) : null}
+      </Container>
     );
   }
 }

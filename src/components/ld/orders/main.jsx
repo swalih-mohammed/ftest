@@ -6,16 +6,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 // import { Button } from "react-bootstrap";
 import styled from "styled-components";
 import { Loader } from "../common/loader";
+import { Container } from "../styled/utils";
 
 import { orderListURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 // import { fetchUser } from "../../../actions/user";
-
-const Wrapper = styled.div`
-  margin: 100px auto 20px auto;
-  display: flex;
-  flex-direction: column;
-`;
 
 const OrderCard = styled.div`
   display: flex;
@@ -110,7 +105,7 @@ class Orders extends Component {
     }
 
     return (
-      <Wrapper>
+      <Container>
         {loading ? (
           <Loader />
         ) : (
@@ -145,7 +140,7 @@ class Orders extends Component {
             )}
           </React.Fragment>
         )}
-      </Wrapper>
+      </Container>
     );
   }
 }

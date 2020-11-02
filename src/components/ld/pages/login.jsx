@@ -8,6 +8,8 @@ import { Formik, ErrorMessage } from "formik";
 import { Redirect, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import * as Yup from "yup";
+import { Container } from "../styled/utils";
+import { ButtonLoader } from "../common/loader";
 
 const SignupWrapper = styled.div`
   margin: 10px;
@@ -88,81 +90,92 @@ const Login = props => {
   }
   return (
     <>
-      {/* <CONTAINER> */}
-      <Formik
-        initialValues={{ username: "", password: "" }}
-        validationSchema={LoginValidation}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          setSubmitting(true);
-          setTimeout(() => {
-            const username = values.username;
-            const password = values.password;
-            props.login(username, password);
-            resetForm();
-            setSubmitting(false);
-          }, 500);
-        }}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting
-        }) => (
-          <>
-            <Form onSubmit={handleSubmit} className="mx-auto">
-              {/* <Form.Group controlId="username"> */}
-              {/* <Form.Control */}
-              <StyledInput
-                type="text"
-                name="username"
-                placeholder="User Name"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.username}
-                className={touched.username && errors.username ? "error" : null}
-              ></StyledInput>
+      <Container>
+        <Formik
+          initialValues={{ username: "", password: "" }}
+          validationSchema={LoginValidation}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            setSubmitting(true);
+            setTimeout(() => {
+              const username = values.username;
+              const password = values.password;
+              props.login(username, password);
+              // resetForm();
+              setSubmitting(false);
+            }, 500);
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting
+          }) => (
+            <>
+              <Form onSubmit={handleSubmit} className="mx-auto">
+                {/* <Form.Group controlId="username"> */}
+                {/* <Form.Control */}
+                <StyledInput
+                  type="text"
+                  name="username"
+                  placeholder="User Name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.username}
+                  className={
+                    touched.username && errors.username ? "error" : null
+                  }
+                ></StyledInput>
 
-              {touched.username && errors.username ? (
-                <ErrorMsg className="error-message">{errors.username}</ErrorMsg>
-              ) : null}
-              {/* </Form.Group> */}
-              {/* <Form.Group controlId="password"> */}
-              {/* <Form.Control */}
-              <StyledInput
-                type="password"
-                name="password"
-                placeholder="Password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
-                className={touched.password && errors.password ? "error" : null}
-              ></StyledInput>
+                {touched.username && errors.username ? (
+                  <ErrorMsg className="error-message">
+                    {errors.username}
+                  </ErrorMsg>
+                ) : null}
+                {/* </Form.Group> */}
+                {/* <Form.Group controlId="password"> */}
+                {/* <Form.Control */}
+                <StyledInput
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
+                  className={
+                    touched.password && errors.password ? "error" : null
+                  }
+                ></StyledInput>
 
-              {/* /> */}
-              {touched.password && errors.password ? (
-                <ErrorMsg>{errors.password}</ErrorMsg>
-              ) : null}
-              {/* </Form.Group> */}
-              <Button type="submit" disabled={isSubmitting}>
-                Login
-              </Button>
-              <SignupWrapper>
-                <Link style={{ marginRight: "auto" }} to="/register">
-                  <h6>Register</h6>
-                </Link>
-                <Link to="/reset-password">
-                  <h6>Forgot password?</h6>
-                </Link>
-              </SignupWrapper>
-            </Form>
-          </>
-        )}
-      </Formik>
-      {/* </CONTAINER> */}
+                {/* /> */}
+                {touched.password && errors.password ? (
+                  <ErrorMsg>{errors.password}</ErrorMsg>
+                ) : null}
+                {/* </Form.Group> */}
+                {isSubmitting ? (
+                  <ButtonLoader />
+                ) : (
+                  <Button type="submit" disabled={isSubmitting}>
+                    Login
+                  </Button>
+                )}
+
+                <SignupWrapper>
+                  <Link style={{ marginRight: "auto" }} to="/register">
+                    <h6>Register</h6>
+                  </Link>
+                  <Link to="/reset-password">
+                    <h6>Forgot password?</h6>
+                  </Link>
+                </SignupWrapper>
+              </Form>
+            </>
+          )}
+        </Formik>
+      </Container>
     </>
   );
 };

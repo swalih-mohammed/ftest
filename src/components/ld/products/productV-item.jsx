@@ -39,7 +39,7 @@ class VaritaionItem extends React.Component {
     const { variation, item, item_stock } = this.props;
     // console.log(variation);
     return (
-      <div>
+      <>
         {this.state.editMode ? (
           <EditVariationModal
             show={this.state.editMode}
@@ -84,7 +84,7 @@ class VaritaionItem extends React.Component {
             </Button>{" "}
           </ListGroupItem>
         </Card>
-      </div>
+      </>
     );
   }
 }

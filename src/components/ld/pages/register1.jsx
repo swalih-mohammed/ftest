@@ -8,6 +8,7 @@ import { fetchUser } from "../../../actions/user";
 import { Formik, ErrorMessage } from "formik";
 import { ToastContainer, toast } from "react-toastify";
 import * as Yup from "yup";
+import { Container } from "../styled/utils";
 
 const Button = styled.button`
   font-family: "Roboto", sans-serif;
@@ -108,7 +109,7 @@ const Register = props => {
     toast.error("Oops! incorrect username or password");
   }
   return (
-    <>
+    <Container>
       <Formik
         initialValues={{
           username: "",
@@ -224,7 +225,7 @@ const Register = props => {
         )}
       </Formik>
       <ToastContainer />
-    </>
+    </Container>
   );
 };
 

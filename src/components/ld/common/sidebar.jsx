@@ -8,7 +8,6 @@ import { fetchUser, clearUser } from "../../../actions/user";
 import { logout } from "../../../actions/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import "./sidebar.css";
 
 const StyledSideNav = styled.div`
   background-color: #fffafa;
@@ -143,7 +142,7 @@ const SideBar = props => {
               <StyledNavItem to="/login" onClick={props.close}>
                 Login
               </StyledNavItem>
-              <StyledNavItem to="/login" onClick={props.close}>
+              <StyledNavItem to="/register" onClick={props.close}>
                 Register
               </StyledNavItem>
             </>

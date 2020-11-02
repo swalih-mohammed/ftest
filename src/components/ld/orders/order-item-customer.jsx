@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Alert } from "react-bootstrap";
 import { Loader } from "../common/loader";
 import styled from "styled-components";
+import { Container } from "../styled/utils";
 // import Card from "../styled.utils.js";
 
 import {
@@ -163,11 +164,11 @@ class OrderItemCustomer extends Component {
       return <Redirect to="/orders" />;
     }
     return (
-      <>
+      <Container>
         {this.state.loading ? (
           <Loader style={{ marginBottom: "30px", marginTop: "30px" }} />
         ) : null}
-        <Wrapper>
+        <>
           <ToastContainer />
           <Card>
             <h3>{order.shop_name}</h3>
@@ -231,8 +232,8 @@ class OrderItemCustomer extends Component {
               </a>
             </>
           </Card>
-        </Wrapper>
-      </>
+        </>
+      </Container>
     );
   }
 }

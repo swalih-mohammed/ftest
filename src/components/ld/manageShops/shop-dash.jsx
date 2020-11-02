@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import Breadcrumb from "../common/breadcrumb";
+// import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
-import { Button, Form, Alert, Row, Col, Container } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 import styled from "styled-components";
 import {
   ShopDashboardDetialURL,
@@ -15,12 +15,12 @@ import { authAxios } from "../../../authAxios";
 export const Card = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 100px auto 30px auto;
   background-color: #fff;
   color: #333;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  margin: 10px;
 `;
 class Orders extends Component {
   constructor(props) {

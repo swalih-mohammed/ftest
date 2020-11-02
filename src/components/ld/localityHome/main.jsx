@@ -135,7 +135,7 @@ class Locality extends Component {
                 </ShopListSection>
               </>
             ) : (
-              <p>No shops to show</p>
+              <>{this.state.loading ? null : <p>No shops to show</p>}</>
             )}
           </React.Fragment>
         )}

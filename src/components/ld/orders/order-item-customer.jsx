@@ -25,6 +25,7 @@ const Wrapper = styled.div`
   margin: 20px auto 30px auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 export const Card = styled.div`
@@ -32,12 +33,12 @@ export const Card = styled.div`
   flex-direction: column;
   background-color: #fff;
   color: #333;
-  /* border-radius: 10px; */
+  border-radius: 5px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
   margin: 10px;
   width: 100%;
-  max-width: 500px;
+  max-width: 800px;
 `;
 
 const StyledButton = styled.button`

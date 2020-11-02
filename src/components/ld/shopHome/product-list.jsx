@@ -14,7 +14,7 @@ import ProductItem from "./product-list-item";
 // import axios from "axios";
 // import { ShopProductListURL } from "../../../constants";
 import styled from "styled-components";
-import { Loader } from "../common/loader";
+import { Loader, ButtonLoader } from "../common/loader";
 
 const GridRow = styled.div`
   grid-column-gap: 50px;
@@ -67,6 +67,7 @@ class ProductList extends Component {
       <>
         <>
           <CardTitle>Products</CardTitle>
+          {/* <ButtonLoader /> */}
 
           <GridRow>
             {this.props.loadingProducts ? <Loader loading={true} /> : null}

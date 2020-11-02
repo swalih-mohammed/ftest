@@ -13,7 +13,7 @@ import {
 import { authAxios } from "../../../authAxios";
 
 const Wrapper = styled.div`
-  margin: 20px 2px 30px 2px;
+  margin: 100px auto 20px auto;
   display: flex;
   flex-direction: column;
 `;

@@ -9,8 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { Alert } from "react-bootstrap";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Loader } from "../common/loader";
-
+import { Loader, ButtonLoader } from "../common/loader";
 import {
   addressListURL,
   checkoutURL,
@@ -64,30 +63,11 @@ const CheckoutItem = styled.div`
   height: auto;
   padding: 5px 10px;
 `;
-const ProductTitle = styled.h2`
-  display: flex;
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: #202428;
-`;
-const ProductSecondTitle = styled.h2`
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  color: #202428;
-`;
+
 const ProductDetail = styled.div`
   display: grid;
   grid-template-columns: 3fr 1fr;
   height: auto;
-`;
-
-const ProductDetailItem = styled.div`
-  padding: 2px;
-  margin: 2px;
-  font-size: 15px;
-  font-weight: 500;
 `;
 
 const ProductTotal = styled.div`
@@ -130,6 +110,7 @@ const Button = styled.button`
 class checkOut extends Component {
   state = {
     loading: false,
+    submitting: false,
     shipping: 25,
     addressList: [],
     cart: null,
@@ -244,7 +225,7 @@ class checkOut extends Component {
     }
     const selectedAddress = this.state.addressList[0].id;
     // console.log(addressList);
-    this.setState({ loading: true });
+    this.setState({ submitting: true });
     const { addressList } = this.state;
     const selectedModeofPayment = 9;
 
@@ -255,20 +236,20 @@ class checkOut extends Component {
           selectedModeofPayment
         })
         .then(res => {
-          this.setState({ loading: false, success: true });
+          this.setState({ submitting: false, success: true });
           toast.success("Order placed succesfully");
           this.redirectToOrders();
           this.props.refreshCart();
         })
         .catch(err => {
-          this.setState({ loading: false, error: err }, () => {
+          this.setState({ submitting: false, error: err }, () => {
             // this.redirectToOrders();
             toast.success("There was an error");
-            this.setState({ loading: false });
+            this.setState({ submitting: false });
           });
         });
     } else {
-      this.setState({ loading: false });
+      this.setState({ submitting: false });
       toast.error("Please select mode of payment and create an address");
     }
   };
@@ -289,7 +270,8 @@ class checkOut extends Component {
       ShopModeOfPayment,
       shop_id,
       offer,
-      error
+      error,
+      success
     } = this.state;
 
     // console.log(this.state.cart);
@@ -298,142 +280,152 @@ class checkOut extends Component {
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
     }
+    if (success) {
+      return <Redirect to="/orders" />;
+    }
     return (
       <PageContainer>
+        {this.state.loading ? <Loader /> : null}
         {cart ? (
-          <div>
-            {this.state.loading ? <Loader /> : null}
-            <div>
-              <CheckoutContainer>
-                <CheckOutWrapper>
-                  <CheckOutWrapperContainer>
-                    <CheckoutHeadingContainer>
-                      <h2> Shop details</h2>
-                    </CheckoutHeadingContainer>
-                    <CheckoutItem>
-                      <h3>{cart.shop_name}</h3>
-                      <h4>{cart.place_name}</h4>
-                    </CheckoutItem>
-                  </CheckOutWrapperContainer>
-                </CheckOutWrapper>
-
-                <CheckOutWrapper>
-                  <CheckOutWrapperContainer>
-                    <CheckoutHeadingContainer>
-                      <h2> Product Details</h2>
-                    </CheckoutHeadingContainer>
-
-                    {cart.order_items.map((item, index) => {
-                      return (
-                        <ProductDetail>
-                          <h5>
-                            {item.itemLocalName
-                              ? item.itemLocalName
-                              : item.itemName}
-                            [{item.vname}] × {item.quantity}
-                          </h5>
-                          <h5>Rs:{item.final_price}</h5>
-                        </ProductDetail>
-                      );
-                    })}
-                    <ProductTotal>
-                      <h3>Total</h3>
-                      <h3>Rs: 123</h3>
-                    </ProductTotal>
-                  </CheckOutWrapperContainer>
-                </CheckOutWrapper>
-              </CheckoutContainer>
-            </div>
-
-            {addressList.length > 0 ? (
+          <>
+            {cart.order_items ? (
               <>
+                <CheckoutContainer>
+                  <CheckOutWrapper>
+                    <CheckOutWrapperContainer>
+                      <CheckoutHeadingContainer>
+                        <h2> Shop details</h2>
+                      </CheckoutHeadingContainer>
+                      <CheckoutItem>
+                        <h3>{cart.shop_name}</h3>
+                        <h4>{cart.place_name}</h4>
+                      </CheckoutItem>
+                    </CheckOutWrapperContainer>
+                  </CheckOutWrapper>
+
+                  <CheckOutWrapper>
+                    <CheckOutWrapperContainer>
+                      <CheckoutHeadingContainer>
+                        <h2> Product Details</h2>
+                      </CheckoutHeadingContainer>
+
+                      {cart.order_items.map((item, index) => {
+                        return (
+                          <ProductDetail>
+                            <h5>
+                              {item.itemLocalName
+                                ? item.itemLocalName
+                                : item.itemName}
+                              [{item.vname}] × {item.quantity}
+                            </h5>
+                            <h5>Rs:{item.final_price}</h5>
+                          </ProductDetail>
+                        );
+                      })}
+
+                      <ProductTotal>
+                        <h3>Total</h3>
+                        <h3>Rs: 123</h3>
+                      </ProductTotal>
+                    </CheckOutWrapperContainer>
+                  </CheckOutWrapper>
+                </CheckoutContainer>
+
+                {addressList.length > 0 ? (
+                  <CheckOutWrapper>
+                    <CheckOutWrapperContainer>
+                      <CheckoutHeadingContainer>
+                        <h2> Delivery Address</h2>
+                      </CheckoutHeadingContainer>
+                      <OrderAddress address={addressList[0]} />
+                    </CheckOutWrapperContainer>
+                  </CheckOutWrapper>
+                ) : (
+                  <ButtonWrapper>
+                    <Link to={`/create-address`}>
+                      <Button type="button" onClick={this.submit}>
+                        Add Address
+                      </Button>
+                    </Link>
+                  </ButtonWrapper>
+                )}
+
                 <CheckOutWrapper>
                   <CheckOutWrapperContainer>
-                    <CheckoutHeadingContainer>
-                      <h2> Delivery Address</h2>
-                    </CheckoutHeadingContainer>
-                    <OrderAddress address={addressList[0]} />
+                    <CouponContainer>
+                      <div>
+                        <h5>
+                          Do you have a coupon?{" "}
+                          <span style={{ float: "right" }}>
+                            <FontAwesomeIcon
+                              icon={faChevronDown}
+                              onClick={() => {
+                                this.handleDisplyCoupon();
+                              }}
+                            />
+                          </span>
+                        </h5>
+                      </div>
+                      <div
+                        style={{
+                          display: this.state.Coupondisplay ? "" : "none"
+                        }}
+                      >
+                        <div>
+                          <h5>Enter your coupon</h5>
+                        </div>
+                        <div></div>
+                        <div>
+                          <input
+                            onChange={this.handleCouponChange.bind(this)}
+                            type="text"
+                            className="form-control"
+                            id="coupon"
+                            value={this.state.coupon}
+                            name="coupon"
+                            required=""
+                          />
+                        </div>
+                        <div>
+                          <Button
+                            type="submit"
+                            onClick={this.handleCouponSubmit.bind(this)}
+                          >
+                            Apply coupon
+                          </Button>
+                        </div>
+                        <div>
+                          {offer ? (
+                            <Alert variant={"success"}>
+                              Offer Applied !!{offer.message}
+                            </Alert>
+                          ) : null}
+                        </div>
+                        <div>
+                          {error ? (
+                            <Alert variant={"danger"}>
+                              This coupon is not valid
+                            </Alert>
+                          ) : null}
+                        </div>
+                      </div>
+                    </CouponContainer>
                   </CheckOutWrapperContainer>
                 </CheckOutWrapper>
+                <ButtonWrapper>
+                  {this.state.submitting ? (
+                    <ButtonLoader />
+                  ) : (
+                    <Button onClick={this.submit}>Place Order</Button>
+                  )}
+                </ButtonWrapper>
               </>
             ) : (
-              <ButtonWrapper>
-                <Link to={`/create-address`}>
-                  <Button type="button" onClick={this.submit}>
-                    Add Address
-                  </Button>
-                </Link>
-              </ButtonWrapper>
+              <h6>You do not have an active order</h6>
             )}
-
-            <CheckOutWrapper>
-              <CheckOutWrapperContainer>
-                <CouponContainer>
-                  <div>
-                    <h5>
-                      Do you have a coupon?{" "}
-                      <span style={{ float: "right" }}>
-                        <FontAwesomeIcon
-                          icon={faChevronDown}
-                          onClick={() => {
-                            this.handleDisplyCoupon();
-                          }}
-                        />
-                      </span>
-                    </h5>
-                  </div>
-                  <div
-                    style={{
-                      display: this.state.Coupondisplay ? "" : "none"
-                    }}
-                  >
-                    <div>
-                      <h5>Enter your coupon</h5>
-                    </div>
-                    <div></div>
-                    <div>
-                      <input
-                        onChange={this.handleCouponChange.bind(this)}
-                        type="text"
-                        className="form-control"
-                        id="coupon"
-                        value={this.state.coupon}
-                        name="coupon"
-                        required=""
-                      />
-                    </div>
-                    <div>
-                      <Button
-                        type="submit"
-                        onClick={this.handleCouponSubmit.bind(this)}
-                      >
-                        Apply coupon
-                      </Button>
-                    </div>
-                    <div>
-                      {offer ? (
-                        <Alert variant={"success"}>
-                          Offer Applied !!{offer.message}
-                        </Alert>
-                      ) : null}
-                    </div>
-                    <div>
-                      {error ? (
-                        <Alert variant={"danger"}>
-                          This coupon is not valid
-                        </Alert>
-                      ) : null}
-                    </div>
-                  </div>
-                </CouponContainer>
-              </CheckOutWrapperContainer>
-            </CheckOutWrapper>
-            <ButtonWrapper>
-              <Button onClick={this.submit}>Place Order</Button>
-            </ButtonWrapper>
-          </div>
+          </>
         ) : (
-          <p>You dont have an active order</p>
+          <h6>You do not have an active order</h6>
         )}
       </PageContainer>
     );

@@ -13,18 +13,25 @@ import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import Result from "./testTable";
 import styled from "styled-components";
+import { Loader, PageLoader } from "../common/loader";
 
 const Wrapper = styled.div`
-  margin: 20px 10px 30px 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 
+const TableWrapper = styled.div`
+  margin: 20px auto;
+  width: 95%;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+`;
+
 const DateWrapper = styled.div`
-  margin: 10px auto 10px auto;
-  margin: 10px;
+  margin: 20px auto;
   display: grid;
   grid-template-columns: 1fr 6fr;
   grid-template-rows: 1fr 1fr;
@@ -41,7 +48,8 @@ const StyledCard = styled.div`
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  margin: 10px;
+  width: 100%;
+  margin: 100px auto 20px auto;
 `;
 
 const StyledButton = styled.button`
@@ -53,6 +61,7 @@ const StyledButton = styled.button`
   border: none;
   border-radius: 5px;
   border: 1px #fff solid;
+  max-width: 200px;
   &:hover {
     transform: scale(0.98);
     color: #343a40;
@@ -210,7 +219,14 @@ const Manage = () => {
           </Card>
         </div>
       ) : null}
-      {orders ? <Result data={orders} columns={columns} /> : null}
+
+      {loading ? <PageLoader /> : null}
+
+      {orders ? (
+        <TableWrapper>
+          <Result data={orders} columns={columns} />
+        </TableWrapper>
+      ) : null}
     </Wrapper>
   );
 };

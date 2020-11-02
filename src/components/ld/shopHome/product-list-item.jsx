@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 // import { Row } from "react-bootstrap";
 // import { LabelFour } from "../styled/productBox";
+import { ButtonLoader } from "../common/loader";
 
 const ProductCard = styled.div`
   display: flex;
@@ -174,7 +175,7 @@ class ProductStyleNine extends Component {
       ShopDetail
     } = this.props;
     const { isAdding } = this.state;
-    // console.log(loading);
+    // console.log(isAdding);
 
     return (
       <>
@@ -222,23 +223,29 @@ class ProductStyleNine extends Component {
 
             {product.variations.length > 0 ? (
               <React.Fragment>
-                <div>
+                <>
                   {product.do_not_disply_when_not_available ? (
-                    <Mybutton
-                      disabled={isAdding}
-                      title="Add to cart"
-                      onClick={() =>
-                        this.handleAddToCart(
-                          product.id,
-                          product.shop,
-                          this.state.selectedVariationID
-                        )
-                      }
-                    >
-                      Add to cart
-                    </Mybutton>
+                    <>
+                      {isAdding ? (
+                        <ButtonLoader />
+                      ) : (
+                        <Mybutton
+                          disabled={isAdding}
+                          title="Add to cart"
+                          onClick={() =>
+                            this.handleAddToCart(
+                              product.id,
+                              product.shop,
+                              this.state.selectedVariationID
+                            )
+                          }
+                        >
+                          Add to cart
+                        </Mybutton>
+                      )}
+                    </>
                   ) : null}
-                </div>
+                </>
               </React.Fragment>
             ) : null}
           </ProductContent>

@@ -21,7 +21,7 @@ import { stateListURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 
 const Wrapper = styled.div`
-  margin: 20px 30px auto auto;
+  margin: 100px auto 30px auto;
   display: flex;
   flex-direction: column;
 `;

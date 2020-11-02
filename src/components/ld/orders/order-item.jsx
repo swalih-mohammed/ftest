@@ -19,18 +19,26 @@ import {
   orderStatusListURL
 } from "../../../constants";
 
+// const Wrapper = styled.div`
+//   margin: 20px auto 30px auto;
+//   display: flex;
+//   flex-direction: column;
+// `;
+
 const Wrapper = styled.div`
   margin: 20px auto 30px auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const Card = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #fff;
+  justify-content: center;
   color: #333;
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
   margin: 10px;

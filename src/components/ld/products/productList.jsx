@@ -15,15 +15,23 @@ import "react-toastify/dist/ReactToastify.css";
 // import { ToastContainer, toast } from "react-toastify";
 import { Form, Row, Col, Container, Card } from "react-bootstrap";
 import styled from "styled-components";
-
+import { Loader, PageLoader } from "../common/loader";
+import { Button, LoadMore, LoadMoreWrap } from "../styled/utils";
 import Productcategory from "./productCategory";
 import ProductCard from "./productCard";
 
+const Wrapper = styled.div`
+  margin: 100px 5px 20px 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 1000px;
+`;
 const FORM = styled(Form)`
   font-size: 1.2em;
   font-weight: 300;
   border-radius: 5px;
-  margin-top: 1em;
+  margin-top: 20px;
   padding-top: 1em;
   padding-bottom: 1em;
 `;
@@ -39,7 +47,7 @@ class ProductList extends Component {
     query: "all",
     hasMore: false,
     outOfStock: false,
-    productLoading: false
+    productLoadingMore: false
   };
 
   componentDidMount() {
@@ -67,8 +75,36 @@ class ProductList extends Component {
     });
   };
 
+  fetchFreshProducts = () => {
+    this.setState({ loading: true });
+    const { limit, offset, query, outOfStock } = this.state;
+    const owner = this.props.user.user.id;
+    authAxios
+      .get(ShopProductInfinitURL, {
+        params: {
+          limit,
+          offset,
+          query,
+          owner,
+          outOfStock
+        }
+      })
+      .then(res => {
+        this.setState({
+          // products: res.data
+          loading: false,
+          hasMore: res.data.has_more,
+          products: res.data.products,
+          offset: offset + limit
+        });
+      })
+      .catch(err => {
+        this.setState({ error: err, loading: false });
+      });
+  };
+
   fetchProducts = () => {
-    this.setState({ productLoading: true });
+    this.setState({ productLoadingMore: true });
     const { limit, offset, query, outOfStock } = this.state;
     const owner = this.props.user.user.id;
     authAxios
@@ -86,41 +122,13 @@ class ProductList extends Component {
         const hasMore = res.data.has_more;
         this.setState({
           hasMore: hasMore,
-          productLoading: false,
+          productLoadingMore: false,
           products: [...this.state.products, ...newProducts],
           offset: offset + limit
         });
       })
       .catch(err => {
-        this.setState({ error: err, productLoading: false });
-      });
-  };
-
-  fetchFreshProducts = () => {
-    this.setState({ productLoading: true });
-    const { limit, offset, query, outOfStock } = this.state;
-    const owner = this.props.user.user.id;
-    authAxios
-      .get(ShopProductInfinitURL, {
-        params: {
-          limit,
-          offset,
-          query,
-          owner,
-          outOfStock
-        }
-      })
-      .then(res => {
-        this.setState({
-          // products: res.data
-          productLoading: false,
-          hasMore: res.data.has_more,
-          products: res.data.products,
-          offset: offset + limit
-        });
-      })
-      .catch(err => {
-        this.setState({ error: err, productLoading: false });
+        this.setState({ error: err, productLoadingMore: false });
       });
   };
 
@@ -144,113 +152,112 @@ class ProductList extends Component {
   };
 
   render() {
-    const { products, categories, hasMore } = this.state;
-    // console.log(products);
+    const {
+      products,
+      categories,
+      hasMore,
+      loading,
+      productLoadingMore
+    } = this.state;
+    console.log(loading);
 
     if (!this.props.token) {
       return <Redirect to="/login" />;
     }
 
     return (
-      <div className="container">
-        {this.state.loading ? <div className="loading-cls"></div> : null}
-        <Container>
-          {/* <ToastContainer /> */}
-          <div className="account-sidebar">
-            <Link style={{ color: "#FFF" }} to={`/add-shop-product`}>
-              Add a product
-            </Link>
-          </div>
+      <Wrapper>
+        <Loader />
+        {/* {loading ? <Loader /> : null} */}
 
-          {this.state.loading && <div className="loading-cls"></div>}
-          {categories.length > 1 ? (
-            <Productcategory
-              handleClearCategory={this.handleClearCategory}
-              handleChangeCategory={this.handleChangeCategory}
-              ShopProductCategory={categories}
-              loading={this.state.loading}
-            />
-          ) : null}
+        <Link to={`/add-shop-product`}>
+          <Button>Add a product</Button>
+        </Link>
+        {categories.length > 1 ? (
+          <Productcategory
+            handleClearCategory={this.handleClearCategory}
+            handleChangeCategory={this.handleChangeCategory}
+            ShopProductCategory={categories}
+            loading={this.state.loading}
+          />
+        ) : null}
 
-          <FORM>
-            <div className="mb-3">
-              <Form.Check
-                onChange={this.handleOutofStock}
-                checked={this.state.outOfStock}
-                type="checkbox"
-                label="Search only out of stock"
-              />
-            </div>
-          </FORM>
-          {/* <Container> */}
+        <FORM>
+          <Form.Check
+            onChange={this.handleOutofStock}
+            checked={this.state.outOfStock}
+            type="checkbox"
+            label="Search only out of stock"
+          />
+        </FORM>
+        <Card bg={"secondary"} text={"light"} style={{ marginBottom: "30px" }}>
+          <Card.Header as="h4">
+            <Row>
+              <Col xs={4}>Product</Col>
+              <Col xs={4}> Stock </Col>
+              <Col xs={4}>Orders</Col>
+            </Row>
+          </Card.Header>
+        </Card>
+        {this.state.productLoadingMore ? <PageLoader /> : null}
+        {products.map((item, index) => {
+          return (
+            <Row key={index}>
+              <Col>
+                <ProductCard
+                  item={item}
+                  fetchProducts={this.fetchProducts}
+                  hasMore={hasMore}
+                  loading={this.state.loading}
+                />
+              </Col>
+            </Row>
+          );
+        })}
 
-          {products.length > 0 ? (
-            <div>
-              <div className="row">
-                <div className="col-sm-12">
-                  <Card bg={"secondary"} text={"light"}>
-                    <Card.Header as="h4">
-                      <Row>
-                        <Col xs={4}>Product</Col>
-                        <Col xs={4}> Stock </Col>
-                        <Col xs={4}>Orders</Col>
-                      </Row>
-                    </Card.Header>
-                  </Card>
-                </div>
-              </div>
-              <br></br>
-              {this.state.productLoading ? (
-                <div className="loading-cls"></div>
+        <LoadMoreWrap>
+          {this.state.loading ? null : (
+            <>
+              {this.state.hasMore ? (
+                <>
+                  {this.state.productLoadingMore ? (
+                    <Loader />
+                  ) : (
+                    <LoadMore onClick={this.fetchProducts}>Load more</LoadMore>
+                  )}
+                </>
               ) : (
-                <React.Fragment>
-                  {products.map((item, index) => {
-                    return (
-                      <div key={index} className="row">
-                        <div className="col-sm-12">
-                          <ProductCard
-                            item={item}
-                            fetchProducts={this.fetchProducts}
-                            hasMore={hasMore}
-                            loading={this.state.loading}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </React.Fragment>
+                <LoadMore>No more products to show</LoadMore>
               )}
-
-              {this.loading ? (
-                <div className="row">
-                  <div className="loading-cls"></div>
-                </div>
-              ) : (
-                <React.Fragment>
-                  <div className="row">
-                    <Col>
-                      {hasMore ? (
-                        <p
-                          onClick={this.fetchProducts}
-                          className="seen-cls seen-it-cls"
-                        >
-                          <b>Load More</b>
-                        </p>
-                      ) : (
-                        <p className="seen-cls seen-it-cls">
-                          <b>No more products</b>
-                        </p>
-                      )}
-                    </Col>
-                  </div>
-                </React.Fragment>
-              )}
-            </div>
-          ) : (
-            <div>No products</div>
+            </>
           )}
-        </Container>
-      </div>
+        </LoadMoreWrap>
+
+        {/* {this.loading ? (
+              <div className="row">
+                <div className="loading-cls"></div>
+              </div>
+            ) : (
+              <React.Fragment>
+                <div className="row">
+                  <Col>
+                    {hasMore ? (
+                      <p
+                        onClick={this.fetchProducts}
+                        className="seen-cls seen-it-cls"
+                      >
+                        <b>Load More</b>
+                      </p>
+                    ) : (
+                      <p className="seen-cls seen-it-cls">
+                        <b>No more products</b>
+                      </p>
+                    )}
+                  </Col>
+                </div>
+              </React.Fragment>
+            )} */}
+      </Wrapper>
     );
   }
 }
@@ -261,10 +268,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(ProductList);
-
-// handleShow = () => {
-//   this.setState({ show: true });
-// };
-// handleClose = () => {
-//   this.setState({ show: false });
-// };

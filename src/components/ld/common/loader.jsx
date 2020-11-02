@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { css } from "@emotion/core";
-import BeatLoader from "react-spinners/BeatLoader";
+import { BeatLoader, MoonLoader } from "react-spinners";
 import styled from "styled-components";
 const override = css`
   display: flex;
@@ -60,4 +60,16 @@ class Loader extends Component {
     );
   }
 }
-export { PageLoader, Loader };
+class ButtonLoader extends Component {
+  render() {
+    return (
+      <MoonLoader
+        css={override}
+        size={30}
+        color={"#ff5722"}
+        loading={this.props.loading}
+      />
+    );
+  }
+}
+export { PageLoader, Loader, ButtonLoader };

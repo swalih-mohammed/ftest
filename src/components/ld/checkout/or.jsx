@@ -390,9 +390,13 @@ class OrderSummary extends Component {
                   </Link>
                 </ContinueShopping>
               </>
-            ) : null}
+            ) : (
+              <h6>You cart is empty</h6>
+            )}
           </>
-        ) : null}
+        ) : (
+          <h6>You cart is empty</h6>
+        )}
       </>
     );
   }

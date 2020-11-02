@@ -8,7 +8,7 @@ import { authAxios } from "../../../authAxios";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  margin: 20px 30px auto auto;
+  margin: 100px 30px auto auto;
   display: flex;
   flex-direction: column;
 `;
@@ -16,6 +16,8 @@ const Wrapper = styled.div`
 const StyledCard = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 800px;
   background-color: #fff;
   color: #333;
   border-radius: 10px;
@@ -76,7 +78,7 @@ class Address extends Component {
         {addressList ? (
           <>
             {addressList.map(address => (
-              <StyledCard>
+              <StyledCard key={address.id}>
                 <h2>{address.PlaceName}</h2>
                 <h4>{address.areaName}</h4>
                 <h6>{address.full_address}</h6>

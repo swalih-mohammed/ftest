@@ -12,7 +12,7 @@ import { authAxios } from "../../../authAxios";
 // import { fetchUser } from "../../../actions/user";
 
 const Wrapper = styled.div`
-  margin: 20px auto;
+  margin: 100px auto 20px auto;
   display: flex;
   flex-direction: column;
 `;

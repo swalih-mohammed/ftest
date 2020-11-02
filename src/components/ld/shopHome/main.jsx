@@ -45,10 +45,11 @@ class Shop extends Component {
   componentDidMount() {
     // document.getElementById("color").setAttribute("href", `#`);
     this.fetchShopDetails();
+    this.fetchProductCategory();
     this.fetchProducts();
     // this.fetchFreshProducts();
     // this.fetchfeaturedProducts();
-    // this.fetchProductCategory();
+
     // this.props.refreshCart();
   }
 
@@ -73,7 +74,7 @@ class Shop extends Component {
     const { limit, offset, query } = this.state;
     const shopID = params.shopID;
     if (limit != null && offset != null && query != null) {
-      console.log(limit, offset, query)
+      console.log(limit, offset, query);
       axios
         .get(
           ShopProductListInfinitURL +
@@ -222,14 +223,14 @@ class Shop extends Component {
                       ShopDetail={ShopDetail}
                     />
                   ) : null} */}
-                  {/* {ShopProductCategory.length > 1 ? (
-                      <Productcategory
-                        handleClearCategory={this.handleClearCategory}
-                        handleChangeCategory={this.handleChangeCategory}
-                        ShopProductCategory={ShopProductCategory}
-                        ShopDetail={ShopDetail}
-                      />
-                    ) : null} */}
+                  {ShopProductCategory.length > 1 ? (
+                    <Productcategory
+                      handleClearCategory={this.handleClearCategory}
+                      handleChangeCategory={this.handleChangeCategory}
+                      ShopProductCategory={ShopProductCategory}
+                      ShopDetail={ShopDetail}
+                    />
+                  ) : null}
                   {/* <Search /> */}
                   {products && (
                     <ProductList

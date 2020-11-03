@@ -77,7 +77,7 @@ class LocalityList extends React.PureComponent {
   // }
 
   componentDidMount() {
-    document.getElementById("color").setAttribute("href", `#`);
+    // document.getElementById("color").setAttribute("href", `#`);
     this.fetchlaces();
   }
 

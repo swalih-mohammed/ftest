@@ -326,9 +326,10 @@ class Item(models.Model):
         return self.productategory.name
     def get_image(self):
         if self.product_image:
-            if self.product_image.image1:
+            try:
+                #  self.product_image.image1:
                 return self.product_image.image1.url
-            else:
+            except Exception:
                 return None
 
 

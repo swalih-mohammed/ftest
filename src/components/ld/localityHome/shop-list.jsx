@@ -21,9 +21,9 @@ const ShopListSection = styled.div`
 `;
 
 class Shops extends Component {
-  componentDidMount() {
-    document.getElementById("color").setAttribute("href", `#`);
-  }
+  // componentDidMount() {
+  //   document.getElementById("color").setAttribute("href", `#`);
+  // }
 
   addToWishList = shop => {
     this.setState({ loading: true });

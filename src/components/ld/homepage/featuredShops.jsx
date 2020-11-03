@@ -18,9 +18,6 @@ class FeautredShops extends Component {
   state = {
     loading: false
   };
-  componentDidMount() {
-    document.getElementById("color").setAttribute("href", `#`);
-  }
 
   addToWishList = shop => {
     this.setState({ loading: true });

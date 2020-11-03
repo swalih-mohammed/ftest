@@ -19,10 +19,6 @@ const Test = styled.div`
 `;
 
 class FeautredShops extends Component {
-  componentDidMount() {
-    document.getElementById("color").setAttribute("href", `#`);
-  }
-
   render() {
     const { featuredShops } = this.props;
     return (

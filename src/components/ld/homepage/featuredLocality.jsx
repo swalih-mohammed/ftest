@@ -18,10 +18,6 @@ class FeautredLocality extends Component {
     error: null
   };
 
-  componentDidMount() {
-    document.getElementById("color").setAttribute("href", `#`);
-  }
-
   render() {
     const { Newlocalities } = this.props;
     // console.log(Newlocalities);

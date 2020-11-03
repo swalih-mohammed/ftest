@@ -67,9 +67,9 @@ class Homepage extends Component {
 
   componentDidMount() {
     // document.getElementById("color").setAttribute("href", `#`);
-    this.fetchAppInfo();
-    this.fetchNewPlaces();
-    this.fetchFeautredShops();
+    // this.fetchAppInfo();
+    // this.fetchNewPlaces();
+    // this.fetchFeautredShops();
   }
 
   fetchAppInfo = async () => {

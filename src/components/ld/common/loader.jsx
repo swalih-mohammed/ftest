@@ -65,7 +65,7 @@ class ButtonLoader extends Component {
     return (
       <MoonLoader
         css={override}
-        size={30}
+        size={20}
         color={"#ff5722"}
         loading={this.props.loading}
       />

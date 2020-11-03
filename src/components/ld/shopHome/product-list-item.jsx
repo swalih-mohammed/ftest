@@ -76,8 +76,10 @@ const Mybutton = styled.button`
   width: auto;
   border: 1px solid #ff5722;
   padding: 7px 14px;
-  background: #ff5722;
-  color: #fff;
+  /* background: #ff5722; */
+  /* color: #fff; */
+  background: ${props => (props.outofstock ? "#fff" : "#ff5722")};
+  color: ${props => (props.outofstock ? "#ff5722" : "#fff")};
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.7rem;
@@ -86,7 +88,6 @@ const Mybutton = styled.button`
     width: auto;
     background: #fff;
     color: #ff5722;
-
     padding: 7px 14px;
     cursor: pointer;
   }
@@ -175,7 +176,7 @@ class ProductStyleNine extends Component {
       ShopDetail
     } = this.props;
     const { isAdding } = this.state;
-    // console.log(isAdding);
+    // console.log(product);
 
     return (
       <>
@@ -222,7 +223,7 @@ class ProductStyleNine extends Component {
             </SelectWrap>
 
             {product.variations.length > 0 ? (
-              <React.Fragment>
+              <>
                 <>
                   {product.do_not_disply_when_not_available ? (
                     <>
@@ -244,10 +245,14 @@ class ProductStyleNine extends Component {
                         </Mybutton>
                       )}
                     </>
-                  ) : null}
+                  ) : (
+                    <Mybutton outofstock>Out of stock</Mybutton>
+                  )}
                 </>
-              </React.Fragment>
-            ) : null}
+              </>
+            ) : (
+              <Mybutton outofstock>Not available</Mybutton>
+            )}
           </ProductContent>
         </ProductCard>
       </>

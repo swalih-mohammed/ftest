@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Breadcrumb from "../common/breadcrumb";
-import { Table, Row, Col, Container } from "react-bootstrap";
+// import { Table, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 import {
   orderSummaryURL,
@@ -27,6 +27,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Container } from "../styled/utils";
 
 const OrderSummaryContainer = styled.div`
   display: flex;
@@ -263,12 +264,14 @@ class OrderSummary extends Component {
     // console.log(cartItems);
 
     return (
-      <>
+      <Container>
         {cartItems ? (
           <>
             {cartItems.order_items ? (
               <>
-                <ContinueShopping>
+                <ContinueShopping
+                  style={{ marginBottom: "0px", marginTop: "20px" }}
+                >
                   <h2>Order Summary</h2>
                 </ContinueShopping>
                 <OrderSummaryContainer>
@@ -397,7 +400,7 @@ class OrderSummary extends Component {
         ) : (
           <h6>You cart is empty</h6>
         )}
-      </>
+      </Container>
     );
   }
 }

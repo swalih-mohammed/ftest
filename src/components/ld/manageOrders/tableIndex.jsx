@@ -3,8 +3,8 @@ import React, { Component } from "react";
 // import Breadcrumb from "../common/breadcrumb";
 import { connect } from "react-redux";
 // import InfiniteScroll from "react-infinite-scroll-component";
-import Form from "./tableSearchForm";
-
+// import Form from "./tableSearchForm";
+import Form from "./deliverySearchForm";
 import { serviceAreaURL } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import { fetchUser } from "../../../actions/user";
@@ -51,13 +51,7 @@ class Manage extends Component {
     // const { userType, token } = this.props;
     // console.log(places);
 
-    return (
-      <div>
-        {/* <Breadcrumb title={"Manage"} /> */}
-
-        {places && <Form places={places} />}
-      </div>
-    );
+    return <div>{places && <Form places={places} />}</div>;
   }
 }
 

@@ -15,6 +15,7 @@ import Card from "react-bootstrap/Card";
 // import Result from "./orderList";
 import Result from "./testTable";
 import { ToastContainer, toast } from "react-toastify";
+import { PageLoader } from "../common/loader";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Container,
@@ -32,11 +33,18 @@ const FORM = styled.div`
   align-items: center;
 `;
 
+const PageWrapper = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
 const Manage = props => {
   const [orders, setOrders] = useState(null);
   const [loading, setloading] = useState(false);
-  // const [startDate, setStartDate] = useState(new Date());
-  // const [endDate, setEndDate] = useState(new Date());
+  const [place, setPlace] = useState("");
 
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 0), 0)
@@ -45,48 +53,44 @@ const Manage = props => {
     setHours(setMinutes(new Date(), 59), 23)
   );
 
-  // const validationSchema = Yup.object().shape({
-  //   place: Yup.string().required("Required")
-  // });
+  const selectPlace = e => {
+    console.log(e.target.value);
+    setPlace(e.target.value);
+  };
 
-  const formik = useFormik({
-    initialValues: {
-      place: ""
-    },
-    // validationSchema
-    onSubmit: values => {
-      // const place = values["place"] === undefined ? null : values["place"];
-      console.log("test");
-      const endingtDate = endDate === undefined ? null : endDate;
-      const staringtDate = startDate === undefined ? null : startDate;
-      const place = values["place"];
+  const fetchOrders = () => {
+    console.log("submitting");
+    // const place = values["place"] === undefined ? null : values["place"];
+    const selectedPlace = place === undefined ? null : place;
+    const endingtDate = endDate === undefined ? null : endDate;
+    const staringtDate = startDate === undefined ? null : startDate;
+    //   const place = values["place"];
 
-      if (place !== "") {
-        setloading(true);
-        authAxios
-          .get(orderFilterURL, {
-            params: {
-              place,
-              staringtDate,
-              endingtDate
-            }
-          })
-          .then(res => {
-            setOrders(res.data);
-            setloading(false);
-          })
-          .catch(err => {
-            setloading(false);
-            toast.error("error occured");
-          });
-      } else {
-        toast.error("Please select a place");
-      }
+    if (selectedPlace !== "") {
+      setloading(true);
+      authAxios
+        .get(orderFilterURL, {
+          params: {
+            selectedPlace,
+            staringtDate,
+            endingtDate
+          }
+        })
+        .then(res => {
+          setOrders(res.data);
+          setloading(false);
+        })
+        .catch(err => {
+          setloading(false);
+          toast.error("error occured");
+        });
+    } else {
+      toast.error("Please select a place");
     }
-  });
+  };
 
-  const handleChangeStartDate = date => setStartDate(date);
-  const handleChangeEndtDate = date => setEndDate(date);
+  //   const handleChangeStartDate = date => setStartDate(date);
+  //   const handleChangeEndtDate = date => setEndDate(date);
 
   const columns = [
     {
@@ -130,19 +134,20 @@ const Manage = props => {
   ];
 
   // const staringtDate =
-  console.log(orders);
+  //   console.log(props.places);
 
   return (
-    <Container>
-      {loading && <>loading</>}
-      <StyledCard>
-        <FORM onSubmit={formik.handleSubmit}>
+    <PageWrapper>
+      <ToastContainer />
+      {loading && <PageLoader />}
+      <StyledCard style={{ marginLeft: "10px", marginRight: "10px" }}>
+        <FORM onSubmit={fetchOrders}>
           <StyledSelect
             id="place"
             name="place"
             type="text"
-            onChange={formik.handleChange}
-            value={formik.values.place}
+            onChange={selectPlace}
+            value={place}
           >
             <option value="" disabled selected>
               Select your place
@@ -189,7 +194,7 @@ const Manage = props => {
               setHours(setMinutes(new Date(), 59), 23)
             ]}
           />
-          <Button type="submit"> Submit</Button>
+          <Button onClick={fetchOrders}> Submit</Button>
         </FORM>
       </StyledCard>
 
@@ -222,8 +227,12 @@ const Manage = props => {
         </>
       ) : null}
 
-      {orders ? <Result data={orders} columns={columns} /> : null}
-    </Container>
+      {orders ? (
+        <StyledCard style={{ padding: "5px" }}>
+          <Result data={orders} columns={columns} />
+        </StyledCard>
+      ) : null}
+    </PageWrapper>
   );
 };
 

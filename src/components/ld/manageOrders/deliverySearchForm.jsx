@@ -100,7 +100,7 @@ const Manage = props => {
 
       Cell: cellInfo => (
         <Link
-          to={`order/${cellInfo.value}`}
+          to={`staff-order/${cellInfo.value}`}
           // id={cellInfo.row.linkName}
         >
           {cellInfo.value}

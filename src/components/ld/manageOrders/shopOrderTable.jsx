@@ -14,6 +14,7 @@ import setMinutes from "date-fns/setMinutes";
 import Result from "./testTable";
 import styled from "styled-components";
 import { Loader, PageLoader } from "../common/loader";
+import { StyledDatePicker } from "../styled/utils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -111,7 +112,7 @@ const Manage = () => {
       accessor: "id",
 
       Cell: ({ row }) => (
-        <Link to={`${process.env.PUBLIC_URL}/order/${row.values.id}`}>
+        <Link to={`${process.env.PUBLIC_URL}/shop-order/${row.values.id}`}>
           {row.values.id}
         </Link>
       )
@@ -147,52 +148,50 @@ const Manage = () => {
 
   return (
     <Wrapper>
-      <StyledCard>
-        <DateWrapper>
-          <h6>From</h6>
-          <h6>To</h6>
-          <DatePicker
-            selected={startDate}
-            selectsStart
-            // onChange={handleChangeStartDate}
-            onChange={date => setStartDate(date)}
-            dateFormat="dd/MMM/yy"
-            // showTimeSelect
-            onFocus={e => (e.target.readOnly = true)}
-            popperModifiers={{
-              preventOverflow: {
-                enabled: true
-              }
-            }}
-            timeFormat="HH:mm"
-            injectTimes={[
-              setHours(setMinutes(new Date(), 1), 0),
-              setHours(setMinutes(new Date(), 5), 12),
-              setHours(setMinutes(new Date(), 59), 23)
-            ]}
-          />
+      <StyledCard style={{ alignItems: "center" }}>
+        {/* <DateWrapper> */}
+        <StyledDatePicker
+          selected={startDate}
+          selectsStart
+          // onChange={handleChangeStartDate}
+          onChange={date => setStartDate(date)}
+          dateFormat="dd/MMM/yy"
+          // showTimeSelect
+          onFocus={e => (e.target.readOnly = true)}
+          popperModifiers={{
+            preventOverflow: {
+              enabled: true
+            }
+          }}
+          timeFormat="HH:mm"
+          injectTimes={[
+            setHours(setMinutes(new Date(), 1), 0),
+            setHours(setMinutes(new Date(), 5), 12),
+            setHours(setMinutes(new Date(), 59), 23)
+          ]}
+        />
 
-          <DatePicker
-            className="form-group"
-            selected={endDate}
-            popperModifiers={{
-              preventOverflow: {
-                enabled: true
-              }
-            }}
-            // onChange={handleChangeEndtDate}
-            onChange={date => setEndDate(date)}
-            onFocus={e => (e.target.readOnly = true)}
-            // showTimeSelect
-            dateFormat="dd/MMM/yy"
-            timeFormat="HH:mm"
-            injectTimes={[
-              setHours(setMinutes(new Date(), 1), 0),
-              setHours(setMinutes(new Date(), 5), 12),
-              setHours(setMinutes(new Date(), 59), 23)
-            ]}
-          />
-        </DateWrapper>
+        <StyledDatePicker
+          className="form-group"
+          selected={endDate}
+          popperModifiers={{
+            preventOverflow: {
+              enabled: true
+            }
+          }}
+          // onChange={handleChangeEndtDate}
+          onChange={date => setEndDate(date)}
+          onFocus={e => (e.target.readOnly = true)}
+          // showTimeSelect
+          dateFormat="dd/MMM/yy"
+          timeFormat="HH:mm"
+          injectTimes={[
+            setHours(setMinutes(new Date(), 1), 0),
+            setHours(setMinutes(new Date(), 5), 12),
+            setHours(setMinutes(new Date(), 59), 23)
+          ]}
+        />
+
         <StyledButton
           type="submit"
           // className="btn btn-solid"
@@ -203,6 +202,7 @@ const Manage = () => {
         >
           Submit
         </StyledButton>
+        {/* </DateWrapper> */}
       </StyledCard>
       {orders ? (
         <div>

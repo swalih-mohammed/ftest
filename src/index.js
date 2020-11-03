@@ -133,9 +133,14 @@ const ShopDashboard = lazy(() =>
   import("./components/ld/manageShops/shopDash")
 );
 
-const OrderItem = lazy(() => import("./components/ld/orders/order-item"));
 const OrderItemCustomer = lazy(() =>
   import("./components/ld/orders/order-item-customer")
+);
+const OrderItemShop = lazy(() =>
+  import("./components/ld/orders/order-item-shop")
+);
+const OrderItemStaff = lazy(() =>
+  import("./components/ld/orders/order-item-staff")
 );
 
 const AddShop = lazy(() => import("./components/ld/manageShops/addShop"));
@@ -242,12 +247,16 @@ class Root extends React.Component {
                     component={Orders}
                   /> */}
                   <Route
-                    path={`${process.env.PUBLIC_URL}/order/:orderID`}
-                    component={OrderItem}
+                    path={`${process.env.PUBLIC_URL}/shop-order/:orderID`}
+                    component={OrderItemShop}
                   />
                   <Route
                     path={`${process.env.PUBLIC_URL}/customer-order/:orderID`}
                     component={OrderItemCustomer}
+                  />
+                  <Route
+                    path={`${process.env.PUBLIC_URL}/staff-order/:orderID`}
+                    component={OrderItemStaff}
                   />
 
                   <Route

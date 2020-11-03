@@ -22,10 +22,6 @@ const ColumnFilter = ({ column: { filterValue, setFilter, filter } }) => {
   );
 };
 
-/**
- * As in the previous versions, any react table needs colums where at the core we have a field Header, and accessor
- * As in the previous versions, a react table has data that consist of an array of JSONs
- */
 const ReactTable = ({ columns, data }) => {
   // functions to run when a column is filtered depending on the type
   const filterTypes = {

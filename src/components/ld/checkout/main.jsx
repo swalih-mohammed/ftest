@@ -308,7 +308,7 @@ class checkOut extends Component {
 
                       {cart.order_items.map((item, index) => {
                         return (
-                          <ProductDetail>
+                          <ProductDetail key={index}>
                             <h5>
                               {item.itemLocalName
                                 ? item.itemLocalName

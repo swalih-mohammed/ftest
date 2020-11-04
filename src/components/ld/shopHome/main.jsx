@@ -13,6 +13,7 @@ import ProductList from "./product-list";
 import Productcategory from "../products/productCategory";
 import { CardInfo, CardTitle, StyledCover } from "../styled/jumbotron";
 import { PageLoader } from "../common/loader";
+import { Container } from "../styled/utils";
 
 import {
   ShopProductListInfinitURL,
@@ -188,7 +189,7 @@ class Shop extends Component {
     // console.log("test main");
 
     return (
-      <div>
+      <Container>
         {/* {this.state.loading ? <Loader loading={loading} /> : null} */}
         {ShopDetail && (
           <div>
@@ -256,7 +257,7 @@ class Shop extends Component {
             </div>
           </div>
         )}
-      </div>
+      </Container>
     );
   }
 }

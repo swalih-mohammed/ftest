@@ -24,7 +24,7 @@ const ProductCard = styled.div`
   width: 100%;
   height: 200px;
   margin: 5px;
-  max-width: 500px;
+  max-width: 800px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border-radius: 5px;
   padding: 0px 25px;
@@ -127,14 +127,15 @@ class ProductStyleNine extends Component {
   };
 
   handleAddToCart = (id, shop, variation) => {
+    // console.log("adding");
     if (this.props.token !== null) {
       this.setState({ isAdding: true });
       authAxios
         .post(addToCartURL, { id, shop, variation })
         .then(res => {
-          toast.success("item added to cart");
           this.props.refreshCart();
           this.setState({ isAdding: false });
+          toast.success("Product added to cart");
         })
         .catch(err => {
           if (err.response) {
@@ -255,6 +256,7 @@ class ProductStyleNine extends Component {
             )}
           </ProductContent>
         </ProductCard>
+        <ToastContainer />
       </>
     );
   }

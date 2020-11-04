@@ -43,7 +43,7 @@ import PassworResetSuccess from "./components/ld/pages/password-changed";
 
 import Wishlist from "./components/ld/wishlist/main";
 import Checkout from "./components/ld/checkout/main";
-import OrderSummary from "./components/ld/checkout/or";
+import OrderSummary from "./components/ld/checkout/order-summary";
 
 //shop products
 // import ShopProducts from "./components/ld/products/productList";

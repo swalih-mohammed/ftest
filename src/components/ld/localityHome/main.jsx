@@ -8,6 +8,7 @@ import FeautredShopList from "./featured-shop-list";
 import ShopList from "./shop-list";
 import styled from "styled-components";
 import { PageLoader, Loader } from "../common/loader";
+import { Container, PageWrapper } from "../styled/utils";
 
 import {
   placeShopListURL,
@@ -19,12 +20,15 @@ import { CardInfo, CardTitle, StyledCover } from "../styled/jumbotron";
 export const TitleShops = styled.h1`
   display: flex;
   justify-content: center;
+  align-items: center;
   font-family: "Playfair Display";
   color: #333333;
   font-size: 30px;
   font-weight: 800;
   margin-bottom: 1rem;
   margin-top: 3rem;
+  margin-left: auto;
+  margin-right: auto;
   text-shadow: rgba(black, 0.5) 0 10px 10px;
 `;
 
@@ -100,11 +104,11 @@ class Locality extends Component {
     const { featuredShops, placeDetail, shops, loading } = this.state;
     // console.log(placeDetail);
     return (
-      <div>
+      <>
         {this.state.loading ? (
           <PageLoader loading={true} />
         ) : (
-          <React.Fragment>
+          <PageWrapper>
             {placeDetail && (
               <>
                 <StyledCover imgurl={placeDetail.image}>
@@ -137,9 +141,9 @@ class Locality extends Component {
             ) : (
               <>{this.state.loading ? null : <p>No shops to show</p>}</>
             )}
-          </React.Fragment>
+          </PageWrapper>
         )}
-      </div>
+      </>
     );
   }
 }

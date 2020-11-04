@@ -475,9 +475,13 @@ class OrderItem(models.Model):
         else:
             return 0
     def item_image(self):
-        if self.item.product_image:
+        # if self.item.product_image:
+        #     return self.item.product_image.image1.url
+        # return None
+        try:
             return self.item.product_image.image1.url
-        return None
+        except:
+            return None
     def order_status(self):
         return self.order
 

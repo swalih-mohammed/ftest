@@ -2,6 +2,13 @@ import React, { Component } from "react";
 import DatePicker from "react-datepicker";
 import styled from "styled-components";
 
+export const PageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px auto;
+`;
+
 export const Container = styled.div`
   display: flex;
   justify-content: center;

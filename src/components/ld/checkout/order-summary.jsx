@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 // import Breadcrumb from "../common/breadcrumb";
 // import { Table, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
+import EmptyCartSVG from "./empty-cart-svg";
 import {
   orderSummaryURL,
   addToCartURL,
@@ -314,7 +315,8 @@ class OrderSummary extends Component {
             )}
           </>
         ) : (
-          <h6>You cart is empty</h6>
+          // <h6>You cart is emptyy</h6>
+          <EmptyCartSVG />
         )}
       </Container>
     );

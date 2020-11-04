@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 // import Breadcrumb from "../common/breadcrumb";
 import { authAxios } from "../../../authAxios";
 import { orderFilterURL } from "../../../constants";
-import { useFormik, Field } from "formik";
+// import { useFormik, Field } from "formik";
 // import * as Yup from "yup";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
@@ -54,24 +54,25 @@ const Manage = props => {
   );
 
   const selectPlace = e => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setPlace(e.target.value);
   };
 
   const fetchOrders = () => {
-    console.log("submitting");
+    // console.log("submitting");
     // const place = values["place"] === undefined ? null : values["place"];
-    const selectedPlace = place === undefined ? null : place;
+    // const place = place === undefined ? null : place;
     const endingtDate = endDate === undefined ? null : endDate;
     const staringtDate = startDate === undefined ? null : startDate;
     //   const place = values["place"];
+    // console.log(place);
 
-    if (selectedPlace !== "") {
+    if (place !== "") {
       setloading(true);
       authAxios
         .get(orderFilterURL, {
           params: {
-            selectedPlace,
+            place,
             staringtDate,
             endingtDate
           }

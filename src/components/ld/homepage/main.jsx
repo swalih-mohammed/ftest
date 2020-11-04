@@ -133,7 +133,7 @@ class Homepage extends Component {
               <TopPic />
             </SVGWrap>
 
-            <Wave />
+            {/* <Wave /> */}
             <Card>
               Local Dukans helps your locality comes online! To find your local
               shops, please add your address.{" "}

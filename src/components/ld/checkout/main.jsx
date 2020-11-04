@@ -11,6 +11,7 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Loader, ButtonLoader } from "../common/loader";
 import { Container } from "../styled/utils";
+import EmptyCartSVG from "./empty-cart-svg";
 import {
   addressListURL,
   checkoutURL,

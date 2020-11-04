@@ -52,7 +52,7 @@ export const CardTitle = styled.h1`
 
 export const StyledCover = styled.div`
   position: relative;
-  height: 40vh;
+  height: 30vh;
   margin-left: 0;
   margin-right: 0;
   background-image: url(${props => props.imgurl});

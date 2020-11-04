@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
-import "../../common/index.scss";
+// import "../../common/index.scss";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Offer from "./offer";
 import axios from "axios";
@@ -54,9 +53,14 @@ class Shop extends Component {
     // this.props.refreshCart();
   }
 
+  CenterThePage = () => {
+    setTimeout(() => window.scrollTo(0, 100), 3000);
+  };
+
   handleChangeCategory = cat => {
     this.setState({ offset: 0, query: cat, hasMore: true }, () => {
       this.fetchProducts();
+      this.CenterThePage();
     });
   };
 
@@ -64,6 +68,7 @@ class Shop extends Component {
     // window.scrollTo(0, 1300);
     this.setState({ offset: 0, query: "all", hasMore: true }, () => {
       this.fetchProducts();
+      this.CenterThePage();
     });
   };
 

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { authSignup } from "../../../actions/auth";
+// import { authSignup } from "../../../actions/auth";
 import { Link } from "react-router-dom";
-import Breadcrumb from "../common/breadcrumb";
+// import Breadcrumb from "../common/breadcrumb";
 import { authAxios } from "../../../authAxios";
 import { orderFilterURL } from "../../../constants";
-import { useFormik, Field } from "formik";
-import DatePicker from "react-datepicker";
-import { Form, Card } from "react-bootstrap";
+// import { useFormik, Field } from "formik";
+// import DatePicker from "react-datepicker";
+import { Card } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
@@ -31,16 +31,6 @@ const TableWrapper = styled.div`
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 `;
 
-const DateWrapper = styled.div`
-  margin: 20px auto;
-  display: grid;
-  grid-template-columns: 1fr 6fr;
-  grid-template-rows: 1fr 1fr;
-  /* width: 250px; */
-  gap: 10px;
-  /* overflow: hidden; */
-  /* hight: 10px; */
-`;
 const StyledCard = styled.div`
   display: flex;
   flex-direction: column;
@@ -68,7 +58,7 @@ const StyledButton = styled.button`
     color: #343a40;
   }
 `;
-const Manage = () => {
+const ShopOrderManage = () => {
   const [orders, setOrders] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -231,4 +221,4 @@ const Manage = () => {
   );
 };
 
-export default Manage;
+export default ShopOrderManage;

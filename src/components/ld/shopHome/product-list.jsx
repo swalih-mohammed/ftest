@@ -55,12 +55,20 @@ const CardTitle = styled.h1`
   font-weight: 800;
   /* margin-bottom: 3rem; */
   margin-top: 3rem;
+  /* position: absolute; */
+  /* top: ${props => (props.middletheEelement ? "50%" : "")}; */
   text-shadow: rgba(black, 0.5) 0 10px 10px;
 `;
 
 class ProductList extends Component {
   render() {
-    const { products, loading, ShopDetail, hasmore } = this.props;
+    const {
+      products,
+      loading,
+      ShopDetail,
+      hasmore,
+      middletheEelement
+    } = this.props;
     // console.log(this.props.loadingProductsLoadMore);
 
     return (

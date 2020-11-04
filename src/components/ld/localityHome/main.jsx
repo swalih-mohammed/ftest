@@ -105,44 +105,41 @@ class Locality extends Component {
     // console.log(placeDetail);
     return (
       <>
-        {this.state.loading ? (
-          <PageLoader loading={true} />
-        ) : (
-          <PageWrapper>
-            {placeDetail && (
-              <>
-                <StyledCover imgurl={placeDetail.image}>
-                  <CardInfo>
-                    <CardTitle>{placeDetail.name}</CardTitle>
-                  </CardInfo>
-                </StyledCover>
-                {/* <div> */}
-                {/* {placeDetail.offer_message !== "" ? (
+        <PageWrapper>
+          {this.state.loading ? <PageLoader /> : null}
+          {placeDetail && (
+            <>
+              <StyledCover imgurl={placeDetail.image}>
+                <CardInfo>
+                  <CardTitle>{placeDetail.name}</CardTitle>
+                </CardInfo>
+              </StyledCover>
+              {/* <div> */}
+              {/* {placeDetail.offer_message !== "" ? (
                     <Offer message={placeDetail.offer_message} />
                   ) : null}
                   {placeDetail.shipping_message !== "" ? (
                     <Shipping message={placeDetail.shipping_message} />
                   ) : null} */}
-                {/* </div> */}
-              </>
-            )}
-            {/* {featuredShops.length > 0 ? (
+              {/* </div> */}
+            </>
+          )}
+          {/* {featuredShops.length > 0 ? (
               <FeautredShopList featuredShops={featuredShops} />
             ) : null} */}
 
-            {shops.length > 0 ? (
-              <>
-                <TitleShops>Shops</TitleShops>
-                {this.shopsLoading ? <Loader loading={true} /> : null}
-                <ShopListSection>
-                  <ShopList shops={shops} />
-                </ShopListSection>
-              </>
-            ) : (
-              <>{this.state.loading ? null : <p>No shops to show</p>}</>
-            )}
-          </PageWrapper>
-        )}
+          {shops.length > 0 ? (
+            <>
+              <TitleShops>Shops</TitleShops>
+              {this.shopsLoading ? <Loader loading={true} /> : null}
+              <ShopListSection>
+                <ShopList shops={shops} />
+              </ShopListSection>
+            </>
+          ) : (
+            <>{this.state.loading ? null : <p>No shops to show</p>}</>
+          )}
+        </PageWrapper>
       </>
     );
   }

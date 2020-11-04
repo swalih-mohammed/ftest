@@ -6,7 +6,7 @@ import { authLogin } from "../../../actions/auth";
 // import { Form } from "react-bootstrap";
 import { Formik, ErrorMessage } from "formik";
 import { Redirect, Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { Container } from "../styled/utils";
 import { ButtonLoader } from "../common/loader";
@@ -84,7 +84,7 @@ const LoginValidation = Yup.object().shape({
 });
 
 const Login = props => {
-  console.log(props.token);
+  // console.log(props.token);
   if (props.token) {
     return <Redirect to="/" />;
   }

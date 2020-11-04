@@ -31,6 +31,7 @@ const Card = styled.div`
 const StyledButton = styled.button`
   display: flex;
   justify-content: centet;
+  width: 100%;
   max-width: 150px;
   padding: 10px 30px;
   cursor: pointer;

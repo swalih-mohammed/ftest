@@ -75,7 +75,7 @@ class Shop extends Component {
     const { limit, offset, query } = this.state;
     const shopID = params.shopID;
     if (limit != null && offset != null && query != null) {
-      console.log(limit, offset, query);
+      // console.log(limit, offset, query);
       axios
         .get(
           ShopProductListInfinitURL +

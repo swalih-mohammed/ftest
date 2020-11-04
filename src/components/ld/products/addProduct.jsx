@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import Breadcrumb from "../common/breadcrumb";
 import axios from "axios";
 import Image from "react-bootstrap/Image";
-
+import { Container, Card } from "../styled/utils";
+import { PageLoader } from "../common/loader";
 import {
   productImagesURL,
   ShopProductCategoryURL,
@@ -12,18 +12,8 @@ import {
 } from "../../../constants";
 import { authAxios } from "../../../authAxios";
 import Select from "react-select";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-import {
-  Form,
-  Button,
-  InputGroup,
-  FormControl,
-  Col,
-  Container
-} from "react-bootstrap";
+import { toast } from "react-toastify";
+import { Form, Button, InputGroup, FormControl, Col } from "react-bootstrap";
 
 class AddProduct extends Component {
   state = {
@@ -175,85 +165,86 @@ class AddProduct extends Component {
     }
     return (
       <Container>
-        {this.state.loading && <div className="loading-cls"></div>}
-        <Form onSubmit={this.handleCreateItem}>
-          <Form.Group controlId="title">
-            <Form.Label>Product Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="title"
-              value={title || ""}
-              onChange={this.handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="title">
-            <Form.Label>Product Local Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="title_local"
-              value={title_local || ""}
-              onChange={this.handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="stock_count">
-            <Form.Label>Stock Count</Form.Label>
-            <Form.Control
-              type="text"
-              name="stock_count"
-              value={stock_count || ""}
-              onChange={this.handleChange}
-            />
-          </Form.Group>
+        <Card>
+          {this.state.loading && <PageLoader />}
+          <Form onSubmit={this.handleCreateItem}>
+            <Form.Group controlId="title">
+              <Form.Label>Product Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="title"
+                value={title || ""}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="title">
+              <Form.Label>Product Local Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="title_local"
+                value={title_local || ""}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="stock_count">
+              <Form.Label>Stock Count</Form.Label>
+              <Form.Control
+                type="text"
+                name="stock_count"
+                value={stock_count || ""}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
 
-          <div>
-            <Select
-              className="mb-3"
-              onChange={this.handleChangeCategory}
-              getOptionLabel={option => `${option.name}`}
-              getOptionValue={option => `${option}`}
-              options={this.state.ShopProductCategory}
-              isSearchable={true}
-              placeholder={"Select product category"}
-            />
-          </div>
-          <div>
-            <Select
-              className="mb-3"
-              onChange={this.handleChangeImage}
-              getOptionLabel={option => `${option.name}`}
-              getOptionValue={option => `${option}`}
-              options={this.state.productImages}
-              isSearchable={true}
-              noOptionsMessage={() => null}
-              placeholder={"Select image"}
-            />
-          </div>
-          {this.state.selectedImage ? (
-            <Col xs={8} md={4}>
-              <Image src={this.state.selectedImage} loading="lazy" fluid />
-            </Col>
-          ) : null}
+            <div>
+              <Select
+                className="mb-3"
+                onChange={this.handleChangeCategory}
+                getOptionLabel={option => `${option.name}`}
+                getOptionValue={option => `${option}`}
+                options={this.state.ShopProductCategory}
+                isSearchable={true}
+                placeholder={"Select product category"}
+              />
+            </div>
+            <div>
+              <Select
+                className="mb-3"
+                onChange={this.handleChangeImage}
+                getOptionLabel={option => `${option.name}`}
+                getOptionValue={option => `${option}`}
+                options={this.state.productImages}
+                isSearchable={true}
+                noOptionsMessage={() => null}
+                placeholder={"Select image"}
+              />
+            </div>
+            {this.state.selectedImage ? (
+              <Col xs={8} md={4}>
+                <Image src={this.state.selectedImage} loading="lazy" fluid />
+              </Col>
+            ) : null}
 
-          <Form.Group controlId="on_sale">
-            <Form.Check
-              type="checkbox"
-              label="On sale"
-              name="is_on_sale"
-              checked={is_on_sale}
-              onChange={this.handleChangeCheckBox}
-            />
-          </Form.Group>
+            <Form.Group controlId="on_sale">
+              <Form.Check
+                type="checkbox"
+                label="On sale"
+                name="is_on_sale"
+                checked={is_on_sale}
+                onChange={this.handleChangeCheckBox}
+              />
+            </Form.Group>
 
-          <Form.Group controlId="is_available">
-            <Form.Check
-              type="checkbox"
-              name="is_available"
-              label="In stock"
-              checked={is_available}
-              onChange={this.handleChangeCheckBox}
-            />
-          </Form.Group>
-          {/* <Form.Group controlId="is_feautured">
+            <Form.Group controlId="is_available">
+              <Form.Check
+                type="checkbox"
+                name="is_available"
+                label="In stock"
+                checked={is_available}
+                onChange={this.handleChangeCheckBox}
+              />
+            </Form.Group>
+            {/* <Form.Group controlId="is_feautured">
             <Form.Check
               type="checkbox"
               label="Feautured product"
@@ -263,20 +254,21 @@ class AddProduct extends Component {
             />
           </Form.Group> */}
 
-          <Form.Group controlId="item_stock">
-            <Form.Check
-              type="checkbox"
-              label="Manage stock from product"
-              name="item_stock"
-              checked={item_stock}
-              onChange={this.handleChangeCheckBox}
-            />
-          </Form.Group>
+            <Form.Group controlId="item_stock">
+              <Form.Check
+                type="checkbox"
+                label="Manage stock from product"
+                name="item_stock"
+                checked={item_stock}
+                onChange={this.handleChangeCheckBox}
+              />
+            </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>
+        </Card>
       </Container>
     );
   }

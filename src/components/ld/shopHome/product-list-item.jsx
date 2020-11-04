@@ -9,8 +9,8 @@ import { fetchCart, clearKart } from "../../../actions/cart";
 // import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { authAxios } from "../../../authAxios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 // import { Row } from "react-bootstrap";
 // import { LabelFour } from "../styled/productBox";
@@ -256,7 +256,6 @@ class ProductStyleNine extends Component {
             )}
           </ProductContent>
         </ProductCard>
-        <ToastContainer />
       </>
     );
   }

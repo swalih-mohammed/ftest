@@ -42,6 +42,7 @@ const LogoContainer = styled.div`
 const StyledfaShoppingCart = styled.div`
   display: flex;
   margin-left: auto;
+  padding-right: 10px;
 `;
 
 const StyledfaMenuIcon = styled.div`

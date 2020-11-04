@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ScrollContext } from "react-router-scroll-4";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // import "./index.scss";
 // import "../public/assets/scss/bootstrap";
@@ -164,6 +166,12 @@ class Root extends React.Component {
               <GlobalStyle />
               <Switch>
                 <Layout>
+                  <ToastContainer />
+                  <Route
+                    exact
+                    path={`${process.env.PUBLIC_URL}/`}
+                    component={homepage}
+                  />
                   <Route
                     path={`${process.env.PUBLIC_URL}/reset-password`}
                     component={PassworReset}
@@ -186,12 +194,6 @@ class Root extends React.Component {
                   <Route
                     path={`${process.env.PUBLIC_URL}/register`}
                     component={Register}
-                  />
-
-                  <Route
-                    exact
-                    path={`${process.env.PUBLIC_URL}/`}
-                    component={homepage}
                   />
 
                   <Route

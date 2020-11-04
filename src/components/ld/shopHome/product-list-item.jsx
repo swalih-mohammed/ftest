@@ -135,7 +135,7 @@ class ProductStyleNine extends Component {
         .then(res => {
           this.props.refreshCart();
           this.setState({ isAdding: false });
-          toast.success("Product added to cart");
+          // toast.success("Product added to cart");
         })
         .catch(err => {
           if (err.response) {

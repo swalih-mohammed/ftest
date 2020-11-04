@@ -263,17 +263,17 @@ class checkOut extends Component {
     // const { address } = this.state.addressList[0];
     const {
       addressList,
-      selectedAddress,
+      // selectedAddress,
       cart,
-      ShopModeOfPayment,
-      shop_id,
+      // ShopModeOfPayment,
+      // shop_id,
       offer,
       error,
       success
     } = this.state;
 
     // console.log(this.state.cart);
-    // console.log(ShopModeOfPayment);
+    // console.log(cart);
 
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
@@ -283,7 +283,9 @@ class checkOut extends Component {
     }
     return (
       <Container>
-        {this.state.loading ? <Loader /> : null}
+        {this.state.loading ? (
+          <Loader style={{ marginBottom: "30px" }} />
+        ) : null}
         {cart ? (
           <>
             {cart.order_items ? (
@@ -323,7 +325,7 @@ class checkOut extends Component {
 
                       <ProductTotal>
                         <h3>Total</h3>
-                        <h3>Rs: 123</h3>
+                        <h3>{cart.total}</h3>
                       </ProductTotal>
                     </CheckOutWrapperContainer>
                   </CheckOutWrapper>
@@ -419,11 +421,14 @@ class checkOut extends Component {
                 </ButtonWrapper>
               </>
             ) : (
-              <h6>You do not have an active order</h6>
+              <>{this.state.loading ? null : <EmptyCartSVG />}</>
+              // <h6>You do not have an active order</h6>
             )}
           </>
         ) : (
-          <h6>You do not have an active order</h6>
+          <>{this.state.loading ? null : <EmptyCartSVG />}</>
+          // <h6>You do not have an active order</h6>
+          // <EmptyCartSVG/>
         )}
       </Container>
     );

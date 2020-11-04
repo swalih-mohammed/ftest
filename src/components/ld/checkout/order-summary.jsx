@@ -265,7 +265,7 @@ class OrderSummary extends Component {
   render() {
     const { loading } = this.state;
     const { cartItems } = this.props;
-    // console.log(cartItems);
+    console.log(cartItems);
 
     return (
       <Container>
@@ -293,7 +293,7 @@ class OrderSummary extends Component {
                     <h1>Total</h1>
                   </OrderTotalItem>
                   <OrderTotalItem>
-                    <h1>3</h1>
+                    <h1>{cartItems.total}</h1>
                   </OrderTotalItem>
                 </OrderTotalWrap>
                 <CheckOutWrapper>
@@ -311,7 +311,7 @@ class OrderSummary extends Component {
                 </ContinueShopping>
               </>
             ) : (
-              <h6>You cart is empty</h6>
+              <EmptyCartSVG />
             )}
           </>
         ) : (

@@ -5,8 +5,8 @@ class TopSVG extends Component {
     return (
       <>
         <svg
-          width="771"
-          height="671"
+          width="100%"
+          height="298"
           viewBox="0 0 771 671"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

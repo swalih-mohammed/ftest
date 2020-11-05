@@ -119,10 +119,11 @@ class checkOut extends Component {
     coupon: "",
     Coupondisplay: false,
     offer: "",
-    error: ""
+    error: "",
+    out_of_stock_items:[]
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.handleFetchAddresses();
     // this.props.refreshCart();
     this.handleFetchOrder();
@@ -218,14 +219,14 @@ class checkOut extends Component {
 
   submit = ev => {
     ev.preventDefault();
-    // console.log("test");
+    console.log("test");
     if (this.state.addressList) {
     }
     const selectedAddress = this.state.addressList[0].id;
     // console.log(addressList);
     this.setState({ submitting: true });
     const { addressList } = this.state;
-    const selectedModeofPayment = 9;
+    const selectedModeofPayment = 1;
 
     if (selectedModeofPayment !== null && addressList.length > 0) {
       authAxios
@@ -240,15 +241,19 @@ class checkOut extends Component {
           this.props.refreshCart();
         })
         .catch(err => {
-          this.setState({ submitting: false, error: err }, () => {
-            // this.redirectToOrders();
-            toast.success("There was an error");
-            this.setState({ submitting: false });
-          });
+          if (err.response){
+            if (err.response.data){
+              const error = err.response.data.message;
+              this.setState({ out_of_stock_items:  error, submitting: false});
+              // console.log(error)
+            }else {
+              toast.error("Error");
+            }
+          }
         });
     } else {
       this.setState({ submitting: false });
-      toast.error("Please select mode of payment and create an address");
+      // toast.error("Please select mode of payment and create an address");
     }
   };
 
@@ -272,8 +277,8 @@ class checkOut extends Component {
       success
     } = this.state;
 
-    // console.log(this.state.cart);
-    // console.log(cart);
+    console.log(this.state.out_of_stock_items);
+    console.log(cart);
 
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
@@ -309,24 +314,20 @@ class checkOut extends Component {
                         <h2> Product Details</h2>
                       </CheckoutHeadingContainer>
 
-                      {cart.order_items.map((item, index) => {
-                        return (
-                          <ProductDetail key={index}>
-                            <h5>
-                              {item.itemLocalName
-                                ? item.itemLocalName
-                                : item.itemName}
-                              [{item.vname}] × {item.quantity}
-                            </h5>
-                            <h5>Rs:{item.final_price}</h5>
-                          </ProductDetail>
-                        );
-                      })}
+                   
 
                       <ProductTotal>
                         <h3>Total</h3>
                         <h3>{cart.total}</h3>
                       </ProductTotal>
+
+                      { this.state.out_of_stock_items ? <> {
+                  this.state.out_of_stock_items.length > 0 ? <Alert>
+                    <p style={{color: "red"}}>{this.state.out_of_stock_items}</p>
+                    <h6 style={{color:"red"}}>are out of stock, do you want to continue?</h6>
+                    <Button onClick={this.submit}>Confirm order</Button>
+                  </Alert> : null}</> : null}
+                      
                     </CheckOutWrapperContainer>
                   </CheckOutWrapper>
                 </CheckoutContainer>
@@ -422,13 +423,12 @@ class checkOut extends Component {
               </>
             ) : (
               <>{this.state.loading ? null : <EmptyCartSVG />}</>
-              // <h6>You do not have an active order</h6>
+            
             )}
           </>
         ) : (
           <>{this.state.loading ? null : <EmptyCartSVG />}</>
-          // <h6>You do not have an active order</h6>
-          // <EmptyCartSVG/>
+         
         )}
       </Container>
     );

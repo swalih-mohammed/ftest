@@ -5,6 +5,7 @@ import Header from "./ld/common/header";
 import { connect } from "react-redux";
 import { authCheckState } from "../actions/auth";
 import Loader from "./ld/common/loader";
+import { fetchCart, clearKart } from "../actions/cart";
 const Footer = lazy(() => import("./ld/common/footer"));
 // import styled from "styled-components";
 // import Loader from "../common/loader";
@@ -27,6 +28,7 @@ class App extends Component {
   componentDidMount() {
     this.props.onTryAutoSignup();
     // this.props.fetchUser();
+    //  this.props.fetchCart();
   }
 
   render() {
@@ -51,8 +53,10 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    onTryAutoSignup: () => dispatch(authCheckState())
+    onTryAutoSignup: () => dispatch(authCheckState()),
     // fetchUser: () => dispatch(fetchUser())
+    // fetchCart: () => dispatch(fetchCart())
+    // refreshCart: () => dispatch(fetchCart()),
   };
 };
 

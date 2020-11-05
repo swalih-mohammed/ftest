@@ -62,7 +62,9 @@ class Header extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchCart();
+    if (this.props.isAuthenticated){
+       this.props.fetchCart();
+    }
   }
 
   openSidebar = () => {
@@ -128,8 +130,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     logout: () => dispatch(logout()),
-    clearKart: () => dispatch(clearKart),
-    fetchCart: () => dispatch(fetchCart)
+    clearKart: () => dispatch(clearKart()),
+    fetchCart: () => dispatch(fetchCart())
   };
 };
 

@@ -470,10 +470,13 @@ class OrderItem(models.Model):
         return f"{self.quantity} of {self.item.title}"
 
     def final_price(self):
-        if self.item_variation:
-            return self.quantity * self.item_variation.discount_price
-        else:
-            return 0
+        try:
+            if self.item_variation:
+                return self.quantity * self.item_variation.discount_price
+            else:
+                return 0
+        except:
+            return None
     def item_image(self):
         # if self.item.product_image:
         #     return self.item.product_image.image1.url

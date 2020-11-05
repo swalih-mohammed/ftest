@@ -9,6 +9,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
+
 from rest_framework.generics import (
     ListAPIView, RetrieveAPIView, CreateAPIView,
     UpdateAPIView, DestroyAPIView, GenericAPIView
@@ -19,6 +23,7 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.decorators import api_view
+
 
 from core.models import Item, OrderItem, Order, AppInfo
 
@@ -154,80 +159,82 @@ class AddToCartView(APIView):
             area = shippingAreas.filter(id=userAddressArea.id).first()
             if area is None:
                 return Response({"message": "No delivery to your area"}, status=HTTP_400_BAD_REQUEST)
-        # item controls the stock
-        if item.item_stock:
-            print("item controls the stock")
+        
+
+        #########   check if item is in stock 
+
+        if item.item_stock: # item controls the stock
+            # print("item controls the stock")
             stock_count = 'stock_count'
             item_count = getattr(item, stock_count)
-            print(item_count)
+            # print(item_count)
             # count is less than one
-            if item_count < variation_weight:
-                print("item count less tahn 1 ")
-                serializer = ItemSerializer(
-                    item,  data={'is_available': False, 'v_is_available': False}, partial=True)
-                if serializer.is_valid():
-                    serializer.save()
-                    item.save()
-                    print(item)
+            if item_count < variation_weight: # item is out of stock
+                # print("item count less tahn 1 ")
+                # serializer = ItemSerializer(
+                #     item,  data={'is_available': False, 'v_is_available': False}, partial=True)
+                # if serializer.is_valid():
+                #     serializer.save()
+                    # item.save()
+                    # print(item)
                     return Response({"message": "Out of stock"}, status=HTTP_400_BAD_REQUEST)
-            # count is more than one
-            else:
-                print("item les than one else")
-                print(item.stock_count)
-                item.stock_count -= variation_weight
-                print(item.stock_count)
-                item.save()
+            
+            else: # item is in stock
+                print("item is in stock")
                 # print(item.stock_count)
-                if item.stock_count <= 0:
-                    print("item count less tahn 1 ")
-                    serializer = ItemSerializer(
-                        item,  data={'is_available': False, 'v_is_available': False}, partial=True)
-                    if serializer.is_valid():
-                        serializer.save()
-                        item.save()
-                item.save()
+                # item.stock_count -= variation_weight
+                # print(item.stock_count)
+                # item.save()
+                # print(item.stock_count)
+                # if item.stock_count <= 0:
+                #     print("item count less tahn 1 ")
+                #     serializer = ItemSerializer(
+                #         item,  data={'is_available': False, 'v_is_available': False}, partial=True)
+                #     if serializer.is_valid():
+                #         serializer.save()
+                #         item.save()
+                # item.save()
 
-        # variation controls the stock
-        else:
+        else:  # variation controls the stock
             stock_count = 'stock_count'
             v_count = getattr(variation, stock_count)
             if v_count < 1:
                 print("v count less tahn 1 ")
-                serializer = VariationSerializer(
-                    variation,  data={'is_available': False}, partial=True)
-                if serializer.is_valid():
-                    serializer.save()
-                    variation.save()
-                serializer = ItemSerializer(
-                    item,  data={'v_is_available': False}, partial=True)
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response({"message": "Out of stock"}, status=HTTP_400_BAD_REQUEST)
-                variation.save()
-            else:
-                variation.stock_count -= 1
-                if v_count <= 0:
-                    serializer = VariationSerializer(
-                        variation,  data={'is_available': False}, partial=True)
-                    if serializer.is_valid():
-                        serializer.save()
-                variation.save()
+                # serializer = VariationSerializer(
+                #     variation,  data={'is_available': False}, partial=True)
+                # if serializer.is_valid():
+                #     serializer.save()
+                #     variation.save()
+                # serializer = ItemSerializer(
+                #     item,  data={'v_is_available': False}, partial=True)
+                # if serializer.is_valid():
+                #     serializer.save()
+                #     return Response({"message": "Out of stock"}, status=HTTP_400_BAD_REQUEST)
+                # variation.save()
+            # else:
+            #     variation.stock_count -= 1
+            #     if v_count <= 0:
+            #         serializer = VariationSerializer(
+            #             variation,  data={'is_available': False}, partial=True)
+            #         if serializer.is_valid():
+            #             serializer.save()
+            #     variation.save()
 
         # chane status of v_availability
-        variation_is_out_of_stock = item.get_v_availability()
-        if variation_is_out_of_stock:
-            serializer = ItemSerializer(
-                item,  data={'v_is_available': False}, partial=True)
-            if serializer.is_valid():
-                print("valid")
-                serializer.save()
-                print(item.v_is_available)
-        else:
-            serializer = ItemSerializer(
-                item,  data={'v_is_available': True}, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-        item.save()
+        # variation_is_out_of_stock = item.get_v_availability()
+        # if variation_is_out_of_stock:
+        #     serializer = ItemSerializer(
+        #         item,  data={'v_is_available': False}, partial=True)
+        #     if serializer.is_valid():
+        #         print("valid")
+        #         serializer.save()
+        #         print(item.v_is_available)
+        # else:
+        #     serializer = ItemSerializer(
+        #         item,  data={'v_is_available': True}, partial=True)
+        #     if serializer.is_valid():
+        #         serializer.save()
+        # item.save()
 
         order_item_qs = OrderItem.objects.filter(
             item=item,
@@ -265,7 +272,7 @@ class AddToCartView(APIView):
             if shop != shopOfItemInCart:
                 # print(cart_item_shop)
                 # print(shop)
-                return Response({"message": "Unable to add this tiem to your bucket as your have an active order from a diffent shop. Please remove that item and try again"}, status=HTTP_400_BAD_REQUEST)
+                return Response({"message": "Unable to add this item to your cart as your have an active order from a diffent shop. Please remove that item and try again"}, status=HTTP_400_BAD_REQUEST)
 
             if not order.items.filter(item__id=order_item.id).exists():
                 order.items.add(order_item)
@@ -310,26 +317,84 @@ class OrderConfirmView(APIView):
         if address is None:
             return Response({"message": "Address is required"}, status=HTTP_400_BAD_REQUEST)
         order = Order.objects.get(user=self.request.user, ordered=False)
-        userprofile = UserProfile.objects.get(user=self.request.user)
+        # userprofile = UserProfile.objects.get(user=self.request.user)
 
         order_items = order.items.all()
-        shop_qs1 = order_items.first()
-        shop_id = shop_qs1.shop_id
-        place_id = shop_qs1.place_id
-        shop = Shop.objects.get(id=shop_id)
-        place = Place.objects.get(id=shop.place_id)
-        # order_status = "Not Accepted by Shop"
-        # address = Address.objects.get(id=shipping_address_id)
-        # order.address.update(address=address)
-        # address = get_object_or_404(Address, id=shipping_address_id)
-        order.paymentMode = modeOfPayment
-        order.address = address
-        order_items.update(ordered=True)
-        for item in order_items:
-            item.save()
-        order.ordered = True
-        order.save()
-        return Response(status=HTTP_200_OK)
+        if len(order_items) < 1:
+            order.delete()
+            return Response({"message": "No item in the cart"}, status=HTTP_400_BAD_REQUEST)
+        # print(len(order_items))
+        out_of_stock_items = []
+        for order_item in order_items:
+            product = order_item.item
+            variation = order_item.item_variation
+            quantity = order_item.quantity
+            if product.item_stock: #item controls the stock
+                if product.stock_count < quantity:
+                    order.items.remove(order_item)
+                    out_of_stock_items.append(product)
+            if not product.item_stock:  # else: #variation controls the stock        
+                if variation.stock_count < quantity:
+                    order.items.remove(order_item)
+                    out_of_stock_items.append(product)
+        if len(out_of_stock_items) > 0:
+            print("less")
+            list1 = [str(item) for item in out_of_stock_items]
+            list = ",".join(list1)
+            return Response({"message": list}, status=HTTP_400_BAD_REQUEST)
+        else:
+            print("more")
+            order.paymentMode = modeOfPayment
+            order.address = address
+            order_items.update(ordered=True)
+            for item in order_items:
+                item.save()
+            order.ordered = True
+            order.save()
+            return Response(status=HTTP_200_OK)
+
+
+@receiver(post_save, sender=Order)
+def manage_stock(sender, instance, **kwargs):
+    order = instance
+    try:
+        if order.ordered: #check if ordered 
+            order_items = order.items.all()
+            for order_item in order_items:
+                product = order_item.item
+                variation = order_item.item_variation
+                quantity = order_item.quantity
+                if product.item_stock: #item controls the stock
+                    print("stock count")
+                    item_quantity = variation.stock_weight * quantity
+                    # print(product.stock_count)
+                    product.stock_count -= item_quantity # deduct the quanitty from stock
+                    # print(product.stock_count)
+                    if order_item.item.stock_count < 1: # change to not available
+                        serializer = ItemSerializer(
+                        order_item.item,  data={'is_available': False, 'v_is_available': False}, partial=True)
+                        if serializer.is_valid():
+                            serializer.save()
+                else: #variation controls the stock
+                    variation.stock_count -= quantity
+                    if variation.stock_count < 1:
+                        serializer = VariationSerializer(
+                        variation,  data={'is_available': False, 'v_is_available': False}, partial=True)
+                        if serializer.is_valid():
+                            serializer.save()
+                        serializer = ItemSerializer(
+                            order_item.item,  data={'v_is_available': False}, partial=True)
+                        if serializer.is_valid():
+                            serializer.save()
+                    order_item.item.save()
+
+    except:
+        print("error")
+        return None
+        
+    
+
+
 
 
 @api_view(['GET', 'PUT', ])

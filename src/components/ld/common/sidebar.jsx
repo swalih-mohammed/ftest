@@ -147,7 +147,7 @@ const SideBar = props => {
               </StyledNavItem>
             </>
           )}
-          <StyledNavItem to="/" onClick={props.refresh}>
+          <StyledNavItem to="/" onClick={refresh}>
             Refresh
           </StyledNavItem>
         </StyledNavItemBox>

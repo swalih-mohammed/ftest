@@ -23,7 +23,6 @@ import { authAxios } from "../../../authAxios";
 import { fetchCart, clearKart } from "../../../actions/cart";
 // import ModeOfPayment from "./modeOfPayment";
 import OrderAddress from "./orderAddress";
-import OrderItems from "./order-items";
 
 const CheckoutContainer = styled.div`
   display: grid;
@@ -227,7 +226,7 @@ class checkOut extends Component {
     // console.log(addressList);
     this.setState({ submitting: true });
     const { addressList } = this.state;
-    const selectedModeofPayment = 9;
+    const selectedModeofPayment = 1;
 
     if (selectedModeofPayment !== null && addressList.length > 0) {
       authAxios
@@ -246,7 +245,6 @@ class checkOut extends Component {
             if (err.response.data) {
               const error = err.response.data.message;
               this.setState({ out_of_stock_items: error, submitting: false });
-              this.props.refreshCart();
               // console.log(error)
             } else {
               toast.error("Error");
@@ -268,19 +266,10 @@ class checkOut extends Component {
   render() {
     const { isAuthenticated } = this.props;
     // const { address } = this.state.addressList[0];
-    const {
-      addressList,
-      // selectedAddress,
-      cart,
-      // ShopModeOfPayment,
-      // shop_id,
-      offer,
-      error,
-      success
-    } = this.state;
+    const { cart, success } = this.state;
 
     console.log(this.state.out_of_stock_items);
-    // console.log(cart);
+    console.log(cart);
 
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
@@ -293,164 +282,33 @@ class checkOut extends Component {
         {this.state.loading ? (
           <Loader style={{ marginBottom: "30px" }} />
         ) : null}
-        {cart ? (
+
+        {cart.order_items.map((item, index) => {
+          return (
+            <ProductDetail key={index}>
+              <h5>
+                {item.itemLocalName ? item.itemLocalName : item.itemName}[
+                {item.vname}] × {item.quantity}
+              </h5>
+              <h5>Rs:{item.final_price}</h5>
+            </ProductDetail>
+          );
+        })}
+
+        {this.state.out_of_stock_items ? (
           <>
-            {cart.order_items ? (
-              <>
-                <CheckoutContainer>
-                  <CheckOutWrapper>
-                    <CheckOutWrapperContainer>
-                      <CheckoutHeadingContainer>
-                        <h2> Shop details</h2>
-                      </CheckoutHeadingContainer>
-                      <CheckoutItem>
-                        <h3>{cart.shop_name}</h3>
-                        <h4>{cart.place_name}</h4>
-                      </CheckoutItem>
-                    </CheckOutWrapperContainer>
-                  </CheckOutWrapper>
-
-                  <CheckOutWrapper>
-                    <CheckOutWrapperContainer>
-                      <CheckoutHeadingContainer>
-                        <h2> Product Details</h2>
-                      </CheckoutHeadingContainer>
-                      {/* {cart.order_items.map((item, index) => {
-                        return (
-                          <ProductDetail key={index}>
-                            <h5>
-                              {item.itemLocalName
-                                ? item.itemLocalName
-                                : item.itemName}
-                              [{item.vname}] × {item.quantity}
-                            </h5>
-                            <h5>Rs:{item.final_price}</h5>
-                          </ProductDetail>
-                        );
-                      })} */}
-                      <OrderItems
-                        submit={this.submit}
-                        out_of_stock_items={this.state.out_of_stock_items}
-                      />
-
-                      {/* {this.state.out_of_stock_items ? (
-                        <>
-                          {" "}
-                          {this.state.out_of_stock_items.length > 0 ? (
-                            <Alert>
-                              <p style={{ color: "red" }}>
-                                {this.state.out_of_stock_items}
-                              </p>
-                              <h6 style={{ color: "red" }}>
-                                are out of stock, do you want to continue?
-                              </h6>
-                              <Button onClick={this.submit}>
-                                Confirm order
-                              </Button>
-                            </Alert>
-                          ) : null}
-                        </>
-                      ) : null} */}
-                    </CheckOutWrapperContainer>
-                  </CheckOutWrapper>
-                </CheckoutContainer>
-
-                {addressList.length > 0 ? (
-                  <CheckOutWrapper>
-                    <CheckOutWrapperContainer>
-                      <CheckoutHeadingContainer>
-                        <h2> Delivery Address</h2>
-                      </CheckoutHeadingContainer>
-                      <OrderAddress address={addressList[0]} />
-                    </CheckOutWrapperContainer>
-                  </CheckOutWrapper>
-                ) : (
-                  <ButtonWrapper>
-                    <Link to={`/create-address`}>
-                      <Button type="button" onClick={this.submit}>
-                        Add Address
-                      </Button>
-                    </Link>
-                  </ButtonWrapper>
-                )}
-
-                <CheckOutWrapper>
-                  <CheckOutWrapperContainer>
-                    <CouponContainer>
-                      <div>
-                        <h5>
-                          Do you have a coupon?{" "}
-                          <span style={{ float: "right" }}>
-                            <FontAwesomeIcon
-                              icon={faChevronDown}
-                              onClick={() => {
-                                this.handleDisplyCoupon();
-                              }}
-                            />
-                          </span>
-                        </h5>
-                      </div>
-                      <div
-                        style={{
-                          display: this.state.Coupondisplay ? "" : "none"
-                        }}
-                      >
-                        <div>
-                          <h5>Enter your coupon</h5>
-                        </div>
-                        <div></div>
-                        <div>
-                          <input
-                            onChange={this.handleCouponChange.bind(this)}
-                            type="text"
-                            className="form-control"
-                            id="coupon"
-                            value={this.state.coupon}
-                            name="coupon"
-                            required=""
-                          />
-                        </div>
-                        <div>
-                          <Button
-                            type="submit"
-                            onClick={this.handleCouponSubmit.bind(this)}
-                          >
-                            Apply coupon
-                          </Button>
-                        </div>
-                        <div>
-                          {offer ? (
-                            <Alert variant={"success"}>
-                              Offer Applied !!{offer.message}
-                            </Alert>
-                          ) : null}
-                        </div>
-                        <div>
-                          {error ? (
-                            <Alert variant={"danger"}>
-                              This coupon is not valid
-                            </Alert>
-                          ) : null}
-                        </div>
-                      </div>
-                    </CouponContainer>
-                  </CheckOutWrapperContainer>
-                </CheckOutWrapper>
-                <ButtonWrapper>
-                  {this.state.submitting ? (
-                    <ButtonLoader />
-                  ) : (
-                    <Button onClick={this.submit}>Place Order</Button>
-                  )}
-                </ButtonWrapper>
-              </>
-            ) : (
-              <>{this.state.loading ? null : <EmptyCartSVG />}</>
-            )}
+            {" "}
+            {this.state.out_of_stock_items.length > 0 ? (
+              <Alert>
+                <p style={{ color: "red" }}>{this.state.out_of_stock_items}</p>
+                <h6 style={{ color: "red" }}>
+                  are out of stock, do you want to continue?
+                </h6>
+                <Button onClick={this.submit}>Confirm order</Button>
+              </Alert>
+            ) : null}
           </>
-        ) : (
-          <>{this.state.loading ? null : <EmptyCartSVG />}</>
-        )}
+        ) : null}
       </Container>
     );
   }

@@ -15,9 +15,21 @@ import {
   feautredShopsInPlaceURL,
   placeDetailURL
 } from "../../../constants";
-import { CardInfo, CardTitle, StyledCover } from "../styled/jumbotron";
+import { CardInfo, CardTitle } from "../styled/jumbotron";
 
-export const TitleShops = styled.h1`
+const StyledCover = styled.div`
+  position: relative;
+  height: 45vh;
+  margin-left: 0;
+  margin-right: 0;
+  border: #737373 1px solid;
+  /* border-style: double; */
+  background-image: url(${props => props.imgurl});
+  background-size: cover;
+  background-position: center;
+`;
+
+const TitleShops = styled.h1`
   display: flex;
   justify-content: center;
   align-items: center;

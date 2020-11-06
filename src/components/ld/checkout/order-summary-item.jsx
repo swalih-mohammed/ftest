@@ -37,6 +37,7 @@ const ProductCard = styled.div`
   max-width: 800px;
   height: 150px;
   background-color: #ffff;
+  border-bottom: #0a0a0a 0.5px solid;
   margin: 2px auto;
   padding: 15px 2px;
 `;

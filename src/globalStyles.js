@@ -8,7 +8,8 @@ const GlobalStyle = createGlobalStyle`
  body {
     box-sizing: border-box;
     font-family: 'sans-serif';
-    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background-color: #EBEFF2;
+    /* background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
     /* height: 100%; */
     /* padding: 20px 20px; */
     overflow: scroll;

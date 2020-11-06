@@ -188,24 +188,6 @@ class OrderItem extends Component {
       });
   };
 
-  orderCancelCustoemr = e => {
-    e.preventDefault();
-    const { orderID } = this.state;
-    const selectedOrderStatus = 4;
-    console.log(selectedOrderStatus);
-    authAxios
-      .put(orderStatusUpdateURL(orderID), {
-        order_status: selectedOrderStatus
-      })
-      .then(res => {
-        toast.error("Order  cancelled");
-        this.setState({ CustomerSuccess: true });
-      })
-      .catch(err => {
-        this.setState({ error: err });
-      });
-  };
-
   handleChangeOrderStatus = status => {
     this.setState({
       selectedOrderStatus: status.id

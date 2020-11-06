@@ -160,6 +160,7 @@ class OrderItemCustomer extends Component {
       ShopSuccess,
       CustomerSuccess
     } = this.state;
+    // console.log(order);
     if (CustomerSuccess) {
       return <Redirect to="/orders" />;
     }

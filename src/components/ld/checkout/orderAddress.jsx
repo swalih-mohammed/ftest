@@ -13,12 +13,15 @@ class OrderAddress extends Component {
     return (
       <>
         <CheckoutItem>
-          <h3>{address.PlaceName}</h3>
-          <h4>{address.areaName}</h4>
-          <h5>{address.full_address}</h5>
-          <h5>Village: {address.vilalgeName}</h5>
-          <h5>District: {address.districtName}</h5>
-          <h5>Sate: {address.stateName}</h5>
+          <h4>
+            {address.PlaceName} {","} {address.areaName}
+          </h4>
+          <h5>
+            {address.full_address}
+            {","} {address.vilalgeName}
+          </h5>
+          {/* <h5>District: {address.districtName}</h5>
+          <h5>Sate: {address.stateName}</h5> */}
           <h5>Phone: {address.phone_number}</h5>
         </CheckoutItem>
       </>

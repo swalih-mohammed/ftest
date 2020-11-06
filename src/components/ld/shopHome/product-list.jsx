@@ -15,6 +15,7 @@ import ProductItem from "./product-list-item";
 // import { ShopProductListURL } from "../../../constants";
 import styled from "styled-components";
 import { Loader, ButtonLoader } from "../common/loader";
+import { LoadMoreWrap, LoadMore } from "../styled/utils";
 
 const GridRow = styled.div`
   grid-column-gap: 50px;
@@ -25,26 +26,26 @@ const GridRow = styled.div`
   padding-top: 20px;
 `;
 
-const LoadMoreWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 50px 0;
-`;
+// const LoadMoreWrap = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   margin: 50px 0;
+// `;
 
-const LoadMore = styled.div`
-  background-color: #ff5722;
-  color: #343a40 !important;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 20px;
-  display: inline-block;
-  &:hover {
-    background-color: #fff;
-    color: #ff5722 !important;
-    text-decoration: none;
-    border: #ff5722 0.5px solid;
-  }
-`;
+// const LoadMore = styled.div`
+//   background-color: #ff5722;
+//   color: #343a40 !important;
+//   padding: 5px 10px;
+//   border-radius: 4px;
+//   font-size: 20px;
+//   display: inline-block;
+//   &:hover {
+//     background-color: #fff;
+//     color: #ff5722 !important;
+//     text-decoration: none;
+//     border: #ff5722 0.5px solid;
+//   }
+// `;
 
 const CardTitle = styled.h1`
   display: flex;

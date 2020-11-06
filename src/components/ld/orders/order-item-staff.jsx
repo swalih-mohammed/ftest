@@ -232,7 +232,7 @@ class OrderItem extends Component {
   render() {
     const { order, orderAddress, orderItems, success } = this.state;
     const { user } = this.props;
-    // console.log(user);
+    // console.log(order);
 
     if (success) {
       return <Redirect to="/shop-order-table" />;
@@ -253,13 +253,6 @@ class OrderItem extends Component {
             <h6>Date: {order.start_date}</h6>
             <h6>Status: {order.orderStatus}</h6>
             <h6>Mod of Payment: {order.mode_of_payment}</h6>
-            {order.orderStatus !== "Cancelled by customer" ? (
-              <StyledButton type="submit" onClick={this.orderCancelCustoemr}>
-                Cancel order
-              </StyledButton>
-            ) : (
-              <Alert variant={"danger"}>Order has been cancelled</Alert>
-            )}
           </Card>
           <ToastContainer />
           {user.user ? (

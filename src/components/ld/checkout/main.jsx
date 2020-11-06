@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { Alert } from "react-bootstrap";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Loader, ButtonLoader } from "../common/loader";
+import { Loader, ButtonLoader, PageLoader } from "../common/loader";
 import { Container } from "../styled/utils";
 import EmptyCartSVG from "./empty-cart-svg";
 import {
@@ -126,7 +126,6 @@ class checkOut extends Component {
 
   componentWillMount() {
     this.handleFetchAddresses();
-    // this.props.refreshCart();
     this.handleFetchOrder();
   }
   handleDisplyCoupon = () => {
@@ -280,7 +279,7 @@ class checkOut extends Component {
     } = this.state;
 
     console.log(this.state.out_of_stock_items);
-    // console.log(cart);
+    console.log(this.props.cartLoading);
 
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
@@ -293,6 +292,7 @@ class checkOut extends Component {
         {this.state.loading ? (
           <Loader style={{ marginBottom: "30px" }} />
         ) : null}
+        {this.props.cartLoading ? <PageLoader /> : null}
         {cart ? (
           <>
             {cart.order_items ? (
@@ -315,42 +315,10 @@ class checkOut extends Component {
                       <CheckoutHeadingContainer>
                         <h2> Product Details</h2>
                       </CheckoutHeadingContainer>
-                      {/* {cart.order_items.map((item, index) => {
-                        return (
-                          <ProductDetail key={index}>
-                            <h5>
-                              {item.itemLocalName
-                                ? item.itemLocalName
-                                : item.itemName}
-                              [{item.vname}] × {item.quantity}
-                            </h5>
-                            <h5>Rs:{item.final_price}</h5>
-                          </ProductDetail>
-                        );
-                      })} */}
                       <OrderItems
                         submit={this.submit}
                         out_of_stock_items={this.state.out_of_stock_items}
                       />
-
-                      {/* {this.state.out_of_stock_items ? (
-                        <>
-                          {" "}
-                          {this.state.out_of_stock_items.length > 0 ? (
-                            <Alert>
-                              <p style={{ color: "red" }}>
-                                {this.state.out_of_stock_items}
-                              </p>
-                              <h6 style={{ color: "red" }}>
-                                are out of stock, do you want to continue?
-                              </h6>
-                              <Button onClick={this.submit}>
-                                Confirm order
-                              </Button>
-                            </Alert>
-                          ) : null}
-                        </>
-                      ) : null} */}
                     </CheckOutWrapperContainer>
                   </CheckOutWrapper>
                 </CheckoutContainer>
@@ -465,7 +433,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token,
-    cart: state.cart.shoppingCart
+    cart: state.cart.shoppingCart,
+    cartLoading: state.cart.loading
   };
 };
 

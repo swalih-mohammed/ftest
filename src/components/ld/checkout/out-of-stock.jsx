@@ -295,7 +295,7 @@ class checkOut extends Component {
           );
         })}
 
-        {this.state.out_of_stock_items ? (
+        {this.props.out_of_stock_items ? (
           <>
             {" "}
             {this.state.out_of_stock_items.length > 0 ? (

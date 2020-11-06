@@ -64,13 +64,13 @@ export const LoadMoreWrap = styled.div`
   display: flex;
   justify-content: center;
   margin: 50px 0;
+  border: #ff5722;
 `;
 
-export const LoadMore = styled.div`
-  background-color: #ff5722;
-  color: #343a40 !important;
+export const LoadMore = styled.button`
+  border: 1px #ff5722 solid;
   padding: 5px 10px;
-  border-radius: 4px;
+  border-radius: 5px;
   font-size: 20px;
   display: inline-block;
   &:hover {

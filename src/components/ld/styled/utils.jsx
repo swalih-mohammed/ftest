@@ -69,9 +69,10 @@ export const LoadMoreWrap = styled.div`
 
 export const LoadMore = styled.button`
   border: 1px #ff5722 solid;
+  background-color: #fff;
   padding: 5px 10px;
   border-radius: 5px;
-  font-size: 20px;
+  font-size: 14px;
   display: inline-block;
   &:hover {
     background-color: #fff;

@@ -211,6 +211,10 @@ class Shop extends Component {
             <div>
               {ShopDetail.is_accepting_orders ? (
                 <div>
+                  {ShopDetail.offer_message !== "" ? (
+                    <Offer message={ShopDetail.offer_message} />
+                  ) : null}
+
                   {/* <Shipping /> */}
                   {/* {ShopDetail && (
                     <div>

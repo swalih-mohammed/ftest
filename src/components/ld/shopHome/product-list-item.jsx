@@ -27,23 +27,27 @@ const ProductCard = styled.div`
   max-width: 800px;
   /* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); */
   border-radius: 2px;
-  padding: 0px 25px;
+  /* padding: 0px 25px; */
+  padding: 5px;
   border: #e1a693 0.5px solid;
-  overflow: hidden;
+  /* overflow: hidden; */
 `;
 
 const ProductImgContainer = styled.div`
   flex: 1;
   height: 200px;
   width: auto;
-  overflow: hidden;
   display: flex;
   align-content: center;
+  padding: 5px;
+  margin: 2px;
+  overflow: hidden;
 `;
 const ProductImg = styled.img`
   width: 100%;
-  height: auto;
+  height: 180px;
   object-fit: contain;
+  overflow: hidden;
 `;
 const ProductContent = styled.div`
   box-sizing: border-box;
@@ -94,6 +98,7 @@ const Mybutton = styled.button`
 `;
 const SelectWrap = styled.div`
   padding: 5px 2px;
+  z-index: 2;
 `;
 
 class ProductStyleNine extends Component {

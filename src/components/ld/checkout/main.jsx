@@ -196,7 +196,7 @@ class checkOut extends Component {
           code
         })
         .then(res => {
-          this.setState({ offer: res.data, loading: false });
+          this.setState({ offer: res.data, loading: false, error: false });
           toast.success("Coupon applied succesfully");
         })
         .catch(err => {
@@ -344,20 +344,21 @@ class checkOut extends Component {
 
                 <CheckOutWrapper>
                   <CheckOutWrapperContainer>
-                    <CouponContainer>
-                      <div>
-                        <h5>
-                          Do you have a coupon?{" "}
-                          <span style={{ float: "right" }}>
-                            <FontAwesomeIcon
-                              icon={faChevronDown}
-                              onClick={() => {
-                                this.handleDisplyCoupon();
-                              }}
-                            />
-                          </span>
-                        </h5>
-                      </div>
+                    <CouponContainer
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <h5>
+                        Do you have a coupon?{" "}
+                        <span style={{ float: "right" }}>
+                          <FontAwesomeIcon
+                            icon={faChevronDown}
+                            onClick={() => {
+                              this.handleDisplyCoupon();
+                            }}
+                          />
+                        </span>
+                      </h5>
+
                       <div
                         style={{
                           display: this.state.Coupondisplay ? "" : "none"
@@ -366,7 +367,7 @@ class checkOut extends Component {
                         <div>
                           <h5>Enter your coupon</h5>
                         </div>
-                        <div></div>
+
                         <div>
                           <input
                             onChange={this.handleCouponChange.bind(this)}

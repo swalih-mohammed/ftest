@@ -94,7 +94,7 @@ class shopProductListInfinitView(generics.ListAPIView):
 
     def get_queryset(self):
         # print(self.request.data)
-        print("this way")
+        # print("this way")
         qs = infinite_product_filter(self.request)
         return qs
 
@@ -228,7 +228,7 @@ def is_there_more_data(request):
     owner = request.GET.get('owner')
 
     shop = Shop.objects.filter(owner=owner).first()
-    queryset = queryset.filter(shop=shop)
+    queryset = queryset.filter(shop=shop, is_active=True)
 
     if query == "all":
         count = queryset.all().count()

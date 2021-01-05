@@ -1,1 +1,1 @@
-# this projects an online platform which helps local shop keepers come online
+# this projects is an online platform which helps local shop keepers come online

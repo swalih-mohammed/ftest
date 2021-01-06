@@ -116,6 +116,15 @@ SITE_ID = 1
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+# sqlite
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
 # mysql
 
 # DATABASES = {

@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import django_heroku
-from decouple import config, Csv
+# from decouple import config, Csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -130,15 +130,15 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # postgess
 
-DATABASES = {
-    'default': {
-        'ENGINE': config('DB_ENGINE_PS'),
-        'NAME': config('DB_NAME_PS'),
-        'USER': config('DB_USER_PS'),
-        'PASSWORD': config('DB_PASSWORD_PS'),
-        'HOST': config('DB_HOST_PS')
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': config('DB_ENGINE_PS'),
+#         'NAME': config('DB_NAME_PS'),
+#         'USER': config('DB_USER_PS'),
+#         'PASSWORD': config('DB_PASSWORD_PS'),
+#         'HOST': config('DB_HOST_PS')
+#     }
+# }
 
 
 # Password validation

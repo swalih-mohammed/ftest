@@ -183,7 +183,7 @@ def product_filter(request):
     OutOfStock = request.GET.get('outOfStock')
     # print(OutOfStock == True)
     shop = Shop.objects.filter(owner=owner).first()
-    queryset = queryset.filter(shop=shop)
+    queryset = queryset.filter(shop=shop, is_active=True)
 
     # update v availablity
 
